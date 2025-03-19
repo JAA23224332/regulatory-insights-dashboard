@@ -5,6 +5,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 import { motion } from 'framer-motion';
 import * as XLSX from 'xlsx';
 import _ from 'lodash';
+import RecomendacoesRegulacao from './RecomendacoesRegulacao';
 
 const COLORS_CATEGORIAS = {
   'Sistemas e tecnologia': '#0066CC',
@@ -651,8 +652,13 @@ const RegulacaoSUSDashboard = () => {
           </CardContent>
         </Card>
       </motion.div>
+      
+      <motion.div variants={cardVariants}>
+        <RecomendacoesRegulacao />
+      </motion.div>
     </motion.div>
   );
 };
 
 export default RegulacaoSUSDashboard;
+
