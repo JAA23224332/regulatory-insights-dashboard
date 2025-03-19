@@ -1,4 +1,3 @@
-
 import React, { useRef, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
@@ -339,7 +338,7 @@ const ExportableView = () => {
               <CardTitle className="text-2xl print:text-black">1. Visão Geral da Regulação do SUS</CardTitle>
             </CardHeader>
             <CardContent className="p-6 print:p-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                 <div className="text-center">
                   <div className="text-3xl font-bold text-blue-600 print:text-black">{estatisticasGerais.totalEstados}</div>
                   <div className="text-sm text-gray-500 print:text-black">Estados Participantes</div>
@@ -351,10 +350,6 @@ const ExportableView = () => {
                 <div className="text-center">
                   <div className="text-3xl font-bold text-red-600 print:text-black">{estatisticasGerais.totalFragilidades}</div>
                   <div className="text-sm text-gray-500 print:text-black">Fragilidades Identificadas</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-gray-700 print:text-black">{estatisticasGerais.temasMaisFortalezas}% / {estatisticasGerais.temasMaisFragilidades}% / {estatisticasGerais.temasEquilibrados}%</div>
-                  <div className="text-sm text-gray-500 print:text-black">Temas + Fortalezas / + Fragilidades / Equilibrados</div>
                 </div>
               </div>
               
@@ -648,18 +643,4 @@ const ExportableView = () => {
                       <p className="text-gray-700 print:text-black">Barreiras no acesso a serviços especializados e desigualdades regionais.</p>
                     </li>
                     <li className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 print:border-none">
-                      <div className="font-medium text-blue-800 print:text-black mb-1">Integração de níveis</div>
-                      <p className="text-gray-700 print:text-black">Dificuldades na comunicação entre níveis de atenção.</p>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default ExportableView;
+                      <div className="font-medium text-blue-800 print:text-black mb-1">Integração de
