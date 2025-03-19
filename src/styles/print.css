@@ -51,7 +51,7 @@
     page-break-inside: avoid !important;
   }
   
-  /* Para gráficos de barras */
+  /* Para gráficos de barras - FIX PARA SOBREPOSIÇÃO DE BARRAS */
   .recharts-cartesian-grid {
     width: 100% !important;
   }
@@ -62,8 +62,24 @@
     fill: black !important;
   }
   
+  /* Fix para sobreposição de barras no gráfico comparativo */
   .recharts-layer.recharts-bar-rectangles {
-    transform: translateX(0) !important;
+    transform: none !important;
+  }
+
+  /* Consertar as barras horizontais que estão sendo cortadas */
+  .card-section-2 .recharts-bar-rectangle {
+    transform: none !important;
+  }
+  
+  /* Hide unwanted labels that appear over chart bars */
+  .recharts-text.recharts-label,
+  .recharts-text.recharts-label-list,
+  .recharts-text.recharts-inactive-dot,
+  .recharts-layer text[alignment="1"]text[font-family] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
   }
   
   /* Ensure proper spacing for horizontal bar charts */
@@ -109,6 +125,7 @@
     max-height: none !important;
     position: relative !important;
     display: block !important;
+    padding: 20px !important;
   }
   
   /* Make all charts visible and properly sized */
@@ -120,6 +137,15 @@
     page-break-inside: avoid !important;
     overflow: visible !important;
     margin-bottom: 20px !important;
+    transform: none !important;
+  }
+  
+  /* Fix for the export message appearing in document */
+  .export-message, 
+  .export-notification,
+  [role="alert"] {
+    display: none !important;
+    visibility: hidden !important;
   }
   
   /* Improved table styling for print */
@@ -130,6 +156,7 @@
     margin: 1em 0 !important;
     font-size: 11pt !important;
     page-break-inside: auto !important;
+    background-color: white !important;
   }
   
   .print-table th, 
@@ -405,8 +432,9 @@
   }
   
   /* Fix for section 2 comparative chart - most critical issue in the screenshot */
-  .card-section-2 .h-\[500px\] {
-    height: 600px !important; /* Increase height to prevent text overlap */
+  .card-section-2 .h-\[500px\],
+  .card-section-2 .h-\[450px\] {
+    height: 650px !important; /* Increase height to prevent text overlap */
     max-width: 100% !important;
     margin-bottom: 30px !important;
     page-break-inside: avoid !important;
@@ -428,107 +456,92 @@
   }
   
   /* Add spacing between chart and destaques section */
-  .card-section-2 .h-\[500px\] + .mt-8 {
+  .card-section-2 .h-\[500px\] + .mt-8,
+  .card-section-2 .h-\[450px\] + .mt-8 {
     margin-top: 40px !important;
   }
   
   /* Ensure destaques section displays properly */
-  .card-section-2 .bg-gray-50 ul.space-y-2 li {
+  .card-section-2 .bg-gray-50 ul.space-y-2 li,
+  .card-section-2 .bg-gray-50 ul.space-y-3 li {
     margin-bottom: 15px !important;
     page-break-inside: avoid !important;
   }
-}
-
-/* Estilos para exportar o documento */
-.exportable-document {
-  font-family: Arial, sans-serif;
-  color: #333;
-  line-height: 1.6;
-}
-
-.exportable-page {
-  max-width: 1200px;
-  margin: 20px auto;
-  padding: 30px;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-/* Títulos e subtítulos */
-.exportable-document h1 {
-  font-size: 2.5em;
-  color: #222;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-.exportable-document h2 {
-  font-size: 2em;
-  color: #333;
-  margin-top: 30px;
-  margin-bottom: 15px;
-}
-
-.exportable-document h3 {
-  font-size: 1.6em;
-  color: #444;
-  margin-top: 20px;
-  margin-bottom: 10px;
-}
-
-/* Listas e tabelas */
-.exportable-document ul,
-.exportable-document ol {
-  margin-bottom: 20px;
-  padding-left: 30px;
-}
-
-.exportable-document li {
-  margin-bottom: 8px;
-}
-
-.exportable-document table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-}
-
-.exportable-document th,
-.exportable-document td {
-  border: 1px solid #ddd;
-  padding: 8px 12px;
-  text-align: left;
-}
-
-.exportable-document th {
-  background-color: #f5f5f5;
-  font-weight: bold;
-}
-
-/* Links */
-.exportable-document a {
-  color: #007bff;
-  text-decoration: none;
-}
-
-.exportable-document a:hover {
-  text-decoration: underline;
-}
-
-/* Imagens */
-.exportable-document img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-  margin: 20px auto;
-}
-
-/* Rodapé */
-.exportable-document footer {
-  margin-top: 50px;
-  padding-top: 20px;
-  border-top: 1px solid #eee;
-  text-align: center;
-  color: #777;
+  
+  /* Fix for print charts in the comparative tab - major fix needed */
+  .recharts-bar rect,
+  .recharts-rectangle {
+    shape-rendering: crispEdges !important;
+  }
+  
+  /* Fix the comparative chart height */
+  .card-section-2 .h-\[450px\] .recharts-wrapper {
+    min-height: 550px !important;
+    height: 550px !important;
+  }
+  
+  /* Ensure no overlap in text */
+  .recharts-cartesian-axis-tick {
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
+  /* Remove any overlapping labels that shouldn't be there */
+  .recharts-layer text[fill="rgba(0, 0, 0, 0.85)"] {
+    display: none !important;
+  }
+  
+  /* Make sure all bars are visible and not cut off */
+  .recharts-layer.recharts-bar {
+    transform: none !important;
+  }
+  
+  /* Hide informational messages about PDF export */
+  .card-info, 
+  .card-notification,
+  .export-info {
+    display: none !important;
+  }
+  
+  /* Ensure proper orientation and sizing for bar chart labels */
+  .card-section-2 .recharts-layer.recharts-cartesian-axis.recharts-yAxis.yAxis text {
+    text-anchor: end !important;
+    dominant-baseline: middle !important;
+    font-size: 10pt !important;
+  }
+  
+  /* CRITICAL FIX - Ensure bar chart elements don't overlap or get cut off */
+  .recharts-cartesian-grid-horizontal line,
+  .recharts-cartesian-grid-vertical line {
+    stroke: #f0f0f0 !important;
+  }
+  
+  .recharts-reference-line line {
+    stroke: #999 !important;
+    stroke-width: 1 !important;
+    stroke-dasharray: 3 3 !important;
+  }
+  
+  /* Ensure bar chart bars are fully visible */
+  .recharts-bar-rectangle path {
+    fill-opacity: 0.85 !important;
+  }
+  
+  /* Prevent FOUC (Flash of Unstyled Content) during print */
+  @page {
+    margin-top: 2cm;
+    margin-bottom: 2cm;
+  }
+  
+  /* Force specific chart fixes for the comparative chart */
+  .tab-transition[class*="comparativo"] .recharts-wrapper {
+    overflow: visible !important;
+    height: 600px !important;
+  }
+  
+  /* Fix for text in recharts components */
+  .recharts-text {
+    font-family: Arial, sans-serif !important;
+    font-size: 10pt !important;
+  }
 }
