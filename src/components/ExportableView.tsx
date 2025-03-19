@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Download, Printer, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
+import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 
 // Cores atualizadas para análise mais precisa
 // Cores para fortalezas - tons de azul e verde
@@ -574,25 +575,25 @@ const ExportableView = () => {
                 </div>
               </div>
               
-              {/* Tabela de termos mais frequentes para fortalezas - Visível apenas na impressão */}
+              {/* Tabela de termos mais frequentes para fortalezas - Visível em impressão */}
               <div className="hidden print:block mt-8">
                 <h4 className="font-medium text-lg mb-3">Termos mais frequentes em fortalezas:</h4>
-                <table className="w-full border-collapse">
-                  <thead>
-                    <tr className="border-b border-gray-200">
-                      <th className="text-left p-2">Termo</th>
-                      <th className="text-right p-2">Frequência</th>
-                    </tr>
-                  </thead>
-                  <tbody>
+                <Table className="termo-table">
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="text-left">Termo</TableHead>
+                      <TableHead className="text-right">Frequência</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
                     {termosFrequentesFortalezas.map((item, index) => (
-                      <tr key={index} className="border-b border-gray-100">
-                        <td className="p-2">{item.termo}</td>
-                        <td className="p-2 text-right">{item.frequencia}</td>
-                      </tr>
+                      <TableRow key={index}>
+                        <TableCell className="font-medium">{item.termo}</TableCell>
+                        <TableCell className="text-right termo-positive">{item.frequencia}</TableCell>
+                      </TableRow>
                     ))}
-                  </tbody>
-                </table>
+                  </TableBody>
+                </Table>
               </div>
             </CardContent>
           </Card>
@@ -671,52 +672,52 @@ const ExportableView = () => {
                 </div>
               </div>
               
-              {/* Tabela de termos mais frequentes para fragilidades - Visível apenas na impressão */}
+              {/* Tabela de termos mais frequentes para fragilidades - Visível em impressão */}
               <div className="hidden print:block mt-8">
                 <h4 className="font-medium text-lg mb-3">Termos mais frequentes em fragilidades:</h4>
-                <table className="w-full border-collapse">
-                  <thead>
-                    <tr className="border-b border-gray-200">
-                      <th className="text-left p-2">Termo</th>
-                      <th className="text-right p-2">Frequência</th>
-                    </tr>
-                  </thead>
-                  <tbody>
+                <Table className="termo-table">
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="text-left">Termo</TableHead>
+                      <TableHead className="text-right">Frequência</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
                     {termosFrequentesFragilidades.map((item, index) => (
-                      <tr key={index} className="border-b border-gray-100">
-                        <td className="p-2">{item.termo}</td>
-                        <td className="p-2 text-right">{item.frequencia}</td>
-                      </tr>
+                      <TableRow key={index}>
+                        <TableCell className="font-medium">{item.termo}</TableCell>
+                        <TableCell className="text-right termo-negative">{item.frequencia}</TableCell>
+                      </TableRow>
                     ))}
-                  </tbody>
-                </table>
+                  </TableBody>
+                </Table>
               </div>
               
-              {/* Tabela de termos compartilhados - Visível apenas na impressão */}
+              {/* Tabela de termos compartilhados - Visível em impressão */}
               <div className="hidden print:block mt-8">
                 <h4 className="font-medium text-lg mb-3">Termos compartilhados entre fortalezas e fragilidades:</h4>
-                <table className="w-full border-collapse">
-                  <thead>
-                    <tr className="border-b border-gray-200">
-                      <th className="text-left p-2">Termo</th>
-                      <th className="text-right p-2">Freq. Fortalezas</th>
-                      <th className="text-right p-2">Freq. Fragilidades</th>
-                      <th className="text-right p-2">Diferença</th>
-                    </tr>
-                  </thead>
-                  <tbody>
+                <Table className="termo-table">
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="text-left">Termo</TableHead>
+                      <TableHead className="text-right">Freq. Fortalezas</TableHead>
+                      <TableHead className="text-right">Freq. Fragilidades</TableHead>
+                      <TableHead className="text-right">Diferença</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
                     {termosCompartilhados.map((item, index) => (
-                      <tr key={index} className="border-b border-gray-100">
-                        <td className="p-2">{item.termo}</td>
-                        <td className="p-2 text-right">{item.freqFortalezas}</td>
-                        <td className="p-2 text-right">{item.freqFragilidades}</td>
-                        <td className="p-2 text-right" style={{ color: item.diferenca > 0 ? '#4CAF50' : item.diferenca < 0 ? '#F44336' : '#000' }}>
+                      <TableRow key={index}>
+                        <TableCell className="font-medium">{item.termo}</TableCell>
+                        <TableCell className="text-right termo-positive">{item.freqFortalezas}</TableCell>
+                        <TableCell className="text-right termo-negative">{item.freqFragilidades}</TableCell>
+                        <TableCell className={`text-right ${item.diferenca > 0 ? 'termo-positive' : item.diferenca < 0 ? 'termo-negative' : 'termo-neutral'}`}>
                           {item.diferenca > 0 ? '+' : ''}{item.diferenca}
-                        </td>
-                      </tr>
+                        </TableCell>
+                      </TableRow>
                     ))}
-                  </tbody>
-                </table>
+                  </TableBody>
+                </Table>
               </div>
             </CardContent>
           </Card>

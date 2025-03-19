@@ -73,6 +73,7 @@
     font-size: 11pt !important;
     margin-top: 20px !important;
     margin-bottom: 30px !important;
+    display: table !important;
   }
   
   .termo-table th {
@@ -262,6 +263,41 @@
   
   .print\:p-4 {
     padding: 1rem !important;
+  }
+  
+  /* Certifique-se que as tabelas são visíveis na impressão */
+  .hidden.print\:block {
+    display: block !important;
+    visibility: visible !important;
+  }
+  
+  /* Fix para tabelas escondidas no modo impressão */
+  .hidden.print\:block table,
+  .hidden.print\:block .termo-table {
+    display: table !important;
+    width: 100% !important;
+    visibility: visible !important;
+  }
+  
+  .hidden.print\:block thead,
+  .hidden.print\:block tbody,
+  .hidden.print\:block tr,
+  .hidden.print\:block th,
+  .hidden.print\:block td {
+    display: table-row-group !important;
+    display: table-row !important;
+    display: table-cell !important;
+    visibility: visible !important;
+  }
+  
+  /* Ajuste para o corpo da tabela */
+  tbody {
+    display: table-row-group !important;
+  }
+  
+  /* Ajustes específicos para shadcn/ui table */
+  [data-orientation="horizontal"] {
+    border-bottom: 1px solid #eee !important;
   }
   
   /* Melhorar contraste para impressão */
