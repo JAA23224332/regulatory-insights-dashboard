@@ -3,12 +3,13 @@
 @media print {
   body {
     font-size: 12pt;
-    background-color: white;
-    color: black;
-    margin: 0;
-    padding: 0;
+    background-color: white !important;
+    color: black !important;
+    margin: 0 !important;
+    padding: 0 !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
+    color-adjust: exact !important;
   }
   
   /* Classes utilitárias para impressão */
@@ -16,27 +17,22 @@
     display: none !important;
   }
   
-  /* Page break controls */
-  .page-break-before {
-    page-break-before: always;
-  }
-  
-  .page-break-after {
-    page-break-after: always;
-  }
-  
   /* Force each section to start on a new page */
-  .exportable-document .mb-10 {
-    page-break-after: always;
-    display: block !important;
+  .card {
+    page-break-before: always !important;
+    page-break-after: auto !important;
+    page-break-inside: avoid !important;
     break-inside: avoid !important;
+    display: block !important;
     position: relative !important;
-    max-height: none !important;
+    overflow: visible !important;
+    margin-bottom: 20px !important;
+    clear: both !important;
   }
   
-  /* Last section should not force a page break after */
-  .exportable-document .mb-10:last-child {
-    page-break-after: auto;
+  /* First card shouldn't have page break before */
+  .card:first-of-type {
+    page-break-before: auto !important;
   }
   
   /* Ensure all content is printable and not cut off */
@@ -54,6 +50,8 @@
     max-height: none !important;
     display: block !important;
     position: relative !important;
+    padding: 0 !important;
+    margin: 0 !important;
   }
   
   /* Make sure container divs are also properly sized */
@@ -61,6 +59,8 @@
     max-width: 100% !important;
     height: auto !important;
     overflow: visible !important;
+    padding: 0 !important;
+    margin: 0 auto !important;
   }
   
   /* Ensure charts are visible */
@@ -70,14 +70,16 @@
     display: block !important;
     overflow: visible !important;
     height: auto !important;
+    width: 100% !important;
   }
   
   /* Remoção de sombras e ajustes de fundo */
-  .print\:shadow-none {
+  .print\:shadow-none, .shadow-md, .shadow-sm, .shadow {
     box-shadow: none !important;
+    -webkit-box-shadow: none !important;
   }
   
-  .print\:border-none {
+  .print\:border-none, .border, .border-b {
     border: none !important;
   }
   
@@ -85,6 +87,7 @@
     background-color: white !important;
   }
   
+  /* Specific backgrounds for cards that need color */
   .print\:bg-gray-100 {
     background-color: #f8f9fa !important;
   }
@@ -102,28 +105,15 @@
   }
   
   /* Controle de altura para visualizações */
-  .print\:h-400px {
-    height: 400px !important;
-  }
-  
-  .print\:h-350px {
-    height: 350px !important;
-  }
-  
-  .print\:h-300px {
-    height: 300px !important;
-  }
-  
-  .print\:h-250px {
-    height: 250px !important;
-  }
-  
-  .print\:h-200px {
-    height: 200px !important;
+  .h-\[400px\], .h-\[500px\], .h-\[350px\], .h-\[300px\], .h-\[250px\], .h-\[200px\] {
+    height: auto !important;
+    min-height: 250px !important;
+    max-height: 400px !important;
+    overflow: visible !important;
   }
   
   /* Ajustes de margens e paddings */
-  .print\:m-0 {
+  .print\:m-0, .m-0, .m-1, .m-2, .m-3, .m-4, .m-5, .m-6, .m-8, .m-10, .m-12 {
     margin: 0 !important;
   }
   
@@ -140,10 +130,14 @@
   }
   
   /* Garantir visualização completa de gráficos */
-  .recharts-wrapper {
+  .recharts-responsive-container {
     width: 100% !important;
-    page-break-inside: avoid;
     height: auto !important;
+    min-height: 250px !important;
+    max-height: 450px !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    overflow: visible !important;
   }
   
   .recharts-surface {
@@ -154,16 +148,8 @@
     margin-bottom: 1rem !important;
   }
   
-  /* Height fixes for charts */
-  .h-\[400px\], .h-\[500px\], .h-\[350px\], .h-\[300px\], .h-\[250px\], .h-\[200px\] {
-    height: auto !important;
-    min-height: 250px !important;
-    max-height: 400px !important;
-    overflow: visible !important;
-  }
-  
   /* Melhorar contraste para impressão */
-  .print\:text-black {
+  .print\:text-black, .text-gray-600, .text-gray-700, .text-gray-800 {
     color: black !important;
   }
   
@@ -183,30 +169,14 @@
   
   /* Remover cabeçalhos e rodapés do navegador e ajustar página */
   @page {
-    size: A4;
-    margin: 1.5cm;
+    size: A4 !important;
+    margin: 1.5cm !important;
     orphans: 4 !important;
     widows: 4 !important;
   }
   
-  /* Fix for page breaks in Firefox and Chrome */
-  .card {
-    break-inside: avoid !important;
-    page-break-inside: avoid !important;
-    display: block !important;
-    position: relative !important;
-  }
-  
-  /* Prevent overflow issues */
-  svg, img {
-    max-width: 100% !important;
-    overflow: visible !important;
-  }
-  
   /* Specific fixes for Recharts components */
-  .recharts-responsive-container {
-    height: auto !important;
-    width: 100% !important;
+  .recharts-legend {
     overflow: visible !important;
   }
   
@@ -220,12 +190,27 @@
   .grid-cols-1, .md\:grid-cols-2, .md\:grid-cols-3, .lg\:grid-cols-3 {
     width: 100% !important;
     display: block !important;
+    margin-bottom: 20px !important;
   }
   
   /* Fix flexbox for print */
   .flex {
     display: block !important;
     width: 100% !important;
+  }
+  
+  /* Fix for container divisions */
+  .mb-10, .mb-8, .mb-6, .mb-4 {
+    margin-bottom: 30px !important;
+    display: block !important;
+    page-break-after: auto !important;
+    page-break-before: auto !important;
+    break-inside: avoid !important;
+  }
+  
+  /* Fix for backgrounds */
+  [class*="bg-gradient-to-"] {
+    background: white !important;
   }
 }
 

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { motion } from 'framer-motion';
@@ -124,41 +124,76 @@ const ExportableView = () => {
   const { toast } = useToast();
   const documentRef = useRef(null);
   
+  useEffect(() => {
+    // Apply style fixes when component mounts
+    const style = document.createElement('style');
+    style.innerHTML = `
+      @media print {
+        .card {
+          page-break-before: always !important;
+          page-break-inside: avoid !important;
+          break-inside: avoid !important;
+          display: block !important;
+        }
+        .card:first-of-type {
+          page-break-before: auto !important;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+    
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
+  
   // Função para exportar dados como PDF usando janela de impressão com CSS específico
   const exportarPDF = () => {
+    // First add page-break-before to all cards except the first one
+    const cards = document.querySelectorAll('.card');
+    cards.forEach((card, index) => {
+      if (index === 0) {
+        card.style.pageBreakBefore = 'auto';
+      } else {
+        card.style.pageBreakBefore = 'always';
+      }
+      card.style.pageBreakInside = 'avoid';
+      card.style.breakInside = 'avoid';
+    });
+    
+    // Wait a bit to ensure all styles are applied
     setTimeout(() => {
-      const cards = document.querySelectorAll('.card');
-      cards.forEach((card, index) => {
-        if (index > 0) {
-          card.classList.add('page-break-before');
-        }
-      });
-      
       window.print();
       
       toast({
         title: "Exportação de PDF iniciada",
         description: "Use a opção 'Salvar como PDF' na janela de impressão",
       });
-    }, 300);
+    }, 500);
   };
   
   const handlePrint = () => {
+    // First add page-break-before to all cards except the first one
+    const cards = document.querySelectorAll('.card');
+    cards.forEach((card, index) => {
+      if (index === 0) {
+        card.style.pageBreakBefore = 'auto';
+      } else {
+        card.style.pageBreakBefore = 'always';
+      }
+      card.style.pageBreakInside = 'avoid';
+      card.style.breakInside = 'avoid';
+    });
+    
+    // Wait a bit to ensure all styles are applied
     setTimeout(() => {
-      const cards = document.querySelectorAll('.card');
-      cards.forEach((card, index) => {
-        if (index > 0) {
-          card.classList.add('page-break-before');
-        }
-      });
-      
       window.print();
       
       toast({
         title: "Impressão iniciada",
         description: "O documento está sendo enviado para impressão",
       });
-    }, 300);
+    }, 500);
   };
   
   // Voltar para a página principal
@@ -194,7 +229,11 @@ const ExportableView = () => {
               <Printer className="h-4 w-4" />
               Imprimir
             </Button>
-            <Button variant="default" onClick={exportarPDF} className="flex items-center gap-2">
+            <Button 
+              variant="default" 
+              onClick={exportarPDF} 
+              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700"
+            >
               <Download className="h-4 w-4" />
               Exportar PDF
             </Button>
@@ -288,7 +327,7 @@ const ExportableView = () => {
           </Card>
 
           {/* Seção 2: Comparativo por Categoria */}
-          <Card className="mb-10 shadow-md print:shadow-none print:border-none page-break-before">
+          <Card className="mb-10 shadow-md print:shadow-none print:border-none card-section-2">
             <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 print:bg-white border-b">
               <CardTitle className="text-2xl print:text-black">2. Comparativo por Categoria</CardTitle>
             </CardHeader>
@@ -350,7 +389,7 @@ const ExportableView = () => {
           </Card>
 
           {/* Seção 3: Fortalezas (Nova seção mais detalhada) */}
-          <Card className="mb-10 shadow-md print:shadow-none print:border-none page-break-before">
+          <Card className="mb-10 shadow-md print:shadow-none print:border-none card-section-3">
             <CardHeader className="bg-gradient-to-r from-green-50 to-green-100 print:bg-white border-b">
               <CardTitle className="text-2xl print:text-black">3. Análise Detalhada das Fortalezas</CardTitle>
             </CardHeader>
@@ -416,7 +455,7 @@ const ExportableView = () => {
           </Card>
 
           {/* Seção 4: Fragilidades (Nova seção mais detalhada) */}
-          <Card className="mb-10 shadow-md print:shadow-none print:border-none page-break-before">
+          <Card className="mb-10 shadow-md print:shadow-none print:border-none card-section-4">
             <CardHeader className="bg-gradient-to-r from-red-50 to-red-100 print:bg-white border-b">
               <CardTitle className="text-2xl print:text-black">4. Análise Detalhada das Fragilidades</CardTitle>
             </CardHeader>
@@ -486,7 +525,7 @@ const ExportableView = () => {
           </Card>
 
           {/* Seção 5: Intensidade dos Temas */}
-          <Card className="mb-10 shadow-md print:shadow-none print:border-none page-break-before">
+          <Card className="mb-10 shadow-md print:shadow-none print:border-none card-section-5">
             <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 print:bg-white border-b">
               <CardTitle className="text-2xl print:text-black">5. Intensidade dos Temas por Estado</CardTitle>
             </CardHeader>
@@ -532,7 +571,7 @@ const ExportableView = () => {
           </Card>
 
           {/* Seção 6: Análise de Termos */}
-          <Card className="mb-10 shadow-md print:shadow-none print:border-none page-break-before">
+          <Card className="mb-10 shadow-md print:shadow-none print:border-none card-section-6">
             <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 print:bg-white border-b">
               <CardTitle className="text-2xl print:text-black">6. Análise dos Termos mais Frequentes</CardTitle>
             </CardHeader>
@@ -655,7 +694,7 @@ const ExportableView = () => {
           </Card>
 
           {/* Seção 7: Recomendações */}
-          <Card className="mb-10 shadow-md print:shadow-none print:border-none page-break-before">
+          <Card className="mb-10 shadow-md print:shadow-none print:border-none card-section-7">
             <CardHeader className="bg-gradient-to-r from-gray-50 to-gray-100 print:bg-white border-b">
               <CardTitle className="text-2xl print:text-black">7. Recomendações para Melhoria da Regulação no SUS</CardTitle>
             </CardHeader>
@@ -706,4 +745,3 @@ const ExportableView = () => {
 };
 
 export default ExportableView;
-
