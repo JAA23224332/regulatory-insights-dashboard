@@ -1,4 +1,3 @@
-
 import React, { useRef, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
@@ -574,6 +573,27 @@ const ExportableView = () => {
                   </ul>
                 </div>
               </div>
+              
+              {/* Tabela de termos mais frequentes para fortalezas - Visível apenas na impressão */}
+              <div className="hidden print:block mt-8">
+                <h4 className="font-medium text-lg mb-3">Termos mais frequentes em fortalezas:</h4>
+                <table className="w-full border-collapse">
+                  <thead>
+                    <tr className="border-b border-gray-200">
+                      <th className="text-left p-2">Termo</th>
+                      <th className="text-right p-2">Frequência</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {termosFrequentesFortalezas.map((item, index) => (
+                      <tr key={index} className="border-b border-gray-100">
+                        <td className="p-2">{item.termo}</td>
+                        <td className="p-2 text-right">{item.frequencia}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </CardContent>
           </Card>
 
@@ -649,6 +669,54 @@ const ExportableView = () => {
                     </li>
                   </ul>
                 </div>
+              </div>
+              
+              {/* Tabela de termos mais frequentes para fragilidades - Visível apenas na impressão */}
+              <div className="hidden print:block mt-8">
+                <h4 className="font-medium text-lg mb-3">Termos mais frequentes em fragilidades:</h4>
+                <table className="w-full border-collapse">
+                  <thead>
+                    <tr className="border-b border-gray-200">
+                      <th className="text-left p-2">Termo</th>
+                      <th className="text-right p-2">Frequência</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {termosFrequentesFragilidades.map((item, index) => (
+                      <tr key={index} className="border-b border-gray-100">
+                        <td className="p-2">{item.termo}</td>
+                        <td className="p-2 text-right">{item.frequencia}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              
+              {/* Tabela de termos compartilhados - Visível apenas na impressão */}
+              <div className="hidden print:block mt-8">
+                <h4 className="font-medium text-lg mb-3">Termos compartilhados entre fortalezas e fragilidades:</h4>
+                <table className="w-full border-collapse">
+                  <thead>
+                    <tr className="border-b border-gray-200">
+                      <th className="text-left p-2">Termo</th>
+                      <th className="text-right p-2">Freq. Fortalezas</th>
+                      <th className="text-right p-2">Freq. Fragilidades</th>
+                      <th className="text-right p-2">Diferença</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {termosCompartilhados.map((item, index) => (
+                      <tr key={index} className="border-b border-gray-100">
+                        <td className="p-2">{item.termo}</td>
+                        <td className="p-2 text-right">{item.freqFortalezas}</td>
+                        <td className="p-2 text-right">{item.freqFragilidades}</td>
+                        <td className="p-2 text-right" style={{ color: item.diferenca > 0 ? '#4CAF50' : item.diferenca < 0 ? '#F44336' : '#000' }}>
+                          {item.diferenca > 0 ? '+' : ''}{item.diferenca}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </CardContent>
           </Card>
