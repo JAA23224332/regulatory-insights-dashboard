@@ -6,8 +6,14 @@ import { useToast } from "@/components/ui/use-toast";
 import { exportToPDF } from '@/utils/exportUtils';
 
 // Cores para os gráficos
-const COLORS_FORTALEZAS = ['#0088FE', '#4CAF50', '#81C784'];
-const COLORS_FRAGILIDADES = ['#FF8042', '#F44336', '#E57373'];
+const COLORS_FORTALEZAS = ['#4CAF50']; // Verde
+const COLORS_FRAGILIDADES = ['#F44336']; // Vermelho
+
+// Dados para o gráfico de pizza de distribuição
+const dadosDistribuicaoPie = [
+  { name: 'Fortalezas', value: 45, percentage: 42 },
+  { name: 'Fragilidades', value: 63, percentage: 58 },
+];
 
 const Export = () => {
   const { toast } = useToast();
@@ -37,10 +43,9 @@ const Export = () => {
         Baseado em respostas de 12 Secretarias Estaduais de Saúde | 45 fortalezas e 63 fragilidades identificadas
       </div>
       
-      {/* Seção 1: Visão Geral - OTIMIZADA PARA IMPRESSÃO */}
+      {/* Seção 1: Visão Geral - REFORMATADA conforme imagem de exemplo */}
       <div className="card card-section-1">
-        <h2 className="text-xl font-semibold mb-2">Visão Geral</h2>
-        <div className="grid grid-cols-3 gap-2 mb-4">
+        <div className="grid grid-cols-1 gap-2 mb-4">
           <div className="bg-blue-50 p-3 rounded-lg">
             <p className="text-lg font-semibold text-blue-600">12</p>
             <p className="text-sm">Estados participantes</p>
@@ -55,44 +60,53 @@ const Export = () => {
           </div>
         </div>
         
-        {/* Versão simplificada para impressão */}
-        <div className="display-print-only">
-          <table className="print-table mb-3">
-            <thead>
-              <tr>
-                <th>Medição</th>
-                <th>Valor</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Estados participantes</td>
-                <td>12</td>
-              </tr>
-              <tr>
-                <td>Fortalezas identificadas</td>
-                <td>45</td>
-              </tr>
-              <tr>
-                <td>Fragilidades identificadas</td>
-                <td>63</td>
-              </tr>
-              <tr>
-                <td>Temas com mais fortalezas</td>
-                <td>38%</td>
-              </tr>
-              <tr>
-                <td>Temas com mais fragilidades</td>
-                <td>52%</td>
-              </tr>
-            </tbody>
-          </table>
+        {/* Gráfico de pizza para a distribuição de fortalezas e fragilidades */}
+        <div className="pie-chart-container mb-6">
+          <ResponsiveContainer width="100%" height={300}>
+            <PieChart>
+              <Pie
+                data={dadosDistribuicaoPie}
+                cx="50%"
+                cy="50%"
+                outerRadius={80}
+                innerRadius={0}
+                fill="#8884d8"
+                dataKey="value"
+                label={false}
+              >
+                {dadosDistribuicaoPie.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={index === 0 ? '#4CAF50' : '#F44336'} />
+                ))}
+              </Pie>
+            </PieChart>
+          </ResponsiveContainer>
+          
+          {/* Legendas abaixo do gráfico */}
+          <div className="fortalezas-percent">Fortalezas: 42%</div>
+          <div className="fragilidades-percent">Fragilidades: 58%</div>
+        </div>
+        
+        {/* Área de principais constatações */}
+        <div className="principais-constatacoes">
+          <h3>Principais constatações:</h3>
+          <ul>
+            <li className="constatacao-red">52% dos temas aparecem com maior frequência como fragilidades</li>
+            <li className="constatacao-green">38% dos temas aparecem com maior frequência como fortalezas</li>
+            <li>10% dos temas apresentam equilíbrio entre fortalezas e fragilidades</li>
+          </ul>
         </div>
       </div>
       
-      {/* Seção 2: Comparativo - OTIMIZADA PARA IMPRESSÃO */}
+      {/* Seção 2: Comparativo - Título e notificação conforme imagem */}
       <div className="card card-section-2">
-        <h2 className="text-xl font-semibold mb-3">Comparativo por Categorias</h2>
+        <div className="comparativo-titulo">
+          2. Comparativo por Categoria
+        </div>
+        <div className="comparativo-notificacao">
+          Exportação de PDF iniciada
+          <br />
+          Use a opção "Salvar como PDF" na janela de impressão para exportar o documento completo
+        </div>
         
         {/* Tabela otimizada para impressão */}
         <table className="print-table mb-4">
@@ -201,6 +215,7 @@ const Export = () => {
         </div>
       </div>
       
+      {/* O restante do componente permanece inalterado */}
       {/* Seção 3: Fortalezas */}
       <div className="card card-section-3">
         <h2 className="text-xl font-semibold mb-4">Fortalezas por Categoria</h2>
