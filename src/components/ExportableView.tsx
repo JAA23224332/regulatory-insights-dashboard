@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
@@ -409,7 +408,8 @@ const ExportableView = () => {
         </div>
         
         {/* Estilos específicos para impressão */}
-        <style jsx="true">{`
+        <style>
+          {`
           @media print {
             body {
               font-size: 12pt;
@@ -437,10 +437,12 @@ const ExportableView = () => {
               display: none !important;
             }
           }
-        `}</style>
+          `}
+        </style>
       </div>
     </div>
   );
 };
 
 export default ExportableView;
+
