@@ -199,19 +199,16 @@ const ExportableView = () => {
         .card-section-4 .recharts-wrapper {
           min-height: 700px !important;
         }
-        .recharts-pie {
-          transform: scale(0.65) !important;
+        .recharts-legend-wrapper {
+          padding-right: 20px !important;
         }
-        .recharts-pie-label-text {
-          font-size: 11px !important;
-          font-weight: bold !important;
-          fill: black !important;
-          text-shadow: 0 0 5px white, 0 0 4px white, 0 0 3px white, 0 0 2px white !important;
+        .recharts-legend-item {
+          margin-bottom: 10px !important;
         }
-        .recharts-pie-label-line {
-          stroke: #555 !important;
-          stroke-width: 1px !important;
-          stroke-dasharray: none !important;
+        .recharts-legend-item-text {
+          font-size: 12px !important;
+          font-weight: 600 !important;
+          color: black !important;
         }
       }
     `;
@@ -489,22 +486,17 @@ const ExportableView = () => {
             </CardHeader>
             <CardContent className="p-6 print:p-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 section-fortalezas">
-                <div className="h-[700px] print:h-[700px] flex items-center justify-center pie-label-container">
+                <div className="h-[450px] print:h-[450px] flex items-center justify-center">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
                         data={dadosPieFortalezas}
                         cx="50%"
                         cy="50%"
-                        labelLine={{
-                          stroke: '#444',
-                          strokeWidth: 1.5,
-                          strokeDasharray: null,
-                          type: 'straight'
-                        }}
-                        label={renderCustomLabel}
-                        outerRadius={85}
-                        innerRadius={55}
+                        labelLine={false}
+                        label={false}
+                        outerRadius={110}
+                        innerRadius={60}
                         paddingAngle={2}
                         fill="#8884d8"
                         dataKey="value"
@@ -524,6 +516,20 @@ const ExportableView = () => {
                             return [`${value} menções (${props.payload.percentage}%)`, 'Quantidade'];
                           }
                           return [value, name];
+                        }}
+                      />
+                      
+                      {/* Legenda personalizada */}
+                      <Legend
+                        layout="vertical"
+                        align="right"
+                        verticalAlign="middle"
+                        iconSize={10}
+                        iconType="circle"
+                        formatter={(value, entry, index) => {
+                          // @ts-ignore - necessário porque a tipagem do Recharts não inclui percentage
+                          const percentage = entry.payload.percentage;
+                          return `${value}: ${percentage}%`;
                         }}
                       />
                     </PieChart>
@@ -561,22 +567,17 @@ const ExportableView = () => {
             </CardHeader>
             <CardContent className="p-6 print:p-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 section-fragilidades">
-                <div className="h-[700px] print:h-[700px] flex items-center justify-center pie-label-container">
+                <div className="h-[450px] print:h-[450px] flex items-center justify-center">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
                         data={dadosPieFragilidades}
                         cx="50%"
                         cy="50%"
-                        labelLine={{
-                          stroke: '#444',
-                          strokeWidth: 1.5,
-                          strokeDasharray: null,
-                          type: 'straight'
-                        }}
-                        label={renderCustomLabel}
-                        outerRadius={85}
-                        innerRadius={55}
+                        labelLine={false}
+                        label={false}
+                        outerRadius={110}
+                        innerRadius={60}
                         paddingAngle={2}
                         fill="#8884d8"
                         dataKey="value"
@@ -596,6 +597,20 @@ const ExportableView = () => {
                             return [`${value} menções (${props.payload.percentage}%)`, 'Quantidade'];
                           }
                           return [value, name];
+                        }}
+                      />
+                      
+                      {/* Legenda personalizada */}
+                      <Legend
+                        layout="vertical"
+                        align="right"
+                        verticalAlign="middle"
+                        iconSize={10}
+                        iconType="circle"
+                        formatter={(value, entry, index) => {
+                          // @ts-ignore - necessário porque a tipagem do Recharts não inclui percentage
+                          const percentage = entry.payload.percentage;
+                          return `${value}: ${percentage}%`;
                         }}
                       />
                     </PieChart>
@@ -692,4 +707,3 @@ const ExportableView = () => {
 };
 
 export default ExportableView;
-

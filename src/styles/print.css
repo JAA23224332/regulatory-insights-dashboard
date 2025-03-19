@@ -89,35 +89,37 @@
     overflow: visible !important;
   }
   
-  /* MELHORIAS ESPECÍFICAS PARA GRÁFICOS DE PIZZA */
-  /* Improve pie chart specific rendering */
-  .recharts-pie {
-    transform: scale(0.7) !important;
-    transform-origin: center center !important;
+  /* MELHORIAS ESPECÍFICAS PARA GRÁFICOS DE PIZZA COM LEGENDA */
+  /* Adjustments for pie charts with legend */
+  .recharts-legend-wrapper {
+    display: block !important;
+    overflow: visible !important;
+    padding-right: 20px !important;
   }
   
-  /* Melhorias para rótulos dos gráficos de pizza */
-  .recharts-pie-label-text {
+  .recharts-legend-item {
+    margin-bottom: 12px !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+  
+  .recharts-legend-item-text {
     font-size: 12px !important;
-    font-weight: bold !important;
-    fill: black !important;
-    dominant-baseline: central !important;
-    text-shadow: 0 0 5px white, 0 0 4px white, 0 0 3px white, 0 0 2px white !important;
+    font-weight: 600 !important;
+    color: black !important;
   }
   
   /* Adjust pie chart containers specifically */
   .card-section-3 .recharts-wrapper,
   .card-section-4 .recharts-wrapper {
-    min-height: 700px !important;
+    min-height: 450px !important;
     overflow: visible !important;
     margin-bottom: 50px !important;
   }
   
-  /* Melhorias para as linhas de conexão dos gráficos de pizza */
-  .recharts-pie-label-line {
-    stroke: #555 !important; 
-    stroke-width: 1.5px !important;
-    stroke-dasharray: none !important;
+  .card-section-3 .recharts-pie,
+  .card-section-4 .recharts-pie {
+    transform: scale(0.9) !important;
   }
   
   /* Ajustes específicos para pie charts na seção 3 e 4 */
@@ -125,35 +127,6 @@
   .section-fragilidades .recharts-pie-sector {
     stroke-width: 1px !important;
     stroke: white !important;
-  }
-  
-  /* Espaço específico para rótulos de gráfico */
-  .pie-label-container {
-    min-height: 700px !important;
-    margin-bottom: 0 !important;
-    position: relative !important;
-  }
-  
-  /* Força os rótulos a serem visíveis com mais espaço */
-  .recharts-layer.recharts-pie-labels {
-    overflow: visible !important;
-    position: relative !important;
-    z-index: 100 !important;
-  }
-  
-  /* Novos ajustes para melhorar a visibilidade dos rótulos */
-  .recharts-pie-label {
-    font-weight: 600 !important;
-    font-size: 11px !important;
-    dominant-baseline: middle !important;
-    text-anchor: middle !important;
-  }
-  
-  /* Melhor contraste para as linhas de conexão */
-  .recharts-pie-label-line {
-    stroke: #444 !important;
-    stroke-width: 1.5px !important;
-    stroke-dasharray: none !important;
   }
   
   /* Ajustes para margens e paddings */
@@ -186,10 +159,6 @@
   
   .recharts-surface {
     overflow: visible !important;
-  }
-  
-  .recharts-legend-wrapper {
-    margin-bottom: 1rem !important;
   }
   
   /* Melhorar contraste para impressão */
