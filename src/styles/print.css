@@ -14,12 +14,33 @@
     display: none !important;
   }
   
+  /* Page break controls */
   .page-break-before {
     page-break-before: always;
   }
   
   .page-break-after {
     page-break-after: always;
+  }
+  
+  /* Force each section to start on a new page */
+  .exportable-document .mb-10 {
+    page-break-after: always;
+  }
+  
+  /* Last section should not force a page break after */
+  .exportable-document .mb-10:last-child {
+    page-break-after: auto;
+  }
+  
+  /* Ensure all content is printable and not cut off */
+  .exportable-document {
+    page-break-inside: auto;
+    overflow: visible !important;
+  }
+  
+  .exportable-page {
+    overflow: visible !important;
   }
   
   /* Remoção de sombras e ajustes de fundo */
@@ -122,10 +143,15 @@
     color: black !important;
   }
   
-  /* Remover cabeçalhos e rodapés do navegador */
+  /* Remover cabeçalhos e rodapés do navegador e ajustar página */
   @page {
     size: A4;
     margin: 1.5cm;
+  }
+  
+  /* Fix for page breaks in Firefox and Chrome */
+  .card {
+    break-inside: avoid;
   }
 }
 
