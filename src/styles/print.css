@@ -1,3 +1,4 @@
+
 /* Estilos de impressão */
 @media print {
   body {
@@ -47,11 +48,29 @@
     height: auto !important;
     min-height: 300px !important;
     overflow: visible !important;
+    page-break-inside: avoid !important;
   }
   
   /* Para gráficos de barras */
   .recharts-cartesian-grid {
     width: 100% !important;
+  }
+  
+  /* Fix for bar charts and text overlap */
+  .recharts-layer.recharts-cartesian-axis-tick text {
+    font-size: 11pt !important;
+    fill: black !important;
+  }
+  
+  .recharts-layer.recharts-bar-rectangles {
+    transform: translateX(0) !important;
+  }
+  
+  /* Ensure proper spacing for horizontal bar charts */
+  .recharts-wrapper .recharts-cartesian-grid-horizontal line,
+  .recharts-wrapper .recharts-cartesian-grid-vertical line {
+    stroke: #ddd !important;
+    stroke-width: 0.5 !important;
   }
   
   /* Para gráficos de pizza */
@@ -92,9 +111,15 @@
     display: block !important;
   }
   
-  /* Hide charts in print view and show tables instead */
+  /* Make all charts visible and properly sized */
   .chart-container {
-    display: none !important;
+    display: block !important;
+    height: auto !important;
+    min-height: 400px !important;
+    width: 100% !important;
+    page-break-inside: avoid !important;
+    overflow: visible !important;
+    margin-bottom: 20px !important;
   }
   
   /* Improved table styling for print */
@@ -150,6 +175,50 @@
     display: inline-block !important;
   }
 
+  /* Fixed text highlighting and colors for "destaques por categoria" section */
+  .bg-gray-50 {
+    background-color: #f8f9fa !important;
+    padding: 15px !important;
+    margin-top: 20px !important;
+    page-break-inside: avoid !important;
+  }
+  
+  .bg-gray-50 h3 {
+    font-weight: bold !important;
+    margin-bottom: 10px !important;
+    font-size: 14pt !important;
+  }
+  
+  .bg-gray-50 ul {
+    list-style-type: disc !important;
+    padding-left: 20px !important;
+  }
+  
+  .bg-gray-50 li {
+    margin-bottom: 8px !important;
+    page-break-inside: avoid !important;
+  }
+  
+  .bg-gray-50 strong {
+    font-weight: bold !important;
+  }
+  
+  /* Color text fixes for comparativo section */
+  .card-section-2 .bg-gray-50 li span strong {
+    color: black !important;
+    font-weight: bold !important;
+  }
+  
+  /* Fix for text colors in highlights */
+  .text-green-700, .text-green-600, .text-red-700, .text-red-600 {
+    color: black !important;
+    font-weight: bold !important;
+  }
+  
+  .card-section-2 ul.space-y-2 li span {
+    color: black !important;
+  }
+
   /* Remoção de sombras e ajustes de fundo */
   .print\:shadow-none, .shadow-md, .shadow-sm, .shadow {
     box-shadow: none !important;
@@ -189,6 +258,25 @@
     border-radius: 50% !important;
     margin-right: 8px !important;
   }
+  
+  /* Fix for Fortalezas/Fragilidades color indicators */
+  .category-color-fortaleza-0 { background-color: #0062cc !important; }
+  .category-color-fortaleza-1 { background-color: #00994c !important; }
+  .category-color-fortaleza-2 { background-color: #57bc6c !important; }
+  .category-color-fortaleza-3 { background-color: #81C784 !important; }
+  .category-color-fortaleza-4 { background-color: #A5D6A7 !important; }
+  .category-color-fortaleza-5 { background-color: #4CBB17 !important; }
+  .category-color-fortaleza-6 { background-color: #3F704D !important; }
+  .category-color-fortaleza-7 { background-color: #138808 !important; }
+  
+  .category-color-fragilidade-0 { background-color: #cc4125 !important; }
+  .category-color-fragilidade-1 { background-color: #d32f2f !important; }
+  .category-color-fragilidade-2 { background-color: #e35353 !important; }
+  .category-color-fragilidade-3 { background-color: #EF5350 !important; }
+  .category-color-fragilidade-4 { background-color: #E57373 !important; }
+  .category-color-fragilidade-5 { background-color: #DD2C00 !important; }
+  .category-color-fragilidade-6 { background-color: #B71C1C !important; }
+  .category-color-fragilidade-7 { background-color: #FF8A65 !important; }
   
   /* Fix for backgrounds */
   [class*="bg-gradient-to-"] {
@@ -233,6 +321,12 @@
   
   /* Melhorar contraste para impressão */
   .print\:text-black, .text-gray-600, .text-gray-700, .text-gray-800 {
+    color: black !important;
+  }
+  
+  /* Fix for highlighted text in destaques section */
+  .flex.items-start span.print\:text-black strong {
+    font-weight: bold !important;
     color: black !important;
   }
   
@@ -308,6 +402,40 @@
   .display-screen-only {
     display: none !important;
     visibility: hidden !important;
+  }
+  
+  /* Fix for section 2 comparative chart - most critical issue in the screenshot */
+  .card-section-2 .h-\[500px\] {
+    height: 600px !important; /* Increase height to prevent text overlap */
+    max-width: 100% !important;
+    margin-bottom: 30px !important;
+    page-break-inside: avoid !important;
+  }
+  
+  /* Fix text positioning on chart */
+  .card-section-2 .recharts-cartesian-axis-tick-value {
+    font-size: 11pt !important;
+    fill: black !important;
+  }
+  
+  /* Fix layout for destaques por categoria */
+  .card-section-2 .bg-gray-50 {
+    margin-top: 30px !important;
+    page-break-before: auto !important;
+    page-break-inside: avoid !important;
+    padding: 20px !important;
+    background-color: #f8f9fa !important;
+  }
+  
+  /* Add spacing between chart and destaques section */
+  .card-section-2 .h-\[500px\] + .mt-8 {
+    margin-top: 40px !important;
+  }
+  
+  /* Ensure destaques section displays properly */
+  .card-section-2 .bg-gray-50 ul.space-y-2 li {
+    margin-bottom: 15px !important;
+    page-break-inside: avoid !important;
   }
 }
 

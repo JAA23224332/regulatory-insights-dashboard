@@ -165,6 +165,20 @@ const ExportableView = () => {
         /* Make sure all charts are visible in print */
         .recharts-wrapper {
           page-break-inside: avoid !important;
+          height: auto !important;
+          min-height: 400px !important;
+        }
+        
+        /* Improve chart text readability */
+        .recharts-cartesian-axis-tick text {
+          font-size: 12px !important;
+          fill: black !important;
+        }
+        
+        /* Fix for bar chart text overlap */
+        .card-section-2 .recharts-cartesian-axis.recharts-yAxis .recharts-cartesian-axis-tick {
+          font-size: 12px !important;
+          font-weight: normal !important;
         }
         
         /* Ensure tables break properly */
@@ -218,11 +232,37 @@ const ExportableView = () => {
           margin-bottom: 20px;
         }
         
+        /* Fix specifically for the comparative chart in section 2 */
+        .card-section-2 .h-\\[500px\\] {
+          height: 600px !important;
+          max-width: 100% !important;
+          page-break-inside: avoid !important;
+        }
+        
+        /* Fix text positioning on chart */
+        .card-section-2 .recharts-cartesian-axis-tick-value {
+          font-size: 11pt !important;
+          fill: black !important;
+        }
+
+        /* Fix text readability in highlighted text sections */
+        .card-section-2 .bg-gray-50 ul.space-y-2 li span strong {
+          color: black !important; 
+          font-weight: bold !important;
+        }
+        
         /* Make sure charts don't get cut off */
         .recharts-wrapper {
           width: 100% !important;
           height: auto !important;
           min-height: 300px;
+          page-break-inside: avoid !important;
+        }
+        
+        /* Ensure chart text is visible and properly positioned */
+        .recharts-layer.recharts-cartesian-axis-tick text {
+          font-size: 11pt !important;
+          fill: black !important;
         }
       }
     `;
@@ -252,65 +292,7 @@ const ExportableView = () => {
   
   // Also update the print function to match
   const handlePrint = () => {
-    // Apply same setup as for PDF export
-    const printOnlyElements = document.querySelectorAll('.display-print-only');
-    printOnlyElements.forEach(el => {
-      (el as HTMLElement).style.display = 'block';
-    });
-    
-    // Set specific print styles for better rendering
-    const printStyle = document.createElement('style');
-    printStyle.setAttribute('id', 'temp-print-style');
-    printStyle.innerHTML = `
-      @media print {
-        html, body {
-          height: 100% !important;
-          width: 100% !important;
-          margin: 0 !important;
-          padding: 0 !important;
-        }
-        
-        .exportable-document {
-          height: auto !important;
-          overflow: visible !important;
-          display: block !important;
-        }
-        
-        /* Ensure all content fits within pages */
-        .card {
-          break-inside: avoid;
-          page-break-inside: avoid;
-          margin-bottom: 20px;
-        }
-        
-        /* Make sure charts don't get cut off */
-        .recharts-wrapper {
-          width: 100% !important;
-          height: auto !important;
-          min-height: 300px;
-        }
-      }
-    `;
-    document.head.appendChild(printStyle);
-    
-    setTimeout(() => {
-      window.print();
-      
-      toast({
-        title: "Impressão iniciada",
-        description: "O documento completo está sendo enviado para impressão",
-      });
-      
-      // Reset display after print dialog closes
-      setTimeout(() => {
-        printOnlyElements.forEach(el => {
-          (el as HTMLElement).style.display = 'none';
-        });
-        // Remove the temporary style
-        const tempStyle = document.getElementById('temp-print-style');
-        if (tempStyle) document.head.removeChild(tempStyle);
-      }, 1000);
-    }, 500);
+    exportarPDF();
   };
   
   // Voltar para a página principal
@@ -347,10 +329,10 @@ const ExportableView = () => {
         <div ref={documentRef} className="print:m-0">
           {/* Cabeçalho do documento */}
           <div className="text-center mb-12">
-            <h1 className="text-4xl font-light tracking-tight text-gray-900 sm:text-5xl md:text-6xl mb-4">
+            <h1 className="text-4xl font-light tracking-tight text-gray-900 sm:text-5xl md:text-6xl mb-4 print:text-black">
               Análise de Fortalezas e Fragilidades
             </h1>
-            <p className="mt-4 text-base text-gray-600">
+            <p className="mt-4 text-base text-gray-600 print:text-black">
               Baseado em respostas de {estatisticasGerais.totalEstados} Secretarias Estaduais de Saúde | {estatisticasGerais.totalFortalezas} fortalezas e {estatisticasGerais.totalFragilidades} fragilidades identificadas
             </p>
           </div>
@@ -426,25 +408,26 @@ const ExportableView = () => {
             </CardContent>
           </Card>
 
-          {/* Seção 2: Comparativo por Categoria */}
+          {/* Seção 2: Comparativo por Categoria - FIXED FOR PRINTING */}
           <Card className="mb-10 shadow-md print:shadow-none print:border-none card-section-2">
             <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 print:bg-white border-b">
               <CardTitle className="text-2xl print:text-black">2. Comparativo por Categoria</CardTitle>
             </CardHeader>
             <CardContent className="p-6 print:p-4">
-              <div className="h-[500px] print:h-[400px]">
+              {/* Chart for screen view */}
+              <div className="h-[500px] print:h-[600px]">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart
                     data={dadosReais}
                     layout="vertical"
-                    margin={{ top: 5, right: 30, left: 120, bottom: 5 }}
+                    margin={{ top: 5, right: 30, left: 150, bottom: 5 }}
                   >
                     <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                     <XAxis type="number" stroke="#888" fontSize={12} />
                     <YAxis 
                       type="category" 
                       dataKey="categoria" 
-                      width={110}
+                      width={150}
                       stroke="#888"
                       fontSize={12}
                       tickLine={false}
@@ -468,6 +451,57 @@ const ExportableView = () => {
                   </BarChart>
                 </ResponsiveContainer>
               </div>
+              
+              {/* New print-only table version for better rendering */}
+              <div className="display-print-only mt-6">
+                <table className="print-table">
+                  <thead>
+                    <tr>
+                      <th>Categoria</th>
+                      <th>Fortalezas</th>
+                      <th>Fragilidades</th>
+                      <th>Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {dadosReais.map((item, index) => (
+                      <tr key={index}>
+                        <td><strong>{item.categoria}</strong></td>
+                        <td>
+                          <div className="flex items-center">
+                            <div 
+                              className="h-3 mr-2 rounded-sm" 
+                              style={{
+                                backgroundColor: '#4CAF50',
+                                width: `${(item.fortalezas / 20) * 100}%`,
+                                maxWidth: '100px',
+                                minWidth: '5px'
+                              }}
+                            ></div>
+                            {item.fortalezas}
+                          </div>
+                        </td>
+                        <td>
+                          <div className="flex items-center">
+                            <div 
+                              className="h-3 mr-2 rounded-sm" 
+                              style={{
+                                backgroundColor: '#F44336',
+                                width: `${(item.fragilidades / 20) * 100}%`,
+                                maxWidth: '100px',
+                                minWidth: '5px'
+                              }}
+                            ></div>
+                            {item.fragilidades}
+                          </div>
+                        </td>
+                        <td>{item.total}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
               <div className="mt-8 bg-gray-50 print:bg-gray-100 p-5 rounded-lg">
                 <h3 className="font-medium text-xl mb-4 text-gray-800 print:text-black">Destaques por categoria:</h3>
                 <ul className="space-y-2">
@@ -1180,4 +1214,3 @@ const ExportableView = () => {
 };
 
 export default ExportableView;
-
