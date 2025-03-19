@@ -63,14 +63,6 @@
     -webkit-box-shadow: none !important;
   }
   
-  .print\:border-none, .border, .border-b {
-    border: none !important;
-  }
-  
-  .print\:bg-white {
-    background-color: white !important;
-  }
-  
   /* Specific backgrounds for cards that need color */
   .print\:bg-gray-100 {
     background-color: #f8f9fa !important;
@@ -105,7 +97,7 @@
   
   /* Melhorias para rótulos dos gráficos de pizza */
   .recharts-pie-label-text {
-    font-size: 10px !important;
+    font-size: 12px !important;
     font-weight: bold !important;
     fill: black !important;
     dominant-baseline: central !important;
@@ -137,27 +129,33 @@
   /* Espaço específico para rótulos de gráfico */
   .pie-label-container {
     min-height: 700px !important;
-    margin-bottom: 100px !important;
+    margin-bottom: 0 !important;
+    position: relative !important;
   }
   
   /* Força os rótulos a serem visíveis com mais espaço */
   .recharts-layer.recharts-pie-labels {
     overflow: visible !important;
+    position: relative !important;
+    z-index: 100 !important;
   }
   
-  /* Ajustes específicos para os rótulos do gráfico de pizza */
+  /* Novos ajustes para melhorar a visibilidade dos rótulos */
+  .recharts-pie-label {
+    font-weight: 600 !important;
+    font-size: 11px !important;
+    dominant-baseline: middle !important;
+    text-anchor: middle !important;
+  }
+  
+  /* Melhor contraste para as linhas de conexão */
   .recharts-pie-label-line {
-    stroke: #666 !important; 
+    stroke: #444 !important;
     stroke-width: 1.5px !important;
+    stroke-dasharray: none !important;
   }
   
-  /* Ajustes para linhas de conexão mais longas */
-  .pie-chart-custom-label-line {
-    stroke: #666 !important;
-    stroke-width: 1.5px !important;
-  }
-  
-  /* Ajustes de margens e paddings */
+  /* Ajustes para margens e paddings */
   .print\:m-0, .m-0, .m-1, .m-2, .m-3, .m-4, .m-5, .m-6, .m-8, .m-10, .m-12 {
     margin: 0 !important;
   }

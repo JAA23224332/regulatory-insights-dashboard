@@ -134,22 +134,25 @@ const prepareDadosPieFragilidades = () => {
 const dadosPieFortalezas = prepareDadosPieFortalezas();
 const dadosPieFragilidades = prepareDadosPieFragilidades();
 
-// Função para ajustar a posição de cada rótulo com base no ângulo
+// Interface para as propriedades do rótulo personalizado
+interface CustomLabelProps {
+  cx: number;
+  cy: number;
+  midAngle: number;
+  innerRadius: number;
+  outerRadius: number;
+  percent: number;
+  index: number;
+  name: string;
+  percentage: number;
+}
+
+// Função para calcular a posição dos rótulos com base no ângulo
 const getAdjustedLabelPosition = (cx, cy, midAngle, radius) => {
   const RADIAN = Math.PI / 180;
   
-  // Ajustar o raio com base no ângulo para evitar sobreposição
-  let adjustedRadius = radius;
-  
-  // Quadrante superior direito e inferior direito: mover mais para fora
-  if ((midAngle >= 270 && midAngle <= 360) || (midAngle >= 0 && midAngle <= 90)) {
-    adjustedRadius = radius * 1.1;
-  }
-  
-  // Quadrante superior esquerdo e inferior esquerdo
-  if (midAngle > 90 && midAngle < 270) {
-    adjustedRadius = radius * 1.1;
-  }
+  // Aumentar o raio para dar mais espaço entre o gráfico e os rótulos
+  const adjustedRadius = radius * 1.5;
   
   // Calcular posição com o raio ajustado
   const x = cx + adjustedRadius * Math.cos(-midAngle * RADIAN);
@@ -158,8 +161,8 @@ const getAdjustedLabelPosition = (cx, cy, midAngle, radius) => {
   return { x, y };
 };
 
-// Custom label for pie charts that includes percentage
-const renderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index, name, percentage }) => {
+// Função personalizada para renderizar os rótulos
+const renderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index, name, percentage }: CustomLabelProps) => {
   const RADIAN = Math.PI / 180;
   
   // Usar nomes simplificados para todos os segmentos
@@ -266,7 +269,7 @@ const ExportableView = () => {
         title: "Exportação de PDF iniciada",
         description: "Use a opção 'Salvar como PDF' na janela de impressão",
       });
-    }, 5000); // Increased timeout to 5000ms for better rendering
+    }, 7000); // Increased timeout to 7000ms for better rendering
   };
   
   const handlePrint = () => {
@@ -307,7 +310,7 @@ const ExportableView = () => {
         title: "Impressão iniciada",
         description: "O documento está sendo enviado para impressão",
       });
-    }, 5000); // Increased timeout to 5000ms for better rendering
+    }, 7000); // Increased timeout to 7000ms for better rendering
   };
   
   // Voltar para a página principal
