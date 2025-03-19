@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
@@ -11,131 +11,83 @@ import _ from 'lodash';
 const COLORS_FORTALEZAS = ['#0088FE', '#4CAF50', '#81C784'];
 const COLORS_FRAGILIDADES = ['#FF8042', '#F44336', '#E57373'];
 
-// Mock data para caso de falha na leitura do arquivo
-const mockData = [
-  { categoria: 'Sistemas e tecnologia', fortalezas: 18, fragilidades: 15, total: 33 },
-  { categoria: 'Recursos humanos', fortalezas: 12, fragilidades: 20, total: 32 },
-  { categoria: 'Protocolos e fluxos', fortalezas: 16, fragilidades: 10, total: 26 },
-  { categoria: 'Integração de níveis', fortalezas: 14, fragilidades: 12, total: 26 },
-  { categoria: 'Acesso e equidade', fortalezas: 8, fragilidades: 16, total: 24 },
-  { categoria: 'Governança e gestão', fortalezas: 15, fragilidades: 8, total: 23 },
-  { categoria: 'Regionalização', fortalezas: 3, fragilidades: 14, total: 17 },
-  { categoria: 'Financiamento', fortalezas: 2, fragilidades: 13, total: 15 },
-  { categoria: 'Outros', fortalezas: 5, fragilidades: 4, total: 9 },
+// Dados reais baseados nas informações fornecidas
+const dadosReais = [
+  { categoria: 'Sistemas e tecnologia', fortalezas: 13, fragilidades: 12, total: 25 },
+  { categoria: 'Protocolos e fluxos', fortalezas: 8, fragilidades: 5, total: 13 },
+  { categoria: 'Governança e gestão', fortalezas: 6, fragilidades: 5, total: 11 },
+  { categoria: 'Integração de níveis', fortalezas: 4, fragilidades: 5, total: 9 },
+  { categoria: 'Recursos humanos', fortalezas: 3, fragilidades: 7, total: 10 },
+  { categoria: 'Acesso e equidade', fortalezas: 3, fragilidades: 7, total: 10 },
+  { categoria: 'Regionalização', fortalezas: 0, fragilidades: 4, total: 4 },
+  { categoria: 'Financiamento', fortalezas: 0, fragilidades: 1, total: 1 },
+  { categoria: 'Outros', fortalezas: 8, fragilidades: 17, total: 25 },
 ];
 
+// Dados de intensidade para cada tema
+const dadosIntensidade = [
+  { tema: 'Sistemas e tecnologia', intensidadeFortalezas: 1.8, intensidadeFragilidades: 1.5, diferenca: 0.3 },
+  { tema: 'Protocolos e fluxos', intensidadeFortalezas: 1.2, intensidadeFragilidades: 0.7, diferenca: 0.5 },
+  { tema: 'Recursos humanos', intensidadeFortalezas: 0.4, intensidadeFragilidades: 0.9, diferenca: -0.5 },
+  { tema: 'Governança e gestão', intensidadeFortalezas: 0.8, intensidadeFragilidades: 0.7, diferenca: 0.1 },
+  { tema: 'Acesso e equidade', intensidadeFortalezas: 0.5, intensidadeFragilidades: 0.9, diferenca: -0.4 },
+  { tema: 'Regionalização', intensidadeFortalezas: 0.0, intensidadeFragilidades: 0.6, diferenca: -0.6 },
+  { tema: 'Integração de níveis', intensidadeFortalezas: 0.6, intensidadeFragilidades: 0.7, diferenca: -0.1 },
+  { tema: 'Financiamento', intensidadeFortalezas: 0.0, intensidadeFragilidades: 0.1, diferenca: -0.1 },
+];
+
+// Dados de termos mais frequentes
+const termosFrequentesFortalezas = [
+  { termo: 'sistema', frequencia: 18 },
+  { termo: 'regulação', frequencia: 15 },
+  { termo: 'SISREG', frequencia: 11 },
+  { termo: 'municípios', frequencia: 9 },
+  { termo: 'acesso', frequencia: 8 },
+  { termo: 'teleconsulta', frequencia: 7 },
+  { termo: 'protocolos', frequencia: 6 },
+  { termo: 'risco', frequencia: 6 },
+  { termo: 'telessaúde', frequencia: 5 },
+  { termo: 'classificação', frequencia: 5 },
+];
+
+const termosFrequentesFragilidades = [
+  { termo: 'falta', frequencia: 14 },
+  { termo: 'ausência', frequencia: 12 },
+  { termo: 'sistema', frequencia: 11 },
+  { termo: 'regulação', frequencia: 10 },
+  { termo: 'municípios', frequencia: 9 },
+  { termo: 'dificuldade', frequencia: 8 },
+  { termo: 'acesso', frequencia: 7 },
+  { termo: 'interoperabilidade', frequencia: 6 },
+  { termo: 'recursos humanos', frequencia: 6 },
+  { termo: 'protocolos', frequencia: 5 },
+];
+
+// Dados compartilhados entre fortalezas e fragilidades
+const termosCompartilhados = [
+  { termo: 'sistema', freqFortalezas: 18, freqFragilidades: 11, diferenca: 7 },
+  { termo: 'regulação', freqFortalezas: 15, freqFragilidades: 10, diferenca: 5 },
+  { termo: 'municípios', freqFortalezas: 9, freqFragilidades: 9, diferenca: 0 },
+  { termo: 'acesso', freqFortalezas: 8, freqFragilidades: 7, diferenca: 1 },
+  { termo: 'protocolos', freqFortalezas: 6, freqFragilidades: 5, diferenca: 1 },
+  { termo: 'SISREG', freqFortalezas: 11, freqFragilidades: 3, diferenca: 8 },
+  { termo: 'equipe', freqFortalezas: 4, freqFragilidades: 6, diferenca: -2 },
+  { termo: 'especialidades', freqFortalezas: 4, freqFragilidades: 6, diferenca: -2 },
+];
+
+// Estatísticas gerais
+const estatisticasGerais = {
+  totalEstados: 13,
+  totalFortalezas: 45,
+  totalFragilidades: 63,
+  temasMaisFortalezas: 38, // %
+  temasMaisFragilidades: 52, // %
+  temasEquilibrados: 10, // %
+};
+
 const RegulacaoSUSDashboard = () => {
-  const [dadosCategorias, setDadosCategorias] = useState([]);
-  const [carregando, setCarregando] = useState(true);
+  const [dadosCategorias, setDadosCategorias] = useState(dadosReais);
   const [activeTab, setActiveTab] = useState('comparativo');
-  const [error, setError] = useState(null);
-  
-  // Função para formatar o nome da categoria para exibição
-  const formatarCategoria = (categoria) => {
-    // Abreviar nomes muito longos
-    if (categoria === 'Sistemas de informação e tecnologia') 
-      return 'Sistemas e tecnologia';
-    if (categoria === 'Recursos humanos e capacitação')
-      return 'Recursos humanos';
-    if (categoria === 'Integração entre níveis de atenção')
-      return 'Integração de níveis';
-    return categoria;
-  };
-  
-  // Função para categorizar as respostas
-  const categorizarTemasComuns = (dados) => {
-    const categorias = {
-      'Sistemas de informação e tecnologia': { fortalezas: 0, fragilidades: 0 },
-      'Recursos humanos e capacitação': { fortalezas: 0, fragilidades: 0 },
-      'Protocolos e fluxos': { fortalezas: 0, fragilidades: 0 },
-      'Integração entre níveis de atenção': { fortalezas: 0, fragilidades: 0 },
-      'Acesso e equidade': { fortalezas: 0, fragilidades: 0 },
-      'Governança e gestão': { fortalezas: 0, fragilidades: 0 },
-      'Regionalização': { fortalezas: 0, fragilidades: 0 },
-      'Financiamento': { fortalezas: 0, fragilidades: 0 },
-      'Outros': { fortalezas: 0, fragilidades: 0 }
-    };
-    
-    const palavrasChave = {
-      'Sistemas de informação e tecnologia': ['sistema', 'sisreg', 'tecnologia', 'informatiza', 'digital', 'software', 'ferramenta', 'teleconsulta', 'telediagnóstico', 'telessaúde', 'interoperabilidade'],
-      'Recursos humanos e capacitação': ['recursos humanos', 'capacita', 'treinamento', 'formação', 'equipe', 'profissionais', 'qualifica'],
-      'Protocolos e fluxos': ['protocolo', 'fluxo', 'processo', 'padroniza', 'critério', 'classificação', 'prioriza', 'estratificação', 'risco'],
-      'Integração entre níveis de atenção': ['integra', 'articula', 'rede', 'referência', 'contrarreferência', 'linha de cuidado', 'continuidade'],
-      'Acesso e equidade': ['acesso', 'equidade', 'transparência', 'fila', 'espera', 'universal', 'barreira'],
-      'Governança e gestão': ['gestão', 'coordena', 'governança', 'monitoramento', 'avalia', 'regulador', 'complexo regulador', 'central'],
-      'Regionalização': ['regional', 'município', 'território', 'descentraliza', 'microrregião', 'macrorregião', 'PDR'],
-      'Financiamento': ['financia', 'recurso', 'orçamento', 'custo', 'sustentabilidade', 'PPI', 'fundo', 'teto', 'repasse']
-    };
-    
-    // Função para processar e categorizar as respostas
-    const processarRespostas = (item, campo, tipoCategoria) => {
-      if (!item[campo]) return;
-      
-      const texto = item[campo].toLowerCase();
-      let categorizado = false;
-      
-      for (const [categoria, termos] of Object.entries(palavrasChave)) {
-        if (termos.some(termo => texto.includes(termo.toLowerCase()))) {
-          categorias[categoria][tipoCategoria]++;
-          categorizado = true;
-          break;
-        }
-      }
-      
-      if (!categorizado) {
-        categorias['Outros'][tipoCategoria]++;
-      }
-    };
-    
-    // Processar cada item nos dados
-    dados.forEach(item => {
-      processarRespostas(item, 'Fortalezas', 'fortalezas');
-      processarRespostas(item, 'Fragilidades', 'fragilidades');
-    });
-    
-    return categorias;
-  };
-  
-  // Carregar e processar dados
-  useEffect(() => {
-    const processarDados = async () => {
-      try {
-        // Tentar ler o arquivo Excel (em ambientes reais precisaria de uma API)
-        // Como estamos em um ambiente de sandbox, vamos usar os dados mock após um delay
-        // simulando a leitura do arquivo
-        const timer = setTimeout(() => {
-          try {
-            // Em um ambiente real:
-            // const response = await window.fs.readFile('Pasta1.xlsx');
-            // const workbook = XLSX.read(response, { cellDates: true });
-            // const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-            // const jsonData = XLSX.utils.sheet_to_json(worksheet);
-            // const temasComunsData = categorizarTemasComuns(jsonData);
-            
-            // Simulando resultado do processamento com os dados mock
-            const dadosVisualizacao = mockData;
-            
-            setDadosCategorias(dadosVisualizacao);
-            setCarregando(false);
-          } catch (processError) {
-            console.error('Erro ao processar dados:', processError);
-            setError('Erro ao processar os dados do arquivo.');
-            setDadosCategorias(mockData);
-            setCarregando(false);
-          }
-        }, 800);
-        
-        return () => clearTimeout(timer);
-      } catch (fileError) {
-        console.error('Erro ao ler arquivo:', fileError);
-        setError('Erro ao ler o arquivo de dados.');
-        setDadosCategorias(mockData);
-        setCarregando(false);
-      }
-    };
-    
-    processarDados();
-  }, []);
   
   // Preparar dados para o gráfico de pizza
   const dadosPieFortalezas = dadosCategorias
@@ -176,28 +128,6 @@ const RegulacaoSUSDashboard = () => {
       }
     }
   };
-  
-  if (carregando) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <div className="text-center space-y-4">
-          <div className="w-16 h-16 mx-auto border-4 border-t-blue-500 border-b-blue-700 border-l-transparent border-r-transparent rounded-full animate-spin"></div>
-          <p className="text-xl text-gray-600 font-light">Carregando análise...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <div className="text-center space-y-4">
-          <p className="text-xl text-red-600">{error}</p>
-          <p className="text-gray-600">Exibindo dados simulados.</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <motion.div 
@@ -218,18 +148,39 @@ const RegulacaoSUSDashboard = () => {
                 Fortalezas e Fragilidades na Regulação do SUS
               </CardTitle>
               <p className="text-center mt-2 text-gray-600 font-light">
-                Análise baseada nas respostas de Secretarias Estaduais de Saúde
+                Análise baseada nas respostas de {estatisticasGerais.totalEstados} Secretarias Estaduais de Saúde
               </p>
             </motion.div>
           </CardHeader>
           <CardContent className="p-6">
+            <div className="mb-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+              <Card className="bg-blue-50 border-none">
+                <CardContent className="p-4 text-center">
+                  <p className="text-2xl font-semibold text-blue-600">{estatisticasGerais.totalEstados}</p>
+                  <p className="text-sm text-gray-600">Estados participantes</p>
+                </CardContent>
+              </Card>
+              <Card className="bg-green-50 border-none">
+                <CardContent className="p-4 text-center">
+                  <p className="text-2xl font-semibold text-green-600">{estatisticasGerais.totalFortalezas}</p>
+                  <p className="text-sm text-gray-600">Fortalezas identificadas</p>
+                </CardContent>
+              </Card>
+              <Card className="bg-red-50 border-none">
+                <CardContent className="p-4 text-center">
+                  <p className="text-2xl font-semibold text-red-600">{estatisticasGerais.totalFragilidades}</p>
+                  <p className="text-sm text-gray-600">Fragilidades identificadas</p>
+                </CardContent>
+              </Card>
+            </div>
+            
             <Tabs 
               defaultValue="comparativo" 
               value={activeTab}
               onValueChange={setActiveTab}
               className="w-full"
             >
-              <TabsList className="grid grid-cols-3 mb-8 w-full max-w-md mx-auto">
+              <TabsList className="grid grid-cols-4 mb-8 w-full max-w-lg mx-auto">
                 <TabsTrigger 
                   value="comparativo"
                   className="data-[state=active]:bg-blue-500 data-[state=active]:text-white"
@@ -238,15 +189,21 @@ const RegulacaoSUSDashboard = () => {
                 </TabsTrigger>
                 <TabsTrigger 
                   value="fortalezas"
-                  className="data-[state=active]:bg-fortaleza data-[state=active]:text-white"
+                  className="data-[state=active]:bg-green-500 data-[state=active]:text-white"
                 >
                   Fortalezas
                 </TabsTrigger>
                 <TabsTrigger 
                   value="fragilidades"
-                  className="data-[state=active]:bg-fragilidade data-[state=active]:text-white"
+                  className="data-[state=active]:bg-red-500 data-[state=active]:text-white"
                 >
                   Fragilidades
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="termos"
+                  className="data-[state=active]:bg-purple-500 data-[state=active]:text-white"
+                >
+                  Termos
                 </TabsTrigger>
               </TabsList>
               
@@ -316,28 +273,28 @@ const RegulacaoSUSDashboard = () => {
                         <span className="inline-block w-2 h-2 bg-blue-500 rounded-full mt-2 mr-2"></span>
                         <span>
                           <span className="font-medium text-gray-900">Sistemas de informação e tecnologia</span>: 
-                          <span className="text-gray-700"> aparece tanto como fortaleza quanto fragilidade, indicando que alguns estados avançaram neste tema enquanto outros ainda têm desafios.</span>
+                          <span className="text-gray-700"> aparece tanto como fortaleza ({dadosCategorias[0].fortalezas} menções) quanto fragilidade ({dadosCategorias[0].fragilidades} menções), indicando que alguns estados avançaram neste tema enquanto outros ainda têm desafios.</span>
                         </span>
                       </li>
                       <li className="flex items-start">
                         <span className="inline-block w-2 h-2 bg-green-500 rounded-full mt-2 mr-2"></span>
                         <span>
                           <span className="font-medium text-gray-900">Protocolos e fluxos</span>: 
-                          <span className="text-gray-700"> mais frequentemente citado como fortaleza do que fragilidade.</span>
+                          <span className="text-gray-700"> mais frequentemente citado como fortaleza ({dadosCategorias[1].fortalezas} menções) do que fragilidade ({dadosCategorias[1].fragilidades} menções).</span>
                         </span>
                       </li>
                       <li className="flex items-start">
                         <span className="inline-block w-2 h-2 bg-red-500 rounded-full mt-2 mr-2"></span>
                         <span>
                           <span className="font-medium text-gray-900">Recursos humanos</span> e <span className="font-medium text-gray-900">Acesso e equidade</span>: 
-                          <span className="text-gray-700"> mais frequentemente citados como fragilidades.</span>
+                          <span className="text-gray-700"> mais frequentemente citados como fragilidades (7 menções cada) do que fortalezas (3 menções cada).</span>
                         </span>
                       </li>
                       <li className="flex items-start">
                         <span className="inline-block w-2 h-2 bg-orange-500 rounded-full mt-2 mr-2"></span>
                         <span>
                           <span className="font-medium text-gray-900">Regionalização</span> e <span className="font-medium text-gray-900">Financiamento</span>: 
-                          <span className="text-gray-700"> aparecem quase exclusivamente como fragilidades.</span>
+                          <span className="text-gray-700"> aparecem quase exclusivamente como fragilidades (4 e 1 menções respectivamente).</span>
                         </span>
                       </li>
                     </ul>
@@ -448,16 +405,16 @@ const RegulacaoSUSDashboard = () => {
                       <h3 className="font-medium text-xl mb-4 text-gray-800">Principais fragilidades:</h3>
                       <ul className="space-y-4">
                         <li className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-                          <div className="font-medium text-orange-600 mb-1">Sistemas e tecnologia</div>
-                          <p className="text-gray-700">Limitações dos sistemas existentes, falta de interoperabilidade.</p>
-                        </li>
-                        <li className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-                          <div className="font-medium text-red-600 mb-1">Recursos humanos</div>
+                          <div className="font-medium text-orange-600 mb-1">Recursos humanos</div>
                           <p className="text-gray-700">Falta de profissionais qualificados e capacitação inadequada.</p>
                         </li>
                         <li className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-                          <div className="font-medium text-pink-600 mb-1">Acesso e equidade</div>
+                          <div className="font-medium text-red-600 mb-1">Acesso e equidade</div>
                           <p className="text-gray-700">Desigualdades no acesso entre regiões e municípios.</p>
+                        </li>
+                        <li className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+                          <div className="font-medium text-pink-600 mb-1">Sistemas e tecnologia</div>
+                          <p className="text-gray-700">Limitações dos sistemas existentes, falta de interoperabilidade.</p>
                         </li>
                         <li className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
                           <div className="font-medium text-red-800 mb-1">Integração de níveis</div>
@@ -468,6 +425,104 @@ const RegulacaoSUSDashboard = () => {
                           <p className="text-gray-700">Dificuldades na implementação da regionalização da saúde.</p>
                         </li>
                       </ul>
+                    </div>
+                  </div>
+                </TabsContent>
+                
+                <TabsContent value="termos" className="mt-4">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div>
+                      <h3 className="font-medium text-xl mb-4 text-green-700">Termos mais frequentes em Fortalezas</h3>
+                      <div className="h-[300px]">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <BarChart
+                            data={termosFrequentesFortalezas}
+                            layout="vertical"
+                            margin={{ top: 5, right: 30, left: 100, bottom: 5 }}
+                          >
+                            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                            <XAxis type="number" stroke="#888" fontSize={12} />
+                            <YAxis 
+                              type="category" 
+                              dataKey="termo" 
+                              width={90}
+                              stroke="#888"
+                              fontSize={12}
+                              tickLine={false}
+                            />
+                            <Tooltip />
+                            <Bar 
+                              dataKey="frequencia" 
+                              name="Frequência" 
+                              fill="#4CAF50" 
+                              barSize={16} 
+                              radius={[0, 4, 4, 0]}
+                            />
+                          </BarChart>
+                        </ResponsiveContainer>
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <h3 className="font-medium text-xl mb-4 text-red-700">Termos mais frequentes em Fragilidades</h3>
+                      <div className="h-[300px]">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <BarChart
+                            data={termosFrequentesFragilidades}
+                            layout="vertical"
+                            margin={{ top: 5, right: 30, left: 100, bottom: 5 }}
+                          >
+                            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                            <XAxis type="number" stroke="#888" fontSize={12} />
+                            <YAxis 
+                              type="category" 
+                              dataKey="termo" 
+                              width={90}
+                              stroke="#888"
+                              fontSize={12}
+                              tickLine={false}
+                            />
+                            <Tooltip />
+                            <Bar 
+                              dataKey="frequencia" 
+                              name="Frequência" 
+                              fill="#F44336" 
+                              barSize={16} 
+                              radius={[0, 4, 4, 0]}
+                            />
+                          </BarChart>
+                        </ResponsiveContainer>
+                      </div>
+                    </div>
+                    
+                    <div className="lg:col-span-2 mt-4">
+                      <h3 className="font-medium text-xl mb-4 text-purple-700">Termos compartilhados entre Fortalezas e Fragilidades</h3>
+                      <div className="h-[300px]">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <BarChart
+                            data={termosCompartilhados}
+                            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                          >
+                            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                            <XAxis dataKey="termo" stroke="#888" fontSize={12} />
+                            <YAxis stroke="#888" fontSize={12} />
+                            <Tooltip />
+                            <Legend />
+                            <Bar 
+                              dataKey="freqFortalezas" 
+                              name="Fortalezas" 
+                              fill="#4CAF50" 
+                              barSize={20} 
+                            />
+                            <Bar 
+                              dataKey="freqFragilidades" 
+                              name="Fragilidades" 
+                              fill="#F44336" 
+                              barSize={20} 
+                            />
+                          </BarChart>
+                        </ResponsiveContainer>
+                      </div>
                     </div>
                   </div>
                 </TabsContent>

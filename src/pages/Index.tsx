@@ -24,6 +24,9 @@ const Index = () => {
           <p className="max-w-xl mx-auto text-xl text-gray-500">
             Dashboard de indicadores e análises sobre a regulação do Sistema Único de Saúde
           </p>
+          <p className="mt-4 text-base text-gray-600">
+            Baseado em respostas de 13 Secretarias Estaduais de Saúde | 45 fortalezas e 63 fragilidades identificadas
+          </p>
         </motion.div>
         
         <RegulacaoSUSDashboard />
