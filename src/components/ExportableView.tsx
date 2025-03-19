@@ -1,3 +1,4 @@
+
 import React, { useRef, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
@@ -152,13 +153,14 @@ const ExportableView = () => {
     // First add page-break-before to all cards except the first one
     const cards = document.querySelectorAll('.card');
     cards.forEach((card, index) => {
+      const cardElement = card as HTMLElement;
       if (index === 0) {
-        card.style.pageBreakBefore = 'auto';
+        cardElement.style.pageBreakBefore = 'auto';
       } else {
-        card.style.pageBreakBefore = 'always';
+        cardElement.style.pageBreakBefore = 'always';
       }
-      card.style.pageBreakInside = 'avoid';
-      card.style.breakInside = 'avoid';
+      cardElement.style.pageBreakInside = 'avoid';
+      cardElement.style.breakInside = 'avoid';
     });
     
     // Wait a bit to ensure all styles are applied
@@ -176,13 +178,14 @@ const ExportableView = () => {
     // First add page-break-before to all cards except the first one
     const cards = document.querySelectorAll('.card');
     cards.forEach((card, index) => {
+      const cardElement = card as HTMLElement;
       if (index === 0) {
-        card.style.pageBreakBefore = 'auto';
+        cardElement.style.pageBreakBefore = 'auto';
       } else {
-        card.style.pageBreakBefore = 'always';
+        cardElement.style.pageBreakBefore = 'always';
       }
-      card.style.pageBreakInside = 'avoid';
-      card.style.breakInside = 'avoid';
+      cardElement.style.pageBreakInside = 'avoid';
+      cardElement.style.breakInside = 'avoid';
     });
     
     // Wait a bit to ensure all styles are applied
