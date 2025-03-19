@@ -1,0 +1,46 @@
+
+/* Estilos de impressão */
+@media print {
+  body {
+    font-size: 12pt;
+    background-color: white;
+    color: black;
+  }
+  
+  .print\:hidden {
+    display: none !important;
+  }
+  
+  .page-break-before {
+    page-break-before: always;
+  }
+  
+  .print\:shadow-none {
+    box-shadow: none !important;
+  }
+  
+  .print\:bg-white {
+    background-color: white !important;
+  }
+  
+  .print\:bg-gray-100 {
+    background-color: #f8f9fa !important;
+  }
+  
+  .print\:h-400px {
+    height: 400px !important;
+  }
+  
+  .print\:h-350px {
+    height: 350px !important;
+  }
+  
+  .print\:h-250px {
+    height: 250px !important;
+  }
+  
+  /* Remover cabeçalhos e rodapés do navegador */
+  @page {
+    margin: 1cm;
+  }
+}

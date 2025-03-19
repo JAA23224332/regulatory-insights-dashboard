@@ -2,6 +2,9 @@
 import React from 'react';
 import RegulacaoSUSDashboard from '@/components/RegulacaoSUSDashboard';
 import { motion } from 'framer-motion';
+import { Button } from '@/components/ui/button';
+import { FileText } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Index = () => {
   return (
@@ -16,7 +19,7 @@ const Index = () => {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-center mb-12"
+          className="text-center mb-8"
         >
           <h1 className="text-4xl font-light tracking-tight text-gray-900 sm:text-5xl md:text-6xl mb-4">
             Regulação <span className="text-blue-600">SUS</span>
@@ -28,6 +31,16 @@ const Index = () => {
             Baseado em respostas de 12 Secretarias Estaduais de Saúde | 45 fortalezas e 63 fragilidades identificadas
           </p>
         </motion.div>
+        
+        {/* Botão de exportação */}
+        <div className="flex justify-end mb-6">
+          <Link to="/exportar">
+            <Button variant="outline" className="flex items-center gap-2">
+              <FileText className="h-4 w-4" />
+              Versão para impressão/exportação
+            </Button>
+          </Link>
+        </div>
         
         <RegulacaoSUSDashboard />
       </div>
