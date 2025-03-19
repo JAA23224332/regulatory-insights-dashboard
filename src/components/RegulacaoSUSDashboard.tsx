@@ -77,7 +77,7 @@ const termosCompartilhados = [
 
 // Estatísticas gerais
 const estatisticasGerais = {
-  totalEstados: 13,
+  totalEstados: 12,
   totalFortalezas: 45,
   totalFragilidades: 63,
   temasMaisFortalezas: 38, // %
