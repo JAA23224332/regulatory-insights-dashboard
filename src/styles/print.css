@@ -1,3 +1,4 @@
+
 /* Estilos de impressão */
 @media print {
   body {
@@ -91,13 +92,69 @@
     background-color: #ffebee !important;
   }
   
-  /* Cores para indicadores nas tabelas */
+  /* Cores para indicadores nos gráficos - Ajustadas para melhor precisão */
+  .cor-sistema {
+    color: #0066CC !important;
+    background-color: #0066CC !important;
+  }
+  
+  .cor-protocolos {
+    color: #009933 !important;
+    background-color: #009933 !important;
+  }
+  
+  .cor-governanca {
+    color: #7FC77F !important;
+    background-color: #7FC77F !important;
+  }
+  
+  .cor-integracao {
+    color: #BEE3BE !important;
+    background-color: #BEE3BE !important;
+  }
+  
+  .cor-recursos {
+    color: #0055AA !important;
+    background-color: #0055AA !important;
+  }
+  
+  .cor-acesso {
+    color: #006633 !important;
+    background-color: #006633 !important;
+  }
+  
+  .cor-outros {
+    color: #66CC99 !important;
+    background-color: #66CC99 !important;
+  }
+  
   .cor-fortaleza {
     background-color: #4CAF50 !important;
   }
   
   .cor-fragilidade {
     background-color: #F44336 !important;
+  }
+  
+  /* Cores para legendas de gráficos */
+  .legenda-item {
+    display: flex !important;
+    align-items: center !important;
+    margin-bottom: 6px !important;
+  }
+  
+  .legenda-cor {
+    width: 16px !important;
+    height: 16px !important;
+    margin-right: 8px !important;
+    display: inline-block !important;
+    border-radius: 4px !important;
+  }
+  
+  .legenda-texto {
+    font-size: 12pt !important;
+    color: black !important;
+    font-weight: normal !important;
   }
   
   /* Ajustes para margens e paddings */
@@ -161,7 +218,19 @@
     margin-bottom: 2rem !important;
   }
   
-  /* ... keep existing code (outros ajustes de estilo CSS) */
+  /* Estilo para o gráfico donut */
+  .donut-chart-legend {
+    display: block !important;
+    margin-top: 1.5rem !important;
+    page-break-inside: avoid !important;
+  }
+  
+  .donut-chart-legend-item {
+    display: flex !important;
+    align-items: center !important;
+    margin-bottom: 0.5rem !important;
+    font-size: 11pt !important;
+  }
 }
 
 /* Estilos específicos para a exportação */
@@ -191,4 +260,60 @@
 .termo-description {
   margin-top: 0.25rem;
   font-size: 0.875rem;
+}
+
+/* Cores para os gráficos de donut */
+.donut-legend {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+}
+
+.donut-legend-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.donut-legend-color {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  border-radius: 4px;
+}
+
+.donut-sistemas {
+  background-color: #0066CC;
+}
+
+.donut-protocolos {
+  background-color: #009933;
+}
+
+.donut-outros {
+  background-color: #66CC99;
+}
+
+.donut-governanca {
+  background-color: #7FC77F;
+}
+
+.donut-integracao {
+  background-color: #BEE3BE;
+}
+
+.donut-recursos {
+  background-color: #0055AA;
+}
+
+.donut-acesso {
+  background-color: #006633;
+}
+
+.donut-regionalizacao {
+  background-color: #BADBAD;
+}
+
+.donut-financiamento {
+  background-color: #E0F0E0;
 }

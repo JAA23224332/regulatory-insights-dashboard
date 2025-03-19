@@ -6,11 +6,22 @@ import { motion } from 'framer-motion';
 import * as XLSX from 'xlsx';
 import _ from 'lodash';
 
-// Cores para os gráficos
-const COLORS_FORTALEZAS = ['#0088FE', '#4CAF50', '#81C784'];
-const COLORS_FRAGILIDADES = ['#FF8042', '#F44336', '#E57373'];
+const COLORS_CATEGORIAS = {
+  'Sistemas e tecnologia': '#0066CC',
+  'Protocolos e fluxos': '#009933',
+  'Governança e gestão': '#7FC77F',
+  'Integração de níveis': '#BEE3BE',
+  'Recursos humanos': '#0055AA',
+  'Acesso e equidade': '#006633',
+  'Regionalização': '#BADBAD',
+  'Financiamento': '#E0F0E0',
+  'Outros': '#66CC99'
+};
 
-// Dados reais baseados nas informações fornecidas
+const getCategoryColor = (category) => {
+  return COLORS_CATEGORIAS[category] || '#66CC99';
+};
+
 const dadosReais = [
   { categoria: 'Sistemas e tecnologia', fortalezas: 13, fragilidades: 12, total: 25 },
   { categoria: 'Protocolos e fluxos', fortalezas: 8, fragilidades: 5, total: 13 },
@@ -23,7 +34,6 @@ const dadosReais = [
   { categoria: 'Outros', fortalezas: 8, fragilidades: 17, total: 25 },
 ];
 
-// Dados de intensidade para cada tema
 const dadosIntensidade = [
   { tema: 'Sistemas e tecnologia', intensidadeFortalezas: 1.8, intensidadeFragilidades: 1.5, diferenca: 0.3 },
   { tema: 'Protocolos e fluxos', intensidadeFortalezas: 1.2, intensidadeFragilidades: 0.7, diferenca: 0.5 },
@@ -35,7 +45,6 @@ const dadosIntensidade = [
   { tema: 'Financiamento', intensidadeFortalezas: 0.0, intensidadeFragilidades: 0.1, diferenca: -0.1 },
 ];
 
-// Dados de termos mais frequentes
 const termosFrequentesFortalezas = [
   { termo: 'sistema', frequencia: 18 },
   { termo: 'regulação', frequencia: 15 },
@@ -62,7 +71,6 @@ const termosFrequentesFragilidades = [
   { termo: 'protocolos', frequencia: 5 },
 ];
 
-// Dados compartilhados entre fortalezas e fragilidades
 const termosCompartilhados = [
   { termo: 'sistema', freqFortalezas: 18, freqFragilidades: 11, diferenca: 7 },
   { termo: 'regulação', freqFortalezas: 15, freqFragilidades: 10, diferenca: 5 },
@@ -74,7 +82,6 @@ const termosCompartilhados = [
   { termo: 'especialidades', freqFortalezas: 4, freqFragilidades: 6, diferenca: -2 },
 ];
 
-// Estatísticas gerais
 const estatisticasGerais = {
   totalEstados: 12,
   totalFortalezas: 45,
@@ -88,26 +95,28 @@ const RegulacaoSUSDashboard = () => {
   const [dadosCategorias, setDadosCategorias] = useState(dadosReais);
   const [activeTab, setActiveTab] = useState('comparativo');
   
-  // Preparar dados para o gráfico de pizza com percentagens
   const totalFortalezas = dadosCategorias.reduce((sum, item) => sum + item.fortalezas, 0);
   const dadosPieFortalezas = dadosCategorias
     .map(item => ({
       name: item.categoria,
       value: item.fortalezas,
-      percentage: Math.round((item.fortalezas / totalFortalezas) * 100)
+      percentage: Math.round((item.fortalezas / totalFortalezas) * 100),
+      color: getCategoryColor(item.categoria)
     }))
-    .filter(item => item.value > 0);
+    .filter(item => item.value > 0)
+    .sort((a, b) => b.value - a.value);
   
   const totalFragilidades = dadosCategorias.reduce((sum, item) => sum + item.fragilidades, 0);
   const dadosPieFragilidades = dadosCategorias
     .map(item => ({
       name: item.categoria,
       value: item.fragilidades,
-      percentage: Math.round((item.fragilidades / totalFragilidades) * 100)
+      percentage: Math.round((item.fragilidades / totalFragilidades) * 100),
+      color: getCategoryColor(item.categoria)
     }))
-    .filter(item => item.value > 0);
+    .filter(item => item.value > 0)
+    .sort((a, b) => b.value - a.value);
   
-  // Renderizador personalizado para rótulos externos no gráfico de pizza
   const renderCustomizedLabel = (props: any) => {
     const { cx, cy, midAngle, innerRadius, outerRadius, percent, index, name, value } = props;
     const radius = outerRadius * 1.3;
@@ -116,7 +125,6 @@ const RegulacaoSUSDashboard = () => {
     const y = cy + radius * Math.sin(-midAngle * radian);
     const item = props.payload;
     
-    // Não mostrar rótulos para itens com percentagem muito pequena
     if (percent < 0.05) return null;
     
     return (
@@ -136,7 +144,22 @@ const RegulacaoSUSDashboard = () => {
     );
   };
   
-  // Variantes para animações
+  const renderCustomLegend = (data) => {
+    return (
+      <div className="donut-legend print:block print:mt-4">
+        {data.map((entry, index) => (
+          <div key={`legend-${index}`} className="donut-legend-item print:flex print:items-center print:mb-2">
+            <div 
+              className={`donut-legend-color print:inline-block print:w-4 print:h-4 print:mr-2 print:rounded`}
+              style={{ backgroundColor: entry.color }}
+            />
+            <span className="print:text-black">{`${entry.name}: ${entry.percentage}%`}</span>
+          </div>
+        ))}
+      </div>
+    );
+  };
+  
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: { 
@@ -356,7 +379,7 @@ const RegulacaoSUSDashboard = () => {
                             {dadosPieFortalezas.map((entry, index) => (
                               <Cell 
                                 key={`cell-${index}`} 
-                                fill={COLORS_FORTALEZAS[index % COLORS_FORTALEZAS.length]} 
+                                fill={entry.color} 
                                 strokeWidth={1}
                                 stroke="#fff"
                               />
@@ -378,6 +401,9 @@ const RegulacaoSUSDashboard = () => {
                           />
                         </PieChart>
                       </ResponsiveContainer>
+                      <div className="hidden print:block">
+                        {renderCustomLegend(dadosPieFortalezas)}
+                      </div>
                     </div>
                     <div className="flex flex-col justify-center">
                       <h3 className="font-medium text-xl mb-4 text-gray-800">Principais fortalezas:</h3>
@@ -426,7 +452,7 @@ const RegulacaoSUSDashboard = () => {
                             {dadosPieFragilidades.map((entry, index) => (
                               <Cell 
                                 key={`cell-${index}`} 
-                                fill={COLORS_FRAGILIDADES[index % COLORS_FRAGILIDADES.length]} 
+                                fill={entry.color} 
                                 strokeWidth={1}
                                 stroke="#fff"
                               />
@@ -448,6 +474,9 @@ const RegulacaoSUSDashboard = () => {
                           />
                         </PieChart>
                       </ResponsiveContainer>
+                      <div className="hidden print:block">
+                        {renderCustomLegend(dadosPieFragilidades)}
+                      </div>
                     </div>
                     <div className="flex flex-col justify-center">
                       <h3 className="font-medium text-xl mb-4 text-gray-800">Principais fragilidades:</h3>

@@ -85,7 +85,19 @@ export default {
 					600: '#F4511E',
 					700: '#E64A19',
 					DEFAULT: '#FF8042'
-				}
+				},
+                // Adicionando as cores específicas para os elementos do gráfico
+                categoria: {
+                    sistemas: '#0066CC',
+                    protocolos: '#009933',
+                    outros: '#66CC99',
+                    governanca: '#7FC77F',
+                    integracao: '#BEE3BE',
+                    recursos: '#0055AA',
+                    acesso: '#006633',
+                    regionalizacao: '#BADBAD',
+                    financiamento: '#E0F0E0'
+                }
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
