@@ -44,20 +44,30 @@
     position: relative !important;
   }
   
-  /* Ensure charts are visible */
-  .recharts-wrapper {
-    break-inside: avoid !important;
-    page-break-inside: avoid !important;
-    display: block !important;
-    overflow: visible !important;
-    height: auto !important;
-    width: 100% !important;
-    min-height: 500px !important; /* Aumentado para 500px */
-    transform: scale(0.9) !important; /* Reduzindo escala para 0.9 */
-    transform-origin: center top !important;
-    margin-bottom: 30px !important;
+  /* Hide charts in print view and show tables instead */
+  .chart-container {
+    display: none !important;
   }
   
+  .print-table {
+    display: table !important;
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin: 1em 0 !important;
+  }
+  
+  .print-table th, 
+  .print-table td {
+    padding: 8px !important;
+    text-align: left !important;
+    border-bottom: 1px solid #ddd !important;
+  }
+  
+  .print-table th {
+    font-weight: bold !important;
+    background-color: #f8f9fa !important;
+  }
+
   /* Remoção de sombras e ajustes de fundo */
   .print\:shadow-none, .shadow-md, .shadow-sm, .shadow {
     box-shadow: none !important;
@@ -89,68 +99,37 @@
     background-color: #ffebee !important;
   }
   
-  /* Controle de altura para visualizações */
-  .h-\[400px\], .h-\[500px\], .h-\[350px\], .h-\[300px\], .h-\[250px\], .h-\[200px\] {
-    height: auto !important;
-    min-height: 400px !important;
-    max-height: 600px !important;
-    overflow: visible !important;
+  /* Visual indicators for categories */
+  .category-indicator {
+    display: inline-block !important;
+    width: 12px !important;
+    height: 12px !important;
+    border-radius: 50% !important;
+    margin-right: 8px !important;
   }
   
-  /* NEW PIE CHART IMPROVEMENTS */
-  /* Dramatically scale down pie charts for better fit */
-  .recharts-pie {
-    transform: scale(0.65) !important; /* Reduced from 0.75 to 0.65 */
-    transform-origin: center center !important;
+  /* Fix for backgrounds */
+  [class*="bg-gradient-to-"] {
+    background: white !important;
+  }
+
+  /* Clean layout for print */
+  .print-layout {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
   
-  /* Better label styling */
-  .recharts-pie-label-text {
-    font-size: 11px !important; /* Increased from 10px */
-    font-weight: bold !important;
-    fill: black !important;
-    stroke-width: 0.5px !important;
-    stroke: white !important; /* White outline to help with contrast */
-    paint-order: stroke !important;
+  /* For tables and lists in section 3 & 4 */
+  .print-section-34 {
+    margin-top: 20px !important;
+    page-break-inside: avoid !important;
   }
   
-  /* Increase container height for pie charts in sections 3 & 4 */
-  .card-section-3 .recharts-wrapper,
-  .card-section-4 .recharts-wrapper {
-    min-height: 750px !important; /* Significantly increased from 650px to 750px */
-    overflow: visible !important;
-    margin-bottom: 50px !important;
-  }
-  
-  /* Adjust grid layout for sections 3 & 4 to vertical stack */
-  .card-section-3 .grid,
-  .card-section-4 .grid {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 0 !important;
-  }
-  
-  /* Make pie chart container take full page height */
-  .card-section-3 .grid > div:first-child,
-  .card-section-4 .grid > div:first-child {
-    height: 700px !important; /* Fixed height for pie container */
-    margin-bottom: 0 !important;
-  }
-  
-  /* Add padding around Fortalezas & Fragilidades charts */
-  .section-fortalezas .recharts-wrapper,
-  .section-fragilidades .recharts-wrapper {
-    padding: 50px !important; /* Increased from 20px to 50px */
-    margin: 0 auto !important;
-    max-width: 90% !important;
-  }
-  
-  /* Enhanced label lines */
-  .recharts-pie-label-line {
-    stroke: #333 !important; /* Darker line */
-    stroke-width: 1px !important;
-    stroke-dasharray: none !important;
-    opacity: 1 !important;
+  .print-section-34 h3 {
+    margin-bottom: 15px !important;
+    font-size: 16pt !important;
   }
   
   /* Ajustes de margens e paddings */
@@ -170,39 +149,9 @@
     padding: 1rem !important;
   }
   
-  /* Garantir visualização completa de gráficos */
-  .recharts-responsive-container {
-    width: 100% !important;
-    height: auto !important;
-    min-height: 400px !important;
-    max-height: 750px !important; /* Increased from 650px to 750px */
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
-    overflow: visible !important;
-  }
-  
-  .recharts-surface {
-    overflow: visible !important;
-  }
-  
-  .recharts-legend-wrapper {
-    margin-bottom: 1rem !important;
-  }
-  
   /* Melhorar contraste para impressão */
   .print\:text-black, .text-gray-600, .text-gray-700, .text-gray-800 {
     color: black !important;
-  }
-  
-  /* Make labels more visible with background */
-  .recharts-pie-label-text {
-    text-shadow: 0 0 3px white, 0 0 3px white, 0 0 3px white !important;
-    font-weight: 700 !important;
-  }
-  
-  /* Improve spacing for label text */
-  .recharts-layer.recharts-pie-labels {
-    overflow: visible !important;
   }
   
   /* Remover cabeçalhos e rodapés do navegador e ajustar página */
@@ -211,30 +160,6 @@
     margin: 1.5cm !important;
     orphans: 4 !important;
     widows: 4 !important;
-  }
-  
-  /* Specific fixes for Recharts components */
-  .recharts-legend {
-    overflow: visible !important;
-  }
-  
-  /* Make sure grid components render properly */
-  .grid {
-    display: block !important;
-    width: 100% !important;
-    overflow: visible !important;
-  }
-  
-  .grid-cols-1, .md\:grid-cols-2, .md\:grid-cols-3, .lg\:grid-cols-3 {
-    width: 100% !important;
-    display: block !important;
-    margin-bottom: 20px !important;
-  }
-  
-  /* Fix flexbox for print */
-  .flex {
-    display: block !important;
-    width: 100% !important;
   }
   
   /* Fix for container divisions */
@@ -246,9 +171,14 @@
     break-inside: avoid !important;
   }
   
-  /* Fix for backgrounds */
-  [class*="bg-gradient-to-"] {
-    background: white !important;
+  /* Hide specific components for print */
+  .display-screen-only {
+    display: none !important;
+  }
+  
+  /* Show print-only components */
+  .display-print-only {
+    display: block !important;
   }
 }
 
@@ -266,26 +196,25 @@
   overflow: hidden;
 }
 
-.pie-chart-labels text {
-  font-weight: 500;
-  font-size: 12px;
+/* Default display settings */
+.display-print-only {
+  display: none;
 }
 
-.section-fortalezas .recharts-wrapper text,
-.section-fragilidades .recharts-wrapper text {
-  fill: black !important;
-}
+.category-color-fortaleza-0 { background-color: #0062cc; }
+.category-color-fortaleza-1 { background-color: #00994c; }
+.category-color-fortaleza-2 { background-color: #57bc6c; }
+.category-color-fortaleza-3 { background-color: #81C784; }
+.category-color-fortaleza-4 { background-color: #A5D6A7; }
+.category-color-fortaleza-5 { background-color: #4CBB17; }
+.category-color-fortaleza-6 { background-color: #3F704D; }
+.category-color-fortaleza-7 { background-color: #138808; }
 
-.termo-description {
-  margin-top: 0.25rem;
-  font-size: 0.875rem;
-}
-
-/* Improve label readability */
-.section-fortalezas .recharts-pie-label-text,
-.section-fragilidades .recharts-pie-label-text {
-  paint-order: stroke;
-  stroke: white;
-  stroke-width: 0.5px;
-  font-weight: bold;
-}
+.category-color-fragilidade-0 { background-color: #cc4125; }
+.category-color-fragilidade-1 { background-color: #d32f2f; }
+.category-color-fragilidade-2 { background-color: #e35353; }
+.category-color-fragilidade-3 { background-color: #EF5350; }
+.category-color-fragilidade-4 { background-color: #E57373; }
+.category-color-fragilidade-5 { background-color: #DD2C00; }
+.category-color-fragilidade-6 { background-color: #B71C1C; }
+.category-color-fragilidade-7 { background-color: #FF8A65; }
