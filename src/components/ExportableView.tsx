@@ -1,3 +1,4 @@
+
 import React, { useRef, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
@@ -591,4 +592,34 @@ const ExportableView = () => {
                 </ResponsiveContainer>
               </div>
               <div className="mt-6 bg-gray-50 print:bg-gray-100 p-5 rounded-lg">
-                <h3 className="
+                <h3 className="font-medium text-xl mb-4 text-gray-800 print:text-black">Insights sobre intensidade:</h3>
+                <ul className="space-y-2">
+                  <li className="flex items-start">
+                    <span className="inline-block w-2 h-2 bg-green-500 rounded-full mt-2 mr-2"></span>
+                    <span className="print:text-black"><strong>Sistemas e tecnologia:</strong> apresenta a maior intensidade tanto em fortalezas (1.8) quanto em fragilidades (1.5)</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="inline-block w-2 h-2 bg-blue-500 rounded-full mt-2 mr-2"></span>
+                    <span className="print:text-black"><strong>Protocolos e fluxos:</strong> segunda maior intensidade em fortalezas (1.2), indicando área de bom desenvolvimento</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="inline-block w-2 h-2 bg-red-500 rounded-full mt-2 mr-2"></span>
+                    <span className="print:text-black"><strong>Regionalização:</strong> apresenta diferença negativa significativa (-0.6), indicando área de maior preocupação</span>
+                  </li>
+                </ul>
+              </div>
+            </CardContent>
+          </Card>
+          
+          {/* Rodapé do documento */}
+          <div className="text-center mb-8 mt-12 text-sm text-gray-500 print:text-black">
+            <p>Relatório gerado em {new Date().toLocaleDateString()}</p>
+            <p>Regulação SUS - Análise de Fortalezas e Fragilidades</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ExportableView;
