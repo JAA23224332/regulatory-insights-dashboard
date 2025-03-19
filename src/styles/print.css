@@ -112,7 +112,7 @@
   /* Adjust pie chart containers specifically */
   .card-section-3 .recharts-wrapper,
   .card-section-4 .recharts-wrapper {
-    min-height: 550px !important; /* Aumentado para 550px */
+    min-height: 650px !important; /* Increased from 550px to 650px */
     overflow: visible !important;
     margin-bottom: 50px !important;
   }
@@ -124,7 +124,7 @@
     stroke: white !important;
   }
   
-  /* Força os rótulos a serem visíveis */
+  /* Improve label visibility for pie charts */
   .recharts-layer.recharts-pie-labels {
     overflow: visible !important;
   }
@@ -133,6 +133,21 @@
     overflow: visible !important;
     text-overflow: visible !important;
     text-shadow: 0 0 2px white !important;
+    white-space: nowrap !important; /* Prevent text wrapping */
+  }
+  
+  /* Add more space for the labels - larger padding around chart */
+  .section-fortalezas .recharts-wrapper,
+  .section-fragilidades .recharts-wrapper {
+    padding: 20px !important;
+  }
+  
+  /* Enhanced label lines for better readability */
+  .recharts-pie-label-line {
+    stroke: #666 !important;
+    stroke-width: 1.5px !important;
+    stroke-dasharray: none !important;
+    opacity: 0.8 !important;
   }
   
   /* Ajustes de margens e paddings */
@@ -157,7 +172,7 @@
     width: 100% !important;
     height: auto !important;
     min-height: 400px !important;
-    max-height: 600px !important; /* Increased max height */
+    max-height: 650px !important; /* Increased max height from 600px to 650px */
     page-break-inside: avoid !important;
     break-inside: avoid !important;
     overflow: visible !important;

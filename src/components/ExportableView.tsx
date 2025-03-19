@@ -1,4 +1,3 @@
-
 import React, { useRef, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
@@ -120,37 +119,35 @@ const prepareDadosPieFragilidades = () => {
 const dadosPieFortalezas = prepareDadosPieFortalezas();
 const dadosPieFragilidades = prepareDadosPieFragilidades();
 
-// Custom label for pie charts that includes percentage
+// Improved label renderer for pie charts to prevent text cutoff
 const renderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index, name, percentage }) => {
   const RADIAN = Math.PI / 180;
   // Increase radius to push labels further out
-  const radius = outerRadius * 1.4; // Aumentado para 1.4 para maior distância
+  const radius = outerRadius * 1.6; // Increased from 1.4 to 1.6 for more space
   
-  // Calcular a posição do texto
+  // Calculate label position
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
   const y = cy + radius * Math.sin(-midAngle * RADIAN);
   
-  // Ajustar ângulo para evitar sobreposição
-  const adjustedAngle = -midAngle;
+  // Text anchor based on position (left or right side of the pie)
+  const textAnchor = x > cx ? 'start' : 'end';
   
-  // Abreviação mais agressiva para nomes longos
-  const shortenedName = name.length > 12 ? name.substring(0, 12) + '...' : name;
-  
+  // Don't abbreviate names - show full category name
   return (
     <text 
       x={x} 
       y={y} 
       fill="#333" 
-      textAnchor={x > cx ? 'start' : 'end'} 
+      textAnchor={textAnchor} 
       dominantBaseline="central"
       className="print:text-black"
       style={{ 
         fontSize: '10px', 
         fontWeight: 'bold',
-        textShadow: '0 0 2px #fff' // Sombra branca para melhorar a legibilidade
+        textShadow: '0 0 2px #fff' // White shadow for better readability
       }}
     >
-      {`${shortenedName}: ${percentage}%`}
+      {`${name}: ${percentage}%`}
     </text>
   );
 };
@@ -452,20 +449,20 @@ const ExportableView = () => {
             </CardHeader>
             <CardContent className="p-6 print:p-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 section-fortalezas">
-                <div className="h-[550px] print:h-[550px] flex items-center justify-center">
+                <div className="h-[600px] print:h-[600px] flex items-center justify-center">
                   <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
+                    <PieChart margin={{ top: 20, right: 80, bottom: 20, left: 80 }}>
                       <Pie
                         data={dadosPieFortalezas}
                         cx="50%"
                         cy="50%"
                         labelLine={true}
                         label={renderCustomLabel}
-                        outerRadius={110} // Reduced from 120
-                        innerRadius={55} // Reduced from 60
+                        outerRadius={90}
+                        innerRadius={45}
                         fill="#8884d8"
                         dataKey="value"
-                        paddingAngle={2} // Adicionado espaço entre setores
+                        paddingAngle={2}
                       >
                         {dadosPieFortalezas.map((entry, index) => (
                           <Cell 
@@ -519,20 +516,20 @@ const ExportableView = () => {
             </CardHeader>
             <CardContent className="p-6 print:p-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 section-fragilidades">
-                <div className="h-[550px] print:h-[550px] flex items-center justify-center">
+                <div className="h-[600px] print:h-[600px] flex items-center justify-center">
                   <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
+                    <PieChart margin={{ top: 20, right: 80, bottom: 20, left: 80 }}>
                       <Pie
                         data={dadosPieFragilidades}
                         cx="50%"
                         cy="50%"
                         labelLine={true}
                         label={renderCustomLabel}
-                        outerRadius={110} // Reduced from 120
-                        innerRadius={55} // Reduced from 60
+                        outerRadius={90}
+                        innerRadius={45}
                         fill="#8884d8"
                         dataKey="value"
-                        paddingAngle={2} // Adicionado espaço entre setores
+                        paddingAngle={2}
                       >
                         {dadosPieFragilidades.map((entry, index) => (
                           <Cell 
