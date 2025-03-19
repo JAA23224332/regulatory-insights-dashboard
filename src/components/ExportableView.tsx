@@ -1,3 +1,4 @@
+
 import React, { useRef, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
@@ -8,8 +9,6 @@ import { useToast } from "@/components/ui/use-toast";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import RecomendacoesRegulacao from '@/components/RecomendacoesRegulacao';
-import { jsPDF } from 'jspdf';
-import html2canvas from 'html2canvas';
 
 // Definição de cores para os gráficos
 const COLORS_FORTALEZAS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#9c6ade', '#7447ba', '#542b8a'];
@@ -201,6 +200,10 @@ const ExportableView = () => {
 
   const exportarPDF = async () => {
     try {
+      // Importa dinamicamente as dependências do jsPDF
+      const { jsPDF } = await import("jspdf");
+      await import("html2canvas");
+
       // Obtém o elemento do documento
       const element = documentRef.current;
 
@@ -638,13 +641,13 @@ const ExportableView = () => {
                     <TabsTrigger value="governanca">Governança</TabsTrigger>
                   </TabsList>
                   <TabsContent value="sistemas">
-                    <RecomendacoesRegulacao tipo="sistemas" />
+                    <RecomendacoesRegulacao categoria="sistemas" />
                   </TabsContent>
                   <TabsContent value="recursos">
-                    <RecomendacoesRegulacao tipo="recursos" />
+                    <RecomendacoesRegulacao categoria="recursos" />
                   </TabsContent>
                   <TabsContent value="governanca">
-                    <RecomendacoesRegulacao tipo="governanca" />
+                    <RecomendacoesRegulacao categoria="governanca" />
                   </TabsContent>
                 </Tabs>
               </div>
@@ -653,17 +656,17 @@ const ExportableView = () => {
               <div className="hidden print:block">
                 <div className="mb-8">
                   <h3 className="text-xl font-medium text-blue-700 mb-4 print:text-black">Sistemas e Tecnologia da Informação</h3>
-                  <RecomendacoesRegulacao tipo="sistemas" formatoExportacao={true} />
+                  <RecomendacoesRegulacao categoria="sistemas" formatoExportacao={true} />
                 </div>
                 
                 <div className="mb-8">
                   <h3 className="text-xl font-medium text-purple-700 mb-4 print:text-black">Recursos Humanos</h3>
-                  <RecomendacoesRegulacao tipo="recursos" formatoExportacao={true} />
+                  <RecomendacoesRegulacao categoria="recursos" formatoExportacao={true} />
                 </div>
                 
                 <div className="mb-8">
                   <h3 className="text-xl font-medium text-indigo-700 mb-4 print:text-black">Governança e Gestão</h3>
-                  <RecomendacoesRegulacao tipo="governanca" formatoExportacao={true} />
+                  <RecomendacoesRegulacao categoria="governanca" formatoExportacao={true} />
                 </div>
               </div>
               
