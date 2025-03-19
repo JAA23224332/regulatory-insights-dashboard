@@ -1,4 +1,3 @@
-
 import React, { useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
@@ -125,21 +124,41 @@ const ExportableView = () => {
   const { toast } = useToast();
   const documentRef = useRef(null);
   
-  const handlePrint = () => {
-    window.print();
-    toast({
-      title: "Impressão iniciada",
-      description: "O documento está sendo enviado para impressão",
-    });
-  };
-  
   // Função para exportar dados como PDF usando janela de impressão com CSS específico
   const exportarPDF = () => {
-    window.print();
-    toast({
-      title: "Exportação de PDF iniciada",
-      description: "Use a opção 'Salvar como PDF' na janela de impressão",
-    });
+    setTimeout(() => {
+      const cards = document.querySelectorAll('.card');
+      cards.forEach((card, index) => {
+        if (index > 0) {
+          card.classList.add('page-break-before');
+        }
+      });
+      
+      window.print();
+      
+      toast({
+        title: "Exportação de PDF iniciada",
+        description: "Use a opção 'Salvar como PDF' na janela de impressão",
+      });
+    }, 300);
+  };
+  
+  const handlePrint = () => {
+    setTimeout(() => {
+      const cards = document.querySelectorAll('.card');
+      cards.forEach((card, index) => {
+        if (index > 0) {
+          card.classList.add('page-break-before');
+        }
+      });
+      
+      window.print();
+      
+      toast({
+        title: "Impressão iniciada",
+        description: "O documento está sendo enviado para impressão",
+      });
+    }, 300);
   };
   
   // Voltar para a página principal
@@ -484,7 +503,6 @@ const ExportableView = () => {
                     <YAxis domain={[0, 3]} label={{ value: 'Intensidade média', angle: -90, position: 'insideLeft' }} />
                     <Tooltip 
                       formatter={(value) => {
-                        // Fix: Check if value is a number before using toFixed
                         if (typeof value === 'number') {
                           return [`${value.toFixed(1)}`, 'Intensidade'];
                         }
@@ -688,3 +706,4 @@ const ExportableView = () => {
 };
 
 export default ExportableView;
+

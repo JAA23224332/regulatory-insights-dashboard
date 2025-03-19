@@ -7,6 +7,8 @@
     color: black;
     margin: 0;
     padding: 0;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
   
   /* Classes utilitárias para impressão */
@@ -26,6 +28,10 @@
   /* Force each section to start on a new page */
   .exportable-document .mb-10 {
     page-break-after: always;
+    display: block !important;
+    break-inside: avoid !important;
+    position: relative !important;
+    max-height: none !important;
   }
   
   /* Last section should not force a page break after */
@@ -35,12 +41,35 @@
   
   /* Ensure all content is printable and not cut off */
   .exportable-document {
-    page-break-inside: auto;
+    page-break-inside: auto !important;
     overflow: visible !important;
+    height: auto !important;
+    max-height: none !important;
+    position: relative !important;
   }
   
   .exportable-page {
     overflow: visible !important;
+    height: auto !important;
+    max-height: none !important;
+    display: block !important;
+    position: relative !important;
+  }
+  
+  /* Make sure container divs are also properly sized */
+  .max-w-7xl, .px-4, .sm\:px-6, .lg\:px-8 {
+    max-width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+  
+  /* Ensure charts are visible */
+  .recharts-wrapper {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    display: block !important;
+    overflow: visible !important;
+    height: auto !important;
   }
   
   /* Remoção de sombras e ajustes de fundo */
@@ -114,6 +143,7 @@
   .recharts-wrapper {
     width: 100% !important;
     page-break-inside: avoid;
+    height: auto !important;
   }
   
   .recharts-surface {
@@ -122,6 +152,14 @@
   
   .recharts-legend-wrapper {
     margin-bottom: 1rem !important;
+  }
+  
+  /* Height fixes for charts */
+  .h-\[400px\], .h-\[500px\], .h-\[350px\], .h-\[300px\], .h-\[250px\], .h-\[200px\] {
+    height: auto !important;
+    min-height: 250px !important;
+    max-height: 400px !important;
+    overflow: visible !important;
   }
   
   /* Melhorar contraste para impressão */
@@ -147,11 +185,47 @@
   @page {
     size: A4;
     margin: 1.5cm;
+    orphans: 4 !important;
+    widows: 4 !important;
   }
   
   /* Fix for page breaks in Firefox and Chrome */
   .card {
-    break-inside: avoid;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    display: block !important;
+    position: relative !important;
+  }
+  
+  /* Prevent overflow issues */
+  svg, img {
+    max-width: 100% !important;
+    overflow: visible !important;
+  }
+  
+  /* Specific fixes for Recharts components */
+  .recharts-responsive-container {
+    height: auto !important;
+    width: 100% !important;
+    overflow: visible !important;
+  }
+  
+  /* Make sure grid components render properly */
+  .grid {
+    display: block !important;
+    width: 100% !important;
+    overflow: visible !important;
+  }
+  
+  .grid-cols-1, .md\:grid-cols-2, .md\:grid-cols-3, .lg\:grid-cols-3 {
+    width: 100% !important;
+    display: block !important;
+  }
+  
+  /* Fix flexbox for print */
+  .flex {
+    display: block !important;
+    width: 100% !important;
   }
 }
 
