@@ -357,6 +357,28 @@
     margin-bottom: 0.5rem !important;
     font-size: 11pt !important;
   }
+  
+  /* Garantir que as tabelas de classificação de termos sejam visíveis */
+  .termo-table,
+  .termo-table thead,
+  .termo-table tbody,
+  .termo-table tr,
+  .termo-table th,
+  .termo-table td {
+    display: table !important;
+    display: table-row-group !important;
+    display: table-row !important;
+    display: table-cell !important;
+    visibility: visible !important;
+    page-break-inside: avoid !important;
+  }
+  
+  /* Estilos para classificação de termos */
+  .termo-classificacao {
+    font-style: italic !important;
+    font-size: 10pt !important;
+    color: #555555 !important;
+  }
 }
 
 /* Estilos específicos para a exportação */

@@ -221,6 +221,41 @@ const TabelaDistribuicao = ({ dados, titulo, tipo }) => {
   );
 };
 
+// Componente para exibir termos mais frequentes com classificação
+const TabelaTermosFrequentes = ({ termos, titulo, tipo }) => {
+  const getClasseCSS = () => {
+    if (tipo === 'fortalezas') return 'termo-positive';
+    if (tipo === 'fragilidades') return 'termo-negative';
+    return 'termo-neutral';
+  };
+
+  return (
+    <div className="mt-6 print:block">
+      <h4 className="font-medium text-lg mb-3">{titulo}</h4>
+      <Table className="termo-table">
+        <TableHeader>
+          <TableRow>
+            <TableHead className="text-left">Termo</TableHead>
+            <TableHead className="text-right">Frequência</TableHead>
+            <TableHead className="text-left">Classificação</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {termos.map((item, index) => (
+            <TableRow key={index}>
+              <TableCell className="font-medium">{item.termo}</TableCell>
+              <TableCell className={`text-right ${getClasseCSS()}`}>{item.frequencia}</TableCell>
+              <TableCell className="text-left">
+                {index < 3 ? 'Alta relevância' : index < 6 ? 'Média relevância' : 'Baixa relevância'}
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
+  );
+};
+
 const ExportableView = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -575,26 +610,12 @@ const ExportableView = () => {
                 </div>
               </div>
               
-              {/* Tabela de termos mais frequentes para fortalezas - Visível em impressão */}
-              <div className="hidden print:block mt-8">
-                <h4 className="font-medium text-lg mb-3">Termos mais frequentes em fortalezas:</h4>
-                <Table className="termo-table">
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="text-left">Termo</TableHead>
-                      <TableHead className="text-right">Frequência</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {termosFrequentesFortalezas.map((item, index) => (
-                      <TableRow key={index}>
-                        <TableCell className="font-medium">{item.termo}</TableCell>
-                        <TableCell className="text-right termo-positive">{item.frequencia}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
+              {/* Tabela de termos mais frequentes para fortalezas com classificação */}
+              <TabelaTermosFrequentes 
+                termos={termosFrequentesFortalezas} 
+                titulo="Termos mais frequentes em fortalezas com classificação de relevância"
+                tipo="fortalezas"
+              />
             </CardContent>
           </Card>
 
@@ -672,26 +693,12 @@ const ExportableView = () => {
                 </div>
               </div>
               
-              {/* Tabela de termos mais frequentes para fragilidades - Visível em impressão */}
-              <div className="hidden print:block mt-8">
-                <h4 className="font-medium text-lg mb-3">Termos mais frequentes em fragilidades:</h4>
-                <Table className="termo-table">
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="text-left">Termo</TableHead>
-                      <TableHead className="text-right">Frequência</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {termosFrequentesFragilidades.map((item, index) => (
-                      <TableRow key={index}>
-                        <TableCell className="font-medium">{item.termo}</TableCell>
-                        <TableCell className="text-right termo-negative">{item.frequencia}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
+              {/* Tabela de termos mais frequentes para fragilidades com classificação */}
+              <TabelaTermosFrequentes 
+                termos={termosFrequentesFragilidades} 
+                titulo="Termos mais frequentes em fragilidades com classificação de relevância"
+                tipo="fragilidades"
+              />
               
               {/* Tabela de termos compartilhados - Visível em impressão */}
               <div className="hidden print:block mt-8">
@@ -728,3 +735,4 @@ const ExportableView = () => {
 };
 
 export default ExportableView;
+
