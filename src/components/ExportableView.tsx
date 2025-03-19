@@ -1,4 +1,3 @@
-
 import React, { useRef, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
@@ -84,7 +83,7 @@ const prepareDadosPieFortalezas = dadosReais.map(item => ({
 const prepareDadosPieFragilidades = dadosReais.map(item => ({
   name: abreviarNomeCategoria(item.categoria),
   value: item.fragilidades,
-  percentage: ((item.fragilidades / estatisticasGerais.totalFragilidades) * 100).toFixed(1),
+  percentage: ((item.fragilidades / estatisticasGerais.totalFragilidades) * 100).toFixed(1), // Adiciona a propriedade percentage
 }));
 
 interface CustomLabelProps {
@@ -100,13 +99,11 @@ interface CustomLabelProps {
   outerRadius: number;
   fill: string;
   percent: number;
-  cx?: number;
-  cy?: number;
 }
 
 const renderCustomLabel = (props: CustomLabelProps) => {
   const RADIAN = Math.PI / 180;
-  const { cx = 0, cy = 0, midAngle, innerRadius, outerRadius, percent, index, name } = props;
+  const { cx, cy, midAngle, innerRadius, outerRadius, percent, index, name } = props;
   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
   const y = cy + radius * Math.sin(-midAngle * RADIAN);
@@ -507,7 +504,7 @@ const ExportableView = () => {
                   
                   {/* Tabela para versão impressa */}
                   <TabelaDistribuicao 
-                    dados={prepareDadosPieFragilidades} 
+                    dados={dadosPieFragilidades} 
                     titulo="Distribuição das Fragilidades por Categoria" 
                     tipo="fragilidades"
                   />
@@ -609,83 +606,4 @@ const ExportableView = () => {
                 </Table>
               </div>
               
-              <div className="mt-8 bg-gray-50 print:bg-gray-100 p-5 rounded-lg">
-                <h3 className="font-medium text-xl mb-4 text-gray-800 print:text-black">Principais insights da análise comparativa:</h3>
-                <ul className="list-disc list-inside text-gray-600 print:text-black space-y-3">
-                  <li>
-                    <strong>Sistema e Regulação</strong> apresentam um saldo positivo significativo (+7 cada), indicando que são mais frequentemente mencionados como fortalezas do que como fragilidades.
-                  </li>
-                  <li>
-                    <strong>Municípios</strong> tem uma frequência igual entre fortalezas e fragilidades (diferença 0), sugerindo que a relação com os municípios apresenta tanto aspectos positivos quanto desafios.
-                  </li>
-                  <li>
-                    <strong>Equipe e Especialidades</strong> têm um saldo negativo (-4 e -3 respectivamente), aparecendo mais como fragilidades, o que indica áreas críticas que precisam de atenção.
-                  </li>
-                </ul>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Seção 6: Recomendações para Melhoria da Regulação do SUS */}
-          <Card className="mb-10 shadow-md print:shadow-none print:border-none card-section-6">
-            <CardHeader className="bg-gradient-to-r from-blue-50 to-cyan-50 print:bg-white border-b">
-              <CardTitle className="text-2xl print:text-black">6. Recomendações para Melhoria da Regulação do SUS</CardTitle>
-            </CardHeader>
-            <CardContent className="p-6 print:p-4">
-              {/* Versão com Tabs apenas para visualização na tela */}
-              <div className="print:hidden">
-                <Tabs defaultValue="sistemas" className="mt-4">
-                  <TabsList className="grid grid-cols-3 mb-6">
-                    <TabsTrigger value="sistemas">Sistemas</TabsTrigger>
-                    <TabsTrigger value="recursos">Recursos Humanos</TabsTrigger>
-                    <TabsTrigger value="governanca">Governança</TabsTrigger>
-                  </TabsList>
-                  <TabsContent value="sistemas">
-                    <RecomendacoesRegulacao categoria="sistemas" />
-                  </TabsContent>
-                  <TabsContent value="recursos">
-                    <RecomendacoesRegulacao categoria="recursos" />
-                  </TabsContent>
-                  <TabsContent value="governanca">
-                    <RecomendacoesRegulacao categoria="governanca" />
-                  </TabsContent>
-                </Tabs>
-              </div>
-              
-              {/* Versão corrida para PDF e impressão */}
-              <div className="hidden print:block">
-                <div className="mb-8">
-                  <h3 className="text-xl font-medium text-blue-700 mb-4 print:text-black">Sistemas e Tecnologia da Informação</h3>
-                  <RecomendacoesRegulacao categoria="sistemas" formatoExportacao={true} />
-                </div>
-                
-                <div className="mb-8">
-                  <h3 className="text-xl font-medium text-purple-700 mb-4 print:text-black">Recursos Humanos</h3>
-                  <RecomendacoesRegulacao categoria="recursos" formatoExportacao={true} />
-                </div>
-                
-                <div className="mb-8">
-                  <h3 className="text-xl font-medium text-indigo-700 mb-4 print:text-black">Governança e Gestão</h3>
-                  <RecomendacoesRegulacao categoria="governanca" formatoExportacao={true} />
-                </div>
-              </div>
-              
-              <div className="mt-8 bg-blue-50 print:bg-blue-100 p-5 rounded-lg">
-                <h3 className="font-medium text-xl mb-4 text-blue-800 print:text-black">Próximos passos sugeridos:</h3>
-                <ol className="list-decimal list-inside text-gray-600 print:text-black space-y-3">
-                  <li>Fortalecer a integração dos sistemas de informação para melhorar a coordenação entre diferentes níveis de atenção à saúde.</li>
-                  <li>Investir na capacitação continuada dos profissionais envolvidos na regulação, especialmente em relação ao uso de novas tecnologias.</li>
-                  <li>Estabelecer protocolos clínicos e fluxos regulatórios padronizados para garantir equidade no acesso aos serviços de saúde.</li>
-                  <li>Promover a cooperação intermunicipal e regional para otimizar recursos e melhorar o acesso da população a serviços especializados.</li>
-                  <li>Implementar mecanismos de monitoramento e avaliação contínua do processo regulatório para identificar oportunidades de melhoria.</li>
-                </ol>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default ExportableView;
+              <div className="mt-8 bg-blue-
