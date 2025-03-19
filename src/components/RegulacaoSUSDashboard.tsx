@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -213,22 +212,22 @@ const RegulacaoSUSDashboard = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.4 }}
-                className="tab-transition"
+                className={`tab-transition ${activeTab}`}
               >
                 <TabsContent value="comparativo" className="mt-4">
-                  <div className="h-[450px] mb-8">
+                  <div className="h-[500px] mb-8 card-section-2">
                     <ResponsiveContainer width="100%" height="100%">
                       <BarChart
                         data={dadosCategorias}
                         layout="vertical"
-                        margin={{ top: 5, right: 30, left: 120, bottom: 5 }}
+                        margin={{ top: 20, right: 30, left: 140, bottom: 20 }}
                       >
                         <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                         <XAxis type="number" stroke="#888" fontSize={12} />
                         <YAxis 
                           type="category" 
                           dataKey="categoria" 
-                          width={110}
+                          width={130}
                           stroke="#888"
                           fontSize={12}
                           tickLine={false}
@@ -298,6 +297,30 @@ const RegulacaoSUSDashboard = () => {
                         </span>
                       </li>
                     </ul>
+                  </div>
+                  
+                  <div className="display-print-only mt-10">
+                    <h3 className="font-medium text-xl mb-4 text-gray-800">Dados Comparativos:</h3>
+                    <table className="print-table">
+                      <thead>
+                        <tr>
+                          <th>Categoria</th>
+                          <th>Fortalezas</th>
+                          <th>Fragilidades</th>
+                          <th>Total</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {dadosCategorias.map((item, index) => (
+                          <tr key={index}>
+                            <td>{item.categoria}</td>
+                            <td>{item.fortalezas}</td>
+                            <td>{item.fragilidades}</td>
+                            <td>{item.total}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
                 </TabsContent>
                 

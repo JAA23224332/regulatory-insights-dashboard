@@ -11,7 +11,7 @@
     print-color-adjust: exact !important;
     color-adjust: exact !important;
     width: 100% !important;
-    height: 100% !important;
+    height: auto !important; /* Changed from 100% to auto for better page flow */
   }
   
   /* Force all content to be rendered */
@@ -49,40 +49,47 @@
     min-height: 300px !important;
     overflow: visible !important;
     page-break-inside: avoid !important;
+    transform: none !important; /* Prevent transform issues */
   }
   
-  /* Para gráficos de barras - FIX PARA SOBREPOSIÇÃO DE BARRAS */
+  /* FIX PARA SOBREPOSIÇÃO DE BARRAS */
   .recharts-cartesian-grid {
     width: 100% !important;
   }
   
   /* Fix for bar charts and text overlap */
   .recharts-layer.recharts-cartesian-axis-tick text {
-    font-size: 11pt !important;
+    font-size: 10pt !important; /* Reduced font size */
     fill: black !important;
   }
   
-  /* Fix para sobreposição de barras no gráfico comparativo */
-  .recharts-layer.recharts-bar-rectangles {
+  /* Critical fix for bar overlap in charts */
+  .recharts-layer.recharts-bar-rectangles,
+  .recharts-bar-rectangle {
     transform: none !important;
   }
 
-  /* Consertar as barras horizontais que estão sendo cortadas */
-  .card-section-2 .recharts-bar-rectangle {
+  /* Improved fix for horizontal bar charts */
+  .recharts-bar rect,
+  .recharts-reference-line line {
+    shape-rendering: crispEdges !important;
     transform: none !important;
   }
   
-  /* Hide unwanted labels that appear over chart bars */
+  /* Hide all text labels that appear over chart bars */
+  .recharts-layer text:not(.recharts-cartesian-axis-tick text),
+  .recharts-label,
   .recharts-text.recharts-label,
   .recharts-text.recharts-label-list,
   .recharts-text.recharts-inactive-dot,
-  .recharts-layer text[alignment="1"]text[font-family] {
+  .recharts-layer text[alignment],
+  .recharts-layer text[text-anchor]:not(.recharts-cartesian-axis-tick text) {
     display: none !important;
     visibility: hidden !important;
     opacity: 0 !important;
   }
   
-  /* Ensure proper spacing for horizontal bar charts */
+  /* Ensure proper spacing for charts */
   .recharts-wrapper .recharts-cartesian-grid-horizontal line,
   .recharts-wrapper .recharts-cartesian-grid-vertical line {
     stroke: #ddd !important;
@@ -99,7 +106,7 @@
     display: none !important;
   }
   
-  /* Force each section to start on a new page */
+  /* Force sections to break properly */
   .card {
     page-break-before: always !important;
     page-break-after: auto !important;
@@ -108,8 +115,9 @@
     display: block !important;
     position: relative !important;
     overflow: visible !important;
-    margin-bottom: 20px !important;
+    margin-bottom: 30px !important; /* Increased margin */
     clear: both !important;
+    padding: 20px !important;
   }
   
   /* First card shouldn't have page break before */
@@ -132,20 +140,22 @@
   .chart-container {
     display: block !important;
     height: auto !important;
-    min-height: 400px !important;
+    min-height: 450px !important; /* Increased height */
     width: 100% !important;
     page-break-inside: avoid !important;
     overflow: visible !important;
-    margin-bottom: 20px !important;
+    margin-bottom: 30px !important; /* Increased margin */
     transform: none !important;
   }
   
   /* Fix for the export message appearing in document */
   .export-message, 
   .export-notification,
-  [role="alert"] {
+  [role="alert"],
+  .notification {
     display: none !important;
     visibility: hidden !important;
+    opacity: 0 !important;
   }
   
   /* Improved table styling for print */
@@ -238,8 +248,16 @@
   
   /* Fix for text colors in highlights */
   .text-green-700, .text-green-600, .text-red-700, .text-red-600 {
-    color: black !important;
     font-weight: bold !important;
+  }
+  
+  /* Ensure text colors print properly */
+  .text-green-700, .text-green-600 {
+    color: #2e7d32 !important;
+  }
+  
+  .text-red-700, .text-red-600 {
+    color: #c62828 !important;
   }
   
   .card-section-2 ul.space-y-2 li span {
@@ -404,14 +422,6 @@
     font-weight: bold !important;
   }
   
-  .card-section-8 .print-table .text-green-700 {
-    color: #2e7d32 !important;
-  }
-  
-  .card-section-8 .print-table .text-red-700 {
-    color: #c62828 !important;
-  }
-  
   /* Ensure visualization bars in tables display properly */
   .print-table div[style*="width"] {
     display: inline-block !important;
@@ -431,56 +441,36 @@
     visibility: hidden !important;
   }
   
-  /* Fix for section 2 comparative chart - most critical issue in the screenshot */
-  .card-section-2 .h-\[500px\],
-  .card-section-2 .h-\[450px\] {
-    height: 650px !important; /* Increase height to prevent text overlap */
+  /* CRITICAL FIX - Ensure bar chart elements don't overlap or get cut off */
+  .card-section-2 .h-\[450px\],
+  .card-section-2 .h-\[500px\] {
+    height: 800px !important; /* Dramatically increase height to prevent overlap */
     max-width: 100% !important;
-    margin-bottom: 30px !important;
+    margin-bottom: 50px !important;
     page-break-inside: avoid !important;
+    padding-bottom: 50px !important;
   }
   
-  /* Fix text positioning on chart */
-  .card-section-2 .recharts-cartesian-axis-tick-value {
-    font-size: 11pt !important;
-    fill: black !important;
+  /* Fix the comparative chart specifically */
+  .card-section-2 .recharts-wrapper,
+  [value="comparativo"] .recharts-wrapper {
+    min-height: 700px !important;
+    height: 700px !important;
+    transform: none !important;
   }
   
-  /* Fix layout for destaques por categoria */
-  .card-section-2 .bg-gray-50 {
-    margin-top: 30px !important;
-    page-break-before: auto !important;
-    page-break-inside: avoid !important;
-    padding: 20px !important;
-    background-color: #f8f9fa !important;
+  /* Set a fixed height for Y-axis to prevent text overlap */
+  .card-section-2 .recharts-cartesian-axis.recharts-yAxis {
+    transform: none !important;
   }
   
-  /* Add spacing between chart and destaques section */
-  .card-section-2 .h-\[500px\] + .mt-8,
-  .card-section-2 .h-\[450px\] + .mt-8 {
-    margin-top: 40px !important;
+  /* Give more room for Y-axis text */
+  .card-section-2 .recharts-wrapper,
+  [value="comparativo"] .recharts-wrapper {
+    margin-left: 140px !important; /* Increase this value to provide more space for category names */
   }
   
-  /* Ensure destaques section displays properly */
-  .card-section-2 .bg-gray-50 ul.space-y-2 li,
-  .card-section-2 .bg-gray-50 ul.space-y-3 li {
-    margin-bottom: 15px !important;
-    page-break-inside: avoid !important;
-  }
-  
-  /* Fix for print charts in the comparative tab - major fix needed */
-  .recharts-bar rect,
-  .recharts-rectangle {
-    shape-rendering: crispEdges !important;
-  }
-  
-  /* Fix the comparative chart height */
-  .card-section-2 .h-\[450px\] .recharts-wrapper {
-    min-height: 550px !important;
-    height: 550px !important;
-  }
-  
-  /* Ensure no overlap in text */
+  /* Prevent elements from disappearing */
   .recharts-cartesian-axis-tick {
     visibility: visible !important;
     opacity: 1 !important;
@@ -499,49 +489,94 @@
   /* Hide informational messages about PDF export */
   .card-info, 
   .card-notification,
-  .export-info {
+  .export-info,
+  .notification,
+  [role="alert"] {
     display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
   }
   
-  /* Ensure proper orientation and sizing for bar chart labels */
-  .card-section-2 .recharts-layer.recharts-cartesian-axis.recharts-yAxis.yAxis text {
-    text-anchor: end !important;
-    dominant-baseline: middle !important;
-    font-size: 10pt !important;
-  }
-  
-  /* CRITICAL FIX - Ensure bar chart elements don't overlap or get cut off */
-  .recharts-cartesian-grid-horizontal line,
-  .recharts-cartesian-grid-vertical line {
-    stroke: #f0f0f0 !important;
-  }
-  
-  .recharts-reference-line line {
-    stroke: #999 !important;
-    stroke-width: 1 !important;
-    stroke-dasharray: 3 3 !important;
-  }
-  
-  /* Ensure bar chart bars are fully visible */
-  .recharts-bar-rectangle path {
-    fill-opacity: 0.85 !important;
-  }
-  
-  /* Prevent FOUC (Flash of Unstyled Content) during print */
-  @page {
-    margin-top: 2cm;
-    margin-bottom: 2cm;
-  }
-  
-  /* Force specific chart fixes for the comparative chart */
-  .tab-transition[class*="comparativo"] .recharts-wrapper {
+  /* CRITICAL FIX - Fix layout of the first tab */
+  .tab-transition[value="comparativo"] .recharts-wrapper {
     overflow: visible !important;
-    height: 600px !important;
+    height: 700px !important; /* Even larger for this particular chart */
+    transform: none !important;
+  }
+  
+  /* Fix for bar chart labels */
+  .recharts-cartesian-axis-tick {
+    transform: none !important;
+  }
+  
+  /* Ensure bars are properly sized and displayed with no overlap */
+  .recharts-layer.recharts-bar-rectangles {
+    transform: none !important;
+  }
+  
+  /* Fix for chart scaling */
+  .card-section-2 .recharts-surface {
+    overflow: visible !important;
+    height: auto !important;
+    min-height: 700px !important;
   }
   
   /* Fix for text in recharts components */
   .recharts-text {
     font-family: Arial, sans-serif !important;
     font-size: 10pt !important;
+    fill: black !important;
+  }
+  
+  /* Critical fix for the comparative chart */
+  .tab-transition[class*="comparativo"] .recharts-cartesian-axis-tick text,
+  .card-section-2 .recharts-cartesian-axis-tick text {
+    dominant-baseline: middle !important;
+    text-anchor: end !important;
+    font-size: 10pt !important;
+    fill: black !important;
+  }
+  
+  /* Prevent text from being cut off on Y axis */
+  .recharts-yAxis .recharts-cartesian-axis-tick-value {
+    text-anchor: end !important;
+  }
+  
+  /* Prevent transformation issues in charts */
+  .recharts-wrapper,
+  .recharts-surface,
+  .recharts-layer,
+  .recharts-cartesian-grid,
+  .recharts-bar,
+  .recharts-bar-rectangles {
+    transform: none !important;
+  }
+  
+  /* Ensure proper sizing for bar charts */
+  .recharts-bar-rectangle {
+    shape-rendering: crispEdges !important;
+    transform: none !important;
+  }
+  
+  /* Last fixes for Recharts elements */
+  .recharts-layer {
+    transform: none !important;
+  }
+  
+  /* Force proper display of bars */
+  .recharts-bar path {
+    shape-rendering: crispEdges !important;
+  }
+  
+  /* Add some generic fixes for any remaining issues */
+  * {
+    transform: none !important;
+    overflow: visible !important;
+  }
+  
+  /* Explicitly fix comparativo tab */
+  [value="comparativo"] .recharts-wrapper {
+    height: 800px !important;
+    margin-bottom: 50px !important;
   }
 }
