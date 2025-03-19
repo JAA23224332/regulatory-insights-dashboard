@@ -29,7 +29,7 @@ export const exportToPowerPoint = () => {
   
   // Add category data
   dadosReais.forEach(item => {
-    summaryData.push([item.categoria, item.fortalezas, item.fragilidades, item.total]);
+    summaryData.push([item.categoria, item.fortalezas.toString(), item.fragilidades.toString(), item.total.toString()]);
   });
   
   // Add blank line
@@ -55,7 +55,7 @@ export const exportToPowerPoint = () => {
     .sort((a, b) => b.fortalezas - a.fortalezas)
     .forEach(item => {
       const percent = (item.fortalezas / 45 * 100).toFixed(1);
-      fortalezasData.push([item.categoria, item.fortalezas, `${percent}%`]);
+      fortalezasData.push([item.categoria, item.fortalezas.toString(), `${percent}%`]);
     });
   
   fortalezasData.push(['']);
@@ -79,7 +79,7 @@ export const exportToPowerPoint = () => {
     .sort((a, b) => b.fragilidades - a.fragilidades)
     .forEach(item => {
       const percent = (item.fragilidades / 63 * 100).toFixed(1);
-      fragilidadesData.push([item.categoria, item.fragilidades, `${percent}%`]);
+      fragilidadesData.push([item.categoria, item.fragilidades.toString(), `${percent}%`]);
     });
   
   fragilidadesData.push(['']);
@@ -100,7 +100,7 @@ export const exportToPowerPoint = () => {
   ];
   
   termosFrequentesFortalezas.forEach(item => {
-    termosData.push([item.termo, item.frequencia]);
+    termosData.push([item.termo, item.frequencia.toString()]);
   });
   
   termosData.push(['']);
@@ -108,7 +108,7 @@ export const exportToPowerPoint = () => {
   termosData.push(['Termo', 'Frequência']);
   
   termosFrequentesFragilidades.forEach(item => {
-    termosData.push([item.termo, item.frequencia]);
+    termosData.push([item.termo, item.frequencia.toString()]);
   });
   
   const termosWs = XLSX.utils.aoa_to_sheet(termosData);
@@ -145,9 +145,9 @@ export const exportToPowerPoint = () => {
   termosCompartilhados.forEach(item => {
     compartilhadosData.push([
       item.termo, 
-      item.freqFortalezas, 
-      item.freqFragilidades, 
-      item.diferenca
+      item.freqFortalezas.toString(), 
+      item.freqFragilidades.toString(), 
+      item.diferenca.toString()
     ]);
   });
   

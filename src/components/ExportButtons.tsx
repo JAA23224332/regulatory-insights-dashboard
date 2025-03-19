@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from "@/components/ui/button";
-import { Download, Printer, FilePresentation } from "lucide-react";
+import { Download, Printer, Presentation } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { exportToPDF, exportToPowerPoint } from '@/utils/exportUtils';
 
@@ -39,7 +39,7 @@ const ExportButtons = ({ className = '' }: ExportButtonsProps) => {
         onClick={handleExportPowerPoint} 
         className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700"
       >
-        <FilePresentation className="h-4 w-4" />
+        <Presentation className="h-4 w-4" />
         PowerPoint
       </Button>
     </div>
