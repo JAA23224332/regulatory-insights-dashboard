@@ -1,3 +1,4 @@
+
 import React, { useRef, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
@@ -559,7 +560,7 @@ const ExportableView = () => {
                   <h3 className="font-medium text-xl mb-4 text-green-700 print:text-black">Principais fortalezas:</h3>
                   <ul className="space-y-4">
                     <li className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 print:border-none">
-                      <div className="font-medium text-blue-600 print:text-black mb-1">Tecnologia da Informação</div>
+                      <div className="font-medium text-blue-600 print:text-black mb-1">Tec. Informação</div>
                       <p className="text-gray-700 print:text-black">Uso do SISREG e outros sistemas de regulação, telemedicina e telessaúde.</p>
                     </li>
                     <li className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 print:border-none">
@@ -635,12 +636,30 @@ const ExportableView = () => {
                   <h3 className="font-medium text-xl mb-4 text-red-700 print:text-black">Principais fragilidades:</h3>
                   <ul className="space-y-4">
                     <li className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 print:border-none">
-                      <div className="font-medium text-fragilidades-sistemas print:text-black mb-1">Sistemas e tecnologia</div>
+                      <div className="font-medium text-red-600 print:text-black mb-1">Sistemas e tecnologia</div>
                       <p className="text-gray-700 print:text-black">Incompatibilidade entre sistemas e falta de interoperabilidade.</p>
                     </li>
                     <li className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 print:border-none">
-                      <div className="font-medium text-fragilidades-recursos print:text-black mb-1">Recursos humanos</div>
+                      <div className="font-medium text-orange-600 print:text-black mb-1">Recursos humanos</div>
                       <p className="text-gray-700 print:text-black">Déficit de profissionais e capacitação inadequada.</p>
                     </li>
                     <li className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 print:border-none">
-                      <div className="
+                      <div className="font-medium text-amber-600 print:text-black mb-1">Acesso e equidade</div>
+                      <p className="text-gray-700 print:text-black">Barreiras no acesso a serviços especializados e desigualdades regionais.</p>
+                    </li>
+                    <li className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 print:border-none">
+                      <div className="font-medium text-blue-800 print:text-black mb-1">Integração de níveis</div>
+                      <p className="text-gray-700 print:text-black">Dificuldades na comunicação entre níveis de atenção.</p>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ExportableView;
