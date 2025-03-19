@@ -1,4 +1,3 @@
-
 import React, { useRef, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
@@ -639,22 +638,6 @@ const ExportableView = () => {
                         />
                       </PieChart>
                     </ResponsiveContainer>
-                  </div>
-                  
-                  {/* Legenda de cores para melhor visualização */}
-                  <div className="mt-4 print:hidden">
-                    <h4 className="font-medium text-lg mb-3">Legenda de Fragilidades</h4>
-                    <div className="grid grid-cols-2 gap-2">
-                      {dadosPieFragilidades.slice(0, 9).map((item, index) => (
-                        <div key={index} className="flex items-center gap-2">
-                          <span 
-                            className="inline-block w-4 h-4 rounded-full" 
-                            style={{ backgroundColor: COLORS_FRAGILIDADES[index % COLORS_FRAGILIDADES.length] }}
-                          ></span>
-                          <span className="text-sm">{abreviarNomeCategoria(item.name)}</span>
-                        </div>
-                      ))}
-                    </div>
                   </div>
                   
                   {/* Tabela para versão impressa */}
