@@ -1,3 +1,4 @@
+
 import React, { useRef, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
@@ -643,4 +644,18 @@ const ExportableView = () => {
                       <p className="text-gray-700 print:text-black">Barreiras no acesso a serviços especializados e desigualdades regionais.</p>
                     </li>
                     <li className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 print:border-none">
-                      <div className="font-medium text-blue-800 print:text-black mb-1">Integração de
+                      <div className="font-medium text-blue-800 print:text-black mb-1">Integração de níveis</div>
+                      <p className="text-gray-700 print:text-black">Dificuldades na comunicação entre níveis de atenção.</p>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ExportableView;
