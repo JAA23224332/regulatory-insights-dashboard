@@ -162,11 +162,26 @@ export const exportToPowerPoint = () => {
   saveAs(blob, 'Analise_Regulacao_SUS.xlsx');
 };
 
-// Function to trigger PDF export
+// Function to trigger PDF export with better styling
 export const exportToPDF = () => {
+  // Set a flag to indicate we're printing
+  document.body.classList.add('printing-pdf');
+  
   // Force a small delay to ensure styles are applied
   setTimeout(() => {
+    // Add meta viewport tag with specific settings for print
+    const viewportMeta = document.createElement('meta');
+    viewportMeta.setAttribute('name', 'viewport');
+    viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0');
+    document.head.appendChild(viewportMeta);
+    
     // Trigger the print dialog
     window.print();
+    
+    // Clean up after printing
+    setTimeout(() => {
+      document.body.classList.remove('printing-pdf');
+      document.head.removeChild(viewportMeta);
+    }, 1000);
   }, 500);
 };
