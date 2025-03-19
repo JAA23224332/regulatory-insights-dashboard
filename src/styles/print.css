@@ -475,6 +475,102 @@
     font-weight: 600 !important;
     color: #000 !important;
   }
+  
+  /* Estilos para recomendações contínuas */
+  .card-section-6 h3.font-semibold.text-xl {
+    page-break-after: avoid !important;
+    margin-top: 20px !important;
+    padding-top: 10px !important;
+    font-weight: 600 !important;
+    color: #000 !important;
+  }
+  
+  .card-section-6 .grid {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    margin-bottom: 16px !important;
+  }
+  
+  .card-section-6 .space-y-4 > div {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    margin-bottom: 15px !important;
+  }
+  
+  .card-section-6 .bg-blue-50,
+  .card-section-6 .bg-green-50,
+  .card-section-6 .bg-purple-50,
+  .card-section-6 .bg-yellow-50,
+  .card-section-6 .bg-indigo-50,
+  .card-section-6 .bg-red-50,
+  .card-section-6 .bg-emerald-50,
+  .card-section-6 .bg-pink-50,
+  .card-section-6 .bg-cyan-50,
+  .card-section-6 .bg-amber-50,
+  .card-section-6 .bg-teal-50,
+  .card-section-6 .bg-rose-50 {
+    border: 1px solid #eee !important;
+    background-color: #f9f9f9 !important;
+    border-left-width: 4px !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+  
+  .card-section-6 .bg-blue-50 {
+    border-left-color: #0066CC !important;
+  }
+  
+  .card-section-6 .bg-green-50 {
+    border-left-color: #009933 !important;
+  }
+  
+  .card-section-6 .bg-purple-50 {
+    border-left-color: #9D4EDD !important;
+  }
+  
+  .card-section-6 .bg-yellow-50 {
+    border-left-color: #FFB703 !important;
+  }
+  
+  .card-section-6 .bg-indigo-50 {
+    border-left-color: #4F46E5 !important;
+  }
+  
+  .card-section-6 .bg-red-50 {
+    border-left-color: #EF4444 !important;
+  }
+  
+  .card-section-6 .bg-emerald-50 {
+    border-left-color: #10B981 !important;
+  }
+  
+  .card-section-6 .bg-pink-50 {
+    border-left-color: #EC4899 !important;
+  }
+  
+  .card-section-6 .bg-cyan-50 {
+    border-left-color: #06B6D4 !important;
+  }
+  
+  .card-section-6 .bg-amber-50 {
+    border-left-color: #F59E0B !important;
+  }
+  
+  .card-section-6 .bg-teal-50 {
+    border-left-color: #14B8A6 !important;
+  }
+  
+  .card-section-6 .bg-rose-50 {
+    border-left-color: #F43F5E !important;
+  }
+  
+  .card-section-6 span.text-xs {
+    background-color: transparent !important;
+    border: 1px solid #ddd !important;
+    color: #000 !important;
+    display: inline-block !important;
+    margin: 2px !important;
+  }
 }
 
 /* Estilos específicos para a exportação */
@@ -706,4 +802,3 @@
   font-weight: bold;
   font-size: 18px;
 }
-
