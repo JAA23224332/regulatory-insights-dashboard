@@ -39,6 +39,18 @@
     background-color: #f8f9fa !important;
   }
   
+  .print\:bg-blue-50 {
+    background-color: #e3f2fd !important;
+  }
+  
+  .print\:bg-green-50 {
+    background-color: #e8f5e9 !important;
+  }
+  
+  .print\:bg-red-50 {
+    background-color: #ffebee !important;
+  }
+  
   /* Controle de altura para visualizações */
   .print\:h-400px {
     height: 400px !important;
@@ -54,6 +66,10 @@
   
   .print\:h-250px {
     height: 250px !important;
+  }
+  
+  .print\:h-200px {
+    height: 200px !important;
   }
   
   /* Ajustes de margens e paddings */
@@ -79,8 +95,30 @@
     page-break-inside: avoid;
   }
   
+  .recharts-surface {
+    overflow: visible !important;
+  }
+  
+  .recharts-legend-wrapper {
+    margin-bottom: 1rem !important;
+  }
+  
   /* Melhorar contraste para impressão */
   .print\:text-black {
+    color: black !important;
+  }
+  
+  /* Ajustar cores dos gráficos para melhor impressão */
+  .recharts-pie-label-text {
+    fill: black !important;
+    font-weight: 500 !important;
+  }
+  
+  .recharts-cartesian-axis-tick-value {
+    fill: black !important;
+  }
+  
+  .recharts-legend-item-text {
     color: black !important;
   }
   
@@ -103,4 +141,21 @@
   padding: 0;
   max-width: 100%;
   overflow: hidden;
+}
+
+/* Melhorias para visualização de gráficos */
+.pie-chart-labels text {
+  font-weight: 500;
+  font-size: 12px;
+}
+
+/* Ajustes específicos para as novas seções */
+.section-fortalezas .recharts-wrapper text,
+.section-fragilidades .recharts-wrapper text {
+  fill: black !important;
+}
+
+.termo-description {
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
 }
