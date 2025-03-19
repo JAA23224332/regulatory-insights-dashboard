@@ -423,6 +423,58 @@
   .term-classification-description {
     display: none !important;
   }
+  
+  /* Estilos aprimorados para a seção de destaques da análise */
+  .mt-8.bg-gray-50.print\:bg-gray-100 {
+    background-color: #f8f9fa !important;
+    border: 1px solid #e9ecef !important;
+    border-radius: 8px !important;
+    margin: 20px 0 30px 0 !important;
+    page-break-inside: avoid !important;
+  }
+  
+  .mt-8.bg-gray-50.print\:bg-gray-100 h3 {
+    font-size: 16pt !important;
+    font-weight: 600 !important;
+    color: #000 !important;
+    margin-bottom: 15px !important;
+    border-bottom: 1px solid #dee2e6 !important;
+    padding-bottom: 10px !important;
+  }
+  
+  .mt-8.bg-gray-50.print\:bg-gray-100 ul {
+    padding-left: 5px !important;
+  }
+  
+  .mt-8.bg-gray-50.print\:bg-gray-100 li {
+    margin-bottom: 10px !important;
+    line-height: 1.5 !important;
+    font-size: 11pt !important;
+    position: relative !important;
+    padding-left: 25px !important;
+    list-style-type: none !important;
+  }
+  
+  .mt-8.bg-gray-50.print\:bg-gray-100 li::before {
+    content: "•" !important;
+    position: absolute !important;
+    left: 5px !important;
+    color: #555 !important;
+    font-weight: bold !important;
+    font-size: 16pt !important;
+  }
+  
+  .mt-8.bg-gray-50.print\:bg-gray-100 li strong {
+    font-weight: 700 !important;
+    color: #000 !important;
+  }
+  
+  /* Destaque para números nas análises */
+  .mt-8.bg-gray-50.print\:bg-gray-100 li strong + span,
+  .mt-8.bg-gray-50.print\:bg-gray-100 li span.numero {
+    font-weight: 600 !important;
+    color: #000 !important;
+  }
 }
 
 /* Estilos específicos para a exportação */
@@ -581,4 +633,23 @@
 .termo-table .termo-neutral span {
   background-color: #f7fafc;
   border: 1px solid #edf2f7;
+}
+
+/* Estilos aprimorados para destaques de análise no modo screen */
+.mt-8.bg-gray-50 li {
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
+}
+
+.mt-8.bg-gray-50 li strong {
+  color: #1a56db;
+  font-weight: 600;
+}
+
+.space-y-3 > * {
+  margin-bottom: 0.75rem;
+}
+
+.space-y-3 > *:last-child {
+  margin-bottom: 0;
 }

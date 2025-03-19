@@ -547,10 +547,22 @@ const ExportableView = () => {
               
               <div className="mt-8 bg-gray-50 print:bg-gray-100 p-5 rounded-lg">
                 <h3 className="font-medium text-xl mb-4 text-gray-800 print:text-black">Destaques da análise:</h3>
-                <ul className="list-disc list-inside text-gray-600 print:text-black">
-                  <li><strong>Sistemas e tecnologia:</strong> Apresentam o maior número de menções tanto em fortalezas quanto em fragilidades.</li>
-                  <li><strong>Recursos humanos:</strong> É a categoria com maior número de fragilidades, indicando uma área crítica.</li>
-                  <li><strong>Protocolos e fluxos:</strong> Mostram um bom equilíbrio, mas ainda com desafios a serem superados.</li>
+                <ul className="list-disc list-inside text-gray-600 print:text-black space-y-3">
+                  <li className="print:mb-3">
+                    <strong>Sistemas e tecnologia:</strong> Aparece tanto como fortaleza (13 menções) quanto fragilidade (12 menções), indicando que alguns estados avançaram neste tema enquanto outros ainda têm desafios significativos com sistemas de informação.
+                  </li>
+                  <li className="print:mb-3">
+                    <strong>Protocolos e fluxos:</strong> Mais frequentemente citado como fortaleza (8 menções) do que fragilidade (5 menções), sugerindo avanços na padronização de processos regulatórios entre os estados.
+                  </li>
+                  <li className="print:mb-3">
+                    <strong>Recursos humanos e Acesso e equidade:</strong> Ambos mais frequentemente citados como fragilidades (7 menções cada) do que fortalezas (3 menções cada), apontando para desafios persistentes em capacitação de profissionais e garantia de acesso equitativo aos serviços.
+                  </li>
+                  <li className="print:mb-3">
+                    <strong>Regionalização e Financiamento:</strong> Aparecem quase exclusivamente como fragilidades (4 e 1 menções respectivamente), indicando áreas críticas que precisam de atenção prioritária nas políticas públicas de saúde.
+                  </li>
+                  <li className="print:mb-3">
+                    <strong>Integração de níveis:</strong> Apresenta equilíbrio relativo entre fortalezas (4) e fragilidades (5), demonstrando progresso parcial na articulação entre níveis de atenção, mas com desafios remanescentes.
+                  </li>
                 </ul>
               </div>
             </CardContent>
