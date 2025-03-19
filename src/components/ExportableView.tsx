@@ -1,3 +1,4 @@
+
 import React, { useRef, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
@@ -650,3 +651,192 @@ const ExportableView = () => {
               />
             </CardContent>
           </Card>
+
+          {/* Seção 4: Fragilidades */}
+          <Card className="mb-10 shadow-md print:shadow-none print:border-none card-section-4">
+            <CardHeader className="bg-gradient-to-r from-red-50 to-red-100 print:bg-white border-b">
+              <CardTitle className="text-2xl print:text-black">4. Análise Detalhada das Fragilidades</CardTitle>
+            </CardHeader>
+            <CardContent className="p-6 print:p-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 section-fragilidades">
+                <div>
+                  {/* Gráfico visível apenas em tela */}
+                  <div className="h-[400px] print:hidden">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie
+                          data={dadosPieFragilidades}
+                          cx="50%"
+                          cy="50%"
+                          outerRadius={110}
+                          innerRadius={60}
+                          paddingAngle={2}
+                          fill="#8884d8"
+                          dataKey="value"
+                        >
+                          {dadosPieFragilidades.map((entry, index) => (
+                            <Cell 
+                              key={`cell-${index}`} 
+                              fill={COLORS_FRAGILIDADES[index % COLORS_FRAGILIDADES.length]} 
+                            />
+                          ))}
+                        </Pie>
+                        <Tooltip formatter={(value, name, props) => [`${value} menções (${props.payload.percentage}%)`, 'Quantidade']} />
+                        <Legend 
+                          layout="vertical"
+                          align="center"
+                          verticalAlign="bottom"
+                          formatter={(value, entry) => {
+                            // @ts-ignore - necessário porque a tipagem do Recharts não inclui percentage
+                            const percentage = entry.payload.percentage;
+                            return `${value}: ${percentage}%`;
+                          }}
+                        />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+                  
+                  {/* Tabela para versão impressa */}
+                  <TabelaDistribuicao 
+                    dados={dadosPieFragilidades} 
+                    titulo="Distribuição das Fragilidades por Categoria" 
+                    tipo="fragilidades"
+                  />
+                </div>
+                <div className="flex flex-col justify-center">
+                  <h3 className="font-medium text-xl mb-4 text-red-700 print:text-black">Principais fragilidades:</h3>
+                  <ul className="space-y-4">
+                    <li className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 print:border-none">
+                      <div className="font-medium text-red-600 print:text-black mb-1">Sistemas e tecnologia</div>
+                      <p className="text-gray-700 print:text-black">Falta de interoperabilidade entre sistemas e defasagem tecnológica.</p>
+                    </li>
+                    <li className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 print:border-none">
+                      <div className="font-medium text-orange-600 print:text-black mb-1">Recursos humanos</div>
+                      <p className="text-gray-700 print:text-black">Escassez de profissionais capacitados e alta rotatividade das equipes.</p>
+                    </li>
+                    <li className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 print:border-none">
+                      <div className="font-medium text-purple-600 print:text-black mb-1">Acesso e equidade</div>
+                      <p className="text-gray-700 print:text-black">Desigualdades regionais no acesso aos serviços e centralização.</p>
+                    </li>
+                    <li className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 print:border-none">
+                      <div className="font-medium text-blue-600 print:text-black mb-1">Regionalização</div>
+                      <p className="text-gray-700 print:text-black">Fragilidade na articulação regional e descentralização limitada.</p>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              
+              {/* Tabela de termos mais frequentes para fragilidades com classificação aprimorada */}
+              <TabelaTermosFrequentes 
+                termos={termosFrequentesFragilidades} 
+                titulo="Termos mais frequentes em fragilidades com classificação de relevância"
+                tipo="fragilidades"
+              />
+            </CardContent>
+          </Card>
+
+          {/* Seção 5: Termos Compartilhados */}
+          <Card className="mb-10 shadow-md print:shadow-none print:border-none card-section-5">
+            <CardHeader className="bg-gradient-to-r from-purple-50 to-purple-100 print:bg-white border-b">
+              <CardTitle className="text-2xl print:text-black">5. Termos Comuns em Fortalezas e Fragilidades</CardTitle>
+            </CardHeader>
+            <CardContent className="p-6 print:p-4">
+              <p className="text-gray-600 mb-6">
+                Os termos abaixo aparecem tanto nas menções de fortalezas quanto de fragilidades, indicando polarização ou diferentes estágios de implementação entre os estados:
+              </p>
+              
+              <div className="overflow-hidden rounded-lg border mb-6">
+                <Table>
+                  <TableHeader className="bg-gray-50">
+                    <TableRow>
+                      <TableHead className="text-left font-semibold">Termo</TableHead>
+                      <TableHead className="text-center font-semibold">Fortalezas</TableHead>
+                      <TableHead className="text-center font-semibold">Fragilidades</TableHead>
+                      <TableHead className="text-center font-semibold">Polarização</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {termosCompartilhados.map((item, index) => (
+                      <TableRow key={index}>
+                        <TableCell className="font-medium">{item.termo}</TableCell>
+                        <TableCell className="text-center">
+                          <span className="px-2 py-1 rounded-full bg-green-50 text-green-700 font-semibold inline-block min-w-10">
+                            {item.freqFortalezas}
+                          </span>
+                        </TableCell>
+                        <TableCell className="text-center">
+                          <span className="px-2 py-1 rounded-full bg-red-50 text-red-700 font-semibold inline-block min-w-10">
+                            {item.freqFragilidades}
+                          </span>
+                        </TableCell>
+                        <TableCell className="text-center">
+                          <span className={`px-2 py-1 rounded-full font-semibold inline-block min-w-10 ${
+                            item.diferenca > 3 ? 'bg-green-100 text-green-800' : 
+                            item.diferenca < -3 ? 'bg-red-100 text-red-800' : 
+                            'bg-gray-100 text-gray-800'
+                          }`}>
+                            {item.diferenca > 0 ? '+' : ''}{item.diferenca}
+                          </span>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+              
+              <div className="bg-gray-50 print:bg-gray-100 p-5 rounded-lg">
+                <h3 className="font-medium text-xl mb-4 text-gray-800">Interpretação:</h3>
+                <ul className="list-disc list-inside text-gray-600 space-y-2">
+                  <li>
+                    <strong>Sistema e SISREG:</strong> Amplamente mencionados como fortalezas, sugerindo progresso na informatização.
+                  </li>
+                  <li>
+                    <strong>Regulação:</strong> Termo central em ambas categorias, indicando a importância do tema.
+                  </li>
+                  <li>
+                    <strong>Municípios:</strong> Igual menção em ambas categorias, refletindo heterogeneidade na evolução das capacidades municipais.
+                  </li>
+                  <li>
+                    <strong>Equipe e Especialidades:</strong> Mais frequentes como fragilidades, apontando desafios persistentes.
+                  </li>
+                </ul>
+              </div>
+            </CardContent>
+          </Card>
+        
+          {/* Seção 6: Recomendações */}
+          <Card className="mb-10 shadow-md print:shadow-none print:border-none card-section-6">
+            <CardHeader className="bg-gradient-to-r from-blue-50 to-blue-100 print:bg-white border-b">
+              <CardTitle className="text-2xl print:text-black">6. Recomendações para Melhoria da Regulação no SUS</CardTitle>
+            </CardHeader>
+            <CardContent className="p-6 print:p-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="bg-white p-5 rounded-lg border border-blue-100 print:border-none">
+                  <h3 className="font-medium text-xl mb-3 text-blue-700 print:text-black">Sistemas de informação e tecnologia</h3>
+                  <p className="text-gray-600 mb-4 print:text-black">Investir em tecnologias mais integradas e interoperáveis, modernizando sistemas existentes como o SISREG. Expandir o uso de telemedicina e telessaúde para ampliar o acesso nas regiões remotas.</p>
+                </div>
+                
+                <div className="bg-white p-5 rounded-lg border border-green-100 print:border-none">
+                  <h3 className="font-medium text-xl mb-3 text-green-700 print:text-black">Protocolos e processos</h3>
+                  <p className="text-gray-600 mb-4 print:text-black">Padronizar nacionalmente protocolos de regulação e classificação de risco, construindo diretrizes que possam ser adaptadas às realidades locais.</p>
+                </div>
+                
+                <div className="bg-white p-5 rounded-lg border border-orange-100 print:border-none">
+                  <h3 className="font-medium text-xl mb-3 text-orange-700 print:text-black">Recursos humanos</h3>
+                  <p className="text-gray-600 mb-4 print:text-black">Desenvolver programas de capacitação continuada e estabelecer carreiras específicas para profissionais de regulação, principalmente médicos reguladores.</p>
+                </div>
+                
+                <div className="bg-white p-5 rounded-lg border border-purple-100 print:border-none">
+                  <h3 className="font-medium text-xl mb-3 text-purple-700 print:text-black">Integração entre níveis de atenção</h3>
+                  <p className="text-gray-600 mb-4 print:text-black">Fortalecer a comunicação entre a atenção primária e especializada, usando sistemas como referência e contrarreferência eletrônicas.</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ExportableView;
