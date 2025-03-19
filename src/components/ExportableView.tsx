@@ -124,11 +124,18 @@ const dadosPieFragilidades = prepareDadosPieFragilidades();
 const renderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index, name, percentage }) => {
   const RADIAN = Math.PI / 180;
   // Increase radius to push labels further out
-  const radius = outerRadius * 1.2;
+  const radius = outerRadius * 1.4; // Aumentado para 1.4 para maior distância
+  
+  // Calcular a posição do texto
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
   const y = cy + radius * Math.sin(-midAngle * RADIAN);
   
-  // Shorter label format to prevent overlap
+  // Ajustar ângulo para evitar sobreposição
+  const adjustedAngle = -midAngle;
+  
+  // Abreviação mais agressiva para nomes longos
+  const shortenedName = name.length > 12 ? name.substring(0, 12) + '...' : name;
+  
   return (
     <text 
       x={x} 
@@ -137,9 +144,13 @@ const renderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent
       textAnchor={x > cx ? 'start' : 'end'} 
       dominantBaseline="central"
       className="print:text-black"
-      style={{ fontSize: '11px', fontWeight: 'bold' }}
+      style={{ 
+        fontSize: '10px', 
+        fontWeight: 'bold',
+        textShadow: '0 0 2px #fff' // Sombra branca para melhorar a legibilidade
+      }}
     >
-      {`${name.length > 15 ? name.substring(0, 15) + '...' : name}: ${percentage}%`}
+      {`${shortenedName}: ${percentage}%`}
     </text>
   );
 };
@@ -165,11 +176,20 @@ const ExportableView = () => {
         }
         .recharts-wrapper {
           overflow: visible !important;
-          min-height: 400px !important;
+          min-height: 500px !important;
         }
         .card-section-3 .recharts-wrapper,
         .card-section-4 .recharts-wrapper {
-          min-height: 450px !important;
+          min-height: 550px !important;
+        }
+        .recharts-pie {
+          transform: scale(0.75) !important;
+        }
+        .recharts-pie-label-text {
+          font-size: 10px !important;
+          font-weight: bold !important;
+          fill: black !important;
+          text-shadow: 0 0 2px white !important;
         }
       }
     `;
@@ -198,12 +218,12 @@ const ExportableView = () => {
       if (card.classList.contains('card-section-3') || card.classList.contains('card-section-4')) {
         const chartsContainer = card.querySelector('.grid > div:first-child') as HTMLElement;
         if (chartsContainer) {
-          chartsContainer.style.minHeight = '450px';
+          chartsContainer.style.minHeight = '550px';
         }
       }
     });
     
-    // Wait a bit to ensure all styles are applied
+    // Wait longer to ensure all styles are applied and charts are fully rendered
     setTimeout(() => {
       window.print();
       
@@ -211,11 +231,11 @@ const ExportableView = () => {
         title: "Exportação de PDF iniciada",
         description: "Use a opção 'Salvar como PDF' na janela de impressão",
       });
-    }, 1000); // Increased timeout to 1000ms for better rendering
+    }, 2000); // Increased timeout to 2000ms for better rendering
   };
   
   const handlePrint = () => {
-    // First add page-break-before to all cards except the first one
+    // Apply the same setup as for PDF export
     const cards = document.querySelectorAll('.card');
     cards.forEach((card, index) => {
       const cardElement = card as HTMLElement;
@@ -231,12 +251,12 @@ const ExportableView = () => {
       if (card.classList.contains('card-section-3') || card.classList.contains('card-section-4')) {
         const chartsContainer = card.querySelector('.grid > div:first-child') as HTMLElement;
         if (chartsContainer) {
-          chartsContainer.style.minHeight = '450px';
+          chartsContainer.style.minHeight = '550px';
         }
       }
     });
     
-    // Wait a bit to ensure all styles are applied
+    // Wait longer to ensure all styles are applied
     setTimeout(() => {
       window.print();
       
@@ -244,7 +264,7 @@ const ExportableView = () => {
         title: "Impressão iniciada",
         description: "O documento está sendo enviado para impressão",
       });
-    }, 1000); // Increased timeout to 1000ms for better rendering
+    }, 2000); // Increased timeout to 2000ms for better rendering
   };
   
   // Voltar para a página principal
@@ -320,7 +340,7 @@ const ExportableView = () => {
               </div>
               
               {/* Gráfico de distribuição */}
-              <div className="mb-6 h-[250px] print:h-[200px]">
+              <div className="mb-6 h-[250px] print:h-[300px]">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
                     <Pie
@@ -432,7 +452,7 @@ const ExportableView = () => {
             </CardHeader>
             <CardContent className="p-6 print:p-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 section-fortalezas">
-                <div className="h-[450px] print:h-[450px] flex items-center justify-center">
+                <div className="h-[550px] print:h-[550px] flex items-center justify-center">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
@@ -441,10 +461,11 @@ const ExportableView = () => {
                         cy="50%"
                         labelLine={true}
                         label={renderCustomLabel}
-                        outerRadius={120}
-                        innerRadius={60}
+                        outerRadius={110} // Reduced from 120
+                        innerRadius={55} // Reduced from 60
                         fill="#8884d8"
                         dataKey="value"
+                        paddingAngle={2} // Adicionado espaço entre setores
                       >
                         {dadosPieFortalezas.map((entry, index) => (
                           <Cell 
@@ -498,7 +519,7 @@ const ExportableView = () => {
             </CardHeader>
             <CardContent className="p-6 print:p-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 section-fragilidades">
-                <div className="h-[450px] print:h-[450px] flex items-center justify-center">
+                <div className="h-[550px] print:h-[550px] flex items-center justify-center">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
@@ -507,10 +528,11 @@ const ExportableView = () => {
                         cy="50%"
                         labelLine={true}
                         label={renderCustomLabel}
-                        outerRadius={120}
-                        innerRadius={60}
+                        outerRadius={110} // Reduced from 120
+                        innerRadius={55} // Reduced from 60
                         fill="#8884d8"
                         dataKey="value"
+                        paddingAngle={2} // Adicionado espaço entre setores
                       >
                         {dadosPieFragilidades.map((entry, index) => (
                           <Cell 
