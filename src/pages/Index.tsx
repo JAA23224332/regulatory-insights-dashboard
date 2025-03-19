@@ -35,9 +35,9 @@ const Index = () => {
         {/* Botão de exportação */}
         <div className="flex justify-end mb-6">
           <Link to="/exportar">
-            <Button variant="outline" className="flex items-center gap-2">
+            <Button className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white">
               <FileText className="h-4 w-4" />
-              Versão para impressão/exportação
+              Versão para impressão/exportação PDF
             </Button>
           </Link>
         </div>

@@ -1,14 +1,16 @@
-import React from 'react';
+
+import React, { useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { motion } from 'framer-motion';
 import { Button } from "@/components/ui/button";
-import { Download, Printer } from "lucide-react";
+import { Download, Printer, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "@/components/ui/use-toast";
 
-// Cores para os gráficos
-const COLORS_FORTALEZAS = ['#0088FE', '#4CAF50', '#81C784'];
-const COLORS_FRAGILIDADES = ['#FF8042', '#F44336', '#E57373'];
+// Cores para os gráficos com melhor contraste para impressão
+const COLORS_FORTALEZAS = ['#0062cc', '#00994c', '#57bc6c'];
+const COLORS_FRAGILIDADES = ['#cc4125', '#d32f2f', '#e35353'];
 
 // Dados reais baseados nas informações fornecidas
 const dadosReais = [
@@ -72,16 +74,32 @@ const estatisticasGerais = {
   temasEquilibrados: 10, // %
 };
 
+// Dados para o gráfico de distribuição
+const dadosDistribuicao = [
+  { name: 'Fortalezas', value: estatisticasGerais.totalFortalezas },
+  { name: 'Fragilidades', value: estatisticasGerais.totalFragilidades },
+];
+
 const ExportableView = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
+  const documentRef = useRef(null);
   
   const handlePrint = () => {
     window.print();
+    toast({
+      title: "Impressão iniciada",
+      description: "O documento está sendo enviado para impressão",
+    });
   };
   
   // Função para exportar dados como PDF usando janela de impressão com CSS específico
   const exportarPDF = () => {
     window.print();
+    toast({
+      title: "Exportação de PDF iniciada",
+      description: "Use a opção 'Salvar como PDF' na janela de impressão",
+    });
   };
   
   // Voltar para a página principal
@@ -90,359 +108,354 @@ const ExportableView = () => {
   };
 
   return (
-    <div className="print:bg-white min-h-screen bg-gradient-to-br from-white to-gray-50 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="print:bg-white min-h-screen bg-gradient-to-br from-white to-gray-50 py-8 exportable-document">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 print:p-0 exportable-page">
         {/* Cabeçalho não imprimível com botões de ação */}
-        <div className="print:hidden flex justify-between items-center mb-8">
-          <Button variant="outline" onClick={voltarPrincipal}>
+        <div className="print:hidden flex justify-between items-center mb-8 sticky top-0 z-10 bg-white py-4 border-b">
+          <Button variant="outline" onClick={voltarPrincipal} className="flex items-center gap-2">
+            <ArrowLeft className="h-4 w-4" />
             Voltar ao Dashboard
           </Button>
           <div className="flex gap-2">
-            <Button variant="outline" onClick={handlePrint}>
-              <Printer className="mr-2 h-4 w-4" />
+            <Button variant="outline" onClick={handlePrint} className="flex items-center gap-2">
+              <Printer className="h-4 w-4" />
               Imprimir
             </Button>
-            <Button variant="default" onClick={exportarPDF}>
-              <Download className="mr-2 h-4 w-4" />
+            <Button variant="default" onClick={exportarPDF} className="flex items-center gap-2">
+              <Download className="h-4 w-4" />
               Exportar PDF
             </Button>
           </div>
         </div>
 
-        {/* Cabeçalho do documento */}
-        <div className="text-center mb-12 page-break-before">
-          <h1 className="text-4xl font-light tracking-tight text-gray-900 sm:text-5xl md:text-6xl mb-4">
-            Regulação <span className="text-blue-600">SUS</span>
-          </h1>
-          <p className="max-w-xl mx-auto text-xl text-gray-500">
-            Análise de Fortalezas e Fragilidades
-          </p>
-          <p className="mt-4 text-base text-gray-600">
-            Baseado em respostas de {estatisticasGerais.totalEstados} Secretarias Estaduais de Saúde | {estatisticasGerais.totalFortalezas} fortalezas e {estatisticasGerais.totalFragilidades} fragilidades identificadas
-          </p>
-        </div>
+        {/* Conteúdo do documento para impressão */}
+        <div ref={documentRef} className="print:m-0">
+          {/* Cabeçalho do documento */}
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-light tracking-tight text-gray-900 sm:text-5xl md:text-6xl mb-4">
+              Regulação <span className="text-blue-600">SUS</span>
+            </h1>
+            <p className="max-w-xl mx-auto text-xl text-gray-500">
+              Análise de Fortalezas e Fragilidades
+            </p>
+            <p className="mt-4 text-base text-gray-600">
+              Baseado em respostas de {estatisticasGerais.totalEstados} Secretarias Estaduais de Saúde | {estatisticasGerais.totalFortalezas} fortalezas e {estatisticasGerais.totalFragilidades} fragilidades identificadas
+            </p>
+          </div>
 
-        {/* Seção 1: Visão Geral */}
-        <Card className="mb-10 shadow-md print:shadow-none">
-          <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 print:bg-white border-b">
-            <CardTitle className="text-2xl">1. Visão Geral da Regulação do SUS</CardTitle>
-          </CardHeader>
-          <CardContent className="p-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-              <Card className="bg-blue-50 print:bg-blue-50 border-none">
-                <CardContent className="p-4 text-center">
-                  <p className="text-3xl font-semibold text-blue-600">{estatisticasGerais.totalEstados}</p>
-                  <p className="text-sm text-gray-600">Estados participantes</p>
-                </CardContent>
-              </Card>
-              <Card className="bg-green-50 print:bg-green-50 border-none">
-                <CardContent className="p-4 text-center">
-                  <p className="text-3xl font-semibold text-green-600">{estatisticasGerais.totalFortalezas}</p>
-                  <p className="text-sm text-gray-600">Fortalezas identificadas</p>
-                </CardContent>
-              </Card>
-              <Card className="bg-red-50 print:bg-red-50 border-none">
-                <CardContent className="p-4 text-center">
-                  <p className="text-3xl font-semibold text-red-600">{estatisticasGerais.totalFragilidades}</p>
-                  <p className="text-sm text-gray-600">Fragilidades identificadas</p>
-                </CardContent>
-              </Card>
-            </div>
-            <div className="bg-gray-50 print:bg-gray-100 p-5 rounded-lg">
-              <h3 className="font-medium text-xl mb-4 text-gray-800">Principais constatações:</h3>
-              <ul className="space-y-2">
-                <li className="flex items-start">
-                  <span className="inline-block w-2 h-2 bg-blue-500 rounded-full mt-2 mr-2"></span>
-                  <span>{estatisticasGerais.temasMaisFragilidades}% dos temas aparecem com maior frequência como fragilidades</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="inline-block w-2 h-2 bg-green-500 rounded-full mt-2 mr-2"></span>
-                  <span>{estatisticasGerais.temasMaisFortalezas}% dos temas aparecem com maior frequência como fortalezas</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="inline-block w-2 h-2 bg-gray-500 rounded-full mt-2 mr-2"></span>
-                  <span>{estatisticasGerais.temasEquilibrados}% dos temas apresentam equilíbrio entre fortalezas e fragilidades</span>
-                </li>
-              </ul>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Seção 2: Comparativo por Categoria */}
-        <Card className="mb-10 shadow-md print:shadow-none page-break-before">
-          <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 print:bg-white border-b">
-            <CardTitle className="text-2xl">2. Comparativo por Categoria</CardTitle>
-          </CardHeader>
-          <CardContent className="p-6">
-            <div className="h-[500px] print:h-[400px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart
-                  data={dadosReais}
-                  layout="vertical"
-                  margin={{ top: 5, right: 30, left: 120, bottom: 5 }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                  <XAxis type="number" stroke="#888" fontSize={12} />
-                  <YAxis 
-                    type="category" 
-                    dataKey="categoria" 
-                    width={110}
-                    stroke="#888"
-                    fontSize={12}
-                    tickLine={false}
-                  />
-                  <Tooltip />
-                  <Legend />
-                  <Bar 
-                    dataKey="fortalezas" 
-                    name="Fortalezas" 
-                    fill="#4CAF50" 
-                    barSize={20} 
-                    radius={[0, 4, 4, 0]}
-                  />
-                  <Bar 
-                    dataKey="fragilidades" 
-                    name="Fragilidades" 
-                    fill="#F44336" 
-                    barSize={20} 
-                    radius={[0, 4, 4, 0]}
-                  />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-            <div className="mt-8 bg-gray-50 print:bg-gray-100 p-5 rounded-lg">
-              <h3 className="font-medium text-xl mb-4 text-gray-800">Destaques por categoria:</h3>
-              <ul className="space-y-2">
-                <li className="flex items-start">
-                  <span className="inline-block w-2 h-2 bg-blue-500 rounded-full mt-2 mr-2"></span>
-                  <span><strong>Sistemas e tecnologia:</strong> categoria mais mencionada, com equilíbrio entre fortalezas ({dadosReais[0].fortalezas}) e fragilidades ({dadosReais[0].fragilidades})</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="inline-block w-2 h-2 bg-green-500 rounded-full mt-2 mr-2"></span>
-                  <span><strong>Protocolos e fluxos:</strong> mais frequentemente citados como fortaleza ({dadosReais[1].fortalezas} menções) do que fragilidade ({dadosReais[1].fragilidades})</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="inline-block w-2 h-2 bg-red-500 rounded-full mt-2 mr-2"></span>
-                  <span><strong>Recursos humanos e Acesso/equidade:</strong> mais frequentemente citados como fragilidades (7 menções cada) do que fortalezas (3 menções cada)</span>
-                </li>
-              </ul>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Seção 3: Intensidade dos Temas */}
-        <Card className="mb-10 shadow-md print:shadow-none page-break-before">
-          <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 print:bg-white border-b">
-            <CardTitle className="text-2xl">3. Intensidade dos Temas por Estado</CardTitle>
-          </CardHeader>
-          <CardContent className="p-6">
-            <p className="mb-4 text-gray-600">Média de intensidade (escala 0-3) para os principais temas:</p>
-            <div className="h-[400px] print:h-[350px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart
-                  data={dadosIntensidade}
-                  margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="tema" angle={-45} textAnchor="end" height={80} />
-                  <YAxis domain={[0, 3]} label={{ value: 'Intensidade média', angle: -90, position: 'insideLeft' }} />
-                  <Tooltip />
-                  <Legend />
-                  <Bar dataKey="intensidadeFortalezas" name="Fortalezas" fill="#4CAF50" />
-                  <Bar dataKey="intensidadeFragilidades" name="Fragilidades" fill="#F44336" />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-            <div className="mt-6 bg-gray-50 print:bg-gray-100 p-5 rounded-lg">
-              <h3 className="font-medium text-xl mb-4 text-gray-800">Principais diferenças de intensidade:</h3>
-              <ul className="space-y-2">
-                <li className="flex items-start">
-                  <span className="inline-block w-2 h-2 bg-green-500 rounded-full mt-2 mr-2"></span>
-                  <span><strong>Protocolos e fluxos:</strong> maior diferença positiva (+0.5), indicando maior efetividade como fortaleza</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="inline-block w-2 h-2 bg-red-500 rounded-full mt-2 mr-2"></span>
-                  <span><strong>Regionalização:</strong> maior diferença negativa (-0.6), sendo percebida principalmente como fragilidade</span>
-                </li>
-              </ul>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Seção 4: Análise de Termos */}
-        <Card className="mb-10 shadow-md print:shadow-none page-break-before">
-          <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 print:bg-white border-b">
-            <CardTitle className="text-2xl">4. Análise dos Termos mais Frequentes</CardTitle>
-          </CardHeader>
-          <CardContent className="p-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-              <div>
-                <h3 className="font-medium text-xl mb-4 text-green-700">Fortalezas</h3>
-                <div className="h-[300px] print:h-[250px]">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart
-                      data={termosFrequentesFortalezas}
-                      layout="vertical"
-                      margin={{ top: 5, right: 30, left: 100, bottom: 5 }}
+          {/* Seção 1: Visão Geral */}
+          <Card className="mb-10 shadow-md print:shadow-none print:border-none">
+            <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 print:bg-white border-b">
+              <CardTitle className="text-2xl print:text-black">1. Visão Geral da Regulação do SUS</CardTitle>
+            </CardHeader>
+            <CardContent className="p-6 print:p-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <Card className="bg-blue-50 print:bg-blue-50 border-none">
+                  <CardContent className="p-4 text-center">
+                    <p className="text-3xl font-semibold text-blue-600 print:text-black">{estatisticasGerais.totalEstados}</p>
+                    <p className="text-sm text-gray-600 print:text-black">Estados participantes</p>
+                  </CardContent>
+                </Card>
+                <Card className="bg-green-50 print:bg-green-50 border-none">
+                  <CardContent className="p-4 text-center">
+                    <p className="text-3xl font-semibold text-green-600 print:text-black">{estatisticasGerais.totalFortalezas}</p>
+                    <p className="text-sm text-gray-600 print:text-black">Fortalezas identificadas</p>
+                  </CardContent>
+                </Card>
+                <Card className="bg-red-50 print:bg-red-50 border-none">
+                  <CardContent className="p-4 text-center">
+                    <p className="text-3xl font-semibold text-red-600 print:text-black">{estatisticasGerais.totalFragilidades}</p>
+                    <p className="text-sm text-gray-600 print:text-black">Fragilidades identificadas</p>
+                  </CardContent>
+                </Card>
+              </div>
+              
+              {/* Gráfico de distribuição */}
+              <div className="mb-6 h-[250px] print:h-[200px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={dadosDistribuicao}
+                      cx="50%"
+                      cy="50%"
+                      labelLine={true}
+                      label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                      outerRadius={80}
+                      fill="#8884d8"
+                      dataKey="value"
                     >
-                      <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                      <XAxis type="number" stroke="#888" fontSize={12} />
-                      <YAxis 
-                        type="category" 
-                        dataKey="termo" 
-                        width={90}
-                        stroke="#888"
-                        fontSize={12}
-                        tickLine={false}
-                      />
-                      <Tooltip />
-                      <Bar 
-                        dataKey="frequencia" 
-                        name="Frequência" 
-                        fill="#4CAF50" 
-                        barSize={16} 
-                        radius={[0, 4, 4, 0]}
-                      />
-                    </BarChart>
-                  </ResponsiveContainer>
+                      {dadosDistribuicao.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={index === 0 ? '#4CAF50' : '#F44336'} />
+                      ))}
+                    </Pie>
+                    <Tooltip formatter={(value) => [`${value} menções`, 'Quantidade']} />
+                    <Legend />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+              
+              <div className="bg-gray-50 print:bg-gray-100 p-5 rounded-lg">
+                <h3 className="font-medium text-xl mb-4 text-gray-800 print:text-black">Principais constatações:</h3>
+                <ul className="space-y-2">
+                  <li className="flex items-start">
+                    <span className="inline-block w-2 h-2 bg-blue-500 rounded-full mt-2 mr-2"></span>
+                    <span className="print:text-black">{estatisticasGerais.temasMaisFragilidades}% dos temas aparecem com maior frequência como fragilidades</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="inline-block w-2 h-2 bg-green-500 rounded-full mt-2 mr-2"></span>
+                    <span className="print:text-black">{estatisticasGerais.temasMaisFortalezas}% dos temas aparecem com maior frequência como fortalezas</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="inline-block w-2 h-2 bg-gray-500 rounded-full mt-2 mr-2"></span>
+                    <span className="print:text-black">{estatisticasGerais.temasEquilibrados}% dos temas apresentam equilíbrio entre fortalezas e fragilidades</span>
+                  </li>
+                </ul>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Seção 2: Comparativo por Categoria */}
+          <Card className="mb-10 shadow-md print:shadow-none print:border-none page-break-before">
+            <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 print:bg-white border-b">
+              <CardTitle className="text-2xl print:text-black">2. Comparativo por Categoria</CardTitle>
+            </CardHeader>
+            <CardContent className="p-6 print:p-4">
+              <div className="h-[500px] print:h-[400px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart
+                    data={dadosReais}
+                    layout="vertical"
+                    margin={{ top: 5, right: 30, left: 120, bottom: 5 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                    <XAxis type="number" stroke="#888" fontSize={12} />
+                    <YAxis 
+                      type="category" 
+                      dataKey="categoria" 
+                      width={110}
+                      stroke="#888"
+                      fontSize={12}
+                      tickLine={false}
+                    />
+                    <Tooltip formatter={(value) => [`${value} menções`, '']} />
+                    <Legend />
+                    <Bar 
+                      dataKey="fortalezas" 
+                      name="Fortalezas" 
+                      fill="#4CAF50" 
+                      barSize={20} 
+                      radius={[0, 4, 4, 0]}
+                    />
+                    <Bar 
+                      dataKey="fragilidades" 
+                      name="Fragilidades" 
+                      fill="#F44336" 
+                      barSize={20} 
+                      radius={[0, 4, 4, 0]}
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="mt-8 bg-gray-50 print:bg-gray-100 p-5 rounded-lg">
+                <h3 className="font-medium text-xl mb-4 text-gray-800 print:text-black">Destaques por categoria:</h3>
+                <ul className="space-y-2">
+                  <li className="flex items-start">
+                    <span className="inline-block w-2 h-2 bg-blue-500 rounded-full mt-2 mr-2"></span>
+                    <span className="print:text-black"><strong>Sistemas e tecnologia:</strong> categoria mais mencionada, com equilíbrio entre fortalezas ({dadosReais[0].fortalezas}) e fragilidades ({dadosReais[0].fragilidades})</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="inline-block w-2 h-2 bg-green-500 rounded-full mt-2 mr-2"></span>
+                    <span className="print:text-black"><strong>Protocolos e fluxos:</strong> mais frequentemente citados como fortaleza ({dadosReais[1].fortalezas} menções) do que fragilidade ({dadosReais[1].fragilidades})</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="inline-block w-2 h-2 bg-red-500 rounded-full mt-2 mr-2"></span>
+                    <span className="print:text-black"><strong>Recursos humanos e Acesso/equidade:</strong> mais frequentemente citados como fragilidades (7 menções cada) do que fortalezas (3 menções cada)</span>
+                  </li>
+                </ul>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Seção 3: Intensidade dos Temas */}
+          <Card className="mb-10 shadow-md print:shadow-none print:border-none page-break-before">
+            <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 print:bg-white border-b">
+              <CardTitle className="text-2xl print:text-black">3. Intensidade dos Temas por Estado</CardTitle>
+            </CardHeader>
+            <CardContent className="p-6 print:p-4">
+              <p className="mb-4 text-gray-600 print:text-black">Média de intensidade (escala 0-3) para os principais temas:</p>
+              <div className="h-[400px] print:h-[350px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart
+                    data={dadosIntensidade}
+                    margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="tema" angle={-45} textAnchor="end" height={80} />
+                    <YAxis domain={[0, 3]} label={{ value: 'Intensidade média', angle: -90, position: 'insideLeft' }} />
+                    <Tooltip formatter={(value) => [`${value.toFixed(1)}`, 'Intensidade']} />
+                    <Legend />
+                    <Bar dataKey="intensidadeFortalezas" name="Fortalezas" fill="#4CAF50" />
+                    <Bar dataKey="intensidadeFragilidades" name="Fragilidades" fill="#F44336" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="mt-6 bg-gray-50 print:bg-gray-100 p-5 rounded-lg">
+                <h3 className="font-medium text-xl mb-4 text-gray-800 print:text-black">Principais diferenças de intensidade:</h3>
+                <ul className="space-y-2">
+                  <li className="flex items-start">
+                    <span className="inline-block w-2 h-2 bg-green-500 rounded-full mt-2 mr-2"></span>
+                    <span className="print:text-black"><strong>Protocolos e fluxos:</strong> maior diferença positiva (+0.5), indicando maior efetividade como fortaleza</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="inline-block w-2 h-2 bg-red-500 rounded-full mt-2 mr-2"></span>
+                    <span className="print:text-black"><strong>Regionalização:</strong> maior diferença negativa (-0.6), sendo percebida principalmente como fragilidade</span>
+                  </li>
+                </ul>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Seção 4: Análise de Termos */}
+          <Card className="mb-10 shadow-md print:shadow-none print:border-none page-break-before">
+            <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 print:bg-white border-b">
+              <CardTitle className="text-2xl print:text-black">4. Análise dos Termos mais Frequentes</CardTitle>
+            </CardHeader>
+            <CardContent className="p-6 print:p-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                <div>
+                  <h3 className="font-medium text-xl mb-4 text-green-700 print:text-black">Fortalezas</h3>
+                  <div className="h-[300px] print:h-[250px]">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart
+                        data={termosFrequentesFortalezas}
+                        layout="vertical"
+                        margin={{ top: 5, right: 30, left: 100, bottom: 5 }}
+                      >
+                        <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                        <XAxis type="number" stroke="#888" fontSize={12} />
+                        <YAxis 
+                          type="category" 
+                          dataKey="termo" 
+                          width={90}
+                          stroke="#888"
+                          fontSize={12}
+                          tickLine={false}
+                        />
+                        <Tooltip formatter={(value) => [`${value} menções`, '']} />
+                        <Bar 
+                          dataKey="frequencia" 
+                          name="Frequência" 
+                          fill="#4CAF50" 
+                          barSize={16} 
+                          radius={[0, 4, 4, 0]}
+                        />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+                
+                <div>
+                  <h3 className="font-medium text-xl mb-4 text-red-700 print:text-black">Fragilidades</h3>
+                  <div className="h-[300px] print:h-[250px]">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart
+                        data={termosFrequentesFragilidades}
+                        layout="vertical"
+                        margin={{ top: 5, right: 30, left: 100, bottom: 5 }}
+                      >
+                        <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                        <XAxis type="number" stroke="#888" fontSize={12} />
+                        <YAxis 
+                          type="category" 
+                          dataKey="termo" 
+                          width={90}
+                          stroke="#888"
+                          fontSize={12}
+                          tickLine={false}
+                        />
+                        <Tooltip formatter={(value) => [`${value} menções`, '']} />
+                        <Bar 
+                          dataKey="frequencia" 
+                          name="Frequência" 
+                          fill="#F44336" 
+                          barSize={16} 
+                          radius={[0, 4, 4, 0]}
+                        />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
                 </div>
               </div>
               
-              <div>
-                <h3 className="font-medium text-xl mb-4 text-red-700">Fragilidades</h3>
-                <div className="h-[300px] print:h-[250px]">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart
-                      data={termosFrequentesFragilidades}
-                      layout="vertical"
-                      margin={{ top: 5, right: 30, left: 100, bottom: 5 }}
-                    >
-                      <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                      <XAxis type="number" stroke="#888" fontSize={12} />
-                      <YAxis 
-                        type="category" 
-                        dataKey="termo" 
-                        width={90}
-                        stroke="#888"
-                        fontSize={12}
-                        tickLine={false}
-                      />
-                      <Tooltip />
-                      <Bar 
-                        dataKey="frequencia" 
-                        name="Frequência" 
-                        fill="#F44336" 
-                        barSize={16} 
-                        radius={[0, 4, 4, 0]}
-                      />
-                    </BarChart>
-                  </ResponsiveContainer>
+              <div className="bg-gray-50 print:bg-gray-100 p-5 rounded-lg">
+                <h3 className="font-medium text-xl mb-4 text-gray-800 print:text-black">Insights sobre a terminologia:</h3>
+                <ul className="space-y-2">
+                  <li className="flex items-start">
+                    <span className="inline-block w-2 h-2 bg-blue-500 rounded-full mt-2 mr-2"></span>
+                    <span className="print:text-black">Termos como "sistema" e "regulação" são frequentes tanto em fortalezas quanto fragilidades, indicando sua centralidade nos desafios regulatórios</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="inline-block w-2 h-2 bg-red-500 rounded-full mt-2 mr-2"></span>
+                    <span className="print:text-black">Termos negativos como "falta" e "ausência" dominam o vocabulário das fragilidades, sinalizando carências estruturais</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="inline-block w-2 h-2 bg-green-500 rounded-full mt-2 mr-2"></span>
+                    <span className="print:text-black">"SISREG", "teleconsulta" e "telessaúde" aparecem predominantemente como fortalezas, demonstrando o impacto positivo das soluções tecnológicas</span>
+                  </li>
+                </ul>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Seção 5: Recomendações */}
+          <Card className="mb-10 shadow-md print:shadow-none print:border-none page-break-before">
+            <CardHeader className="bg-gradient-to-r from-gray-50 to-gray-100 print:bg-white border-b">
+              <CardTitle className="text-2xl print:text-black">5. Recomendações para Melhoria da Regulação no SUS</CardTitle>
+            </CardHeader>
+            <CardContent className="p-6 print:p-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-100 print:shadow-none print:border-none">
+                  <h3 className="font-medium text-lg mb-3 text-blue-700 print:text-black">Sistemas de informação</h3>
+                  <p className="text-gray-700 print:text-black">Investir em tecnologias mais integradas e interoperáveis, modernizando sistemas existentes como o SISREG. Expandir o uso de telemedicina e telessaúde.</p>
+                </div>
+                
+                <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-100 print:shadow-none print:border-none">
+                  <h3 className="font-medium text-lg mb-3 text-green-700 print:text-black">Protocolos e processos</h3>
+                  <p className="text-gray-700 print:text-black">Padronizar nacionalmente protocolos de regulação e classificação de risco, construindo diretrizes adaptáveis às realidades locais.</p>
+                </div>
+                
+                <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-100 print:shadow-none print:border-none">
+                  <h3 className="font-medium text-lg mb-3 text-red-700 print:text-black">Recursos humanos</h3>
+                  <p className="text-gray-700 print:text-black">Desenvolver programas de capacitação continuada e estabelecer carreiras específicas para profissionais de regulação.</p>
+                </div>
+                
+                <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-100 print:shadow-none print:border-none">
+                  <h3 className="font-medium text-lg mb-3 text-purple-700 print:text-black">Integração entre níveis</h3>
+                  <p className="text-gray-700 print:text-black">Fortalecer a comunicação entre a atenção primária e especializada, usando sistemas de referência e contrarreferência eletrônicas.</p>
+                </div>
+                
+                <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-100 print:shadow-none print:border-none">
+                  <h3 className="font-medium text-lg mb-3 text-orange-700 print:text-black">Regionalização</h3>
+                  <p className="text-gray-700 print:text-black">Fortalecer os processos de regionalização, garantindo que os municípios-polo cumpram seu papel assistencial conforme os PDRs.</p>
+                </div>
+                
+                <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-100 print:shadow-none print:border-none">
+                  <h3 className="font-medium text-lg mb-3 text-indigo-700 print:text-black">Política nacional</h3>
+                  <p className="text-gray-700 print:text-black">Desenvolver uma política nacional de regulação integrada, com diretrizes claras e incentivos para implementação.</p>
                 </div>
               </div>
-            </div>
-            
-            <div className="bg-gray-50 print:bg-gray-100 p-5 rounded-lg">
-              <h3 className="font-medium text-xl mb-4 text-gray-800">Insights sobre a terminologia:</h3>
-              <ul className="space-y-2">
-                <li className="flex items-start">
-                  <span className="inline-block w-2 h-2 bg-blue-500 rounded-full mt-2 mr-2"></span>
-                  <span>Termos como "sistema" e "regulação" são frequentes tanto em fortalezas quanto fragilidades, indicando sua centralidade nos desafios regulatórios</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="inline-block w-2 h-2 bg-red-500 rounded-full mt-2 mr-2"></span>
-                  <span>Termos negativos como "falta" e "ausência" dominam o vocabulário das fragilidades, sinalizando carências estruturais</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="inline-block w-2 h-2 bg-green-500 rounded-full mt-2 mr-2"></span>
-                  <span>"SISREG", "teleconsulta" e "telessaúde" aparecem predominantemente como fortalezas, demonstrando o impacto positivo das soluções tecnológicas</span>
-                </li>
-              </ul>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
 
-        {/* Seção 5: Recomendações */}
-        <Card className="mb-10 shadow-md print:shadow-none page-break-before">
-          <CardHeader className="bg-gradient-to-r from-gray-50 to-gray-100 print:bg-white border-b">
-            <CardTitle className="text-2xl">5. Recomendações para Melhoria da Regulação no SUS</CardTitle>
-          </CardHeader>
-          <CardContent className="p-6">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-100 print:shadow-none">
-                <h3 className="font-medium text-lg mb-3 text-blue-700">Sistemas de informação</h3>
-                <p className="text-gray-700">Investir em tecnologias mais integradas e interoperáveis, modernizando sistemas existentes como o SISREG. Expandir o uso de telemedicina e telessaúde.</p>
-              </div>
-              
-              <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-100 print:shadow-none">
-                <h3 className="font-medium text-lg mb-3 text-green-700">Protocolos e processos</h3>
-                <p className="text-gray-700">Padronizar nacionalmente protocolos de regulação e classificação de risco, construindo diretrizes adaptáveis às realidades locais.</p>
-              </div>
-              
-              <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-100 print:shadow-none">
-                <h3 className="font-medium text-lg mb-3 text-red-700">Recursos humanos</h3>
-                <p className="text-gray-700">Desenvolver programas de capacitação continuada e estabelecer carreiras específicas para profissionais de regulação.</p>
-              </div>
-              
-              <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-100 print:shadow-none">
-                <h3 className="font-medium text-lg mb-3 text-purple-700">Integração entre níveis</h3>
-                <p className="text-gray-700">Fortalecer a comunicação entre a atenção primária e especializada, usando sistemas de referência e contrarreferência eletrônicas.</p>
-              </div>
-              
-              <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-100 print:shadow-none">
-                <h3 className="font-medium text-lg mb-3 text-orange-700">Regionalização</h3>
-                <p className="text-gray-700">Fortalecer os processos de regionalização, garantindo que os municípios-polo cumpram seu papel assistencial conforme os PDRs.</p>
-              </div>
-              
-              <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-100 print:shadow-none">
-                <h3 className="font-medium text-lg mb-3 text-indigo-700">Política nacional</h3>
-                <p className="text-gray-700">Desenvolver uma política nacional de regulação integrada, com diretrizes claras e incentivos para implementação.</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Rodapé */}
-        <div className="text-center mt-8 mb-12 text-gray-500 text-sm">
-          <p>Regulação SUS - Análise de Fortalezas e Fragilidades</p>
-          <p>Documento gerado em {new Date().toLocaleDateString()}</p>
+          {/* Rodapé */}
+          <div className="text-center mt-8 mb-12 text-gray-500 text-sm">
+            <p className="print:text-black">Regulação SUS - Análise de Fortalezas e Fragilidades</p>
+            <p className="print:text-black">Documento gerado em {new Date().toLocaleDateString()}</p>
+          </div>
         </div>
-        
-        {/* Estilos específicos para impressão */}
-        <style>
-          {`
-          @media print {
-            body {
-              font-size: 12pt;
-              color: #000;
-              background-color: #fff;
-            }
-            
-            .page-break-before {
-              page-break-before: always;
-            }
-            
-            .print\\:shadow-none {
-              box-shadow: none !important;
-            }
-            
-            .print\\:bg-white {
-              background-color: white !important;
-            }
-            
-            .print\\:bg-gray-100 {
-              background-color: #f8f9fa !important;
-            }
-            
-            .print\\:hidden {
-              display: none !important;
-            }
-          }
-          `}
-        </style>
       </div>
     </div>
   );
 };
 
 export default ExportableView;
-
