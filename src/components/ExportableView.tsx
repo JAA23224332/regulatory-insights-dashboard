@@ -753,6 +753,323 @@ const ExportableView = () => {
             </CardContent>
           </Card>
           
+          {/* Nova Seção 6: Termos mais frequentes em Fortalezas */}
+          <Card className="mb-10 shadow-md print:shadow-none print:border-none card-section-6">
+            <CardHeader className="bg-gradient-to-r from-green-50 to-green-100 print:bg-white border-b">
+              <CardTitle className="text-2xl print:text-black">6. Termos mais frequentes em Fortalezas</CardTitle>
+            </CardHeader>
+            <CardContent className="p-6 print:p-4">
+              <p className="mb-4 text-gray-600 print:text-black">Principais termos mencionados nas fortalezas por frequência:</p>
+              
+              {/* Chart for screen view */}
+              <div className="display-screen-only h-[400px] print:hidden">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart
+                    data={termosFrequentesFortalezas}
+                    layout="vertical"
+                    margin={{ top: 5, right: 30, left: 120, bottom: 5 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis type="number" />
+                    <YAxis 
+                      dataKey="termo" 
+                      type="category" 
+                      width={120}
+                      tick={{ fill: '#4CAF50' }}
+                    />
+                    <Tooltip 
+                      formatter={(value) => [`${value} menções`, 'Frequência']}
+                      contentStyle={{ 
+                        backgroundColor: 'white',
+                        border: '1px solid #ddd',
+                        borderRadius: '8px' 
+                      }}
+                    />
+                    <Bar 
+                      dataKey="frequencia" 
+                      fill="#4CAF50" 
+                      radius={[0, 4, 4, 0]}
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+              
+              {/* Table for print view */}
+              <div className="display-print-only">
+                <table className="print-table">
+                  <thead>
+                    <tr>
+                      <th>Termo</th>
+                      <th>Frequência</th>
+                      <th>Visualização</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {termosFrequentesFortalezas.map((item, index) => (
+                      <tr key={index}>
+                        <td><strong>{item.termo}</strong></td>
+                        <td>{item.frequencia}</td>
+                        <td>
+                          <div className="flex items-center">
+                            <div 
+                              className="h-3 mr-2 rounded-sm" 
+                              style={{
+                                backgroundColor: '#4CAF50',
+                                width: `${(item.frequencia / 20) * 100}%`,
+                                maxWidth: '150px',
+                                minWidth: '5px'
+                              }}
+                            ></div>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              
+              <div className="mt-6 bg-gray-50 print:bg-gray-100 p-5 rounded-lg">
+                <h3 className="font-medium text-xl mb-4 text-gray-800 print:text-black">Insights sobre termos frequentes:</h3>
+                <ul className="space-y-3">
+                  <li className="flex items-start">
+                    <span className="inline-block w-3 h-3 bg-green-500 rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
+                    <span className="print:text-black">O termo "<strong>sistema</strong>" é o mais frequente (18 menções), seguido por "<strong>regulação</strong>" (15) e "<strong>SISREG</strong>" (11)</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="inline-block w-3 h-3 bg-blue-500 rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
+                    <span className="print:text-black">Termos relacionados à tecnologia como "<strong>teleconsulta</strong>" e "<strong>telessaúde</strong>" aparecem com frequência significativa</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="inline-block w-3 h-3 bg-teal-500 rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
+                    <span className="print:text-black">A menção a "<strong>protocolos</strong>" e "<strong>classificação de risco</strong>" indica foco em processos organizados</span>
+                  </li>
+                </ul>
+              </div>
+            </CardContent>
+          </Card>
+          
+          {/* Nova Seção 7: Termos mais frequentes em Fragilidades */}
+          <Card className="mb-10 shadow-md print:shadow-none print:border-none card-section-7">
+            <CardHeader className="bg-gradient-to-r from-red-50 to-red-100 print:bg-white border-b">
+              <CardTitle className="text-2xl print:text-black">7. Termos mais frequentes em Fragilidades</CardTitle>
+            </CardHeader>
+            <CardContent className="p-6 print:p-4">
+              <p className="mb-4 text-gray-600 print:text-black">Principais termos mencionados nas fragilidades por frequência:</p>
+              
+              {/* Chart for screen view */}
+              <div className="display-screen-only h-[400px] print:hidden">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart
+                    data={termosFrequentesFragilidades}
+                    layout="vertical"
+                    margin={{ top: 5, right: 30, left: 120, bottom: 5 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis type="number" />
+                    <YAxis 
+                      dataKey="termo" 
+                      type="category" 
+                      width={120}
+                      tick={{ fill: '#F44336' }}
+                    />
+                    <Tooltip 
+                      formatter={(value) => [`${value} menções`, 'Frequência']}
+                      contentStyle={{ 
+                        backgroundColor: 'white',
+                        border: '1px solid #ddd',
+                        borderRadius: '8px' 
+                      }}
+                    />
+                    <Bar 
+                      dataKey="frequencia" 
+                      fill="#F44336" 
+                      radius={[0, 4, 4, 0]}
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+              
+              {/* Table for print view */}
+              <div className="display-print-only">
+                <table className="print-table">
+                  <thead>
+                    <tr>
+                      <th>Termo</th>
+                      <th>Frequência</th>
+                      <th>Visualização</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {termosFrequentesFragilidades.map((item, index) => (
+                      <tr key={index}>
+                        <td><strong>{item.termo}</strong></td>
+                        <td>{item.frequencia}</td>
+                        <td>
+                          <div className="flex items-center">
+                            <div 
+                              className="h-3 mr-2 rounded-sm" 
+                              style={{
+                                backgroundColor: '#F44336',
+                                width: `${(item.frequencia / 15) * 100}%`,
+                                maxWidth: '150px',
+                                minWidth: '5px'
+                              }}
+                            ></div>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              
+              <div className="mt-6 bg-gray-50 print:bg-gray-100 p-5 rounded-lg">
+                <h3 className="font-medium text-xl mb-4 text-gray-800 print:text-black">Insights sobre termos frequentes:</h3>
+                <ul className="space-y-3">
+                  <li className="flex items-start">
+                    <span className="inline-block w-3 h-3 bg-red-500 rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
+                    <span className="print:text-black">Os termos "<strong>falta</strong>" (14) e "<strong>ausência</strong>" (12) são os mais frequentes, indicando deficiências percebidas</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="inline-block w-3 h-3 bg-orange-500 rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
+                    <span className="print:text-black">O termo "<strong>sistema</strong>" (11) também é frequente nas fragilidades, revelando desafios tecnológicos</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="inline-block w-3 h-3 bg-yellow-500 rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
+                    <span className="print:text-black">"<strong>Dificuldade</strong>" (8) e problemas de "<strong>interoperabilidade</strong>" (6) são obstáculos significativos</span>
+                  </li>
+                </ul>
+              </div>
+            </CardContent>
+          </Card>
+          
+          {/* Nova Seção 8: Termos compartilhados entre Fortalezas e Fragilidades */}
+          <Card className="mb-10 shadow-md print:shadow-none print:border-none card-section-8">
+            <CardHeader className="bg-gradient-to-r from-purple-50 to-indigo-50 print:bg-white border-b">
+              <CardTitle className="text-2xl print:text-black">8. Termos compartilhados entre Fortalezas e Fragilidades</CardTitle>
+            </CardHeader>
+            <CardContent className="p-6 print:p-4">
+              <p className="mb-4 text-gray-600 print:text-black">Termos mencionados tanto nas fortalezas quanto nas fragilidades:</p>
+              
+              {/* Chart for screen view */}
+              <div className="display-screen-only h-[400px] print:hidden">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart
+                    data={termosCompartilhados}
+                    layout="vertical"
+                    margin={{ top: 5, right: 30, left: 120, bottom: 5 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis type="number" />
+                    <YAxis 
+                      dataKey="termo" 
+                      type="category" 
+                      width={120}
+                      tick={{ fill: '#6B7280' }}
+                    />
+                    <Tooltip 
+                      formatter={(value, name) => {
+                        return [`${value} menções`, name === 'freqFortalezas' ? 'Fortalezas' : 'Fragilidades'];
+                      }}
+                      contentStyle={{ 
+                        backgroundColor: 'white',
+                        border: '1px solid #ddd',
+                        borderRadius: '8px' 
+                      }}
+                    />
+                    <Legend />
+                    <Bar 
+                      dataKey="freqFortalezas" 
+                      name="Fortalezas" 
+                      fill="#4CAF50" 
+                      radius={[0, 0, 0, 0]}
+                    />
+                    <Bar 
+                      dataKey="freqFragilidades" 
+                      name="Fragilidades" 
+                      fill="#F44336" 
+                      radius={[0, 0, 0, 0]}
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+              
+              {/* Table for print view */}
+              <div className="display-print-only">
+                <table className="print-table">
+                  <thead>
+                    <tr>
+                      <th>Termo</th>
+                      <th>Fortalezas</th>
+                      <th>Fragilidades</th>
+                      <th>Diferença</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {termosCompartilhados.map((item, index) => (
+                      <tr key={index}>
+                        <td><strong>{item.termo}</strong></td>
+                        <td>
+                          <div className="flex items-center">
+                            <div 
+                              className="h-3 mr-2 rounded-sm" 
+                              style={{
+                                backgroundColor: '#4CAF50',
+                                width: `${(item.freqFortalezas / 20) * 100}%`,
+                                maxWidth: '70px',
+                                minWidth: '5px'
+                              }}
+                            ></div>
+                            {item.freqFortalezas}
+                          </div>
+                        </td>
+                        <td>
+                          <div className="flex items-center">
+                            <div 
+                              className="h-3 mr-2 rounded-sm" 
+                              style={{
+                                backgroundColor: '#F44336',
+                                width: `${(item.freqFragilidades / 15) * 100}%`,
+                                maxWidth: '70px',
+                                minWidth: '5px'
+                              }}
+                            ></div>
+                            {item.freqFragilidades}
+                          </div>
+                        </td>
+                        <td className={item.diferenca > 0 ? 'text-green-700' : item.diferenca < 0 ? 'text-red-700' : 'text-gray-700'}>
+                          {item.diferenca > 0 ? '+' : ''}{item.diferenca}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              
+              <div className="mt-6 bg-gray-50 print:bg-gray-100 p-5 rounded-lg">
+                <h3 className="font-medium text-xl mb-4 text-gray-800 print:text-black">Insights sobre termos compartilhados:</h3>
+                <ul className="space-y-3">
+                  <li className="flex items-start">
+                    <span className="inline-block w-3 h-3 bg-purple-500 rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
+                    <span className="print:text-black">"<strong>SISREG</strong>" tem a maior diferença positiva (+8), indicando que é visto predominantemente como fortaleza</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="inline-block w-3 h-3 bg-indigo-500 rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
+                    <span className="print:text-black">"<strong>Sistema</strong>" e "<strong>regulação</strong>" aparecem com alta frequência tanto em fortalezas quanto em fragilidades</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="inline-block w-3 h-3 bg-red-500 rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
+                    <span className="print:text-black">"<strong>Equipe</strong>" e "<strong>especialidades</strong>" têm diferença negativa (-2), sendo mais frequentemente citados como fragilidades</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="inline-block w-3 h-3 bg-gray-500 rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
+                    <span className="print:text-black">"<strong>Municípios</strong>" tem frequência igual (9) em fortalezas e fragilidades, sugerindo perspectivas mistas</span>
+                  </li>
+                </ul>
+              </div>
+            </CardContent>
+          </Card>
+          
           {/* Rodapé do documento */}
           <div className="text-center mb-8 mt-12 text-sm text-gray-500 print:text-black">
             <p>Relatório gerado em {new Date().toLocaleDateString()}</p>

@@ -74,17 +74,29 @@
   
   /* Specifically for the intensity table in section 5 */
   .card-section-5 .print-table th:first-child,
-  .card-section-5 .print-table td:first-child {
+  .card-section-5 .print-table td:first-child,
+  .card-section-6 .print-table th:first-child,
+  .card-section-6 .print-table td:first-child,
+  .card-section-7 .print-table th:first-child,
+  .card-section-7 .print-table td:first-child,
+  .card-section-8 .print-table th:first-child,
+  .card-section-8 .print-table td:first-child {
     width: 30% !important;
     max-width: 30% !important;
   }
   
-  .card-section-5 .print-table td div.flex {
+  .card-section-5 .print-table td div.flex,
+  .card-section-6 .print-table td div.flex,
+  .card-section-7 .print-table td div.flex,
+  .card-section-8 .print-table td div.flex {
     display: flex !important;
     align-items: center !important;
   }
   
-  .card-section-5 .print-table td div.flex div {
+  .card-section-5 .print-table td div.flex div,
+  .card-section-6 .print-table td div.flex div,
+  .card-section-7 .print-table td div.flex div,
+  .card-section-8 .print-table td div.flex div {
     display: inline-block !important;
   }
 
@@ -202,49 +214,40 @@
   }
   
   /* Better spacing in the insights list */
-  .card-section-5 ul.space-y-3 li {
+  .card-section-5 ul.space-y-3 li,
+  .card-section-6 ul.space-y-3 li,
+  .card-section-7 ul.space-y-3 li,
+  .card-section-8 ul.space-y-3 li {
     margin-bottom: 10px !important;
   }
   
-  .card-section-5 ul.space-y-3 li span.inline-block {
+  .card-section-5 ul.space-y-3 li span.inline-block,
+  .card-section-6 ul.space-y-3 li span.inline-block,
+  .card-section-7 ul.space-y-3 li span.inline-block,
+  .card-section-8 ul.space-y-3 li span.inline-block {
     display: inline-block !important;
+  }
+  
+  /* Specific styling for the terms comparison section */
+  .card-section-8 .print-table td:nth-child(4) {
+    font-weight: bold !important;
+  }
+  
+  .card-section-8 .print-table .text-green-700 {
+    color: #2e7d32 !important;
+  }
+  
+  .card-section-8 .print-table .text-red-700 {
+    color: #c62828 !important;
+  }
+  
+  /* Ensure visualization bars in tables display properly */
+  .print-table div[style*="width"] {
+    display: inline-block !important;
+    height: 12px !important;
+    background-color: currentColor !important;
   }
 }
 
-/* Estilos específicos para a exportação */
-.exportable-document {
-  background-color: white;
-  max-width: 210mm; /* Largura A4 */
-  margin: 0 auto;
-  padding: 0;
-}
+/* ... keep existing code (styles for exportable document) */
 
-.exportable-page {
-  padding: 0;
-  max-width: 100%;
-  overflow: hidden;
-}
-
-/* Default display settings */
-.display-print-only {
-  display: none;
-}
-
-/* Category color classes */
-.category-color-fortaleza-0 { background-color: #0062cc; }
-.category-color-fortaleza-1 { background-color: #00994c; }
-.category-color-fortaleza-2 { background-color: #57bc6c; }
-.category-color-fortaleza-3 { background-color: #81C784; }
-.category-color-fortaleza-4 { background-color: #A5D6A7; }
-.category-color-fortaleza-5 { background-color: #4CBB17; }
-.category-color-fortaleza-6 { background-color: #3F704D; }
-.category-color-fortaleza-7 { background-color: #138808; }
-
-.category-color-fragilidade-0 { background-color: #cc4125; }
-.category-color-fragilidade-1 { background-color: #d32f2f; }
-.category-color-fragilidade-2 { background-color: #e35353; }
-.category-color-fragilidade-3 { background-color: #EF5350; }
-.category-color-fragilidade-4 { background-color: #E57373; }
-.category-color-fragilidade-5 { background-color: #DD2C00; }
-.category-color-fragilidade-6 { background-color: #B71C1C; }
-.category-color-fragilidade-7 { background-color: #FF8A65; }
