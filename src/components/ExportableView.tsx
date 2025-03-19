@@ -144,29 +144,20 @@ interface CustomLabelProps {
   percent: number;
   index: number;
   name: string;
+  value: number;
   percentage: number;
+  shortName: string;
+  x: number;
+  y: number;
 }
 
-// Função para calcular a posição dos rótulos com base no ângulo
-const getAdjustedLabelPosition = (cx, cy, midAngle, radius) => {
-  const RADIAN = Math.PI / 180;
+// Função personalizada para renderizar os rótulos exatamente como na imagem
+const renderCustomLabel = (props: CustomLabelProps) => {
+  const { name, percentage, shortName } = props;
   
-  // Aumentar o raio para dar mais espaço entre o gráfico e os rótulos
-  const adjustedRadius = radius * 1.5;
-  
-  // Calcular posição com o raio ajustado
-  const x = cx + adjustedRadius * Math.cos(-midAngle * RADIAN);
-  const y = cy + adjustedRadius * Math.sin(-midAngle * RADIAN);
-  
-  return { x, y };
-};
-
-// Função personalizada para renderizar os rótulos
-const renderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index, name, percentage }: CustomLabelProps) => {
-  const RADIAN = Math.PI / 180;
-  
-  // Usar nomes simplificados para todos os segmentos
+  // Simplificar os nomes das categorias para exibição nos rótulos
   let displayName = '';
+  
   if (name === 'Sistemas e tecnologia') displayName = 'Sistemas';
   else if (name === 'Protocolos e fluxos') displayName = 'Protocolos';
   else if (name === 'Governança e gestão') displayName = 'Governança';
@@ -176,7 +167,7 @@ const renderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent
   else if (name === 'Regionalização') displayName = 'Regionalização';
   else if (name === 'Financiamento') displayName = 'Financiamento';
   else if (name === 'Outros') displayName = 'Outros';
-  else displayName = name;
+  else displayName = shortName || name;
   
   return `${displayName}: ${percentage}%`;
 };
@@ -212,14 +203,15 @@ const ExportableView = () => {
           transform: scale(0.65) !important;
         }
         .recharts-pie-label-text {
-          font-size: 8px !important;
+          font-size: 11px !important;
           font-weight: bold !important;
           fill: black !important;
           text-shadow: 0 0 5px white, 0 0 4px white, 0 0 3px white, 0 0 2px white !important;
         }
-        .pie-chart-custom-label-line {
-          stroke: #666 !important;
-          stroke-width: 1.5px !important;
+        .recharts-pie-label-line {
+          stroke: #555 !important;
+          stroke-width: 1px !important;
+          stroke-dasharray: none !important;
         }
       }
     `;
@@ -313,7 +305,6 @@ const ExportableView = () => {
     }, 7000); // Increased timeout to 7000ms for better rendering
   };
   
-  // Voltar para a página principal
   const voltarPrincipal = () => {
     navigate('/');
   };
@@ -506,12 +497,12 @@ const ExportableView = () => {
                         cx="50%"
                         cy="50%"
                         labelLine={{
-                          stroke: '#555',
-                          strokeWidth: 1,
+                          stroke: '#444',
+                          strokeWidth: 1.5,
                           strokeDasharray: null,
                           type: 'straight'
                         }}
-                        label={(props) => renderCustomLabel(props)}
+                        label={renderCustomLabel}
                         outerRadius={85}
                         innerRadius={55}
                         paddingAngle={2}
@@ -578,12 +569,12 @@ const ExportableView = () => {
                         cx="50%"
                         cy="50%"
                         labelLine={{
-                          stroke: '#555',
-                          strokeWidth: 1,
+                          stroke: '#444',
+                          strokeWidth: 1.5,
                           strokeDasharray: null,
                           type: 'straight'
                         }}
-                        label={(props) => renderCustomLabel(props)}
+                        label={renderCustomLabel}
                         outerRadius={85}
                         innerRadius={55}
                         paddingAngle={2}
@@ -701,3 +692,4 @@ const ExportableView = () => {
 };
 
 export default ExportableView;
+
