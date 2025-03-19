@@ -1,7 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
-import { motion } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { Download, Printer, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -172,6 +171,42 @@ const renderCustomLabel = (props: CustomLabelProps) => {
   return `${displayName}: ${percentage}%`;
 };
 
+// Componente de tabela para substituir os gráficos de pizza nas versões impressas
+const TabelaDistribuicao = ({ dados, titulo, corIcone }) => {
+  return (
+    <div className="mt-4 print:block hidden">
+      <h4 className="font-medium text-lg mb-3">{titulo}</h4>
+      <table className="w-full border-collapse">
+        <thead>
+          <tr className="border-b border-gray-200">
+            <th className="text-left p-2">Categoria</th>
+            <th className="text-right p-2">Menções</th>
+            <th className="text-right p-2">%</th>
+          </tr>
+        </thead>
+        <tbody>
+          {dados.map((item, index) => (
+            <tr key={index} className="border-b border-gray-100">
+              <td className="p-2 flex items-center">
+                <span 
+                  className="inline-block w-3 h-3 rounded-full mr-2" 
+                  style={{ backgroundColor: index < 5 ? 
+                    (titulo.includes("Fortalezas") ? COLORS_FORTALEZAS[index] : COLORS_FRAGILIDADES[index]) : 
+                    '#888' 
+                  }}
+                ></span>
+                {item.name}
+              </td>
+              <td className="p-2 text-right">{item.value}</td>
+              <td className="p-2 text-right">{item.percentage}%</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
 const ExportableView = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -193,11 +228,6 @@ const ExportableView = () => {
         }
         .recharts-wrapper {
           overflow: visible !important;
-          min-height: 700px !important;
-        }
-        .card-section-3 .recharts-wrapper,
-        .card-section-4 .recharts-wrapper {
-          min-height: 700px !important;
         }
         .recharts-legend-wrapper {
           padding-right: 20px !important;
@@ -210,6 +240,9 @@ const ExportableView = () => {
           font-weight: 600 !important;
           color: black !important;
         }
+        .tabela-distribuicao {
+          display: block !important;
+        }
       }
     `;
     document.head.appendChild(style);
@@ -221,36 +254,6 @@ const ExportableView = () => {
   
   // Função para exportar dados como PDF usando janela de impressão com CSS específico
   const exportarPDF = () => {
-    // First add page-break-before to all cards except the first one
-    const cards = document.querySelectorAll('.card');
-    cards.forEach((card, index) => {
-      const cardElement = card as HTMLElement;
-      if (index === 0) {
-        cardElement.style.pageBreakBefore = 'auto';
-      } else {
-        cardElement.style.pageBreakBefore = 'always';
-      }
-      cardElement.style.pageBreakInside = 'avoid';
-      cardElement.style.breakInside = 'avoid';
-      
-      // Add more space for section 3 and 4 pie charts
-      if (card.classList.contains('card-section-3') || card.classList.contains('card-section-4')) {
-        const chartsContainer = card.querySelector('.grid > div:first-child') as HTMLElement;
-        if (chartsContainer) {
-          chartsContainer.style.minHeight = '700px';
-        }
-      }
-    });
-    
-    // Garantir que os rótulos estejam visíveis
-    const pieChartLabels = document.querySelectorAll('.recharts-pie-label-text');
-    pieChartLabels.forEach((label) => {
-      const labelElement = label as HTMLElement;
-      labelElement.style.textShadow = '0 0 5px white, 0 0 4px white, 0 0 3px white, 0 0 2px white';
-      labelElement.style.fontWeight = 'bold';
-    });
-    
-    // Wait longer to ensure all styles are applied and charts are fully rendered
     setTimeout(() => {
       window.print();
       
@@ -258,40 +261,10 @@ const ExportableView = () => {
         title: "Exportação de PDF iniciada",
         description: "Use a opção 'Salvar como PDF' na janela de impressão",
       });
-    }, 7000); // Increased timeout to 7000ms for better rendering
+    }, 2000);
   };
   
   const handlePrint = () => {
-    // Apply the same setup as for PDF export
-    const cards = document.querySelectorAll('.card');
-    cards.forEach((card, index) => {
-      const cardElement = card as HTMLElement;
-      if (index === 0) {
-        cardElement.style.pageBreakBefore = 'auto';
-      } else {
-        cardElement.style.pageBreakBefore = 'always';
-      }
-      cardElement.style.pageBreakInside = 'avoid';
-      cardElement.style.breakInside = 'avoid';
-      
-      // Add more space for section 3 and 4 pie charts
-      if (card.classList.contains('card-section-3') || card.classList.contains('card-section-4')) {
-        const chartsContainer = card.querySelector('.grid > div:first-child') as HTMLElement;
-        if (chartsContainer) {
-          chartsContainer.style.minHeight = '700px';
-        }
-      }
-    });
-    
-    // Garantir que os rótulos estejam visíveis
-    const pieChartLabels = document.querySelectorAll('.recharts-pie-label-text');
-    pieChartLabels.forEach((label) => {
-      const labelElement = label as HTMLElement;
-      labelElement.style.textShadow = '0 0 5px white, 0 0 4px white, 0 0 3px white, 0 0 2px white';
-      labelElement.style.fontWeight = 'bold';
-    });
-    
-    // Wait longer to ensure all styles are applied
     setTimeout(() => {
       window.print();
       
@@ -299,7 +272,7 @@ const ExportableView = () => {
         title: "Impressão iniciada",
         description: "O documento está sendo enviado para impressão",
       });
-    }, 7000); // Increased timeout to 7000ms for better rendering
+    }, 2000);
   };
   
   const voltarPrincipal = () => {
@@ -352,29 +325,10 @@ const ExportableView = () => {
               <CardTitle className="text-2xl print:text-black">1. Visão Geral da Regulação do SUS</CardTitle>
             </CardHeader>
             <CardContent className="p-6 print:p-4">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                <Card className="bg-blue-50 print:bg-blue-50 border-none">
-                  <CardContent className="p-4 text-center">
-                    <p className="text-3xl font-semibold text-blue-600 print:text-black">{estatisticasGerais.totalEstados}</p>
-                    <p className="text-sm text-gray-600 print:text-black">Estados participantes</p>
-                  </CardContent>
-                </Card>
-                <Card className="bg-green-50 print:bg-green-50 border-none">
-                  <CardContent className="p-4 text-center">
-                    <p className="text-3xl font-semibold text-green-600 print:text-black">{estatisticasGerais.totalFortalezas}</p>
-                    <p className="text-sm text-gray-600 print:text-black">Fortalezas identificadas</p>
-                  </CardContent>
-                </Card>
-                <Card className="bg-red-50 print:bg-red-50 border-none">
-                  <CardContent className="p-4 text-center">
-                    <p className="text-3xl font-semibold text-red-600 print:text-black">{estatisticasGerais.totalFragilidades}</p>
-                    <p className="text-sm text-gray-600 print:text-black">Fragilidades identificadas</p>
-                  </CardContent>
-                </Card>
-              </div>
+              {/* ... keep existing code (cards e indicadores) */}
               
               {/* Gráfico de distribuição */}
-              <div className="mb-6 h-[250px] print:h-[300px]">
+              <div className="mb-6 h-[250px] print:h-[300px] print:hidden">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
                     <Pie
@@ -397,22 +351,41 @@ const ExportableView = () => {
                 </ResponsiveContainer>
               </div>
               
+              {/* Tabela para versão impressa */}
+              <div className="hidden print:block mb-6">
+                <h4 className="font-medium text-lg mb-3">Distribuição de Menções</h4>
+                <table className="w-full border-collapse">
+                  <thead>
+                    <tr className="border-b border-gray-200">
+                      <th className="text-left p-2">Tipo</th>
+                      <th className="text-right p-2">Menções</th>
+                      <th className="text-right p-2">%</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {dadosDistribuicao.map((item, index) => {
+                      const total = dadosDistribuicao.reduce((acc, curr) => acc + curr.value, 0);
+                      const percentage = Math.round((item.value / total) * 100);
+                      return (
+                        <tr key={index} className="border-b border-gray-100">
+                          <td className="p-2 flex items-center">
+                            <span 
+                              className="inline-block w-3 h-3 rounded-full mr-2" 
+                              style={{ backgroundColor: index === 0 ? '#4CAF50' : '#F44336' }}
+                            ></span>
+                            {item.name}
+                          </td>
+                          <td className="p-2 text-right">{item.value}</td>
+                          <td className="p-2 text-right">{percentage}%</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+              
               <div className="bg-gray-50 print:bg-gray-100 p-5 rounded-lg">
-                <h3 className="font-medium text-xl mb-4 text-gray-800 print:text-black">Principais constatações:</h3>
-                <ul className="space-y-2">
-                  <li className="flex items-start">
-                    <span className="inline-block w-2 h-2 bg-blue-500 rounded-full mt-2 mr-2"></span>
-                    <span className="print:text-black">{estatisticasGerais.temasMaisFragilidades}% dos temas aparecem com maior frequência como fragilidades</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="inline-block w-2 h-2 bg-green-500 rounded-full mt-2 mr-2"></span>
-                    <span className="print:text-black">{estatisticasGerais.temasMaisFortalezas}% dos temas aparecem com maior frequência como fortalezas</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="inline-block w-2 h-2 bg-gray-500 rounded-full mt-2 mr-2"></span>
-                    <span className="print:text-black">{estatisticasGerais.temasEquilibrados}% dos temas apresentam equilíbrio entre fortalezas e fragilidades</span>
-                  </li>
-                </ul>
+                {/* ... keep existing code (constatações) */}
               </div>
             </CardContent>
           </Card>
@@ -423,7 +396,7 @@ const ExportableView = () => {
               <CardTitle className="text-2xl print:text-black">2. Comparativo por Categoria</CardTitle>
             </CardHeader>
             <CardContent className="p-6 print:p-4">
-              <div className="h-[500px] print:h-[400px]">
+              <div className="h-[500px] print:h-[400px] print:hidden">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart
                     data={dadosReais}
@@ -459,81 +432,88 @@ const ExportableView = () => {
                   </BarChart>
                 </ResponsiveContainer>
               </div>
+              
+              {/* Tabela para versão impressa */}
+              <div className="hidden print:block mb-6">
+                <h4 className="font-medium text-lg mb-3">Comparativo de Menções por Categoria</h4>
+                <table className="w-full border-collapse">
+                  <thead>
+                    <tr className="border-b border-gray-200">
+                      <th className="text-left p-2">Categoria</th>
+                      <th className="text-right p-2">Fortalezas</th>
+                      <th className="text-right p-2">Fragilidades</th>
+                      <th className="text-right p-2">Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {dadosReais.map((item, index) => (
+                      <tr key={index} className="border-b border-gray-100">
+                        <td className="p-2">{item.categoria}</td>
+                        <td className="p-2 text-right">{item.fortalezas}</td>
+                        <td className="p-2 text-right">{item.fragilidades}</td>
+                        <td className="p-2 text-right">{item.total}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              
               <div className="mt-8 bg-gray-50 print:bg-gray-100 p-5 rounded-lg">
-                <h3 className="font-medium text-xl mb-4 text-gray-800 print:text-black">Destaques por categoria:</h3>
-                <ul className="space-y-2">
-                  <li className="flex items-start">
-                    <span className="inline-block w-2 h-2 bg-blue-500 rounded-full mt-2 mr-2"></span>
-                    <span className="print:text-black"><strong>Sistemas e tecnologia:</strong> categoria mais mencionada, com equilíbrio entre fortalezas ({dadosReais[0].fortalezas}) e fragilidades ({dadosReais[0].fragilidades})</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="inline-block w-2 h-2 bg-green-500 rounded-full mt-2 mr-2"></span>
-                    <span className="print:text-black"><strong>Protocolos e fluxos:</strong> mais frequentemente citados como fortaleza ({dadosReais[1].fortalezas} menções) do que fragilidade ({dadosReais[1].fragilidades})</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="inline-block w-2 h-2 bg-red-500 rounded-full mt-2 mr-2"></span>
-                    <span className="print:text-black"><strong>Recursos humanos e Acesso/equidade:</strong> mais frequentemente citados como fragilidades (7 menções cada) do que fortalezas (3 menções cada)</span>
-                  </li>
-                </ul>
+                {/* ... keep existing code (destaques) */}
               </div>
             </CardContent>
           </Card>
 
-          {/* Seção 3: Fortalezas (Nova seção mais detalhada) */}
+          {/* Seção 3: Fortalezas */}
           <Card className="mb-10 shadow-md print:shadow-none print:border-none card-section-3">
             <CardHeader className="bg-gradient-to-r from-green-50 to-green-100 print:bg-white border-b">
               <CardTitle className="text-2xl print:text-black">3. Análise Detalhada das Fortalezas</CardTitle>
             </CardHeader>
             <CardContent className="p-6 print:p-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 section-fortalezas">
-                <div className="h-[450px] print:h-[450px] flex items-center justify-center">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                      <Pie
-                        data={dadosPieFortalezas}
-                        cx="50%"
-                        cy="50%"
-                        labelLine={false}
-                        label={false}
-                        outerRadius={110}
-                        innerRadius={60}
-                        paddingAngle={2}
-                        fill="#8884d8"
-                        dataKey="value"
-                      >
-                        {dadosPieFortalezas.map((entry, index) => (
-                          <Cell 
-                            key={`cell-${index}`} 
-                            fill={COLORS_FORTALEZAS[index % COLORS_FORTALEZAS.length]} 
-                            strokeWidth={1}
-                            stroke="#fff"
-                          />
-                        ))}
-                      </Pie>
-                      <Tooltip 
-                        formatter={(value, name, props) => {
-                          if (name === "value") {
-                            return [`${value} menções (${props.payload.percentage}%)`, 'Quantidade'];
-                          }
-                          return [value, name];
-                        }}
-                      />
-                      
-                      {/* Legenda personalizada */}
-                      <Legend
-                        layout="vertical"
-                        align="right"
-                        verticalAlign="middle"
-                        iconSize={10}
-                        iconType="circle"
-                        formatter={(value, entry, index) => {
-                          // @ts-ignore - necessário porque a tipagem do Recharts não inclui percentage
-                          const percentage = entry.payload.percentage;
-                          return `${value}: ${percentage}%`;
-                        }}
-                      />
-                    </PieChart>
-                  </ResponsiveContainer>
+                <div>
+                  {/* Gráfico visível apenas em tela */}
+                  <div className="h-[400px] print:hidden">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie
+                          data={dadosPieFortalezas}
+                          cx="50%"
+                          cy="50%"
+                          outerRadius={110}
+                          innerRadius={60}
+                          paddingAngle={2}
+                          fill="#8884d8"
+                          dataKey="value"
+                        >
+                          {dadosPieFortalezas.map((entry, index) => (
+                            <Cell 
+                              key={`cell-${index}`} 
+                              fill={COLORS_FORTALEZAS[index % COLORS_FORTALEZAS.length]} 
+                            />
+                          ))}
+                        </Pie>
+                        <Tooltip formatter={(value, name, props) => [`${value} menções (${props.payload.percentage}%)`, 'Quantidade']} />
+                        <Legend 
+                          layout="vertical"
+                          align="center"
+                          verticalAlign="bottom"
+                          formatter={(value, entry) => {
+                            // @ts-ignore - necessário porque a tipagem do Recharts não inclui percentage
+                            const percentage = entry.payload.percentage;
+                            return `${value}: ${percentage}%`;
+                          }}
+                        />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+                  
+                  {/* Tabela para versão impressa */}
+                  <TabelaDistribuicao 
+                    dados={dadosPieFortalezas} 
+                    titulo="Distribuição das Fortalezas por Categoria" 
+                    corIcone="#4CAF50" 
+                  />
                 </div>
                 <div className="flex flex-col justify-center">
                   <h3 className="font-medium text-xl mb-4 text-green-700 print:text-black">Principais fortalezas:</h3>
@@ -560,61 +540,56 @@ const ExportableView = () => {
             </CardContent>
           </Card>
 
-          {/* Seção 4: Fragilidades (Nova seção mais detalhada) */}
+          {/* Seção 4: Fragilidades */}
           <Card className="mb-10 shadow-md print:shadow-none print:border-none card-section-4">
             <CardHeader className="bg-gradient-to-r from-red-50 to-red-100 print:bg-white border-b">
               <CardTitle className="text-2xl print:text-black">4. Análise Detalhada das Fragilidades</CardTitle>
             </CardHeader>
             <CardContent className="p-6 print:p-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 section-fragilidades">
-                <div className="h-[450px] print:h-[450px] flex items-center justify-center">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                      <Pie
-                        data={dadosPieFragilidades}
-                        cx="50%"
-                        cy="50%"
-                        labelLine={false}
-                        label={false}
-                        outerRadius={110}
-                        innerRadius={60}
-                        paddingAngle={2}
-                        fill="#8884d8"
-                        dataKey="value"
-                      >
-                        {dadosPieFragilidades.map((entry, index) => (
-                          <Cell 
-                            key={`cell-${index}`} 
-                            fill={COLORS_FRAGILIDADES[index % COLORS_FRAGILIDADES.length]} 
-                            strokeWidth={1}
-                            stroke="#fff"
-                          />
-                        ))}
-                      </Pie>
-                      <Tooltip 
-                        formatter={(value, name, props) => {
-                          if (name === "value") {
-                            return [`${value} menções (${props.payload.percentage}%)`, 'Quantidade'];
-                          }
-                          return [value, name];
-                        }}
-                      />
-                      
-                      {/* Legenda personalizada */}
-                      <Legend
-                        layout="vertical"
-                        align="right"
-                        verticalAlign="middle"
-                        iconSize={10}
-                        iconType="circle"
-                        formatter={(value, entry, index) => {
-                          // @ts-ignore - necessário porque a tipagem do Recharts não inclui percentage
-                          const percentage = entry.payload.percentage;
-                          return `${value}: ${percentage}%`;
-                        }}
-                      />
-                    </PieChart>
-                  </ResponsiveContainer>
+                <div>
+                  {/* Gráfico visível apenas em tela */}
+                  <div className="h-[400px] print:hidden">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie
+                          data={dadosPieFragilidades}
+                          cx="50%"
+                          cy="50%"
+                          outerRadius={110}
+                          innerRadius={60}
+                          paddingAngle={2}
+                          fill="#8884d8"
+                          dataKey="value"
+                        >
+                          {dadosPieFragilidades.map((entry, index) => (
+                            <Cell 
+                              key={`cell-${index}`} 
+                              fill={COLORS_FRAGILIDADES[index % COLORS_FRAGILIDADES.length]} 
+                            />
+                          ))}
+                        </Pie>
+                        <Tooltip formatter={(value, name, props) => [`${value} menções (${props.payload.percentage}%)`, 'Quantidade']} />
+                        <Legend 
+                          layout="vertical"
+                          align="center"
+                          verticalAlign="bottom"
+                          formatter={(value, entry) => {
+                            // @ts-ignore - necessário porque a tipagem do Recharts não inclui percentage
+                            const percentage = entry.payload.percentage;
+                            return `${value}: ${percentage}%`;
+                          }}
+                        />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+                  
+                  {/* Tabela para versão impressa */}
+                  <TabelaDistribuicao 
+                    dados={dadosPieFragilidades} 
+                    titulo="Distribuição das Fragilidades por Categoria" 
+                    corIcone="#F44336" 
+                  />
                 </div>
                 <div className="flex flex-col justify-center">
                   <h3 className="font-medium text-xl mb-4 text-red-700 print:text-black">Principais fragilidades:</h3>
