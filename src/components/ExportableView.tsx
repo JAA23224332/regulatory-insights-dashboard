@@ -1,4 +1,3 @@
-
 import React, { useRef, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
@@ -7,6 +6,7 @@ import { Download, Printer, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 // Cores atualizadas para análise mais precisa
 // Cores para fortalezas - tons de azul e verde
@@ -807,29 +807,171 @@ const ExportableView = () => {
           {/* Seção 6: Recomendações */}
           <Card className="mb-10 shadow-md print:shadow-none print:border-none card-section-6">
             <CardHeader className="bg-gradient-to-r from-blue-50 to-blue-100 print:bg-white border-b">
-              <CardTitle className="text-2xl print:text-black">6. Recomendações para Melhoria da Regulação no SUS</CardTitle>
+              <CardTitle className="text-2xl print:text-black">6. Recomendações para Melhoria da Regulação do SUS</CardTitle>
             </CardHeader>
             <CardContent className="p-6 print:p-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-white p-5 rounded-lg border border-blue-100 print:border-none">
-                  <h3 className="font-medium text-xl mb-3 text-blue-700 print:text-black">Sistemas de informação e tecnologia</h3>
-                  <p className="text-gray-600 mb-4 print:text-black">Investir em tecnologias mais integradas e interoperáveis, modernizando sistemas existentes como o SISREG. Expandir o uso de telemedicina e telessaúde para ampliar o acesso nas regiões remotas.</p>
-                </div>
+              <p className="text-center mb-6 print:text-black">Baseado na análise das fortalezas e fragilidades reportadas pelas Secretarias Estaduais de Saúde</p>
+              
+              <Tabs defaultValue="curto">
+                <TabsList className="grid grid-cols-3 mb-6 print:mb-4">
+                  <TabsTrigger value="curto">Curto Prazo</TabsTrigger>
+                  <TabsTrigger value="medio">Médio Prazo</TabsTrigger>
+                  <TabsTrigger value="longo">Longo Prazo</TabsTrigger>
+                </TabsList>
                 
-                <div className="bg-white p-5 rounded-lg border border-green-100 print:border-none">
-                  <h3 className="font-medium text-xl mb-3 text-green-700 print:text-black">Protocolos e processos</h3>
-                  <p className="text-gray-600 mb-4 print:text-black">Padronizar nacionalmente protocolos de regulação e classificação de risco, construindo diretrizes que possam ser adaptadas às realidades locais.</p>
-                </div>
+                <TabsContent value="curto" className="mt-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 print:gap-4">
+                    <div className="space-y-4">
+                      <div className="bg-blue-50 p-4 rounded-lg print:bg-blue-50">
+                        <h3 className="font-semibold text-lg mb-2 text-blue-800 print:text-black">Padronização de Protocolos</h3>
+                        <p className="print:text-black">Desenvolver e disseminar protocolos de regulação padronizados, adaptáveis às realidades locais, começando pelas condições mais prevalentes.</p>
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded print:bg-transparent print:border print:border-blue-300 print:text-black">Protocolos clínicos</span>
+                          <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded print:bg-transparent print:border print:border-blue-300 print:text-black">Classificação de risco</span>
+                          <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded print:bg-transparent print:border print:border-blue-300 print:text-black">Priorização</span>
+                        </div>
+                      </div>
+                      
+                      <div className="bg-green-50 p-4 rounded-lg print:bg-green-50">
+                        <h3 className="font-semibold text-lg mb-2 text-green-800 print:text-black">Capacitação das Equipes</h3>
+                        <p className="print:text-black">Implementar programas de capacitação continuada para profissionais da regulação, com foco em uso de sistemas e aplicação de protocolos.</p>
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded print:bg-transparent print:border print:border-green-300 print:text-black">Treinamento online</span>
+                          <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded print:bg-transparent print:border print:border-green-300 print:text-black">Uso do SISREG</span>
+                          <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded print:bg-transparent print:border print:border-green-300 print:text-black">Teleconsultoria</span>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-4">
+                      <div className="bg-purple-50 p-4 rounded-lg print:bg-purple-50">
+                        <h3 className="font-semibold text-lg mb-2 text-purple-800 print:text-black">Expansão da Telessaúde</h3>
+                        <p className="print:text-black">Expandir a cobertura dos serviços de telessaúde e telediagnóstico para os municípios que ainda não contam com essa tecnologia.</p>
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          <span className="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded print:bg-transparent print:border print:border-purple-300 print:text-black">Municípios remotos</span>
+                          <span className="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded print:bg-transparent print:border print:border-purple-300 print:text-black">Teleconsulta</span>
+                          <span className="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded print:bg-transparent print:border print:border-purple-300 print:text-black">Telediagnóstico</span>
+                        </div>
+                      </div>
+                      
+                      <div className="bg-yellow-50 p-4 rounded-lg print:bg-yellow-50">
+                        <h3 className="font-semibold text-lg mb-2 text-yellow-800 print:text-black">Transparência da Fila</h3>
+                        <p className="print:text-black">Implementar painéis públicos de monitoramento das filas de espera para procedimentos regulados, melhorando a transparência do processo.</p>
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          <span className="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded print:bg-transparent print:border print:border-yellow-300 print:text-black">Dashboards</span>
+                          <span className="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded print:bg-transparent print:border print:border-yellow-300 print:text-black">Acesso público</span>
+                          <span className="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded print:bg-transparent print:border print:border-yellow-300 print:text-black">Tempo de espera</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </TabsContent>
                 
-                <div className="bg-white p-5 rounded-lg border border-orange-100 print:border-none">
-                  <h3 className="font-medium text-xl mb-3 text-orange-700 print:text-black">Recursos humanos</h3>
-                  <p className="text-gray-600 mb-4 print:text-black">Desenvolver programas de capacitação continuada e estabelecer carreiras específicas para profissionais de regulação, principalmente médicos reguladores.</p>
-                </div>
+                <TabsContent value="medio" className="mt-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 print:gap-4">
+                    <div className="space-y-4">
+                      <div className="bg-indigo-50 p-4 rounded-lg print:bg-indigo-50">
+                        <h3 className="font-semibold text-lg mb-2 text-indigo-800 print:text-black">Interoperabilidade de Sistemas</h3>
+                        <p className="print:text-black">Desenvolver soluções para integração entre os diversos sistemas de informação em saúde, incluindo SISREG, SUSfácilMG e sistemas municipais.</p>
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          <span className="bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded print:bg-transparent print:border print:border-indigo-300 print:text-black">API de integração</span>
+                          <span className="bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded print:bg-transparent print:border print:border-indigo-300 print:text-black">Sistemas legados</span>
+                          <span className="bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded print:bg-transparent print:border print:border-indigo-300 print:text-black">FHIR</span>
+                        </div>
+                      </div>
+                      
+                      <div className="bg-red-50 p-4 rounded-lg print:bg-red-50">
+                        <h3 className="font-semibold text-lg mb-2 text-red-800 print:text-black">Fortalecimento da Governança Regional</h3>
+                        <p className="print:text-black">Fortalecer as instâncias de pactuação regional, como as CIRs e CIBs, com foco na responsabilização dos municípios-polo.</p>
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          <span className="bg-red-100 text-red-800 text-xs px-2 py-1 rounded print:bg-transparent print:border print:border-red-300 print:text-black">Comissões Intergestores</span>
+                          <span className="bg-red-100 text-red-800 text-xs px-2 py-1 rounded print:bg-transparent print:border print:border-red-300 print:text-black">Contratualização</span>
+                          <span className="bg-red-100 text-red-800 text-xs px-2 py-1 rounded print:bg-transparent print:border print:border-red-300 print:text-black">Metas regionais</span>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-4">
+                      <div className="bg-emerald-50 p-4 rounded-lg print:bg-emerald-50">
+                        <h3 className="font-semibold text-lg mb-2 text-emerald-800 print:text-black">Regulação Ambulatorial</h3>
+                        <p className="print:text-black">Desenvolver e implementar sistemas de regulação ambulatorial integrados, com uso de inteligência artificial para apoio à decisão.</p>
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          <span className="bg-emerald-100 text-emerald-800 text-xs px-2 py-1 rounded print:bg-transparent print:border print:border-emerald-300 print:text-black">Especialidades</span>
+                          <span className="bg-emerald-100 text-emerald-800 text-xs px-2 py-1 rounded print:bg-transparent print:border print:border-emerald-300 print:text-black">IA para suporte</span>
+                          <span className="bg-emerald-100 text-emerald-800 text-xs px-2 py-1 rounded print:bg-transparent print:border print:border-emerald-300 print:text-black">Priorização automática</span>
+                        </div>
+                      </div>
+                      
+                      <div className="bg-pink-50 p-4 rounded-lg print:bg-pink-50">
+                        <h3 className="font-semibold text-lg mb-2 text-pink-800 print:text-black">Carreira de Regulador</h3>
+                        <p className="print:text-black">Estruturar carreiras para médicos reguladores e profissionais de regulação, com planos de carreira e incentivos para fixação.</p>
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          <span className="bg-pink-100 text-pink-800 text-xs px-2 py-1 rounded print:bg-transparent print:border print:border-pink-300 print:text-black">Concursos específicos</span>
+                          <span className="bg-pink-100 text-pink-800 text-xs px-2 py-1 rounded print:bg-transparent print:border print:border-pink-300 print:text-black">Remuneração adequada</span>
+                          <span className="bg-pink-100 text-pink-800 text-xs px-2 py-1 rounded print:bg-transparent print:border print:border-pink-300 print:text-black">Educação permanente</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </TabsContent>
                 
-                <div className="bg-white p-5 rounded-lg border border-purple-100 print:border-none">
-                  <h3 className="font-medium text-xl mb-3 text-purple-700 print:text-black">Integração entre níveis de atenção</h3>
-                  <p className="text-gray-600 mb-4 print:text-black">Fortalecer a comunicação entre a atenção primária e especializada, usando sistemas como referência e contrarreferência eletrônicas.</p>
-                </div>
+                <TabsContent value="longo" className="mt-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 print:gap-4">
+                    <div className="space-y-4">
+                      <div className="bg-cyan-50 p-4 rounded-lg print:bg-cyan-50">
+                        <h3 className="font-semibold text-lg mb-2 text-cyan-800 print:text-black">Modernização Tecnológica</h3>
+                        <p className="print:text-black">Desenvolver uma nova geração de sistemas de regulação com uso de inteligência artificial, big data e interoperabilidade plena.</p>
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          <span className="bg-cyan-100 text-cyan-800 text-xs px-2 py-1 rounded print:bg-transparent print:border print:border-cyan-300 print:text-black">IA avançada</span>
+                          <span className="bg-cyan-100 text-cyan-800 text-xs px-2 py-1 rounded print:bg-transparent print:border print:border-cyan-300 print:text-black">Interoperabilidade total</span>
+                          <span className="bg-cyan-100 text-cyan-800 text-xs px-2 py-1 rounded print:bg-transparent print:border print:border-cyan-300 print:text-black">Análise preditiva</span>
+                        </div>
+                      </div>
+                      
+                      <div className="bg-amber-50 p-4 rounded-lg print:bg-amber-50">
+                        <h3 className="font-semibold text-lg mb-2 text-amber-800 print:text-black">Regulação Proativa</h3>
+                        <p className="print:text-black">Mudar o modelo de regulação de reativo para proativo, identificando necessidades antes mesmo que se tornem demandas agudas.</p>
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          <span className="bg-amber-100 text-amber-800 text-xs px-2 py-1 rounded print:bg-transparent print:border print:border-amber-300 print:text-black">Gestão de crônicos</span>
+                          <span className="bg-amber-100 text-amber-800 text-xs px-2 py-1 rounded print:bg-transparent print:border print:border-amber-300 print:text-black">Prevenção quaternária</span>
+                          <span className="bg-amber-100 text-amber-800 text-xs px-2 py-1 rounded print:bg-transparent print:border print:border-amber-300 print:text-black">Cuidado integrado</span>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-4">
+                      <div className="bg-teal-50 p-4 rounded-lg print:bg-teal-50">
+                        <h3 className="font-semibold text-lg mb-2 text-teal-800 print:text-black">Regionalização Efetiva</h3>
+                        <p className="print:text-black">Redesenhar a regionalização da saúde baseada em análises demográficas, epidemiológicas e de fluxos assistenciais reais.</p>
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          <span className="bg-teal-100 text-teal-800 text-xs px-2 py-1 rounded print:bg-transparent print:border print:border-teal-300 print:text-black">Novo PDR</span>
+                          <span className="bg-teal-100 text-teal-800 text-xs px-2 py-1 rounded print:bg-transparent print:border print:border-teal-300 print:text-black">Fluxos reais</span>
+                          <span className="bg-teal-100 text-teal-800 text-xs px-2 py-1 rounded print:bg-transparent print:border print:border-teal-300 print:text-black">Gestão regional</span>
+                        </div>
+                      </div>
+                      
+                      <div className="bg-rose-50 p-4 rounded-lg print:bg-rose-50">
+                        <h3 className="font-semibold text-lg mb-2 text-rose-800 print:text-black">Financiamento Integrado</h3>
+                        <p className="print:text-black">Reformular o modelo de financiamento para apoiar de forma mais efetiva a regulação do acesso, com incentivos para cumprimento de metas.</p>
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          <span className="bg-rose-100 text-rose-800 text-xs px-2 py-1 rounded print:bg-transparent print:border print:border-rose-300 print:text-black">Pagamento por desempenho</span>
+                          <span className="bg-rose-100 text-rose-800 text-xs px-2 py-1 rounded print:bg-transparent print:border print:border-rose-300 print:text-black">Nova PPI</span>
+                          <span className="bg-rose-100 text-rose-800 text-xs px-2 py-1 rounded print:bg-transparent print:border print:border-rose-300 print:text-black">Financiamento regional</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </TabsContent>
+              </Tabs>
+              
+              <div className="mt-8 p-4 bg-gray-50 rounded-lg print:bg-gray-100">
+                <h3 className="font-semibold text-lg mb-3 print:text-black">Pontos críticos para o sucesso:</h3>
+                <ul className="list-disc pl-5 space-y-2 print:text-black">
+                  <li><span className="font-medium">Integração entre entes federativos</span>: As recomendações dependem de coordenação efetiva entre União, estados e municípios.</li>
+                  <li><span className="font-medium">Sustentabilidade financeira</span>: Muitas das propostas exigem investimentos contínuos e previsíveis ao longo do tempo.</li>
+                  <li><span className="font-medium">Desenvolvimento de recursos humanos</span>: A capacitação e fixação de profissionais qualificados é fundamental para qualquer avanço na regulação.</li>
+                  <li><span className="font-medium">Participação social</span>: Os usuários precisam estar envolvidos no processo para garantir transparência e adequação das soluções.</li>
+                </ul>
               </div>
             </CardContent>
           </Card>
