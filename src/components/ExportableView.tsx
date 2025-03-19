@@ -9,8 +9,18 @@ import { useToast } from "@/components/ui/use-toast";
 // Cores atualizadas para análise mais precisa
 // Cores para fortalezas - tons de azul e verde
 const COLORS_FORTALEZAS = ['#0066CC', '#009933', '#57bc6c', '#81C784', '#A5D6A7'];
-// Cores para fragilidades - paleta de vermelhos melhorada
-const COLORS_FRAGILIDADES = ['#C9184A', '#E5383B', '#D62828', '#A4161A', '#BA181B'];
+// Cores variadas para fragilidades - melhor diferenciação visual
+const COLORS_FRAGILIDADES = [
+  '#E63946', // Vermelho vibrante para sistemas
+  '#9D4EDD', // Roxo para protocolos
+  '#FFB703', // Amarelo âmbar para outros
+  '#FB8500', // Laranja para governança
+  '#023E8A', // Azul escuro para integração
+  '#0077B6', // Azul médio para recursos
+  '#0096C7', // Ciano para acesso
+  '#8B2431', // Bordô para regionalização
+  '#588157'  // Verde escuro para financiamento
+];
 
 // Dados reais baseados nas informações fornecidas
 const dadosReais = [
@@ -174,7 +184,7 @@ const renderCustomLabel = (props: CustomLabelProps) => {
 };
 
 // Componente de tabela para substituir os gráficos de pizza nas versões impressas
-const TabelaDistribuicao = ({ dados, titulo, corIcone }) => {
+const TabelaDistribuicao = ({ dados, titulo, tipo }) => {
   return (
     <div className="mt-4 print:block hidden">
       <h4 className="font-medium text-lg mb-3">{titulo}</h4>
@@ -192,9 +202,10 @@ const TabelaDistribuicao = ({ dados, titulo, corIcone }) => {
               <td className="p-2 flex items-center">
                 <span 
                   className="inline-block w-3 h-3 rounded-full mr-2" 
-                  style={{ backgroundColor: index < 5 ? 
-                    (titulo.includes("Fortalezas") ? COLORS_FORTALEZAS[index] : COLORS_FRAGILIDADES[index]) : 
-                    '#888' 
+                  style={{ 
+                    backgroundColor: tipo === 'fortalezas' ? 
+                      COLORS_FORTALEZAS[index % COLORS_FORTALEZAS.length] : 
+                      COLORS_FRAGILIDADES[index % COLORS_FRAGILIDADES.length]
                   }}
                 ></span>
                 {item.name}
@@ -327,7 +338,24 @@ const ExportableView = () => {
               <CardTitle className="text-2xl print:text-black">1. Visão Geral da Regulação do SUS</CardTitle>
             </CardHeader>
             <CardContent className="p-6 print:p-4">
-              {/* ... keep existing code (cards e indicadores) */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-blue-600 print:text-black">{estatisticasGerais.totalEstados}</div>
+                  <div className="text-sm text-gray-500 print:text-black">Estados Participantes</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-green-600 print:text-black">{estatisticasGerais.totalFortalezas}</div>
+                  <div className="text-sm text-gray-500 print:text-black">Fortalezas Identificadas</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-red-600 print:text-black">{estatisticasGerais.totalFragilidades}</div>
+                  <div className="text-sm text-gray-500 print:text-black">Fragilidades Identificadas</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-gray-700 print:text-black">{estatisticasGerais.temasMaisFortalezas}% / {estatisticasGerais.temasMaisFragilidades}% / {estatisticasGerais.temasEquilibrados}%</div>
+                  <div className="text-sm text-gray-500 print:text-black">Temas + Fortalezas / + Fragilidades / Equilibrados</div>
+                </div>
+              </div>
               
               {/* Gráfico de distribuição */}
               <div className="mb-6 h-[250px] print:h-[300px] print:hidden">
@@ -387,7 +415,12 @@ const ExportableView = () => {
               </div>
               
               <div className="bg-gray-50 print:bg-gray-100 p-5 rounded-lg">
-                {/* ... keep existing code (constatações) */}
+                <h3 className="font-medium text-xl mb-4 text-gray-800 print:text-black">Constatações gerais:</h3>
+                <ul className="list-disc list-inside text-gray-600 print:text-black">
+                  <li>A maioria dos estados compartilham desafios similares na regulação do SUS.</li>
+                  <li>A integração de sistemas e a gestão de recursos são pontos críticos.</li>
+                  <li>A necessidade de equilibrar fortalezas e fragilidades é evidente para melhorias contínuas.</li>
+                </ul>
               </div>
             </CardContent>
           </Card>
@@ -461,7 +494,12 @@ const ExportableView = () => {
               </div>
               
               <div className="mt-8 bg-gray-50 print:bg-gray-100 p-5 rounded-lg">
-                {/* ... keep existing code (destaques) */}
+                <h3 className="font-medium text-xl mb-4 text-gray-800 print:text-black">Destaques da análise:</h3>
+                <ul className="list-disc list-inside text-gray-600 print:text-black">
+                  <li><strong>Sistemas e tecnologia:</strong> Apresentam o maior número de menções tanto em fortalezas quanto em fragilidades.</li>
+                  <li><strong>Recursos humanos:</strong> É a categoria com maior número de fragilidades, indicando uma área crítica.</li>
+                  <li><strong>Protocolos e fluxos:</strong> Mostram um bom equilíbrio, mas ainda com desafios a serem superados.</li>
+                </ul>
               </div>
             </CardContent>
           </Card>
@@ -510,11 +548,27 @@ const ExportableView = () => {
                     </ResponsiveContainer>
                   </div>
                   
+                  {/* Legenda de cores para melhor visualização */}
+                  <div className="mt-4 print:hidden">
+                    <h4 className="font-medium text-lg mb-3">Legenda de Fortalezas</h4>
+                    <div className="grid grid-cols-2 gap-2">
+                      {dadosPieFortalezas.slice(0, 6).map((item, index) => (
+                        <div key={index} className="flex items-center gap-2">
+                          <span 
+                            className="inline-block w-4 h-4 rounded-full" 
+                            style={{ backgroundColor: COLORS_FORTALEZAS[index % COLORS_FORTALEZAS.length] }}
+                          ></span>
+                          <span className="text-sm">{abreviarNomeCategoria(item.name)}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  
                   {/* Tabela para versão impressa */}
                   <TabelaDistribuicao 
                     dados={dadosPieFortalezas} 
                     titulo="Distribuição das Fortalezas por Categoria" 
-                    corIcone="#4CAF50" 
+                    tipo="fortalezas"
                   />
                 </div>
                 <div className="flex flex-col justify-center">
@@ -550,7 +604,7 @@ const ExportableView = () => {
             <CardContent className="p-6 print:p-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 section-fragilidades">
                 <div>
-                  {/* Gráfico visível apenas em tela - com cores melhoradas */}
+                  {/* Gráfico visível apenas em tela - com cores variadas */}
                   <div className="h-[400px] print:hidden">
                     <ResponsiveContainer width="100%" height="100%">
                       <PieChart>
@@ -588,116 +642,12 @@ const ExportableView = () => {
                   
                   {/* Legenda de cores para melhor visualização */}
                   <div className="mt-4 print:hidden">
-                    <h4 className="font-medium text-lg mb-3">Legenda de Cores</h4>
+                    <h4 className="font-medium text-lg mb-3">Legenda de Fragilidades</h4>
                     <div className="grid grid-cols-2 gap-2">
-                      {dadosPieFragilidades.slice(0, 6).map((item, index) => (
+                      {dadosPieFragilidades.slice(0, 9).map((item, index) => (
                         <div key={index} className="flex items-center gap-2">
                           <span 
                             className="inline-block w-4 h-4 rounded-full" 
                             style={{ backgroundColor: COLORS_FRAGILIDADES[index % COLORS_FRAGILIDADES.length] }}
                           ></span>
-                          <span className="text-sm">{abreviarNomeCategoria(item.name)}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  
-                  {/* Tabela para versão impressa - com cores melhoradas */}
-                  <TabelaDistribuicao 
-                    dados={dadosPieFragilidades} 
-                    titulo="Distribuição das Fragilidades por Categoria" 
-                    corIcone="#C9184A" 
-                  />
-                </div>
-                <div className="flex flex-col justify-center">
-                  <h3 className="font-medium text-xl mb-4 text-red-700 print:text-black">Principais fragilidades:</h3>
-                  <ul className="space-y-4">
-                    <li className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 print:border-none">
-                      <div className="font-medium text-[#A4161A] print:text-black mb-1">Recursos humanos</div>
-                      <p className="text-gray-700 print:text-black">Falta de profissionais qualificados e capacitação inadequada.</p>
-                    </li>
-                    <li className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 print:border-none">
-                      <div className="font-medium text-[#E5383B] print:text-black mb-1">Acesso e equidade</div>
-                      <p className="text-gray-700 print:text-black">Desigualdades no acesso entre regiões e municípios.</p>
-                    </li>
-                    <li className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 print:border-none">
-                      <div className="font-medium text-[#C9184A] print:text-black mb-1">Sistemas e tecnologia</div>
-                      <p className="text-gray-700 print:text-black">Limitações dos sistemas existentes, falta de interoperabilidade.</p>
-                    </li>
-                    <li className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 print:border-none">
-                      <div className="font-medium text-[#D62828] print:text-black mb-1">Integração de níveis</div>
-                      <p className="text-gray-700 print:text-black">Falta de articulação entre os diferentes níveis de atenção.</p>
-                    </li>
-                    <li className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 print:border-none">
-                      <div className="font-medium text-[#BA181B] print:text-black mb-1">Regionalização</div>
-                      <p className="text-gray-700 print:text-black">Dificuldades na implementação da regionalização da saúde.</p>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Seção 5: Intensidade dos Temas */}
-          <Card className="mb-10 shadow-md print:shadow-none print:border-none card-section-5">
-            <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 print:bg-white border-b">
-              <CardTitle className="text-2xl print:text-black">5. Intensidade dos Temas por Estado</CardTitle>
-            </CardHeader>
-            <CardContent className="p-6 print:p-4">
-              <p className="mb-4 text-gray-600 print:text-black">Média de intensidade (escala 0-3) para os principais temas:</p>
-              <div className="h-[400px] print:h-[350px]">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart
-                    data={dadosIntensidade}
-                    margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
-                  >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="tema" angle={-45} textAnchor="end" height={80} />
-                    <YAxis domain={[0, 3]} label={{ value: 'Intensidade média', angle: -90, position: 'insideLeft' }} />
-                    <Tooltip 
-                      formatter={(value) => {
-                        if (typeof value === 'number') {
-                          return [`${value.toFixed(1)}`, 'Intensidade'];
-                        }
-                        return [value, 'Intensidade'];
-                      }} 
-                    />
-                    <Legend />
-                    <Bar dataKey="intensidadeFortalezas" name="Fortalezas" fill="#4CAF50" />
-                    <Bar dataKey="intensidadeFragilidades" name="Fragilidades" fill="#F44336" />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-              <div className="mt-6 bg-gray-50 print:bg-gray-100 p-5 rounded-lg">
-                <h3 className="font-medium text-xl mb-4 text-gray-800 print:text-black">Insights sobre intensidade:</h3>
-                <ul className="space-y-2">
-                  <li className="flex items-start">
-                    <span className="inline-block w-2 h-2 bg-green-500 rounded-full mt-2 mr-2"></span>
-                    <span className="print:text-black"><strong>Sistemas e tecnologia:</strong> apresenta a maior intensidade tanto em fortalezas (1.8) quanto em fragilidades (1.5)</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="inline-block w-2 h-2 bg-blue-500 rounded-full mt-2 mr-2"></span>
-                    <span className="print:text-black"><strong>Protocolos e fluxos:</strong> segunda maior intensidade em fortalezas (1.2), indicando área de bom desenvolvimento</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="inline-block w-2 h-2 bg-red-500 rounded-full mt-2 mr-2"></span>
-                    <span className="print:text-black"><strong>Regionalização:</strong> apresenta diferença negativa significativa (-0.6), indicando área de maior preocupação</span>
-                  </li>
-                </ul>
-              </div>
-            </CardContent>
-          </Card>
-          
-          {/* Rodapé do documento */}
-          <div className="text-center mb-8 mt-12 text-sm text-gray-500 print:text-black">
-            <p>Relatório gerado em {new Date().toLocaleDateString()}</p>
-            <p>Regulação SUS - Análise de Fortalezas e Fragilidades</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default ExportableView;
-
+                          <span className

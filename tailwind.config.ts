@@ -97,6 +97,18 @@ export default {
                     acesso: '#006633',
                     regionalizacao: '#BADBAD',
                     financiamento: '#E0F0E0'
+                },
+                // Cores variadas para fragilidades para melhor distinção
+                fragilidades: {
+                    sistemas: '#E63946',     // Vermelho vibrante
+                    protocolos: '#9D4EDD',   // Roxo
+                    outros: '#FFB703',       // Amarelo âmbar
+                    governanca: '#FB8500',   // Laranja
+                    integracao: '#023E8A',   // Azul escuro
+                    recursos: '#0077B6',     // Azul médio
+                    acesso: '#0096C7',       // Ciano
+                    regionalizacao: '#8B2431', // Bordô
+                    financiamento: '#588157' // Verde escuro
                 }
 			},
 			borderRadius: {

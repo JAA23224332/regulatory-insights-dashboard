@@ -1,4 +1,3 @@
-
 /* Estilos de impressão */
 @media print {
   body {
@@ -136,6 +135,52 @@
   .cor-financiamento {
     color: #E0F0E0 !important;
     background-color: #E0F0E0 !important;
+  }
+  
+  /* Cores variadas para fragilidades para melhor distinção */
+  .fragilidade-sistemas {
+    color: #E63946 !important;
+    background-color: #E63946 !important;
+  }
+  
+  .fragilidade-protocolos {
+    color: #9D4EDD !important;
+    background-color: #9D4EDD !important;
+  }
+  
+  .fragilidade-outros {
+    color: #FFB703 !important;
+    background-color: #FFB703 !important;
+  }
+  
+  .fragilidade-governanca {
+    color: #FB8500 !important;
+    background-color: #FB8500 !important;
+  }
+  
+  .fragilidade-integracao {
+    color: #023E8A !important;
+    background-color: #023E8A !important;
+  }
+  
+  .fragilidade-recursos {
+    color: #0077B6 !important;
+    background-color: #0077B6 !important;
+  }
+  
+  .fragilidade-acesso {
+    color: #0096C7 !important;
+    background-color: #0096C7 !important;
+  }
+  
+  .fragilidade-regionalizacao {
+    color: #8B2431 !important;
+    background-color: #8B2431 !important;
+  }
+  
+  .fragilidade-financiamento {
+    color: #588157 !important;
+    background-color: #588157 !important;
   }
   
   .cor-fortaleza {
@@ -292,76 +337,53 @@
   border-radius: 4px;
 }
 
-/* Cores melhoradas para os gráficos de donut - fragilidades */
-.donut-sistemas {
-  background-color: #0066CC;
+/* Cores para fortalezas */
+.donut-legend-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
 }
 
-.donut-protocolos {
-  background-color: #009933;
+.donut-legend-color {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  border-radius: 4px;
 }
 
-.donut-outros {
-  background-color: #66CC99;
-}
-
-.donut-governanca {
-  background-color: #7FC77F;
-}
-
-.donut-integracao {
-  background-color: #BEE3BE;
-}
-
-.donut-recursos {
-  background-color: #0055AA;
-}
-
-.donut-acesso {
-  background-color: #006633;
-}
-
-.donut-regionalizacao {
-  background-color: #BADBAD;
-}
-
-.donut-financiamento {
-  background-color: #E0F0E0;
-}
-
-/* Cores específicas para fragilidades - paleta melhorada para análise */
+/* Cores variadas para fragilidades para melhor distinção */
 .fragilidade-sistemas {
-  background-color: #BF4040; /* Vermelho escuro */
+  background-color: #E63946;
 }
 
 .fragilidade-protocolos {
-  background-color: #E63946; /* Vermelho coral */
+  background-color: #9D4EDD;
 }
 
 .fragilidade-outros {
-  background-color: #FF6B6B; /* Vermelho claro */
+  background-color: #FFB703;
 }
 
 .fragilidade-governanca {
-  background-color: #C9184A; /* Vermelho framboesa */
+  background-color: #FB8500;
 }
 
 .fragilidade-integracao {
-  background-color: #D62828; /* Vermelho médio */
+  background-color: #023E8A;
 }
 
 .fragilidade-recursos {
-  background-color: #A4161A; /* Vermelho escuro intenso */
+  background-color: #0077B6;
 }
 
 .fragilidade-acesso {
-  background-color: #E5383B; /* Vermelho brilhante */
+  background-color: #0096C7;
 }
 
 .fragilidade-regionalizacao {
-  background-color: #BA181B; /* Vermelho tijolo */
+  background-color: #8B2431;
 }
 
 .fragilidade-financiamento {
-  background-color: #F07167; /* Coral avermelhado */
+  background-color: #588157;
 }
