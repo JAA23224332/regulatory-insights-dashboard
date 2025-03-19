@@ -92,6 +92,19 @@ const dadosDistribuicao = [
   { name: 'Fragilidades', value: estatisticasGerais.totalFragilidades },
 ];
 
+// Função auxiliar para abreviar nomes de categorias
+const abreviarNomeCategoria = (nome) => {
+  switch(nome) {
+    case 'Sistemas e tecnologia': return 'Sistemas';
+    case 'Protocolos e fluxos': return 'Protocolos';
+    case 'Governança e gestão': return 'Governança';
+    case 'Integração de níveis': return 'Integração';
+    case 'Recursos humanos': return 'RH';
+    case 'Acesso e equidade': return 'Acesso';
+    default: return nome.length > 10 ? nome.substring(0, 10) + '..' : nome;
+  }
+};
+
 // Preparar dados para o gráfico de pizza com porcentagens
 const prepareDadosPieFortalezas = () => {
   const total = dadosReais.reduce((acc, item) => acc + item.fortalezas, 0);
@@ -100,7 +113,8 @@ const prepareDadosPieFortalezas = () => {
     .map(item => ({
       name: item.categoria,
       value: item.fortalezas,
-      percentage: Math.round((item.fortalezas / total) * 100)
+      percentage: Math.round((item.fortalezas / total) * 100),
+      shortName: abreviarNomeCategoria(item.categoria)
     }))
     .sort((a, b) => b.value - a.value);
 };
@@ -112,7 +126,8 @@ const prepareDadosPieFragilidades = () => {
     .map(item => ({
       name: item.categoria,
       value: item.fragilidades,
-      percentage: Math.round((item.fragilidades / total) * 100)
+      percentage: Math.round((item.fragilidades / total) * 100),
+      shortName: abreviarNomeCategoria(item.categoria)
     }))
     .sort((a, b) => b.value - a.value);
 };
@@ -120,42 +135,73 @@ const prepareDadosPieFragilidades = () => {
 const dadosPieFortalezas = prepareDadosPieFortalezas();
 const dadosPieFragilidades = prepareDadosPieFragilidades();
 
-// Custom label for pie charts that includes percentage
-const renderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index, name, percentage }) => {
+// Função para ajustar a posição de cada rótulo com base no ângulo
+const getAdjustedLabelPosition = (cx, cy, midAngle, radius) => {
   const RADIAN = Math.PI / 180;
-  // Increase radius to push labels further out
-  const radius = outerRadius * 1.7; // Aumentado para 1.7 para maior distância
   
-  // Calcular a posição do texto
-  const x = cx + radius * Math.cos(-midAngle * RADIAN);
-  const y = cy + radius * Math.sin(-midAngle * RADIAN);
+  // Ajustar o raio com base no ângulo para evitar sobreposição
+  let adjustedRadius = radius;
   
-  // Abreviação mais agressiva para nomes longos
-  let shortenedName = '';
-  if (name === 'Sistemas e tecnologia') shortenedName = 'Sistemas';
-  else if (name === 'Protocolos e fluxos') shortenedName = 'Protocolos';
-  else if (name === 'Governança e gestão') shortenedName = 'Governança';
-  else if (name === 'Integração de níveis') shortenedName = 'Integração';
-  else if (name === 'Recursos humanos') shortenedName = 'RH';
-  else if (name === 'Acesso e equidade') shortenedName = 'Acesso';
-  else shortenedName = name.length > 10 ? name.substring(0, 10) + '...' : name;
+  // Quadrante superior direito e inferior direito: mover mais para fora
+  if ((midAngle >= 270 && midAngle <= 360) || (midAngle >= 0 && midAngle <= 90)) {
+    adjustedRadius = radius * 1.1;
+  }
+  
+  // Quadrante superior esquerdo e inferior esquerdo
+  if (midAngle > 90 && midAngle < 270) {
+    adjustedRadius = radius * 1.1;
+  }
+  
+  // Calcular posição com o raio ajustado
+  const x = cx + adjustedRadius * Math.cos(-midAngle * RADIAN);
+  const y = cy + adjustedRadius * Math.sin(-midAngle * RADIAN);
+  
+  return { x, y };
+};
+
+// Custom label for pie charts that includes percentage
+const renderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index, name, percentage, shortName }) => {
+  const RADIAN = Math.PI / 180;
+  // Increase radius to push labels further out - agora usando 2.0 para maior distância
+  const radius = outerRadius * 2.0;
+  
+  // Obter posição ajustada com base no ângulo
+  const { x, y } = getAdjustedLabelPosition(cx, cy, midAngle, radius);
+  
+  // Determinar alinhamento do texto com base no quadrante
+  const textAnchor = x > cx ? 'start' : 'end';
+  
+  // Nome simplificado para o rótulo
+  const labelText = `${shortName}: ${percentage}%`;
   
   return (
-    <text 
-      x={x} 
-      y={y} 
-      fill="#333" 
-      textAnchor={x > cx ? 'start' : 'end'} 
-      dominantBaseline="central"
-      className="print:text-black"
-      style={{ 
-        fontSize: '9px', 
-        fontWeight: 'bold',
-        textShadow: '0 0 3px white, 0 0 2px white, 0 0 1px white' // Sombra branca mais forte para melhorar a legibilidade
-      }}
-    >
-      {`${shortenedName}: ${percentage}%`}
-    </text>
+    <g>
+      {/* Linha de conexão mais longa e personalizada */}
+      <path 
+        d={`M${cx + (outerRadius + 5) * Math.cos(-midAngle * RADIAN)},${cy + (outerRadius + 5) * Math.sin(-midAngle * RADIAN)}L${x - (textAnchor === 'start' ? 5 : -5)},${y}`} 
+        stroke="#666" 
+        strokeWidth={1.5} 
+        fill="none"
+        className="pie-chart-custom-label-line"
+      />
+      
+      {/* Texto do rótulo com sombra mais forte */}
+      <text 
+        x={x} 
+        y={y} 
+        fill="#000" 
+        textAnchor={textAnchor} 
+        dominantBaseline="central"
+        className="print:text-black"
+        style={{ 
+          fontSize: '9px', 
+          fontWeight: 'bold',
+          textShadow: '0 0 5px white, 0 0 4px white, 0 0 3px white, 0 0 2px white'
+        }}
+      >
+        {labelText}
+      </text>
+    </g>
   );
 };
 
@@ -180,20 +226,24 @@ const ExportableView = () => {
         }
         .recharts-wrapper {
           overflow: visible !important;
-          min-height: 650px !important;
+          min-height: 700px !important;
         }
         .card-section-3 .recharts-wrapper,
         .card-section-4 .recharts-wrapper {
-          min-height: 650px !important;
+          min-height: 700px !important;
         }
         .recharts-pie {
-          transform: scale(0.7) !important;
+          transform: scale(0.65) !important;
         }
         .recharts-pie-label-text {
-          font-size: 9px !important;
+          font-size: 8px !important;
           font-weight: bold !important;
           fill: black !important;
-          text-shadow: 0 0 3px white, 0 0 2px white, 0 0 1px white !important;
+          text-shadow: 0 0 5px white, 0 0 4px white, 0 0 3px white, 0 0 2px white !important;
+        }
+        .pie-chart-custom-label-line {
+          stroke: #666 !important;
+          stroke-width: 1.5px !important;
         }
       }
     `;
@@ -222,9 +272,17 @@ const ExportableView = () => {
       if (card.classList.contains('card-section-3') || card.classList.contains('card-section-4')) {
         const chartsContainer = card.querySelector('.grid > div:first-child') as HTMLElement;
         if (chartsContainer) {
-          chartsContainer.style.minHeight = '650px';
+          chartsContainer.style.minHeight = '700px';
         }
       }
+    });
+    
+    // Garantir que os rótulos estejam visíveis
+    const pieChartLabels = document.querySelectorAll('.recharts-pie-label-text');
+    pieChartLabels.forEach((label) => {
+      const labelElement = label as HTMLElement;
+      labelElement.style.textShadow = '0 0 5px white, 0 0 4px white, 0 0 3px white, 0 0 2px white';
+      labelElement.style.fontWeight = 'bold';
     });
     
     // Wait longer to ensure all styles are applied and charts are fully rendered
@@ -235,7 +293,7 @@ const ExportableView = () => {
         title: "Exportação de PDF iniciada",
         description: "Use a opção 'Salvar como PDF' na janela de impressão",
       });
-    }, 4000); // Increased timeout to 4000ms for better rendering
+    }, 5000); // Increased timeout to 5000ms for better rendering
   };
   
   const handlePrint = () => {
@@ -255,9 +313,17 @@ const ExportableView = () => {
       if (card.classList.contains('card-section-3') || card.classList.contains('card-section-4')) {
         const chartsContainer = card.querySelector('.grid > div:first-child') as HTMLElement;
         if (chartsContainer) {
-          chartsContainer.style.minHeight = '650px';
+          chartsContainer.style.minHeight = '700px';
         }
       }
+    });
+    
+    // Garantir que os rótulos estejam visíveis
+    const pieChartLabels = document.querySelectorAll('.recharts-pie-label-text');
+    pieChartLabels.forEach((label) => {
+      const labelElement = label as HTMLElement;
+      labelElement.style.textShadow = '0 0 5px white, 0 0 4px white, 0 0 3px white, 0 0 2px white';
+      labelElement.style.fontWeight = 'bold';
     });
     
     // Wait longer to ensure all styles are applied
@@ -268,7 +334,7 @@ const ExportableView = () => {
         title: "Impressão iniciada",
         description: "O documento está sendo enviado para impressão",
       });
-    }, 4000); // Increased timeout to 4000ms for better rendering
+    }, 5000); // Increased timeout to 5000ms for better rendering
   };
   
   // Voltar para a página principal
@@ -456,17 +522,17 @@ const ExportableView = () => {
             </CardHeader>
             <CardContent className="p-6 print:p-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 section-fortalezas">
-                <div className="h-[650px] print:h-[650px] flex items-center justify-center pie-label-container">
+                <div className="h-[700px] print:h-[700px] flex items-center justify-center pie-label-container">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
                         data={dadosPieFortalezas}
                         cx="50%"
                         cy="50%"
-                        labelLine={true}
+                        labelLine={false} // Desativando linha padrão, usando nossa própria linha
                         label={renderCustomLabel}
-                        outerRadius={100} // Reduced size
-                        innerRadius={50}  // Reduced size
+                        outerRadius={90} // Reduced size even more
+                        innerRadius={45} // Reduced inner radius
                         fill="#8884d8"
                         dataKey="value"
                         paddingAngle={4} // Increased padding between sectors
@@ -523,17 +589,17 @@ const ExportableView = () => {
             </CardHeader>
             <CardContent className="p-6 print:p-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 section-fragilidades">
-                <div className="h-[650px] print:h-[650px] flex items-center justify-center pie-label-container">
+                <div className="h-[700px] print:h-[700px] flex items-center justify-center pie-label-container">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
                         data={dadosPieFragilidades}
                         cx="50%"
                         cy="50%"
-                        labelLine={true}
+                        labelLine={false} // Desativando linha padrão, usando nossa própria linha
                         label={renderCustomLabel}
-                        outerRadius={100} // Reduced size
-                        innerRadius={50}  // Reduced size 
+                        outerRadius={90} // Reduced size even more
+                        innerRadius={45} // Reduced inner radius
                         fill="#8884d8"
                         dataKey="value"
                         paddingAngle={4} // Increased padding between sectors

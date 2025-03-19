@@ -97,22 +97,26 @@
     overflow: visible !important;
   }
   
+  /* MELHORIAS ESPECÍFICAS PARA GRÁFICOS DE PIZZA */
   /* Improve pie chart specific rendering */
   .recharts-pie {
-    transform: scale(0.7) !important; /* Scale down pie further to 0.7 */
+    transform: scale(0.65) !important; /* Scale down pie further to 0.65 */
     transform-origin: center center !important;
   }
   
+  /* Melhorias para rótulos dos gráficos de pizza */
   .recharts-pie-label-text {
-    font-size: 9px !important; /* Reduced font size */
+    font-size: 8px !important; /* Fonte ainda menor */
     font-weight: bold !important;
     fill: black !important;
+    dominant-baseline: central !important;
+    text-shadow: 0 0 5px white, 0 0 4px white, 0 0 3px white, 0 0 2px white !important; /* Sombra mais forte */
   }
   
   /* Adjust pie chart containers specifically */
   .card-section-3 .recharts-wrapper,
   .card-section-4 .recharts-wrapper {
-    min-height: 650px !important; /* Aumentado para 650px */
+    min-height: 700px !important; /* Aumentado para 700px */
     overflow: visible !important;
     margin-bottom: 50px !important;
   }
@@ -124,28 +128,28 @@
     stroke: white !important;
   }
   
-  /* Força os rótulos a serem visíveis */
+  /* Espaço específico para rótulos de gráfico */
+  .pie-label-container {
+    min-height: 700px !important; /* Aumentado para 700px */
+    margin-bottom: 100px !important;
+  }
+  
+  /* Força os rótulos a serem visíveis com mais espaço */
   .recharts-layer.recharts-pie-labels {
     overflow: visible !important;
   }
   
-  .recharts-pie-label-text {
-    overflow: visible !important;
-    text-overflow: visible !important;
-    text-shadow: 0 0 3px white, 0 0 2px white, 0 0 1px white !important;
-    font-weight: 600 !important;
-  }
-  
-  /* Espaço específico para rótulos de gráfico */
-  .pie-label-container {
-    min-height: 650px !important;
-    margin-bottom: 100px !important;
-  }
-  
   /* Ajustes específicos para os rótulos do gráfico de pizza */
   .recharts-pie-label-line {
-    stroke: #999 !important; 
-    stroke-width: 1px !important;
+    stroke: #666 !important; 
+    stroke-width: 1.5px !important; /* Linha mais grossa */
+    stroke-dasharray: none !important; /* Linha sólida */
+  }
+  
+  /* Ajustes para linhas de conexão mais longas */
+  .pie-chart-custom-label-line {
+    stroke: #666 !important;
+    stroke-width: 1.5px !important;
   }
   
   /* Ajustes de margens e paddings */
@@ -170,7 +174,7 @@
     width: 100% !important;
     height: auto !important;
     min-height: 450px !important;
-    max-height: 650px !important; /* Increased max height */
+    max-height: 700px !important; /* Increased max height to 700px */
     page-break-inside: avoid !important;
     break-inside: avoid !important;
     overflow: visible !important;
@@ -187,26 +191,6 @@
   /* Melhorar contraste para impressão */
   .print\:text-black, .text-gray-600, .text-gray-700, .text-gray-800 {
     color: black !important;
-  }
-  
-  /* Ajustar cores dos gráficos para melhor impressão */
-  .recharts-pie-label-text {
-    fill: black !important;
-    font-weight: 600 !important;
-  }
-  
-  .recharts-cartesian-axis-tick-value {
-    fill: black !important;
-  }
-  
-  .recharts-legend-item-text {
-    color: black !important;
-  }
-  
-  /* Espaçamento específico para o texto dos rótulos de pie chart */
-  .recharts-pie-label-line {
-    stroke: #666 !important;
-    stroke-width: 1px !important;
   }
   
   /* Remover cabeçalhos e rodapés do navegador e ajustar página */
