@@ -92,62 +92,65 @@
   /* Controle de altura para visualizações */
   .h-\[400px\], .h-\[500px\], .h-\[350px\], .h-\[300px\], .h-\[250px\], .h-\[200px\] {
     height: auto !important;
-    min-height: 400px !important; /* Increase minimum height */
-    max-height: 600px !important; /* Increased max height */
+    min-height: 400px !important;
+    max-height: 600px !important;
     overflow: visible !important;
   }
   
-  /* Improve pie chart specific rendering */
+  /* NEW PIE CHART IMPROVEMENTS */
+  /* Dramatically scale down pie charts for better fit */
   .recharts-pie {
-    transform: scale(0.75) !important; /* Scale down pie further to 0.75 */
+    transform: scale(0.65) !important; /* Reduced from 0.75 to 0.65 */
     transform-origin: center center !important;
   }
   
+  /* Better label styling */
   .recharts-pie-label-text {
-    font-size: 10px !important; /* Reduced font size */
+    font-size: 11px !important; /* Increased from 10px */
     font-weight: bold !important;
     fill: black !important;
+    stroke-width: 0.5px !important;
+    stroke: white !important; /* White outline to help with contrast */
+    paint-order: stroke !important;
   }
   
-  /* Adjust pie chart containers specifically */
+  /* Increase container height for pie charts in sections 3 & 4 */
   .card-section-3 .recharts-wrapper,
   .card-section-4 .recharts-wrapper {
-    min-height: 650px !important; /* Increased from 550px to 650px */
+    min-height: 750px !important; /* Significantly increased from 650px to 750px */
     overflow: visible !important;
     margin-bottom: 50px !important;
   }
   
-  /* Ajustes específicos para pie charts na seção 3 e 4 */
-  .section-fortalezas .recharts-pie-sector,
-  .section-fragilidades .recharts-pie-sector {
-    stroke-width: 2px !important;
-    stroke: white !important;
+  /* Adjust grid layout for sections 3 & 4 to vertical stack */
+  .card-section-3 .grid,
+  .card-section-4 .grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0 !important;
   }
   
-  /* Improve label visibility for pie charts */
-  .recharts-layer.recharts-pie-labels {
-    overflow: visible !important;
+  /* Make pie chart container take full page height */
+  .card-section-3 .grid > div:first-child,
+  .card-section-4 .grid > div:first-child {
+    height: 700px !important; /* Fixed height for pie container */
+    margin-bottom: 0 !important;
   }
   
-  .recharts-pie-label-text {
-    overflow: visible !important;
-    text-overflow: visible !important;
-    text-shadow: 0 0 2px white !important;
-    white-space: nowrap !important; /* Prevent text wrapping */
-  }
-  
-  /* Add more space for the labels - larger padding around chart */
+  /* Add padding around Fortalezas & Fragilidades charts */
   .section-fortalezas .recharts-wrapper,
   .section-fragilidades .recharts-wrapper {
-    padding: 20px !important;
+    padding: 50px !important; /* Increased from 20px to 50px */
+    margin: 0 auto !important;
+    max-width: 90% !important;
   }
   
-  /* Enhanced label lines for better readability */
+  /* Enhanced label lines */
   .recharts-pie-label-line {
-    stroke: #666 !important;
-    stroke-width: 1.5px !important;
+    stroke: #333 !important; /* Darker line */
+    stroke-width: 1px !important;
     stroke-dasharray: none !important;
-    opacity: 0.8 !important;
+    opacity: 1 !important;
   }
   
   /* Ajustes de margens e paddings */
@@ -172,7 +175,7 @@
     width: 100% !important;
     height: auto !important;
     min-height: 400px !important;
-    max-height: 650px !important; /* Increased max height from 600px to 650px */
+    max-height: 750px !important; /* Increased from 650px to 750px */
     page-break-inside: avoid !important;
     break-inside: avoid !important;
     overflow: visible !important;
@@ -191,24 +194,15 @@
     color: black !important;
   }
   
-  /* Ajustar cores dos gráficos para melhor impressão */
+  /* Make labels more visible with background */
   .recharts-pie-label-text {
-    fill: black !important;
-    font-weight: 600 !important;
+    text-shadow: 0 0 3px white, 0 0 3px white, 0 0 3px white !important;
+    font-weight: 700 !important;
   }
   
-  .recharts-cartesian-axis-tick-value {
-    fill: black !important;
-  }
-  
-  .recharts-legend-item-text {
-    color: black !important;
-  }
-  
-  /* Espaçamento específico para o texto dos rótulos de pie chart */
-  .recharts-pie-label-line {
-    stroke: #666 !important;
-    stroke-width: 1px !important;
+  /* Improve spacing for label text */
+  .recharts-layer.recharts-pie-labels {
+    overflow: visible !important;
   }
   
   /* Remover cabeçalhos e rodapés do navegador e ajustar página */
@@ -256,19 +250,6 @@
   [class*="bg-gradient-to-"] {
     background: white !important;
   }
-  
-  /* Better handling of grid layout in sections 3 and 4 */
-  .card-section-3 .grid,
-  .card-section-4 .grid {
-    display: flex !important;
-    flex-direction: column !important;
-  }
-  
-  .card-section-3 .grid > div,
-  .card-section-4 .grid > div {
-    width: 100% !important;
-    margin-bottom: 2rem !important;
-  }
 }
 
 /* Estilos específicos para a exportação */
@@ -298,4 +279,13 @@
 .termo-description {
   margin-top: 0.25rem;
   font-size: 0.875rem;
+}
+
+/* Improve label readability */
+.section-fortalezas .recharts-pie-label-text,
+.section-fragilidades .recharts-pie-label-text {
+  paint-order: stroke;
+  stroke: white;
+  stroke-width: 0.5px;
+  font-weight: bold;
 }

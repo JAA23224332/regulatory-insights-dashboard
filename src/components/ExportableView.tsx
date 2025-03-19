@@ -119,11 +119,11 @@ const prepareDadosPieFragilidades = () => {
 const dadosPieFortalezas = prepareDadosPieFortalezas();
 const dadosPieFragilidades = prepareDadosPieFragilidades();
 
-// Improved label renderer for pie charts to prevent text cutoff
+// Completely redesigned label renderer for pie charts to prevent text cutoff
 const renderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index, name, percentage }) => {
   const RADIAN = Math.PI / 180;
   // Increase radius to push labels further out
-  const radius = outerRadius * 1.6; // Increased from 1.4 to 1.6 for more space
+  const radius = outerRadius * 1.8; // Significantly increased from 1.6 to 1.8
   
   // Calculate label position
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
@@ -132,23 +132,107 @@ const renderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent
   // Text anchor based on position (left or right side of the pie)
   const textAnchor = x > cx ? 'start' : 'end';
   
-  // Don't abbreviate names - show full category name
+  // For top and bottom labels, adjust vertical alignment
+  const verticalAdjustment = y < cy ? -10 : 10;
+  
+  // Abbreviate long category names to fit better
+  const displayName = name.length > 15 ? 
+    name.split(' ')[0] + (name.split(' ').length > 1 ? '...' : '') : 
+    name;
+  
   return (
-    <text 
-      x={x} 
-      y={y} 
-      fill="#333" 
-      textAnchor={textAnchor} 
-      dominantBaseline="central"
-      className="print:text-black"
-      style={{ 
-        fontSize: '10px', 
-        fontWeight: 'bold',
-        textShadow: '0 0 2px #fff' // White shadow for better readability
-      }}
-    >
-      {`${name}: ${percentage}%`}
-    </text>
+    <g>
+      {/* Add clear background rectangle for better readability */}
+      <rect 
+        x={textAnchor === 'start' ? x : x - 100} 
+        y={y - 10} 
+        width={100} 
+        height={20} 
+        fill="rgba(255, 255, 255, 0.7)" 
+        rx={4}
+      />
+      <text 
+        x={x} 
+        y={y} 
+        fill="#333" 
+        textAnchor={textAnchor} 
+        dominantBaseline="central"
+        className="print:text-black"
+        style={{ 
+          fontSize: '11px', 
+          fontWeight: 'bold',
+          textShadow: '0 0 2px #fff'
+        }}
+      >
+        {`${displayName}: ${percentage}%`}
+      </text>
+    </g>
+  );
+};
+
+// Create a simpler alternative display for print
+// This will show as a list if the pie chart is too complex for printing
+const PieChartWithList = ({ data, colors, title }) => {
+  return (
+    <div className="flex flex-col">
+      <div className="h-[400px] print:h-[400px]">
+        <ResponsiveContainer width="100%" height="100%">
+          <PieChart margin={{ top: 20, right: 0, bottom: 20, left: 0 }}>
+            <Pie
+              data={data}
+              cx="50%"
+              cy="50%"
+              labelLine={true}
+              label={renderCustomLabel}
+              outerRadius={80}
+              innerRadius={40}
+              fill="#8884d8"
+              dataKey="value"
+              paddingAngle={2}
+            >
+              {data.map((entry, index) => (
+                <Cell 
+                  key={`cell-${index}`} 
+                  fill={colors[index % colors.length]} 
+                  strokeWidth={1}
+                  stroke="#fff"
+                />
+              ))}
+            </Pie>
+            <Tooltip 
+              formatter={(value, name, props) => {
+                if (name === "value") {
+                  return [`${value} menções (${props.payload.percentage}%)`, 'Quantidade'];
+                }
+                return [value, name];
+              }}
+            />
+          </PieChart>
+        </ResponsiveContainer>
+      </div>
+      
+      {/* Alternative list display that will be more readable in print */}
+      <div className="mt-4 print:block hidden">
+        <h4 className="font-bold mb-2">{title}</h4>
+        <ul className="space-y-1">
+          {data.map((item, index) => (
+            <li key={index} className="flex justify-between border-b pb-1">
+              <span 
+                className="flex items-center"
+                style={{ color: colors[index % colors.length] }}
+              >
+                <span 
+                  className="w-3 h-3 mr-2 inline-block rounded-full" 
+                  style={{ backgroundColor: colors[index % colors.length] }}
+                />
+                <span>{item.name}</span>
+              </span>
+              <span className="font-medium">{item.percentage}% ({item.value})</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
   );
 };
 
@@ -442,14 +526,43 @@ const ExportableView = () => {
             </CardContent>
           </Card>
 
-          {/* Seção 3: Fortalezas (Nova seção mais detalhada) */}
+          {/* Seção 3: Fortalezas (Nova implementação com melhor visualização) */}
           <Card className="mb-10 shadow-md print:shadow-none print:border-none card-section-3">
             <CardHeader className="bg-gradient-to-r from-green-50 to-green-100 print:bg-white border-b">
               <CardTitle className="text-2xl print:text-black">3. Análise Detalhada das Fortalezas</CardTitle>
             </CardHeader>
             <CardContent className="p-6 print:p-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 section-fortalezas">
-                <div className="h-[600px] print:h-[600px] flex items-center justify-center">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 section-fortalezas print:block">
+                {/* Visualização alternativa para impressão */}
+                <div className="hidden print:block mb-10">
+                  <table className="min-w-full border-collapse">
+                    <thead>
+                      <tr>
+                        <th className="text-left py-2 border-b-2 border-gray-300">Categoria</th>
+                        <th className="text-center py-2 border-b-2 border-gray-300">Menções</th>
+                        <th className="text-right py-2 border-b-2 border-gray-300">Porcentagem</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {dadosPieFortalezas.map((item, index) => (
+                        <tr key={index} className="border-b">
+                          <td className="py-2 flex items-center">
+                            <span 
+                              className="w-3 h-3 inline-block mr-2 rounded-full"
+                              style={{ backgroundColor: COLORS_FORTALEZAS[index % COLORS_FORTALEZAS.length] }}
+                            ></span>
+                            {item.name}
+                          </td>
+                          <td className="text-center py-2">{item.value}</td>
+                          <td className="text-right py-2">{item.percentage}%</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                
+                {/* Gráfico de pizza para tela, escondido na impressão */}
+                <div className="print:hidden h-[600px] flex items-center justify-center">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart margin={{ top: 20, right: 80, bottom: 20, left: 80 }}>
                       <Pie
@@ -484,6 +597,7 @@ const ExportableView = () => {
                     </PieChart>
                   </ResponsiveContainer>
                 </div>
+                
                 <div className="flex flex-col justify-center">
                   <h3 className="font-medium text-xl mb-4 text-green-700 print:text-black">Principais fortalezas:</h3>
                   <ul className="space-y-4">
@@ -509,14 +623,43 @@ const ExportableView = () => {
             </CardContent>
           </Card>
 
-          {/* Seção 4: Fragilidades (Nova seção mais detalhada) */}
+          {/* Seção 4: Fragilidades (Nova implementação com melhor visualização) */}
           <Card className="mb-10 shadow-md print:shadow-none print:border-none card-section-4">
             <CardHeader className="bg-gradient-to-r from-red-50 to-red-100 print:bg-white border-b">
               <CardTitle className="text-2xl print:text-black">4. Análise Detalhada das Fragilidades</CardTitle>
             </CardHeader>
             <CardContent className="p-6 print:p-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 section-fragilidades">
-                <div className="h-[600px] print:h-[600px] flex items-center justify-center">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 section-fragilidades print:block">
+                {/* Visualização alternativa para impressão */}
+                <div className="hidden print:block mb-10">
+                  <table className="min-w-full border-collapse">
+                    <thead>
+                      <tr>
+                        <th className="text-left py-2 border-b-2 border-gray-300">Categoria</th>
+                        <th className="text-center py-2 border-b-2 border-gray-300">Menções</th>
+                        <th className="text-right py-2 border-b-2 border-gray-300">Porcentagem</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {dadosPieFragilidades.map((item, index) => (
+                        <tr key={index} className="border-b">
+                          <td className="py-2 flex items-center">
+                            <span 
+                              className="w-3 h-3 inline-block mr-2 rounded-full"
+                              style={{ backgroundColor: COLORS_FRAGILIDADES[index % COLORS_FRAGILIDADES.length] }}
+                            ></span>
+                            {item.name}
+                          </td>
+                          <td className="text-center py-2">{item.value}</td>
+                          <td className="text-right py-2">{item.percentage}%</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                
+                {/* Gráfico de pizza para tela, escondido na impressão */}
+                <div className="print:hidden h-[600px] flex items-center justify-center">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart margin={{ top: 20, right: 80, bottom: 20, left: 80 }}>
                       <Pie
@@ -551,6 +694,7 @@ const ExportableView = () => {
                     </PieChart>
                   </ResponsiveContainer>
                 </div>
+                
                 <div className="flex flex-col justify-center">
                   <h3 className="font-medium text-xl mb-4 text-red-700 print:text-black">Principais fragilidades:</h3>
                   <ul className="space-y-4">
@@ -642,3 +786,4 @@ const ExportableView = () => {
 };
 
 export default ExportableView;
+
