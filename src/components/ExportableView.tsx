@@ -1,3 +1,4 @@
+
 import React, { useRef, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
@@ -650,4 +651,84 @@ const ExportableView = () => {
                             className="inline-block w-4 h-4 rounded-full" 
                             style={{ backgroundColor: COLORS_FRAGILIDADES[index % COLORS_FRAGILIDADES.length] }}
                           ></span>
-                          <span className
+                          <span className="text-sm">{abreviarNomeCategoria(item.name)}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  {/* Tabela para versão impressa */}
+                  <TabelaDistribuicao 
+                    dados={dadosPieFragilidades} 
+                    titulo="Distribuição das Fragilidades por Categoria" 
+                    tipo="fragilidades"
+                  />
+                </div>
+                <div className="flex flex-col justify-center">
+                  <h3 className="font-medium text-xl mb-4 text-red-700 print:text-black">Principais fragilidades:</h3>
+                  <ul className="space-y-4">
+                    <li className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 print:border-none">
+                      <div className="font-medium text-fragilidades-sistemas print:text-black mb-1">Sistemas e tecnologia</div>
+                      <p className="text-gray-700 print:text-black">Incompatibilidade entre sistemas e falta de interoperabilidade.</p>
+                    </li>
+                    <li className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 print:border-none">
+                      <div className="font-medium text-fragilidades-recursos print:text-black mb-1">Recursos humanos</div>
+                      <p className="text-gray-700 print:text-black">Déficit de profissionais e capacitação inadequada.</p>
+                    </li>
+                    <li className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 print:border-none">
+                      <div className="font-medium text-fragilidades-acesso print:text-black mb-1">Acesso e equidade</div>
+                      <p className="text-gray-700 print:text-black">Dificuldades de acesso em áreas remotas e desigualdades regionais.</p>
+                    </li>
+                    <li className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 print:border-none">
+                      <div className="font-medium text-fragilidades-outros print:text-black mb-1">Outros desafios</div>
+                      <p className="text-gray-700 print:text-black">Problemas de comunicação e integração entre níveis de atenção.</p>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          
+          {/* Seção 5: Termos mais frequentes */}
+          <Card className="mb-10 shadow-md print:shadow-none print:border-none card-section-5">
+            <CardHeader className="bg-gradient-to-r from-blue-50 to-purple-50 print:bg-white border-b">
+              <CardTitle className="text-2xl print:text-black">5. Análise de Termos e Conceitos</CardTitle>
+            </CardHeader>
+            <CardContent className="p-6 print:p-4">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 section-termos">
+                <div>
+                  <h3 className="font-medium text-xl mb-4 text-blue-700 print:text-black">Termos mais frequentes em Fortalezas:</h3>
+                  <div className="space-y-3">
+                    {termosFrequentesFortalezas.slice(0, 6).map((item, index) => (
+                      <div key={index} className="flex items-center justify-between bg-white p-3 rounded-lg shadow-sm border border-gray-100 print:border-none">
+                        <span className="font-medium">{item.termo}</span>
+                        <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm">
+                          {item.frequencia} menções
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <h3 className="font-medium text-xl mb-4 text-red-700 print:text-black">Termos mais frequentes em Fragilidades:</h3>
+                  <div className="space-y-3">
+                    {termosFrequentesFragilidades.slice(0, 6).map((item, index) => (
+                      <div key={index} className="flex items-center justify-between bg-white p-3 rounded-lg shadow-sm border border-gray-100 print:border-none">
+                        <span className="font-medium">{item.termo}</span>
+                        <span className="bg-red-100 text-red-800 px-2 py-1 rounded-full text-sm">
+                          {item.frequencia} menções
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ExportableView;
