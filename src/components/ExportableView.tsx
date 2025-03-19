@@ -1,4 +1,3 @@
-
 import React, { useRef, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
@@ -160,49 +159,23 @@ const getAdjustedLabelPosition = (cx, cy, midAngle, radius) => {
 };
 
 // Custom label for pie charts that includes percentage
-const renderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index, name, percentage, shortName }) => {
+const renderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index, name, percentage }) => {
   const RADIAN = Math.PI / 180;
-  // Increase radius to push labels further out - agora usando 2.0 para maior distância
-  const radius = outerRadius * 2.0;
   
-  // Obter posição ajustada com base no ângulo
-  const { x, y } = getAdjustedLabelPosition(cx, cy, midAngle, radius);
+  // Usar nomes simplificados para todos os segmentos
+  let displayName = '';
+  if (name === 'Sistemas e tecnologia') displayName = 'Sistemas';
+  else if (name === 'Protocolos e fluxos') displayName = 'Protocolos';
+  else if (name === 'Governança e gestão') displayName = 'Governança';
+  else if (name === 'Integração de níveis') displayName = 'Integração';
+  else if (name === 'Recursos humanos') displayName = 'RH';
+  else if (name === 'Acesso e equidade') displayName = 'Acesso';
+  else if (name === 'Regionalização') displayName = 'Regionalização';
+  else if (name === 'Financiamento') displayName = 'Financiamento';
+  else if (name === 'Outros') displayName = 'Outros';
+  else displayName = name;
   
-  // Determinar alinhamento do texto com base no quadrante
-  const textAnchor = x > cx ? 'start' : 'end';
-  
-  // Nome simplificado para o rótulo
-  const labelText = `${shortName}: ${percentage}%`;
-  
-  return (
-    <g>
-      {/* Linha de conexão mais longa e personalizada */}
-      <path 
-        d={`M${cx + (outerRadius + 5) * Math.cos(-midAngle * RADIAN)},${cy + (outerRadius + 5) * Math.sin(-midAngle * RADIAN)}L${x - (textAnchor === 'start' ? 5 : -5)},${y}`} 
-        stroke="#666" 
-        strokeWidth={1.5} 
-        fill="none"
-        className="pie-chart-custom-label-line"
-      />
-      
-      {/* Texto do rótulo com sombra mais forte */}
-      <text 
-        x={x} 
-        y={y} 
-        fill="#000" 
-        textAnchor={textAnchor} 
-        dominantBaseline="central"
-        className="print:text-black"
-        style={{ 
-          fontSize: '9px', 
-          fontWeight: 'bold',
-          textShadow: '0 0 5px white, 0 0 4px white, 0 0 3px white, 0 0 2px white'
-        }}
-      >
-        {labelText}
-      </text>
-    </g>
-  );
+  return `${displayName}: ${percentage}%`;
 };
 
 const ExportableView = () => {
@@ -529,19 +502,24 @@ const ExportableView = () => {
                         data={dadosPieFortalezas}
                         cx="50%"
                         cy="50%"
-                        labelLine={false} // Desativando linha padrão, usando nossa própria linha
-                        label={renderCustomLabel}
-                        outerRadius={90} // Reduced size even more
-                        innerRadius={45} // Reduced inner radius
+                        labelLine={{
+                          stroke: '#555',
+                          strokeWidth: 1,
+                          strokeDasharray: null,
+                          type: 'straight'
+                        }}
+                        label={(props) => renderCustomLabel(props)}
+                        outerRadius={85}
+                        innerRadius={55}
+                        paddingAngle={2}
                         fill="#8884d8"
                         dataKey="value"
-                        paddingAngle={4} // Increased padding between sectors
                       >
                         {dadosPieFortalezas.map((entry, index) => (
                           <Cell 
                             key={`cell-${index}`} 
                             fill={COLORS_FORTALEZAS[index % COLORS_FORTALEZAS.length]} 
-                            strokeWidth={2}
+                            strokeWidth={1}
                             stroke="#fff"
                           />
                         ))}
@@ -596,19 +574,24 @@ const ExportableView = () => {
                         data={dadosPieFragilidades}
                         cx="50%"
                         cy="50%"
-                        labelLine={false} // Desativando linha padrão, usando nossa própria linha
-                        label={renderCustomLabel}
-                        outerRadius={90} // Reduced size even more
-                        innerRadius={45} // Reduced inner radius
+                        labelLine={{
+                          stroke: '#555',
+                          strokeWidth: 1,
+                          strokeDasharray: null,
+                          type: 'straight'
+                        }}
+                        label={(props) => renderCustomLabel(props)}
+                        outerRadius={85}
+                        innerRadius={55}
+                        paddingAngle={2}
                         fill="#8884d8"
                         dataKey="value"
-                        paddingAngle={4} // Increased padding between sectors
                       >
                         {dadosPieFragilidades.map((entry, index) => (
                           <Cell 
                             key={`cell-${index}`} 
                             fill={COLORS_FRAGILIDADES[index % COLORS_FRAGILIDADES.length]} 
-                            strokeWidth={2}
+                            strokeWidth={1}
                             stroke="#fff"
                           />
                         ))}
