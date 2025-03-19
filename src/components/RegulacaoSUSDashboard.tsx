@@ -3,100 +3,31 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { motion } from 'framer-motion';
-import * as XLSX from 'xlsx';
-import _ from 'lodash';
+import { 
+  dadosReais, 
+  dadosIntensidade, 
+  termosFrequentesFortalezas, 
+  termosFrequentesFragilidades, 
+  termosCompartilhados,
+  estatisticasGerais
+} from '@/data/regulacaoData';
 
 // Cores para os gráficos
 const COLORS_FORTALEZAS = ['#0088FE', '#4CAF50', '#81C784'];
 const COLORS_FRAGILIDADES = ['#FF8042', '#F44336', '#E57373'];
 
-// Dados reais baseados nas informações fornecidas
-const dadosReais = [
-  { categoria: 'Sistemas e tecnologia', fortalezas: 13, fragilidades: 12, total: 25 },
-  { categoria: 'Protocolos e fluxos', fortalezas: 8, fragilidades: 5, total: 13 },
-  { categoria: 'Governança e gestão', fortalezas: 6, fragilidades: 5, total: 11 },
-  { categoria: 'Integração de níveis', fortalezas: 4, fragilidades: 5, total: 9 },
-  { categoria: 'Recursos humanos', fortalezas: 3, fragilidades: 7, total: 10 },
-  { categoria: 'Acesso e equidade', fortalezas: 3, fragilidades: 7, total: 10 },
-  { categoria: 'Regionalização', fortalezas: 0, fragilidades: 4, total: 4 },
-  { categoria: 'Financiamento', fortalezas: 0, fragilidades: 1, total: 1 },
-  { categoria: 'Outros', fortalezas: 8, fragilidades: 17, total: 25 },
-];
-
-// Dados de intensidade para cada tema
-const dadosIntensidade = [
-  { tema: 'Sistemas e tecnologia', intensidadeFortalezas: 1.8, intensidadeFragilidades: 1.5, diferenca: 0.3 },
-  { tema: 'Protocolos e fluxos', intensidadeFortalezas: 1.2, intensidadeFragilidades: 0.7, diferenca: 0.5 },
-  { tema: 'Recursos humanos', intensidadeFortalezas: 0.4, intensidadeFragilidades: 0.9, diferenca: -0.5 },
-  { tema: 'Governança e gestão', intensidadeFortalezas: 0.8, intensidadeFragilidades: 0.7, diferenca: 0.1 },
-  { tema: 'Acesso e equidade', intensidadeFortalezas: 0.5, intensidadeFragilidades: 0.9, diferenca: -0.4 },
-  { tema: 'Regionalização', intensidadeFortalezas: 0.0, intensidadeFragilidades: 0.6, diferenca: -0.6 },
-  { tema: 'Integração de níveis', intensidadeFortalezas: 0.6, intensidadeFragilidades: 0.7, diferenca: -0.1 },
-  { tema: 'Financiamento', intensidadeFortalezas: 0.0, intensidadeFragilidades: 0.1, diferenca: -0.1 },
-];
-
-// Dados de termos mais frequentes
-const termosFrequentesFortalezas = [
-  { termo: 'sistema', frequencia: 18 },
-  { termo: 'regulação', frequencia: 15 },
-  { termo: 'SISREG', frequencia: 11 },
-  { termo: 'municípios', frequencia: 9 },
-  { termo: 'acesso', frequencia: 8 },
-  { termo: 'teleconsulta', frequencia: 7 },
-  { termo: 'protocolos', frequencia: 6 },
-  { termo: 'risco', frequencia: 6 },
-  { termo: 'telessaúde', frequencia: 5 },
-  { termo: 'classificação', frequencia: 5 },
-];
-
-const termosFrequentesFragilidades = [
-  { termo: 'falta', frequencia: 14 },
-  { termo: 'ausência', frequencia: 12 },
-  { termo: 'sistema', frequencia: 11 },
-  { termo: 'regulação', frequencia: 10 },
-  { termo: 'municípios', frequencia: 9 },
-  { termo: 'dificuldade', frequencia: 8 },
-  { termo: 'acesso', frequencia: 7 },
-  { termo: 'interoperabilidade', frequencia: 6 },
-  { termo: 'recursos humanos', frequencia: 6 },
-  { termo: 'protocolos', frequencia: 5 },
-];
-
-// Dados compartilhados entre fortalezas e fragilidades
-const termosCompartilhados = [
-  { termo: 'sistema', freqFortalezas: 18, freqFragilidades: 11, diferenca: 7 },
-  { termo: 'regulação', freqFortalezas: 15, freqFragilidades: 10, diferenca: 5 },
-  { termo: 'municípios', freqFortalezas: 9, freqFragilidades: 9, diferenca: 0 },
-  { termo: 'acesso', freqFortalezas: 8, freqFragilidades: 7, diferenca: 1 },
-  { termo: 'protocolos', freqFortalezas: 6, freqFragilidades: 5, diferenca: 1 },
-  { termo: 'SISREG', freqFortalezas: 11, freqFragilidades: 3, diferenca: 8 },
-  { termo: 'equipe', freqFortalezas: 4, freqFragilidades: 6, diferenca: -2 },
-  { termo: 'especialidades', freqFortalezas: 4, freqFragilidades: 6, diferenca: -2 },
-];
-
-// Estatísticas gerais
-const estatisticasGerais = {
-  totalEstados: 12,
-  totalFortalezas: 45,
-  totalFragilidades: 63,
-  temasMaisFortalezas: 38, // %
-  temasMaisFragilidades: 52, // %
-  temasEquilibrados: 10, // %
-};
-
 const RegulacaoSUSDashboard = () => {
-  const [dadosCategorias, setDadosCategorias] = useState(dadosReais);
   const [activeTab, setActiveTab] = useState('comparativo');
   
   // Preparar dados para o gráfico de pizza
-  const dadosPieFortalezas = dadosCategorias
+  const dadosPieFortalezas = dadosReais
     .map(item => ({
       name: item.categoria,
       value: item.fortalezas
     }))
     .filter(item => item.value > 0);
   
-  const dadosPieFragilidades = dadosCategorias
+  const dadosPieFragilidades = dadosReais
     .map(item => ({
       name: item.categoria,
       value: item.fragilidades
@@ -218,7 +149,7 @@ const RegulacaoSUSDashboard = () => {
                   <div className="h-[500px] mb-8 card-section-2">
                     <ResponsiveContainer width="100%" height="100%">
                       <BarChart
-                        data={dadosCategorias}
+                        data={dadosReais}
                         layout="vertical"
                         margin={{ top: 20, right: 30, left: 140, bottom: 20 }}
                       >
@@ -272,14 +203,14 @@ const RegulacaoSUSDashboard = () => {
                         <span className="inline-block w-2 h-2 bg-blue-500 rounded-full mt-2 mr-2"></span>
                         <span>
                           <span className="font-medium text-gray-900">Sistemas de informação e tecnologia</span>: 
-                          <span className="text-gray-700"> aparece tanto como fortaleza ({dadosCategorias[0].fortalezas} menções) quanto fragilidade ({dadosCategorias[0].fragilidades} menções), indicando que alguns estados avançaram neste tema enquanto outros ainda têm desafios.</span>
+                          <span className="text-gray-700"> aparece tanto como fortaleza ({dadosReais[0].fortalezas} menções) quanto fragilidade ({dadosReais[0].fragilidades} menções), indicando que alguns estados avançaram neste tema enquanto outros ainda têm desafios.</span>
                         </span>
                       </li>
                       <li className="flex items-start">
                         <span className="inline-block w-2 h-2 bg-green-500 rounded-full mt-2 mr-2"></span>
                         <span>
                           <span className="font-medium text-gray-900">Protocolos e fluxos</span>: 
-                          <span className="text-gray-700"> mais frequentemente citado como fortaleza ({dadosCategorias[1].fortalezas} menções) do que fragilidade ({dadosCategorias[1].fragilidades} menções).</span>
+                          <span className="text-gray-700"> mais frequentemente citado como fortaleza ({dadosReais[1].fortalezas} menções) do que fragilidade ({dadosReais[1].fragilidades} menções).</span>
                         </span>
                       </li>
                       <li className="flex items-start">
@@ -311,7 +242,7 @@ const RegulacaoSUSDashboard = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {dadosCategorias.map((item, index) => (
+                        {dadosReais.map((item, index) => (
                           <tr key={index}>
                             <td>{item.categoria}</td>
                             <td>{item.fortalezas}</td>

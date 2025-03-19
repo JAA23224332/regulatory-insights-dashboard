@@ -1,0 +1,331 @@
+
+import React, { useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { dadosReais, dadosIntensidade, termosFrequentesFortalezas, termosFrequentesFragilidades, termosCompartilhados } from '@/data/regulacaoData';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+
+// Cores para os gráficos
+const COLORS_FORTALEZAS = ['#0088FE', '#4CAF50', '#81C784'];
+const COLORS_FRAGILIDADES = ['#FF8042', '#F44336', '#E57373'];
+
+const Export = () => {
+  // Trigger print dialog on component mount
+  useEffect(() => {
+    // Small timeout to ensure everything renders properly before printing
+    const timer = setTimeout(() => {
+      window.print();
+    }, 1000);
+    
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <div className="exportable-document print-layout">
+      {/* Cabeçalho para impressão */}
+      <div className="print-title">
+        Análise de <span>Fortalezas e Fragilidades</span> na Regulação do SUS
+      </div>
+      <div className="print-subtitle">
+        Baseado em respostas de 12 Secretarias Estaduais de Saúde | 45 fortalezas e 63 fragilidades identificadas
+      </div>
+      
+      {/* Seção 1: Visão Geral */}
+      <div className="card card-section-1">
+        <h2 className="text-xl font-semibold mb-4">Visão Geral</h2>
+        <div className="grid grid-cols-3 gap-4 mb-8">
+          <div className="bg-blue-50 p-4 rounded-lg">
+            <p className="text-xl font-semibold text-blue-600">12</p>
+            <p className="text-sm">Estados participantes</p>
+          </div>
+          <div className="bg-green-50 p-4 rounded-lg">
+            <p className="text-xl font-semibold text-green-600">45</p>
+            <p className="text-sm">Fortalezas identificadas</p>
+          </div>
+          <div className="bg-red-50 p-4 rounded-lg">
+            <p className="text-xl font-semibold text-red-600">63</p>
+            <p className="text-sm">Fragilidades identificadas</p>
+          </div>
+        </div>
+      </div>
+      
+      {/* Seção 2: Comparativo */}
+      <div className="card card-section-2">
+        <h2 className="text-xl font-semibold mb-4">Comparativo por Categorias</h2>
+        
+        {/* Tabela para impressão */}
+        <table className="print-table mb-6">
+          <thead>
+            <tr>
+              <th>Categoria</th>
+              <th>Fortalezas</th>
+              <th>Fragilidades</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {dadosReais.map((item, index) => (
+              <tr key={index}>
+                <td>{item.categoria}</td>
+                <td>{item.fortalezas}</td>
+                <td>{item.fragilidades}</td>
+                <td>{item.total}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        
+        {/* Gráfico otimizado para impressão */}
+        <div className="chart-container h-[600px]">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              data={dadosReais}
+              layout="vertical"
+              margin={{ top: 20, right: 30, left: 180, bottom: 20 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+              <XAxis type="number" stroke="#333" fontSize={12} />
+              <YAxis 
+                type="category" 
+                dataKey="categoria" 
+                width={170}
+                stroke="#333"
+                fontSize={12}
+                tickLine={false}
+              />
+              <Bar 
+                dataKey="fortalezas" 
+                name="Fortalezas" 
+                fill="#4CAF50" 
+                barSize={20} 
+              />
+              <Bar 
+                dataKey="fragilidades" 
+                name="Fragilidades" 
+                fill="#F44336" 
+                barSize={20} 
+              />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+        
+        <div className="mt-6">
+          <h3 className="font-medium text-lg mb-4">Destaques da análise:</h3>
+          <ul className="space-y-3">
+            <li>• <strong>Sistemas de informação e tecnologia</strong>: aparece tanto como fortaleza (13 menções) quanto fragilidade (12 menções).</li>
+            <li>• <strong>Protocolos e fluxos</strong>: mais frequentemente citado como fortaleza (8 menções) do que fragilidade (5 menções).</li>
+            <li>• <strong>Recursos humanos</strong> e <strong>Acesso e equidade</strong>: mais frequentemente citados como fragilidades (7 menções cada) do que fortalezas (3 menções cada).</li>
+            <li>• <strong>Regionalização</strong> e <strong>Financiamento</strong>: aparecem quase exclusivamente como fragilidades (4 e 1 menções respectivamente).</li>
+          </ul>
+        </div>
+      </div>
+      
+      {/* Seção 3: Fortalezas */}
+      <div className="card card-section-3">
+        <h2 className="text-xl font-semibold mb-4">Fortalezas por Categoria</h2>
+        
+        <table className="print-table mb-6">
+          <thead>
+            <tr>
+              <th>Categoria</th>
+              <th>Contagem</th>
+              <th>Percentual</th>
+            </tr>
+          </thead>
+          <tbody>
+            {dadosReais
+              .filter(item => item.fortalezas > 0)
+              .sort((a, b) => b.fortalezas - a.fortalezas)
+              .map((item, index) => {
+                const percent = (item.fortalezas / 45 * 100).toFixed(1);
+                return (
+                  <tr key={index}>
+                    <td>{item.categoria}</td>
+                    <td>{item.fortalezas}</td>
+                    <td>{percent}%</td>
+                  </tr>
+                );
+              })}
+          </tbody>
+        </table>
+        
+        <h3 className="font-medium text-lg mb-4">Principais fortalezas identificadas:</h3>
+        <ul className="space-y-2">
+          <li>• <strong>Sistemas e tecnologia</strong>: Uso do SISREG e outros sistemas de regulação, telemedicina e telessaúde.</li>
+          <li>• <strong>Protocolos e fluxos</strong>: Padronização de processos, classificação de risco e priorização de atendimentos.</li>
+          <li>• <strong>Governança e gestão</strong>: Estruturação de complexos reguladores e monitoramento de ações.</li>
+          <li>• <strong>Integração de níveis</strong>: Articulação entre atenção primária e especializada.</li>
+        </ul>
+      </div>
+      
+      {/* Seção 4: Fragilidades */}
+      <div className="card card-section-4">
+        <h2 className="text-xl font-semibold mb-4">Fragilidades por Categoria</h2>
+        
+        <table className="print-table mb-6">
+          <thead>
+            <tr>
+              <th>Categoria</th>
+              <th>Contagem</th>
+              <th>Percentual</th>
+            </tr>
+          </thead>
+          <tbody>
+            {dadosReais
+              .filter(item => item.fragilidades > 0)
+              .sort((a, b) => b.fragilidades - a.fragilidades)
+              .map((item, index) => {
+                const percent = (item.fragilidades / 63 * 100).toFixed(1);
+                return (
+                  <tr key={index}>
+                    <td>{item.categoria}</td>
+                    <td>{item.fragilidades}</td>
+                    <td>{percent}%</td>
+                  </tr>
+                );
+              })}
+          </tbody>
+        </table>
+        
+        <h3 className="font-medium text-lg mb-4">Principais fragilidades identificadas:</h3>
+        <ul className="space-y-2">
+          <li>• <strong>Recursos humanos</strong>: Falta de profissionais qualificados e capacitação inadequada.</li>
+          <li>• <strong>Acesso e equidade</strong>: Desigualdades no acesso entre regiões e municípios.</li>
+          <li>• <strong>Sistemas e tecnologia</strong>: Limitações dos sistemas existentes, falta de interoperabilidade.</li>
+          <li>• <strong>Integração de níveis</strong>: Falta de articulação entre os diferentes níveis de atenção.</li>
+          <li>• <strong>Regionalização</strong>: Dificuldades na implementação da regionalização da saúde.</li>
+        </ul>
+      </div>
+      
+      {/* Seção 5: Intensidade das categorias */}
+      <div className="card card-section-5">
+        <h2 className="text-xl font-semibold mb-4">Intensidade por Categoria</h2>
+        
+        <table className="print-table mb-6">
+          <thead>
+            <tr>
+              <th>Tema</th>
+              <th>Intensidade Fortalezas</th>
+              <th>Intensidade Fragilidades</th>
+              <th>Diferença</th>
+            </tr>
+          </thead>
+          <tbody>
+            {dadosIntensidade
+              .sort((a, b) => b.intensidadeFortalezas - a.intensidadeFortalezas)
+              .map((item, index) => (
+                <tr key={index}>
+                  <td>{item.tema}</td>
+                  <td>{item.intensidadeFortalezas.toFixed(1)}</td>
+                  <td>{item.intensidadeFragilidades.toFixed(1)}</td>
+                  <td className={item.diferenca > 0 ? 'text-green-700' : 'text-red-700'}>
+                    {item.diferenca.toFixed(1)}
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+        
+        <p className="text-sm mb-4">
+          <em>Nota: A intensidade é calculada como a média ponderada da frequência de menções pelo número de estados participantes.</em>
+        </p>
+      </div>
+      
+      {/* Seção 6: Termos frequentes */}
+      <div className="card card-section-6">
+        <h2 className="text-xl font-semibold mb-4">Termos mais Frequentes</h2>
+        
+        <div className="grid grid-cols-2 gap-8">
+          <div>
+            <h3 className="font-medium text-lg mb-4 text-green-700">Em Fortalezas:</h3>
+            <table className="print-table">
+              <thead>
+                <tr>
+                  <th>Termo</th>
+                  <th>Frequência</th>
+                </tr>
+              </thead>
+              <tbody>
+                {termosFrequentesFortalezas.map((item, index) => (
+                  <tr key={index}>
+                    <td>{item.termo}</td>
+                    <td>{item.frequencia}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          
+          <div>
+            <h3 className="font-medium text-lg mb-4 text-red-700">Em Fragilidades:</h3>
+            <table className="print-table">
+              <thead>
+                <tr>
+                  <th>Termo</th>
+                  <th>Frequência</th>
+                </tr>
+              </thead>
+              <tbody>
+                {termosFrequentesFragilidades.map((item, index) => (
+                  <tr key={index}>
+                    <td>{item.termo}</td>
+                    <td>{item.frequencia}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      
+      {/* Seção 7: Termos compartilhados */}
+      <div className="card card-section-7">
+        <h2 className="text-xl font-semibold mb-4">Termos comuns entre Fortalezas e Fragilidades</h2>
+        
+        <table className="print-table">
+          <thead>
+            <tr>
+              <th>Termo</th>
+              <th>Freq. Fortalezas</th>
+              <th>Freq. Fragilidades</th>
+              <th>Diferença</th>
+            </tr>
+          </thead>
+          <tbody>
+            {termosCompartilhados.map((item, index) => (
+              <tr key={index}>
+                <td>{item.termo}</td>
+                <td>{item.freqFortalezas}</td>
+                <td>{item.freqFragilidades}</td>
+                <td className={item.diferenca > 0 ? 'text-green-700' : (item.diferenca < 0 ? 'text-red-700' : '')}>
+                  {item.diferenca > 0 ? '+' : ''}{item.diferenca}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      
+      {/* Seção 8: Recomendações */}
+      <div className="card card-section-8">
+        <h2 className="text-xl font-semibold mb-4">Recomendações para Melhoria da Regulação no SUS</h2>
+        
+        <ul className="space-y-3">
+          <li>• <strong>Sistemas de informação e tecnologia</strong>: Investir em tecnologias mais integradas e interoperáveis, modernizando sistemas existentes como o SISREG.</li>
+          <li>• <strong>Protocolos e processos</strong>: Padronizar nacionalmente protocolos de regulação e classificação de risco.</li>
+          <li>• <strong>Recursos humanos</strong>: Desenvolver programas de capacitação continuada e estabelecer carreiras específicas para profissionais de regulação.</li>
+          <li>• <strong>Integração entre níveis de atenção</strong>: Fortalecer a comunicação entre a atenção primária e especializada.</li>
+          <li>• <strong>Regionalização</strong>: Fortalecer os processos de regionalização, garantindo que os municípios-polo cumpram seu papel assistencial.</li>
+          <li>• <strong>Política integrada</strong>: Desenvolver uma política nacional de regulação integrada, com diretrizes claras e incentivos para implementação em todos os níveis.</li>
+        </ul>
+      </div>
+      
+      {/* Rodapé com informações sobre o documento */}
+      <div className="mt-8 text-sm text-center text-gray-500">
+        <p>Documento gerado com base na análise de respostas de 12 Secretarias Estaduais de Saúde.</p>
+        <p>Data da geração: {new Date().toLocaleDateString()}</p>
+      </div>
+    </div>
+  );
+};
+
+export default Export;

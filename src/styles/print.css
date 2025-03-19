@@ -1,8 +1,9 @@
 
 /* Estilos de impressão */
 @media print {
-  body {
-    font-size: 12pt;
+  /* Reset básico para impressão */
+  body, html {
+    font-size: 11pt !important;
     background-color: white !important;
     color: black !important;
     margin: 0 !important;
@@ -11,572 +12,180 @@
     print-color-adjust: exact !important;
     color-adjust: exact !important;
     width: 100% !important;
-    height: auto !important; /* Changed from 100% to auto for better page flow */
-  }
-  
-  /* Force all content to be rendered */
-  html, body, #root {
-    overflow: visible !important;
     height: auto !important;
-    width: 100% !important;
+    overflow: visible !important;
   }
   
-  /* Título principal para impressão */
+  /* Esconder elementos desnecessários */
+  header, footer, nav, button, .display-screen-only, [role="alert"], 
+  .notification, .export-message, .export-notification {
+    display: none !important;
+  }
+  
+  /* Garantir que todo o conteúdo seja visível */
+  #root, .exportable-document, .print-layout {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+    background: white !important;
+  }
+  
+  /* Estilos para títulos */
   .print-title {
-    font-size: 24pt !important;
+    font-size: 18pt !important;
+    font-weight: 400 !important;
     text-align: center !important;
-    margin-bottom: 15px !important;
-    color: black !important;
+    margin-bottom: 10px !important;
     page-break-after: avoid !important;
   }
   
   .print-title span {
-    color: #2563eb !important; /* blue-600 */
+    color: #2563eb !important;
+    font-weight: 500 !important;
   }
   
   .print-subtitle {
-    font-size: 14pt !important;
+    font-size: 12pt !important;
     text-align: center !important;
-    margin-bottom: 20px !important;
-    color: #4b5563 !important; /* gray-600 */
+    margin-bottom: 30px !important;
+    color: #4b5563 !important;
     page-break-after: avoid !important;
   }
-
-  /* Garantir que gráficos e imagens sejam renderizados completamente */
-  .recharts-wrapper, .recharts-surface {
-    width: 100% !important;
-    height: auto !important;
-    min-height: 300px !important;
-    overflow: visible !important;
-    page-break-inside: avoid !important;
-    transform: none !important; /* Prevent transform issues */
-  }
   
-  /* FIX PARA SOBREPOSIÇÃO DE BARRAS */
-  .recharts-cartesian-grid {
-    width: 100% !important;
-  }
-  
-  /* Fix for bar charts and text overlap */
-  .recharts-layer.recharts-cartesian-axis-tick text {
-    font-size: 10pt !important; /* Reduced font size */
-    fill: black !important;
-  }
-  
-  /* Critical fix for bar overlap in charts */
-  .recharts-layer.recharts-bar-rectangles,
-  .recharts-bar-rectangle {
-    transform: none !important;
-  }
-
-  /* Improved fix for horizontal bar charts */
-  .recharts-bar rect,
-  .recharts-reference-line line {
-    shape-rendering: crispEdges !important;
-    transform: none !important;
-  }
-  
-  /* Hide all text labels that appear over chart bars */
-  .recharts-layer text:not(.recharts-cartesian-axis-tick text),
-  .recharts-label,
-  .recharts-text.recharts-label,
-  .recharts-text.recharts-label-list,
-  .recharts-text.recharts-inactive-dot,
-  .recharts-layer text[alignment],
-  .recharts-layer text[text-anchor]:not(.recharts-cartesian-axis-tick text) {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-  }
-  
-  /* Ensure proper spacing for charts */
-  .recharts-wrapper .recharts-cartesian-grid-horizontal line,
-  .recharts-wrapper .recharts-cartesian-grid-vertical line {
-    stroke: #ddd !important;
-    stroke-width: 0.5 !important;
-  }
-  
-  /* Para gráficos de pizza */
-  .recharts-pie {
-    transform-origin: center !important;
-  }
-
-  /* Classes utilitárias para impressão */
-  .print\:hidden {
-    display: none !important;
-  }
-  
-  /* Force sections to break properly */
+  /* Estilos para cards/seções */
   .card {
     page-break-before: always !important;
-    page-break-after: auto !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
-    display: block !important;
-    position: relative !important;
-    overflow: visible !important;
-    margin-bottom: 30px !important; /* Increased margin */
-    clear: both !important;
-    padding: 20px !important;
+    margin-bottom: 30px !important;
+    padding: 15px !important;
+    border: 1px solid #eee !important;
+    background-color: white !important;
+    box-shadow: none !important;
   }
   
-  /* First card shouldn't have page break before */
+  /* Primeiro card não precisa quebrar página */
   .card:first-of-type {
     page-break-before: auto !important;
   }
   
-  /* Ensure all content is printable and not cut off */
-  .exportable-document {
-    page-break-inside: auto !important;
-    overflow: visible !important;
-    height: auto !important;
-    max-height: none !important;
-    position: relative !important;
-    display: block !important;
-    padding: 20px !important;
-  }
-  
-  /* Make all charts visible and properly sized */
-  .chart-container {
-    display: block !important;
-    height: auto !important;
-    min-height: 450px !important; /* Increased height */
-    width: 100% !important;
-    page-break-inside: avoid !important;
-    overflow: visible !important;
-    margin-bottom: 30px !important; /* Increased margin */
-    transform: none !important;
-  }
-  
-  /* Fix for the export message appearing in document */
-  .export-message, 
-  .export-notification,
-  [role="alert"],
-  .notification {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-  }
-  
-  /* Improved table styling for print */
+  /* Definições para tabelas */
   .print-table {
-    display: table !important;
     width: 100% !important;
     border-collapse: collapse !important;
-    margin: 1em 0 !important;
-    font-size: 11pt !important;
+    margin: 15px 0 !important;
     page-break-inside: auto !important;
-    background-color: white !important;
   }
   
-  .print-table th, 
-  .print-table td {
-    padding: 8px !important;
+  .print-table th, .print-table td {
+    border: 1px solid #ddd !important;
+    padding: 6px 8px !important;
     text-align: left !important;
-    border-bottom: 1px solid #ddd !important;
-    vertical-align: middle !important;
-    page-break-inside: avoid !important;
+    font-size: 10pt !important;
   }
   
   .print-table th {
-    font-weight: bold !important;
-    background-color: #f8f9fa !important;
-    white-space: nowrap !important;
-  }
-  
-  /* Specifically for the intensity table in section 5 */
-  .card-section-5 .print-table th:first-child,
-  .card-section-5 .print-table td:first-child,
-  .card-section-6 .print-table th:first-child,
-  .card-section-6 .print-table td:first-child,
-  .card-section-7 .print-table th:first-child,
-  .card-section-7 .print-table td:first-child,
-  .card-section-8 .print-table th:first-child,
-  .card-section-8 .print-table td:first-child {
-    width: 30% !important;
-    max-width: 30% !important;
-  }
-  
-  .card-section-5 .print-table td div.flex,
-  .card-section-6 .print-table td div.flex,
-  .card-section-7 .print-table td div.flex,
-  .card-section-8 .print-table td div.flex {
-    display: flex !important;
-    align-items: center !important;
-  }
-  
-  .card-section-5 .print-table td div.flex div,
-  .card-section-6 .print-table td div.flex div,
-  .card-section-7 .print-table td div.flex div,
-  .card-section-8 .print-table td div.flex div {
-    display: inline-block !important;
-  }
-
-  /* Fixed text highlighting and colors for "destaques por categoria" section */
-  .bg-gray-50 {
-    background-color: #f8f9fa !important;
-    padding: 15px !important;
-    margin-top: 20px !important;
-    page-break-inside: avoid !important;
-  }
-  
-  .bg-gray-50 h3 {
-    font-weight: bold !important;
-    margin-bottom: 10px !important;
-    font-size: 14pt !important;
-  }
-  
-  .bg-gray-50 ul {
-    list-style-type: disc !important;
-    padding-left: 20px !important;
-  }
-  
-  .bg-gray-50 li {
-    margin-bottom: 8px !important;
-    page-break-inside: avoid !important;
-  }
-  
-  .bg-gray-50 strong {
+    background-color: #f3f4f6 !important;
     font-weight: bold !important;
   }
   
-  /* Color text fixes for comparativo section */
-  .card-section-2 .bg-gray-50 li span strong {
-    color: black !important;
-    font-weight: bold !important;
-  }
-  
-  /* Fix for text colors in highlights */
-  .text-green-700, .text-green-600, .text-red-700, .text-red-600 {
-    font-weight: bold !important;
-  }
-  
-  /* Ensure text colors print properly */
+  /* Fix para cores de texto */
   .text-green-700, .text-green-600 {
     color: #2e7d32 !important;
+    font-weight: bold !important;
   }
   
   .text-red-700, .text-red-600 {
     color: #c62828 !important;
+    font-weight: bold !important;
   }
   
-  .card-section-2 ul.space-y-2 li span {
-    color: black !important;
-  }
-
-  /* Remoção de sombras e ajustes de fundo */
-  .print\:shadow-none, .shadow-md, .shadow-sm, .shadow {
-    box-shadow: none !important;
-    -webkit-box-shadow: none !important;
+  /* Ajustes específicos para gráficos */
+  .chart-container {
+    height: 500px !important;
+    width: 100% !important;
+    page-break-inside: avoid !important;
+    margin: 20px 0 !important;
   }
   
-  .print\:border-none, .border, .border-b {
-    border: none !important;
+  /* Configurações específicas para Recharts */
+  .recharts-wrapper, .recharts-surface, 
+  .recharts-responsive-container {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 400px !important;
+    overflow: visible !important;
+    page-break-inside: avoid !important;
   }
   
-  .print\:bg-white {
-    background-color: white !important;
+  /* Garantir que os eixos e barras sejam visíveis */
+  .recharts-cartesian-axis-tick-value {
+    fill: black !important;
+    font-size: 10pt !important;
   }
   
-  /* Specific backgrounds for cards that need color */
-  .print\:bg-gray-100 {
-    background-color: #f8f9fa !important;
+  .recharts-cartesian-grid-horizontal line,
+  .recharts-cartesian-grid-vertical line {
+    stroke: #ddd !important;
+    stroke-width: 0.5 !important;
   }
   
-  .print\:bg-blue-50 {
-    background-color: #e3f2fd !important;
+  /* Configuração de página */
+  @page {
+    size: A4 portrait;
+    margin: 2cm 1.5cm;
+    orphans: 4;
+    widows: 4;
   }
   
-  .print\:bg-green-50 {
-    background-color: #e8f5e9 !important;
+  /* Estilos para listas */
+  ul {
+    padding-left: 20px !important;
+    margin: 10px 0 !important;
   }
   
-  .print\:bg-red-50 {
-    background-color: #ffebee !important;
+  li {
+    margin-bottom: 5px !important;
+    page-break-inside: avoid !important;
   }
   
-  /* Visual indicators for categories */
-  .category-indicator {
-    display: inline-block !important;
-    width: 12px !important;
-    height: 12px !important;
-    border-radius: 50% !important;
-    margin-right: 8px !important;
+  /* Ajustes para headings */
+  h2 {
+    font-size: 16pt !important;
+    margin: 15px 0 !important;
+    page-break-after: avoid !important;
+    color: #1f2937 !important;
   }
   
-  /* Fix for Fortalezas/Fragilidades color indicators */
-  .category-color-fortaleza-0 { background-color: #0062cc !important; }
-  .category-color-fortaleza-1 { background-color: #00994c !important; }
-  .category-color-fortaleza-2 { background-color: #57bc6c !important; }
-  .category-color-fortaleza-3 { background-color: #81C784 !important; }
-  .category-color-fortaleza-4 { background-color: #A5D6A7 !important; }
-  .category-color-fortaleza-5 { background-color: #4CBB17 !important; }
-  .category-color-fortaleza-6 { background-color: #3F704D !important; }
-  .category-color-fortaleza-7 { background-color: #138808 !important; }
+  h3 {
+    font-size: 14pt !important;
+    margin: 10px 0 !important;
+    page-break-after: avoid !important;
+    color: #374151 !important;
+  }
   
-  .category-color-fragilidade-0 { background-color: #cc4125 !important; }
-  .category-color-fragilidade-1 { background-color: #d32f2f !important; }
-  .category-color-fragilidade-2 { background-color: #e35353 !important; }
-  .category-color-fragilidade-3 { background-color: #EF5350 !important; }
-  .category-color-fragilidade-4 { background-color: #E57373 !important; }
-  .category-color-fragilidade-5 { background-color: #DD2C00 !important; }
-  .category-color-fragilidade-6 { background-color: #B71C1C !important; }
-  .category-color-fragilidade-7 { background-color: #FF8A65 !important; }
+  /* Espaçamento básico */
+  .mb-4, .mb-6, .mb-8 {
+    margin-bottom: 15px !important;
+  }
   
-  /* Fix for backgrounds */
+  /* Remover todos os backgrounds gradientes */
   [class*="bg-gradient-to-"] {
     background: white !important;
   }
-
-  /* Clean layout for print */
-  .print-layout {
+  
+  /* Corrigir espaçamento em grid layouts */
+  .grid {
     display: block !important;
-    width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
   }
   
-  /* For tables and lists in section 3 & 4 */
-  .print-section-34 {
-    margin-top: 20px !important;
-    page-break-inside: avoid !important;
+  .grid > * {
+    margin-bottom: 20px !important;
   }
   
-  .print-section-34 h3 {
-    margin-bottom: 15px !important;
-    font-size: 16pt !important;
-  }
-  
-  /* Ajustes de margens e paddings */
-  .print\:m-0, .m-0, .m-1, .m-2, .m-3, .m-4, .m-5, .m-6, .m-8, .m-10, .m-12 {
-    margin: 0 !important;
-  }
-  
-  .print\:p-0 {
-    padding: 0 !important;
-  }
-  
-  .print\:p-2 {
-    padding: 0.5rem !important;
-  }
-  
-  .print\:p-4 {
-    padding: 1rem !important;
-  }
-  
-  /* Melhorar contraste para impressão */
-  .print\:text-black, .text-gray-600, .text-gray-700, .text-gray-800 {
-    color: black !important;
-  }
-  
-  /* Fix for highlighted text in destaques section */
-  .flex.items-start span.print\:text-black strong {
+  /* Para células coloridas nas tabelas */
+  .print-table td[class*="text-"] {
     font-weight: bold !important;
-    color: black !important;
-  }
-  
-  /* Remover cabeçalhos e rodapés do navegador e ajustar página */
-  @page {
-    size: A4 !important;
-    margin: 1.5cm !important;
-    orphans: 4 !important;
-    widows: 4 !important;
-  }
-  
-  /* Fix for container divisions */
-  .mb-10, .mb-8, .mb-6, .mb-4 {
-    margin-bottom: 30px !important;
-    display: block !important;
-    page-break-after: auto !important;
-    page-break-before: auto !important;
-    break-inside: avoid !important;
-  }
-  
-  /* Hide specific components for print */
-  .display-screen-only {
-    display: none !important;
-  }
-  
-  /* Show print-only components */
-  .display-print-only {
-    display: block !important;
-  }
-  
-  /* Better spacing in the insights list */
-  .card-section-5 ul.space-y-3 li,
-  .card-section-6 ul.space-y-3 li,
-  .card-section-7 ul.space-y-3 li,
-  .card-section-8 ul.space-y-3 li {
-    margin-bottom: 10px !important;
-  }
-  
-  .card-section-5 ul.space-y-3 li span.inline-block,
-  .card-section-6 ul.space-y-3 li span.inline-block,
-  .card-section-7 ul.space-y-3 li span.inline-block,
-  .card-section-8 ul.space-y-3 li span.inline-block {
-    display: inline-block !important;
-  }
-  
-  /* Specific styling for the terms comparison section */
-  .card-section-8 .print-table td:nth-child(4) {
-    font-weight: bold !important;
-  }
-  
-  /* Ensure visualization bars in tables display properly */
-  .print-table div[style*="width"] {
-    display: inline-block !important;
-    height: 12px !important;
-    background-color: currentColor !important;
-  }
-  
-  /* Ensure display-print-only elements are shown */
-  .display-print-only {
-    display: block !important;
-    visibility: visible !important;
-  }
-  
-  /* Hide screen-only elements */
-  .display-screen-only {
-    display: none !important;
-    visibility: hidden !important;
-  }
-  
-  /* CRITICAL FIX - Ensure bar chart elements don't overlap or get cut off */
-  .card-section-2 .h-\[450px\],
-  .card-section-2 .h-\[500px\] {
-    height: 800px !important; /* Dramatically increase height to prevent overlap */
-    max-width: 100% !important;
-    margin-bottom: 50px !important;
-    page-break-inside: avoid !important;
-    padding-bottom: 50px !important;
-  }
-  
-  /* Fix the comparative chart specifically */
-  .card-section-2 .recharts-wrapper,
-  [value="comparativo"] .recharts-wrapper {
-    min-height: 700px !important;
-    height: 700px !important;
-    transform: none !important;
-  }
-  
-  /* Set a fixed height for Y-axis to prevent text overlap */
-  .card-section-2 .recharts-cartesian-axis.recharts-yAxis {
-    transform: none !important;
-  }
-  
-  /* Give more room for Y-axis text */
-  .card-section-2 .recharts-wrapper,
-  [value="comparativo"] .recharts-wrapper {
-    margin-left: 140px !important; /* Increase this value to provide more space for category names */
-  }
-  
-  /* Prevent elements from disappearing */
-  .recharts-cartesian-axis-tick {
-    visibility: visible !important;
-    opacity: 1 !important;
-  }
-  
-  /* Remove any overlapping labels that shouldn't be there */
-  .recharts-layer text[fill="rgba(0, 0, 0, 0.85)"] {
-    display: none !important;
-  }
-  
-  /* Make sure all bars are visible and not cut off */
-  .recharts-layer.recharts-bar {
-    transform: none !important;
-  }
-  
-  /* Hide informational messages about PDF export */
-  .card-info, 
-  .card-notification,
-  .export-info,
-  .notification,
-  [role="alert"] {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-  }
-  
-  /* CRITICAL FIX - Fix layout of the first tab */
-  .tab-transition[value="comparativo"] .recharts-wrapper {
-    overflow: visible !important;
-    height: 700px !important; /* Even larger for this particular chart */
-    transform: none !important;
-  }
-  
-  /* Fix for bar chart labels */
-  .recharts-cartesian-axis-tick {
-    transform: none !important;
-  }
-  
-  /* Ensure bars are properly sized and displayed with no overlap */
-  .recharts-layer.recharts-bar-rectangles {
-    transform: none !important;
-  }
-  
-  /* Fix for chart scaling */
-  .card-section-2 .recharts-surface {
-    overflow: visible !important;
-    height: auto !important;
-    min-height: 700px !important;
-  }
-  
-  /* Fix for text in recharts components */
-  .recharts-text {
-    font-family: Arial, sans-serif !important;
-    font-size: 10pt !important;
-    fill: black !important;
-  }
-  
-  /* Critical fix for the comparative chart */
-  .tab-transition[class*="comparativo"] .recharts-cartesian-axis-tick text,
-  .card-section-2 .recharts-cartesian-axis-tick text {
-    dominant-baseline: middle !important;
-    text-anchor: end !important;
-    font-size: 10pt !important;
-    fill: black !important;
-  }
-  
-  /* Prevent text from being cut off on Y axis */
-  .recharts-yAxis .recharts-cartesian-axis-tick-value {
-    text-anchor: end !important;
-  }
-  
-  /* Prevent transformation issues in charts */
-  .recharts-wrapper,
-  .recharts-surface,
-  .recharts-layer,
-  .recharts-cartesian-grid,
-  .recharts-bar,
-  .recharts-bar-rectangles {
-    transform: none !important;
-  }
-  
-  /* Ensure proper sizing for bar charts */
-  .recharts-bar-rectangle {
-    shape-rendering: crispEdges !important;
-    transform: none !important;
-  }
-  
-  /* Last fixes for Recharts elements */
-  .recharts-layer {
-    transform: none !important;
-  }
-  
-  /* Force proper display of bars */
-  .recharts-bar path {
-    shape-rendering: crispEdges !important;
-  }
-  
-  /* Add some generic fixes for any remaining issues */
-  * {
-    transform: none !important;
-    overflow: visible !important;
-  }
-  
-  /* Explicitly fix comparativo tab */
-  [value="comparativo"] .recharts-wrapper {
-    height: 800px !important;
-    margin-bottom: 50px !important;
   }
 }
