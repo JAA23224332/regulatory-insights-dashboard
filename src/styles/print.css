@@ -1,4 +1,3 @@
-
 /* Estilos de impressão */
 @media print {
   body {
@@ -112,7 +111,7 @@
   /* Adjust pie chart containers specifically */
   .card-section-3 .recharts-wrapper,
   .card-section-4 .recharts-wrapper {
-    min-height: 450px !important;
+    min-height: 350px !important;
     overflow: visible !important;
     margin-bottom: 50px !important;
   }
@@ -223,6 +222,62 @@
   .card-section-4 .grid > div {
     width: 100% !important;
     margin-bottom: 2rem !important;
+  }
+  
+  /* Melhorias específicas para gráficos de pizza com rótulos */
+  .pie-chart-container text {
+    fill: black !important;
+    font-weight: 500 !important;
+    font-size: 10px !important;
+    font-family: system-ui, -apple-system, sans-serif !important;
+  }
+  
+  /* Ajustes para os rótulos dos gráficos de pizza */
+  .card-section-3 .recharts-pie text,
+  .card-section-4 .recharts-pie text,
+  .section-fortalezas text,
+  .section-fragilidades text {
+    fill: black !important;
+    font-weight: 600 !important;
+    font-size: 10px !important;
+    dominant-baseline: middle !important;
+  }
+  
+  /* Contêineres específicos de gráficos de pizza */
+  .card-section-3 .recharts-wrapper,
+  .card-section-4 .recharts-wrapper {
+    min-height: 350px !important;
+    overflow: visible !important;
+  }
+  
+  /* Garantir que os rótulos não sejam cortados */
+  .recharts-layer,
+  .recharts-pie {
+    overflow: visible !important;
+  }
+  
+  /* Melhorar a visibilidade das linhas que conectam os rótulos */
+  .recharts-label-line {
+    stroke: #555 !important;
+    stroke-width: 1px !important;
+  }
+  
+  /* Ajustes para as células de pizza */
+  .recharts-pie-sector {
+    stroke-width: 1px !important;
+    stroke: white !important;
+  }
+  
+  /* Melhorar o tooltip dos gráficos */
+  .recharts-tooltip-wrapper {
+    z-index: 1000 !important;
+  }
+  
+  .recharts-default-tooltip {
+    background-color: white !important;
+    border: 1px solid #ddd !important;
+    padding: 8px !important;
+    box-shadow: none !important;
   }
 }
 
