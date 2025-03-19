@@ -92,7 +92,7 @@
     background-color: #ffebee !important;
   }
   
-  /* Cores para indicadores nos gráficos - Ajustadas para melhor precisão */
+  /* Cores para indicadores nos gráficos - Ajustadas para melhor precisão e análise */
   .cor-sistema {
     color: #0066CC !important;
     background-color: #0066CC !important;
@@ -126,6 +126,16 @@
   .cor-outros {
     color: #66CC99 !important;
     background-color: #66CC99 !important;
+  }
+  
+  .cor-regionalizacao {
+    color: #BADBAD !important;
+    background-color: #BADBAD !important;
+  }
+  
+  .cor-financiamento {
+    color: #E0F0E0 !important;
+    background-color: #E0F0E0 !important;
   }
   
   .cor-fortaleza {
@@ -282,6 +292,7 @@
   border-radius: 4px;
 }
 
+/* Cores melhoradas para os gráficos de donut - fragilidades */
 .donut-sistemas {
   background-color: #0066CC;
 }
@@ -316,4 +327,41 @@
 
 .donut-financiamento {
   background-color: #E0F0E0;
+}
+
+/* Cores específicas para fragilidades - paleta melhorada para análise */
+.fragilidade-sistemas {
+  background-color: #BF4040; /* Vermelho escuro */
+}
+
+.fragilidade-protocolos {
+  background-color: #E63946; /* Vermelho coral */
+}
+
+.fragilidade-outros {
+  background-color: #FF6B6B; /* Vermelho claro */
+}
+
+.fragilidade-governanca {
+  background-color: #C9184A; /* Vermelho framboesa */
+}
+
+.fragilidade-integracao {
+  background-color: #D62828; /* Vermelho médio */
+}
+
+.fragilidade-recursos {
+  background-color: #A4161A; /* Vermelho escuro intenso */
+}
+
+.fragilidade-acesso {
+  background-color: #E5383B; /* Vermelho brilhante */
+}
+
+.fragilidade-regionalizacao {
+  background-color: #BA181B; /* Vermelho tijolo */
+}
+
+.fragilidade-financiamento {
+  background-color: #F07167; /* Coral avermelhado */
 }

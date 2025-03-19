@@ -77,13 +77,13 @@ export default {
 					DEFAULT: '#0088FE'
 				},
 				fragilidade: {
-					100: '#FFCCBC',
-					200: '#FFAB91',
-					300: '#FF8A65',
-					400: '#FF7043',
-					500: '#FF5722',
-					600: '#F4511E',
-					700: '#E64A19',
+					100: '#FFEBEE',
+					200: '#FFCDD2',
+					300: '#EF9A9A',
+					400: '#E57373',
+					500: '#EF5350',
+					600: '#F44336',
+					700: '#E53935',
 					DEFAULT: '#FF8042'
 				},
                 // Adicionando as cores específicas para os elementos do gráfico

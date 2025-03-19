@@ -6,9 +6,11 @@ import { Download, Printer, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 
-// Cores para os gráficos com melhor contraste para impressão
-const COLORS_FORTALEZAS = ['#0062cc', '#00994c', '#57bc6c', '#81C784', '#A5D6A7'];
-const COLORS_FRAGILIDADES = ['#cc4125', '#d32f2f', '#e35353', '#EF5350', '#E57373'];
+// Cores atualizadas para análise mais precisa
+// Cores para fortalezas - tons de azul e verde
+const COLORS_FORTALEZAS = ['#0066CC', '#009933', '#57bc6c', '#81C784', '#A5D6A7'];
+// Cores para fragilidades - paleta de vermelhos melhorada
+const COLORS_FRAGILIDADES = ['#C9184A', '#E5383B', '#D62828', '#A4161A', '#BA181B'];
 
 // Dados reais baseados nas informações fornecidas
 const dadosReais = [
@@ -548,7 +550,7 @@ const ExportableView = () => {
             <CardContent className="p-6 print:p-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 section-fragilidades">
                 <div>
-                  {/* Gráfico visível apenas em tela */}
+                  {/* Gráfico visível apenas em tela - com cores melhoradas */}
                   <div className="h-[400px] print:hidden">
                     <ResponsiveContainer width="100%" height="100%">
                       <PieChart>
@@ -584,34 +586,50 @@ const ExportableView = () => {
                     </ResponsiveContainer>
                   </div>
                   
-                  {/* Tabela para versão impressa */}
+                  {/* Legenda de cores para melhor visualização */}
+                  <div className="mt-4 print:hidden">
+                    <h4 className="font-medium text-lg mb-3">Legenda de Cores</h4>
+                    <div className="grid grid-cols-2 gap-2">
+                      {dadosPieFragilidades.slice(0, 6).map((item, index) => (
+                        <div key={index} className="flex items-center gap-2">
+                          <span 
+                            className="inline-block w-4 h-4 rounded-full" 
+                            style={{ backgroundColor: COLORS_FRAGILIDADES[index % COLORS_FRAGILIDADES.length] }}
+                          ></span>
+                          <span className="text-sm">{abreviarNomeCategoria(item.name)}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  {/* Tabela para versão impressa - com cores melhoradas */}
                   <TabelaDistribuicao 
                     dados={dadosPieFragilidades} 
                     titulo="Distribuição das Fragilidades por Categoria" 
-                    corIcone="#F44336" 
+                    corIcone="#C9184A" 
                   />
                 </div>
                 <div className="flex flex-col justify-center">
                   <h3 className="font-medium text-xl mb-4 text-red-700 print:text-black">Principais fragilidades:</h3>
                   <ul className="space-y-4">
                     <li className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 print:border-none">
-                      <div className="font-medium text-orange-600 print:text-black mb-1">Recursos humanos</div>
+                      <div className="font-medium text-[#A4161A] print:text-black mb-1">Recursos humanos</div>
                       <p className="text-gray-700 print:text-black">Falta de profissionais qualificados e capacitação inadequada.</p>
                     </li>
                     <li className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 print:border-none">
-                      <div className="font-medium text-red-600 print:text-black mb-1">Acesso e equidade</div>
+                      <div className="font-medium text-[#E5383B] print:text-black mb-1">Acesso e equidade</div>
                       <p className="text-gray-700 print:text-black">Desigualdades no acesso entre regiões e municípios.</p>
                     </li>
                     <li className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 print:border-none">
-                      <div className="font-medium text-pink-600 print:text-black mb-1">Sistemas e tecnologia</div>
+                      <div className="font-medium text-[#C9184A] print:text-black mb-1">Sistemas e tecnologia</div>
                       <p className="text-gray-700 print:text-black">Limitações dos sistemas existentes, falta de interoperabilidade.</p>
                     </li>
                     <li className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 print:border-none">
-                      <div className="font-medium text-red-800 print:text-black mb-1">Integração de níveis</div>
+                      <div className="font-medium text-[#D62828] print:text-black mb-1">Integração de níveis</div>
                       <p className="text-gray-700 print:text-black">Falta de articulação entre os diferentes níveis de atenção.</p>
                     </li>
                     <li className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 print:border-none">
-                      <div className="font-medium text-red-500 print:text-black mb-1">Regionalização</div>
+                      <div className="font-medium text-[#BA181B] print:text-black mb-1">Regionalização</div>
                       <p className="text-gray-700 print:text-black">Dificuldades na implementação da regionalização da saúde.</p>
                     </li>
                   </ul>
@@ -682,3 +700,4 @@ const ExportableView = () => {
 };
 
 export default ExportableView;
+
