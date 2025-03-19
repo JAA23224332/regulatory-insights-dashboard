@@ -53,9 +53,8 @@
     page-break-after: avoid !important;
   }
   
-  /* Estilos para cards/seções */
+  /* Estilos para cards/seções - Ajustes para garantir quebras de página adequadas */
   .card {
-    page-break-before: always !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
     margin-bottom: 30px !important;
@@ -65,9 +64,14 @@
     box-shadow: none !important;
   }
   
-  /* Primeiro card não precisa quebrar página */
-  .card:first-of-type {
+  /* AJUSTE: Controle específico de quebra de página para as primeiras seções */
+  .card-section-1 {
     page-break-before: auto !important;
+    page-break-after: auto !important;
+  }
+  
+  .card-section-2 {
+    page-break-before: always !important;
   }
   
   /* Definições para tabelas */
@@ -103,10 +107,20 @@
   
   /* Ajustes específicos para gráficos */
   .chart-container {
-    height: 500px !important;
+    height: auto !important;
+    min-height: 350px !important;
+    max-height: 500px !important;
     width: 100% !important;
     page-break-inside: avoid !important;
     margin: 20px 0 !important;
+    overflow: hidden !important;
+  }
+  
+  /* CORREÇÃO: Ajustes específicos para o gráfico comparativo na segunda seção */
+  .card-section-2 .chart-container {
+    height: auto !important;
+    min-height: 400px !important;
+    max-height: 550px !important;
   }
   
   /* Configurações específicas para Recharts */
@@ -114,15 +128,27 @@
   .recharts-responsive-container {
     width: 100% !important;
     height: auto !important;
-    min-height: 400px !important;
+    min-height: 300px !important;
     overflow: visible !important;
     page-break-inside: avoid !important;
+  }
+  
+  /* CORREÇÃO: Ajuste para o gráfico na segunda seção */
+  .card-section-2 .recharts-wrapper,
+  .card-section-2 .recharts-surface,
+  .card-section-2 .recharts-responsive-container {
+    min-height: 400px !important;
   }
   
   /* Garantir que os eixos e barras sejam visíveis */
   .recharts-cartesian-axis-tick-value {
     fill: black !important;
-    font-size: 10pt !important;
+    font-size: 9pt !important;
+  }
+  
+  /* CORREÇÃO: Ajuste específico para o eixo Y no gráfico comparativo */
+  .card-section-2 .recharts-yAxis .recharts-cartesian-axis-tick-value {
+    font-size: 8pt !important;
   }
   
   .recharts-cartesian-grid-horizontal line,
@@ -131,12 +157,29 @@
     stroke-width: 0.5 !important;
   }
   
+  /* CORREÇÃO: Garantir que textos longos nos eixos sejam visíveis */
+  .recharts-cartesian-axis.recharts-yAxis .recharts-cartesian-axis-tick {
+    font-size: 8pt !important;
+  }
+  
   /* Configuração de página */
   @page {
     size: A4 portrait;
-    margin: 2cm 1.5cm;
-    orphans: 4;
-    widows: 4;
+    margin: 1.5cm 1.2cm;
+    orphans: 3;
+    widows: 3;
+  }
+  
+  /* NOVO: Garantir que a primeira página tenha espaço suficiente */
+  .card-section-1 {
+    margin-top: 20px !important;
+    max-height: 250px !important; /* Limitar altura para caber na primeira página */
+  }
+  
+  /* NOVO: Ajustes para gráficos na primeira página */
+  .card-section-1 .h-[250px] {
+    height: 200px !important;
+    max-height: 200px !important;
   }
   
   /* Estilos para listas */
@@ -152,14 +195,14 @@
   
   /* Ajustes para headings */
   h2 {
-    font-size: 16pt !important;
+    font-size: 14pt !important;
     margin: 15px 0 !important;
     page-break-after: avoid !important;
     color: #1f2937 !important;
   }
   
   h3 {
-    font-size: 14pt !important;
+    font-size: 12pt !important;
     margin: 10px 0 !important;
     page-break-after: avoid !important;
     color: #374151 !important;
@@ -181,11 +224,57 @@
   }
   
   .grid > * {
-    margin-bottom: 20px !important;
+    margin-bottom: 15px !important;
   }
   
   /* Para células coloridas nas tabelas */
   .print-table td[class*="text-"] {
     font-weight: bold !important;
+  }
+  
+  /* NOVO: Garantir que a segunda seção comece em uma nova página */
+  .card-section-2 {
+    page-break-before: always !important;
+    margin-top: 10px !important;
+  }
+  
+  /* NOVO: Mostrar a tabela de print na seção 2 e esconder o gráfico para melhor visualização */
+  .card-section-2 .display-print-only {
+    display: block !important;
+  }
+  
+  .card-section-2 .h-[500px],
+  .card-section-2 .h-[600px] {
+    display: none !important;
+  }
+  
+  /* NOVO: Melhorar visualização da tabela na seção 2 */
+  .card-section-2 .print-table {
+    margin: 10px 0 20px 0 !important;
+    width: 100% !important;
+  }
+  
+  /* NOVO: Ajustar espaço entre os destaques da análise */
+  .card-section-2 .space-y-3 li {
+    margin-bottom: 8px !important;
+  }
+  
+  /* NOVO: Garantir que o título da página e subtítulo ficam juntos */
+  .text-4xl, .text-center.mb-12 {
+    page-break-after: avoid !important;
+    margin-bottom: 20px !important;
+  }
+  
+  /* NOVO: Ajustar o grid na primeira seção para caber melhor */
+  .card-section-1 .grid.grid-cols-1, 
+  .card-section-1 .grid.grid-cols-3 {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: space-between !important;
+  }
+  
+  .card-section-1 .grid > * {
+    width: 30% !important;
+    margin-right: 1% !important;
   }
 }

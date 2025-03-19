@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { dadosReais, dadosIntensidade, termosFrequentesFortalezas, termosFrequentesFragilidades, termosCompartilhados } from '@/data/regulacaoData';
@@ -29,31 +28,65 @@ const Export = () => {
         Baseado em respostas de 12 Secretarias Estaduais de Saúde | 45 fortalezas e 63 fragilidades identificadas
       </div>
       
-      {/* Seção 1: Visão Geral */}
+      {/* Seção 1: Visão Geral - OTIMIZADA PARA IMPRESSÃO */}
       <div className="card card-section-1">
-        <h2 className="text-xl font-semibold mb-4">Visão Geral</h2>
-        <div className="grid grid-cols-3 gap-4 mb-8">
-          <div className="bg-blue-50 p-4 rounded-lg">
-            <p className="text-xl font-semibold text-blue-600">12</p>
+        <h2 className="text-xl font-semibold mb-2">Visão Geral</h2>
+        <div className="grid grid-cols-3 gap-2 mb-4">
+          <div className="bg-blue-50 p-3 rounded-lg">
+            <p className="text-lg font-semibold text-blue-600">12</p>
             <p className="text-sm">Estados participantes</p>
           </div>
-          <div className="bg-green-50 p-4 rounded-lg">
-            <p className="text-xl font-semibold text-green-600">45</p>
+          <div className="bg-green-50 p-3 rounded-lg">
+            <p className="text-lg font-semibold text-green-600">45</p>
             <p className="text-sm">Fortalezas identificadas</p>
           </div>
-          <div className="bg-red-50 p-4 rounded-lg">
-            <p className="text-xl font-semibold text-red-600">63</p>
+          <div className="bg-red-50 p-3 rounded-lg">
+            <p className="text-lg font-semibold text-red-600">63</p>
             <p className="text-sm">Fragilidades identificadas</p>
           </div>
         </div>
+        
+        {/* Versão simplificada para impressão */}
+        <div className="display-print-only">
+          <table className="print-table mb-3">
+            <thead>
+              <tr>
+                <th>Medição</th>
+                <th>Valor</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Estados participantes</td>
+                <td>12</td>
+              </tr>
+              <tr>
+                <td>Fortalezas identificadas</td>
+                <td>45</td>
+              </tr>
+              <tr>
+                <td>Fragilidades identificadas</td>
+                <td>63</td>
+              </tr>
+              <tr>
+                <td>Temas com mais fortalezas</td>
+                <td>38%</td>
+              </tr>
+              <tr>
+                <td>Temas com mais fragilidades</td>
+                <td>52%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
       
-      {/* Seção 2: Comparativo */}
+      {/* Seção 2: Comparativo - OTIMIZADA PARA IMPRESSÃO */}
       <div className="card card-section-2">
-        <h2 className="text-xl font-semibold mb-4">Comparativo por Categorias</h2>
+        <h2 className="text-xl font-semibold mb-3">Comparativo por Categorias</h2>
         
-        {/* Tabela para impressão */}
-        <table className="print-table mb-6">
+        {/* Tabela otimizada para impressão */}
+        <table className="print-table mb-4">
           <thead>
             <tr>
               <th>Categoria</th>
@@ -65,7 +98,7 @@ const Export = () => {
           <tbody>
             {dadosReais.map((item, index) => (
               <tr key={index}>
-                <td>{item.categoria}</td>
+                <td><strong>{item.categoria}</strong></td>
                 <td>{item.fortalezas}</td>
                 <td>{item.fragilidades}</td>
                 <td>{item.total}</td>
@@ -74,8 +107,8 @@ const Export = () => {
           </tbody>
         </table>
         
-        {/* Gráfico otimizado para impressão */}
-        <div className="chart-container h-[600px]">
+        {/* Gráfico otimizado para tela, não para impressão */}
+        <div className="chart-container h-[600px] display-screen-only">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
               data={dadosReais}
@@ -108,9 +141,49 @@ const Export = () => {
           </ResponsiveContainer>
         </div>
         
-        <div className="mt-6">
-          <h3 className="font-medium text-lg mb-4">Destaques da análise:</h3>
-          <ul className="space-y-3">
+        {/* Visualização simplificada para impressão */}
+        <div className="display-print-only mb-3">
+          <table className="print-table">
+            <thead>
+              <tr>
+                <th>Categoria</th>
+                <th>Visualização</th>
+              </tr>
+            </thead>
+            <tbody>
+              {dadosReais.map((item, index) => (
+                <tr key={index}>
+                  <td><strong>{item.categoria}</strong></td>
+                  <td>
+                    <div className="flex items-center">
+                      <span style={{ 
+                        display: 'inline-block',
+                        width: `${item.fortalezas * 5}px`,
+                        height: '10px',
+                        backgroundColor: '#4CAF50',
+                        marginRight: '3px'
+                      }}></span>
+                      <span style={{ 
+                        display: 'inline-block',
+                        width: `${item.fragilidades * 5}px`,
+                        height: '10px',
+                        backgroundColor: '#F44336'
+                      }}></span>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div className="text-xs text-gray-700 mt-1 mb-3">
+            <span className="inline-block w-3 h-3 bg-green-600 mr-1"></span> Fortalezas
+            <span className="inline-block w-3 h-3 bg-red-600 ml-3 mr-1"></span> Fragilidades
+          </div>
+        </div>
+        
+        <div className="mt-4">
+          <h3 className="font-medium text-lg mb-3">Destaques da análise:</h3>
+          <ul className="space-y-2">
             <li>• <strong>Sistemas de informação e tecnologia</strong>: aparece tanto como fortaleza (13 menções) quanto fragilidade (12 menções).</li>
             <li>• <strong>Protocolos e fluxos</strong>: mais frequentemente citado como fortaleza (8 menções) do que fragilidade (5 menções).</li>
             <li>• <strong>Recursos humanos</strong> e <strong>Acesso e equidade</strong>: mais frequentemente citados como fragilidades (7 menções cada) do que fortalezas (3 menções cada).</li>
