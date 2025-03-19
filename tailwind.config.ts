@@ -77,39 +77,15 @@ export default {
 					DEFAULT: '#0088FE'
 				},
 				fragilidade: {
-					100: '#FFEBEE',
-					200: '#FFCDD2',
-					300: '#EF9A9A',
-					400: '#E57373',
-					500: '#EF5350',
-					600: '#F44336',
-					700: '#E53935',
+					100: '#FFCCBC',
+					200: '#FFAB91',
+					300: '#FF8A65',
+					400: '#FF7043',
+					500: '#FF5722',
+					600: '#F4511E',
+					700: '#E64A19',
 					DEFAULT: '#FF8042'
-				},
-                // Adicionando as cores específicas para os elementos do gráfico
-                categoria: {
-                    sistemas: '#0066CC',
-                    protocolos: '#009933',
-                    outros: '#66CC99',
-                    governanca: '#7FC77F',
-                    integracao: '#BEE3BE',
-                    recursos: '#0055AA',
-                    acesso: '#006633',
-                    regionalizacao: '#BADBAD',
-                    financiamento: '#E0F0E0'
-                },
-                // Cores variadas para fragilidades para melhor distinção
-                fragilidades: {
-                    sistemas: '#E63946',     // Vermelho vibrante
-                    protocolos: '#9D4EDD',   // Roxo
-                    outros: '#FFB703',       // Amarelo âmbar
-                    governanca: '#FB8500',   // Laranja
-                    integracao: '#023E8A',   // Azul escuro
-                    recursos: '#0077B6',     // Azul médio
-                    acesso: '#0096C7',       // Ciano
-                    regionalizacao: '#8B2431', // Bordô
-                    financiamento: '#588157' // Verde escuro
-                }
+				}
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

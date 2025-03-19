@@ -1,28 +1,17 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, LabelList } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { motion } from 'framer-motion';
 import * as XLSX from 'xlsx';
 import _ from 'lodash';
-import RecomendacoesRegulacao from './RecomendacoesRegulacao';
 
-const COLORS_CATEGORIAS = {
-  'Sistemas e tecnologia': '#0066CC',
-  'Protocolos e fluxos': '#009933',
-  'Governança e gestão': '#7FC77F',
-  'Integração de níveis': '#BEE3BE',
-  'Recursos humanos': '#0055AA',
-  'Acesso e equidade': '#006633',
-  'Regionalização': '#BADBAD',
-  'Financiamento': '#E0F0E0',
-  'Outros': '#66CC99'
-};
+// Cores para os gráficos
+const COLORS_FORTALEZAS = ['#0088FE', '#4CAF50', '#81C784'];
+const COLORS_FRAGILIDADES = ['#FF8042', '#F44336', '#E57373'];
 
-const getCategoryColor = (category) => {
-  return COLORS_CATEGORIAS[category] || '#66CC99';
-};
-
+// Dados reais baseados nas informações fornecidas
 const dadosReais = [
   { categoria: 'Sistemas e tecnologia', fortalezas: 13, fragilidades: 12, total: 25 },
   { categoria: 'Protocolos e fluxos', fortalezas: 8, fragilidades: 5, total: 13 },
@@ -35,6 +24,7 @@ const dadosReais = [
   { categoria: 'Outros', fortalezas: 8, fragilidades: 17, total: 25 },
 ];
 
+// Dados de intensidade para cada tema
 const dadosIntensidade = [
   { tema: 'Sistemas e tecnologia', intensidadeFortalezas: 1.8, intensidadeFragilidades: 1.5, diferenca: 0.3 },
   { tema: 'Protocolos e fluxos', intensidadeFortalezas: 1.2, intensidadeFragilidades: 0.7, diferenca: 0.5 },
@@ -46,6 +36,7 @@ const dadosIntensidade = [
   { tema: 'Financiamento', intensidadeFortalezas: 0.0, intensidadeFragilidades: 0.1, diferenca: -0.1 },
 ];
 
+// Dados de termos mais frequentes
 const termosFrequentesFortalezas = [
   { termo: 'sistema', frequencia: 18 },
   { termo: 'regulação', frequencia: 15 },
@@ -72,6 +63,7 @@ const termosFrequentesFragilidades = [
   { termo: 'protocolos', frequencia: 5 },
 ];
 
+// Dados compartilhados entre fortalezas e fragilidades
 const termosCompartilhados = [
   { termo: 'sistema', freqFortalezas: 18, freqFragilidades: 11, diferenca: 7 },
   { termo: 'regulação', freqFortalezas: 15, freqFragilidades: 10, diferenca: 5 },
@@ -83,6 +75,7 @@ const termosCompartilhados = [
   { termo: 'especialidades', freqFortalezas: 4, freqFragilidades: 6, diferenca: -2 },
 ];
 
+// Estatísticas gerais
 const estatisticasGerais = {
   totalEstados: 12,
   totalFortalezas: 45,
@@ -96,71 +89,22 @@ const RegulacaoSUSDashboard = () => {
   const [dadosCategorias, setDadosCategorias] = useState(dadosReais);
   const [activeTab, setActiveTab] = useState('comparativo');
   
-  const totalFortalezas = dadosCategorias.reduce((sum, item) => sum + item.fortalezas, 0);
+  // Preparar dados para o gráfico de pizza
   const dadosPieFortalezas = dadosCategorias
     .map(item => ({
       name: item.categoria,
-      value: item.fortalezas,
-      percentage: Math.round((item.fortalezas / totalFortalezas) * 100),
-      color: getCategoryColor(item.categoria)
+      value: item.fortalezas
     }))
-    .filter(item => item.value > 0)
-    .sort((a, b) => b.value - a.value);
+    .filter(item => item.value > 0);
   
-  const totalFragilidades = dadosCategorias.reduce((sum, item) => sum + item.fragilidades, 0);
   const dadosPieFragilidades = dadosCategorias
     .map(item => ({
       name: item.categoria,
-      value: item.fragilidades,
-      percentage: Math.round((item.fragilidades / totalFragilidades) * 100),
-      color: getCategoryColor(item.categoria)
+      value: item.fragilidades
     }))
-    .filter(item => item.value > 0)
-    .sort((a, b) => b.value - a.value);
+    .filter(item => item.value > 0);
   
-  const renderCustomizedLabel = (props: any) => {
-    const { cx, cy, midAngle, innerRadius, outerRadius, percent, index, name, value } = props;
-    const radius = outerRadius * 1.3;
-    const radian = Math.PI / 180;
-    const x = cx + radius * Math.cos(-midAngle * radian);
-    const y = cy + radius * Math.sin(-midAngle * radian);
-    const item = props.payload;
-    
-    if (percent < 0.05) return null;
-    
-    return (
-      <g>
-        <text 
-          x={x} 
-          y={y} 
-          fill="#666"
-          textAnchor={x > cx ? 'start' : 'end'} 
-          dominantBaseline="central"
-          className="print:text-black"
-          style={{ fontWeight: 500, fontSize: '12px' }}
-        >
-          {`${name}: ${item.percentage}%`}
-        </text>
-      </g>
-    );
-  };
-  
-  const renderCustomLegend = (data) => {
-    return (
-      <div className="donut-legend print:block print:mt-4">
-        {data.map((entry, index) => (
-          <div key={`legend-${index}`} className="donut-legend-item print:flex print:items-center print:mb-2">
-            <div 
-              className={`donut-legend-color print:inline-block print:w-4 print:h-4 print:mr-2 print:rounded`}
-              style={{ backgroundColor: entry.color }}
-            />
-            <span className="print:text-black">{`${entry.name}: ${entry.percentage}%`}</span>
-          </div>
-        ))}
-      </div>
-    );
-  };
-  
+  // Variants for animations
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: { 
@@ -336,21 +280,21 @@ const RegulacaoSUSDashboard = () => {
                         <span className="inline-block w-2 h-2 bg-green-500 rounded-full mt-2 mr-2"></span>
                         <span>
                           <span className="font-medium text-gray-900">Protocolos e fluxos</span>: 
-                          <span className="text-gray-700">Mais frequentemente citado como fortaleza ({dadosCategorias[1].fortalezas} menções) do que fragilidade ({dadosCategorias[1].fragilidades} menções).</span>
+                          <span className="text-gray-700"> mais frequentemente citado como fortaleza ({dadosCategorias[1].fortalezas} menções) do que fragilidade ({dadosCategorias[1].fragilidades} menções).</span>
                         </span>
                       </li>
                       <li className="flex items-start">
                         <span className="inline-block w-2 h-2 bg-red-500 rounded-full mt-2 mr-2"></span>
                         <span>
                           <span className="font-medium text-gray-900">Recursos humanos</span> e <span className="font-medium text-gray-900">Acesso e equidade</span>: 
-                          <span className="text-gray-700">Mais frequentemente citados como fragilidades (7 menções cada) do que fortalezas (3 menções cada).</span>
+                          <span className="text-gray-700"> mais frequentemente citados como fragilidades (7 menções cada) do que fortalezas (3 menções cada).</span>
                         </span>
                       </li>
                       <li className="flex items-start">
                         <span className="inline-block w-2 h-2 bg-orange-500 rounded-full mt-2 mr-2"></span>
                         <span>
                           <span className="font-medium text-gray-900">Regionalização</span> e <span className="font-medium text-gray-900">Financiamento</span>: 
-                          <span className="text-gray-700">Aparecem quase exclusivamente como fragilidades (4 e 1 menções respectivamente).</span>
+                          <span className="text-gray-700"> aparecem quase exclusivamente como fragilidades (4 e 1 menções respectivamente).</span>
                         </span>
                       </li>
                     </ul>
@@ -359,40 +303,32 @@ const RegulacaoSUSDashboard = () => {
                 
                 <TabsContent value="fortalezas" className="mt-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div className="h-[400px] flex items-center justify-center card-section-3 section-fortalezas">
+                    <div className="h-[400px] flex items-center justify-center">
                       <ResponsiveContainer width="100%" height="100%">
-                        <PieChart className="pie-chart-container">
+                        <PieChart>
                           <Pie
                             data={dadosPieFortalezas}
                             cx="50%"
                             cy="50%"
-                            labelLine={false}
-                            label={renderCustomizedLabel}
-                            outerRadius={110}
+                            labelLine={true}
+                            label={({name, percent}) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                            outerRadius={130}
                             innerRadius={60}
-                            paddingAngle={2}
                             fill="#8884d8"
                             dataKey="value"
                             animationDuration={1000}
                             animationBegin={200}
-                            isAnimationActive={true}
                           >
                             {dadosPieFortalezas.map((entry, index) => (
                               <Cell 
                                 key={`cell-${index}`} 
-                                fill={entry.color} 
+                                fill={COLORS_FORTALEZAS[index % COLORS_FORTALEZAS.length]} 
                                 strokeWidth={1}
                                 stroke="#fff"
                               />
                             ))}
                           </Pie>
                           <Tooltip 
-                            formatter={(value, name, props) => {
-                              if (name === "value") {
-                                return [`${value} menções (${props.payload.percentage}%)`, 'Quantidade'];
-                              }
-                              return [value, name];
-                            }}
                             contentStyle={{
                               borderRadius: '8px',
                               boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
@@ -402,9 +338,6 @@ const RegulacaoSUSDashboard = () => {
                           />
                         </PieChart>
                       </ResponsiveContainer>
-                      <div className="hidden print:block">
-                        {renderCustomLegend(dadosPieFortalezas)}
-                      </div>
                     </div>
                     <div className="flex flex-col justify-center">
                       <h3 className="font-medium text-xl mb-4 text-gray-800">Principais fortalezas:</h3>
@@ -432,40 +365,32 @@ const RegulacaoSUSDashboard = () => {
                 
                 <TabsContent value="fragilidades" className="mt-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div className="h-[400px] flex items-center justify-center card-section-4 section-fragilidades">
+                    <div className="h-[400px] flex items-center justify-center">
                       <ResponsiveContainer width="100%" height="100%">
-                        <PieChart className="pie-chart-container">
+                        <PieChart>
                           <Pie
                             data={dadosPieFragilidades}
                             cx="50%"
                             cy="50%"
-                            labelLine={false}
-                            label={renderCustomizedLabel}
-                            outerRadius={110}
+                            labelLine={true}
+                            label={({name, percent}) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                            outerRadius={130}
                             innerRadius={60}
-                            paddingAngle={2}
                             fill="#8884d8"
                             dataKey="value"
                             animationDuration={1000}
                             animationBegin={200}
-                            isAnimationActive={true}
                           >
                             {dadosPieFragilidades.map((entry, index) => (
                               <Cell 
                                 key={`cell-${index}`} 
-                                fill={entry.color} 
+                                fill={COLORS_FRAGILIDADES[index % COLORS_FRAGILIDADES.length]} 
                                 strokeWidth={1}
                                 stroke="#fff"
                               />
                             ))}
                           </Pie>
                           <Tooltip 
-                            formatter={(value, name, props) => {
-                              if (name === "value") {
-                                return [`${value} menções (${props.payload.percentage}%)`, 'Quantidade'];
-                              }
-                              return [value, name];
-                            }}
                             contentStyle={{
                               borderRadius: '8px',
                               boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
@@ -475,9 +400,6 @@ const RegulacaoSUSDashboard = () => {
                           />
                         </PieChart>
                       </ResponsiveContainer>
-                      <div className="hidden print:block">
-                        {renderCustomLegend(dadosPieFragilidades)}
-                      </div>
                     </div>
                     <div className="flex flex-col justify-center">
                       <h3 className="font-medium text-xl mb-4 text-gray-800">Principais fragilidades:</h3>
@@ -652,13 +574,8 @@ const RegulacaoSUSDashboard = () => {
           </CardContent>
         </Card>
       </motion.div>
-      
-      <motion.div variants={cardVariants}>
-        <RecomendacoesRegulacao />
-      </motion.div>
     </motion.div>
   );
 };
 
 export default RegulacaoSUSDashboard;
-
