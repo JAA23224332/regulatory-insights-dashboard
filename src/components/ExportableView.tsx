@@ -153,6 +153,29 @@ const ExportableView = () => {
         body { background-color: white !important; }
         .display-screen-only { display: none !important; }
         .display-print-only { display: block !important; }
+        
+        /* Force all content to be visible */
+        .exportable-document {
+          display: block !important;
+          height: auto !important;
+          max-height: none !important;
+          overflow: visible !important;
+        }
+        
+        /* Make sure all charts are visible in print */
+        .recharts-wrapper {
+          page-break-inside: avoid !important;
+        }
+        
+        /* Ensure tables break properly */
+        table {
+          page-break-inside: auto !important;
+        }
+        
+        tr {
+          page-break-inside: avoid !important;
+          page-break-after: auto !important;
+        }
       }
     `;
     document.head.appendChild(style);
@@ -162,7 +185,7 @@ const ExportableView = () => {
     };
   }, []);
   
-  // Função para exportar dados como PDF usando janela de impressão com CSS específico
+  // Improved function to export data as PDF with all content
   const exportarPDF = () => {
     // First ensure all print-only content is visible
     const printOnlyElements = document.querySelectorAll('.display-print-only');
@@ -170,13 +193,49 @@ const ExportableView = () => {
       (el as HTMLElement).style.display = 'block';
     });
     
-    // Wait to ensure all styles are applied
+    // Set specific print styles for better rendering
+    const printStyle = document.createElement('style');
+    printStyle.setAttribute('id', 'temp-print-style');
+    printStyle.innerHTML = `
+      @media print {
+        html, body {
+          height: 100% !important;
+          width: 100% !important;
+          margin: 0 !important;
+          padding: 0 !important;
+        }
+        
+        .exportable-document {
+          height: auto !important;
+          overflow: visible !important;
+          display: block !important;
+        }
+        
+        /* Ensure all content fits within pages */
+        .card {
+          break-inside: avoid;
+          page-break-inside: avoid;
+          margin-bottom: 20px;
+        }
+        
+        /* Make sure charts don't get cut off */
+        .recharts-wrapper {
+          width: 100% !important;
+          height: auto !important;
+          min-height: 300px;
+        }
+      }
+    `;
+    document.head.appendChild(printStyle);
+    
+    // Force a small delay to ensure styles are applied
     setTimeout(() => {
+      // Trigger the print dialog
       window.print();
       
       toast({
         title: "Exportação de PDF iniciada",
-        description: "Use a opção 'Salvar como PDF' na janela de impressão",
+        description: "Use a opção 'Salvar como PDF' na janela de impressão para exportar o documento completo",
       });
       
       // Reset display after print dialog closes
@@ -184,23 +243,62 @@ const ExportableView = () => {
         printOnlyElements.forEach(el => {
           (el as HTMLElement).style.display = 'none';
         });
+        // Remove the temporary style
+        const tempStyle = document.getElementById('temp-print-style');
+        if (tempStyle) document.head.removeChild(tempStyle);
       }, 1000);
-    }, 1000);
+    }, 500);
   };
   
+  // Also update the print function to match
   const handlePrint = () => {
-    // Same setup as for PDF export
+    // Apply same setup as for PDF export
     const printOnlyElements = document.querySelectorAll('.display-print-only');
     printOnlyElements.forEach(el => {
       (el as HTMLElement).style.display = 'block';
     });
+    
+    // Set specific print styles for better rendering
+    const printStyle = document.createElement('style');
+    printStyle.setAttribute('id', 'temp-print-style');
+    printStyle.innerHTML = `
+      @media print {
+        html, body {
+          height: 100% !important;
+          width: 100% !important;
+          margin: 0 !important;
+          padding: 0 !important;
+        }
+        
+        .exportable-document {
+          height: auto !important;
+          overflow: visible !important;
+          display: block !important;
+        }
+        
+        /* Ensure all content fits within pages */
+        .card {
+          break-inside: avoid;
+          page-break-inside: avoid;
+          margin-bottom: 20px;
+        }
+        
+        /* Make sure charts don't get cut off */
+        .recharts-wrapper {
+          width: 100% !important;
+          height: auto !important;
+          min-height: 300px;
+        }
+      }
+    `;
+    document.head.appendChild(printStyle);
     
     setTimeout(() => {
       window.print();
       
       toast({
         title: "Impressão iniciada",
-        description: "O documento está sendo enviado para impressão",
+        description: "O documento completo está sendo enviado para impressão",
       });
       
       // Reset display after print dialog closes
@@ -208,8 +306,11 @@ const ExportableView = () => {
         printOnlyElements.forEach(el => {
           (el as HTMLElement).style.display = 'none';
         });
+        // Remove the temporary style
+        const tempStyle = document.getElementById('temp-print-style');
+        if (tempStyle) document.head.removeChild(tempStyle);
       }, 1000);
-    }, 1000);
+    }, 500);
   };
   
   // Voltar para a página principal
