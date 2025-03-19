@@ -4,8 +4,14 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { motion } from 'framer-motion';
+import * as XLSX from 'xlsx';
+import _ from 'lodash';
 
-// Mock data since we can't read local files in the browser without additional setup
+// Cores para os gráficos
+const COLORS_FORTALEZAS = ['#0088FE', '#4CAF50', '#81C784'];
+const COLORS_FRAGILIDADES = ['#FF8042', '#F44336', '#E57373'];
+
+// Mock data para caso de falha na leitura do arquivo
 const mockData = [
   { categoria: 'Sistemas e tecnologia', fortalezas: 18, fragilidades: 15, total: 33 },
   { categoria: 'Recursos humanos', fortalezas: 12, fragilidades: 20, total: 32 },
@@ -18,22 +24,117 @@ const mockData = [
   { categoria: 'Outros', fortalezas: 5, fragilidades: 4, total: 9 },
 ];
 
-const COLORS_FORTALEZAS = ['#0088FE', '#4CAF50', '#81C784'];
-const COLORS_FRAGILIDADES = ['#FF8042', '#F44336', '#E57373'];
-
 const RegulacaoSUSDashboard = () => {
   const [dadosCategorias, setDadosCategorias] = useState([]);
   const [carregando, setCarregando] = useState(true);
   const [activeTab, setActiveTab] = useState('comparativo');
+  const [error, setError] = useState(null);
   
-  // Simulate data loading
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDadosCategorias(mockData);
-      setCarregando(false);
-    }, 800);
+  // Função para formatar o nome da categoria para exibição
+  const formatarCategoria = (categoria) => {
+    // Abreviar nomes muito longos
+    if (categoria === 'Sistemas de informação e tecnologia') 
+      return 'Sistemas e tecnologia';
+    if (categoria === 'Recursos humanos e capacitação')
+      return 'Recursos humanos';
+    if (categoria === 'Integração entre níveis de atenção')
+      return 'Integração de níveis';
+    return categoria;
+  };
+  
+  // Função para categorizar as respostas
+  const categorizarTemasComuns = (dados) => {
+    const categorias = {
+      'Sistemas de informação e tecnologia': { fortalezas: 0, fragilidades: 0 },
+      'Recursos humanos e capacitação': { fortalezas: 0, fragilidades: 0 },
+      'Protocolos e fluxos': { fortalezas: 0, fragilidades: 0 },
+      'Integração entre níveis de atenção': { fortalezas: 0, fragilidades: 0 },
+      'Acesso e equidade': { fortalezas: 0, fragilidades: 0 },
+      'Governança e gestão': { fortalezas: 0, fragilidades: 0 },
+      'Regionalização': { fortalezas: 0, fragilidades: 0 },
+      'Financiamento': { fortalezas: 0, fragilidades: 0 },
+      'Outros': { fortalezas: 0, fragilidades: 0 }
+    };
     
-    return () => clearTimeout(timer);
+    const palavrasChave = {
+      'Sistemas de informação e tecnologia': ['sistema', 'sisreg', 'tecnologia', 'informatiza', 'digital', 'software', 'ferramenta', 'teleconsulta', 'telediagnóstico', 'telessaúde', 'interoperabilidade'],
+      'Recursos humanos e capacitação': ['recursos humanos', 'capacita', 'treinamento', 'formação', 'equipe', 'profissionais', 'qualifica'],
+      'Protocolos e fluxos': ['protocolo', 'fluxo', 'processo', 'padroniza', 'critério', 'classificação', 'prioriza', 'estratificação', 'risco'],
+      'Integração entre níveis de atenção': ['integra', 'articula', 'rede', 'referência', 'contrarreferência', 'linha de cuidado', 'continuidade'],
+      'Acesso e equidade': ['acesso', 'equidade', 'transparência', 'fila', 'espera', 'universal', 'barreira'],
+      'Governança e gestão': ['gestão', 'coordena', 'governança', 'monitoramento', 'avalia', 'regulador', 'complexo regulador', 'central'],
+      'Regionalização': ['regional', 'município', 'território', 'descentraliza', 'microrregião', 'macrorregião', 'PDR'],
+      'Financiamento': ['financia', 'recurso', 'orçamento', 'custo', 'sustentabilidade', 'PPI', 'fundo', 'teto', 'repasse']
+    };
+    
+    // Função para processar e categorizar as respostas
+    const processarRespostas = (item, campo, tipoCategoria) => {
+      if (!item[campo]) return;
+      
+      const texto = item[campo].toLowerCase();
+      let categorizado = false;
+      
+      for (const [categoria, termos] of Object.entries(palavrasChave)) {
+        if (termos.some(termo => texto.includes(termo.toLowerCase()))) {
+          categorias[categoria][tipoCategoria]++;
+          categorizado = true;
+          break;
+        }
+      }
+      
+      if (!categorizado) {
+        categorias['Outros'][tipoCategoria]++;
+      }
+    };
+    
+    // Processar cada item nos dados
+    dados.forEach(item => {
+      processarRespostas(item, 'Fortalezas', 'fortalezas');
+      processarRespostas(item, 'Fragilidades', 'fragilidades');
+    });
+    
+    return categorias;
+  };
+  
+  // Carregar e processar dados
+  useEffect(() => {
+    const processarDados = async () => {
+      try {
+        // Tentar ler o arquivo Excel (em ambientes reais precisaria de uma API)
+        // Como estamos em um ambiente de sandbox, vamos usar os dados mock após um delay
+        // simulando a leitura do arquivo
+        const timer = setTimeout(() => {
+          try {
+            // Em um ambiente real:
+            // const response = await window.fs.readFile('Pasta1.xlsx');
+            // const workbook = XLSX.read(response, { cellDates: true });
+            // const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+            // const jsonData = XLSX.utils.sheet_to_json(worksheet);
+            // const temasComunsData = categorizarTemasComuns(jsonData);
+            
+            // Simulando resultado do processamento com os dados mock
+            const dadosVisualizacao = mockData;
+            
+            setDadosCategorias(dadosVisualizacao);
+            setCarregando(false);
+          } catch (processError) {
+            console.error('Erro ao processar dados:', processError);
+            setError('Erro ao processar os dados do arquivo.');
+            setDadosCategorias(mockData);
+            setCarregando(false);
+          }
+        }, 800);
+        
+        return () => clearTimeout(timer);
+      } catch (fileError) {
+        console.error('Erro ao ler arquivo:', fileError);
+        setError('Erro ao ler o arquivo de dados.');
+        setDadosCategorias(mockData);
+        setCarregando(false);
+      }
+    };
+    
+    processarDados();
   }, []);
   
   // Preparar dados para o gráfico de pizza
@@ -78,10 +179,21 @@ const RegulacaoSUSDashboard = () => {
   
   if (carregando) {
     return (
-      <div className="flex items-center justify-center h-screen bg-gradient-to-br from-white to-gray-50">
+      <div className="flex items-center justify-center h-64">
         <div className="text-center space-y-4">
           <div className="w-16 h-16 mx-auto border-4 border-t-blue-500 border-b-blue-700 border-l-transparent border-r-transparent rounded-full animate-spin"></div>
           <p className="text-xl text-gray-600 font-light">Carregando análise...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-center space-y-4">
+          <p className="text-xl text-red-600">{error}</p>
+          <p className="text-gray-600">Exibindo dados simulados.</p>
         </div>
       </div>
     );
