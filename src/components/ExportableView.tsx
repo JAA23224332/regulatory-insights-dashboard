@@ -292,7 +292,15 @@ const ExportableView = () => {
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="tema" angle={-45} textAnchor="end" height={80} />
                     <YAxis domain={[0, 3]} label={{ value: 'Intensidade média', angle: -90, position: 'insideLeft' }} />
-                    <Tooltip formatter={(value) => [`${value.toFixed(1)}`, 'Intensidade']} />
+                    <Tooltip 
+                      formatter={(value) => {
+                        // Fix: Check if value is a number before using toFixed
+                        if (typeof value === 'number') {
+                          return [`${value.toFixed(1)}`, 'Intensidade'];
+                        }
+                        return [value, 'Intensidade'];
+                      }} 
+                    />
                     <Legend />
                     <Bar dataKey="intensidadeFortalezas" name="Fortalezas" fill="#4CAF50" />
                     <Bar dataKey="intensidadeFragilidades" name="Fragilidades" fill="#F44336" />
