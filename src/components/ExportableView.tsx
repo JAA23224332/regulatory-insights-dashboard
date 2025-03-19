@@ -1,3 +1,4 @@
+
 import React, { useRef, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
@@ -646,4 +647,399 @@ const ExportableView = () => {
               {/* Tabela de termos mais frequentes para fortalezas com classificação aprimorada */}
               <TabelaTermosFrequentes 
                 termos={termosFrequentesFortalezas} 
-                titulo="Termos mais frequentes em fortalezas com classificação de
+                titulo="Termos mais frequentes em fortalezas com classificação de relevância"
+                tipo="fortalezas"
+              />
+            </CardContent>
+          </Card>
+          
+          {/* Seção 4: Fragilidades */}
+          <Card className="mb-10 shadow-md print:shadow-none print:border-none card-section-4">
+            <CardHeader className="bg-gradient-to-r from-red-50 to-red-100 print:bg-white border-b">
+              <CardTitle className="text-2xl print:text-black">4. Análise Detalhada das Fragilidades</CardTitle>
+            </CardHeader>
+            <CardContent className="p-6 print:p-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 section-fragilidades">
+                <div>
+                  {/* Gráfico visível apenas em tela */}
+                  <div className="h-[400px] print:hidden">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie
+                          data={dadosPieFragilidades}
+                          cx="50%"
+                          cy="50%"
+                          outerRadius={110}
+                          innerRadius={60}
+                          paddingAngle={2}
+                          fill="#8884d8"
+                          dataKey="value"
+                        >
+                          {dadosPieFragilidades.map((entry, index) => (
+                            <Cell 
+                              key={`cell-${index}`} 
+                              fill={COLORS_FRAGILIDADES[index % COLORS_FRAGILIDADES.length]} 
+                            />
+                          ))}
+                        </Pie>
+                        <Tooltip formatter={(value, name, props) => [`${value} menções (${props.payload.percentage}%)`, 'Quantidade']} />
+                        <Legend 
+                          layout="vertical"
+                          align="center"
+                          verticalAlign="bottom"
+                          formatter={(value, entry) => {
+                            // @ts-ignore - necessário porque a tipagem do Recharts não inclui percentage
+                            const percentage = entry.payload.percentage;
+                            return `${value}: ${percentage}%`;
+                          }}
+                        />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+                  
+                  {/* Tabela para versão impressa */}
+                  <TabelaDistribuicao 
+                    dados={dadosPieFragilidades} 
+                    titulo="Distribuição das Fragilidades por Categoria" 
+                    tipo="fragilidades"
+                  />
+                </div>
+                <div className="flex flex-col justify-center">
+                  <h3 className="font-medium text-xl mb-4 text-red-700 print:text-black">Principais fragilidades:</h3>
+                  <ul className="space-y-4">
+                    <li className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 print:border-none">
+                      <div className="font-medium text-red-600 print:text-black mb-1">Sistemas e tecnologia</div>
+                      <p className="text-gray-700 print:text-black">Interoperabilidade entre sistemas, infraestrutura limitada e conectividade.</p>
+                    </li>
+                    <li className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 print:border-none">
+                      <div className="font-medium text-pink-600 print:text-black mb-1">Recursos humanos</div>
+                      <p className="text-gray-700 print:text-black">Falta de profissionais qualificados e alta rotatividade.</p>
+                    </li>
+                    <li className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 print:border-none">
+                      <div className="font-medium text-orange-600 print:text-black mb-1">Acesso e equidade</div>
+                      <p className="text-gray-700 print:text-black">Dificuldades de acesso em áreas remotas e desigualdades regionais.</p>
+                    </li>
+                    <li className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 print:border-none">
+                      <div className="font-medium text-purple-600 print:text-black mb-1">Integração de níveis</div>
+                      <p className="text-gray-700 print:text-black">Falhas na comunicação entre níveis de atenção e referência-contrarreferência.</p>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              
+              {/* Tabela de termos mais frequentes para fragilidades com classificação aprimorada */}
+              <TabelaTermosFrequentes 
+                termos={termosFrequentesFragilidades} 
+                titulo="Termos mais frequentes em fragilidades com classificação de relevância"
+                tipo="fragilidades"
+              />
+            </CardContent>
+          </Card>
+
+          {/* Seção 5: Termos Compartilhados */}
+          <Card className="mb-10 shadow-md print:shadow-none print:border-none card-section-5">
+            <CardHeader className="bg-gradient-to-r from-blue-50 to-green-50 print:bg-white border-b">
+              <CardTitle className="text-2xl print:text-black">5. Análise Comparativa de Termos</CardTitle>
+            </CardHeader>
+            <CardContent className="p-6 print:p-4">
+              <div className="mb-6">
+                <h3 className="font-medium text-xl mb-4 text-gray-800 print:text-black">Termos compartilhados entre fortalezas e fragilidades:</h3>
+                <p className="text-gray-600 print:text-black mb-4">Análise dos termos que aparecem tanto como fortalezas quanto fragilidades, indicando áreas de transição ou desenvolvimento heterogêneo entre estados.</p>
+                
+                <div className="overflow-hidden rounded-lg border print:border-none">
+                  <Table>
+                    <TableHeader className="bg-gray-50 print:bg-gray-100">
+                      <TableRow>
+                        <TableHead className="w-[30%] text-left font-semibold">Termo</TableHead>
+                        <TableHead className="w-[20%] text-center font-semibold">Freq. Fortalezas</TableHead>
+                        <TableHead className="w-[20%] text-center font-semibold">Freq. Fragilidades</TableHead>
+                        <TableHead className="w-[30%] text-center font-semibold">Diferença</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {termosCompartilhados.map((item, index) => (
+                        <TableRow key={index} className="border-b border-gray-100">
+                          <TableCell className="font-medium">{item.termo}</TableCell>
+                          <TableCell className="text-center text-green-600 print:text-black font-semibold">{item.freqFortalezas}</TableCell>
+                          <TableCell className="text-center text-red-600 print:text-black font-semibold">{item.freqFragilidades}</TableCell>
+                          <TableCell className="text-center">
+                            <span className={`px-3 py-1 rounded-full inline-block ${
+                              item.diferenca > 0 ? 'bg-green-100 text-green-800' : 
+                              item.diferenca < 0 ? 'bg-red-100 text-red-800' : 
+                              'bg-gray-100 text-gray-800'
+                            } print:bg-transparent print:text-black font-semibold`}>
+                              {item.diferenca > 0 ? '+' : ''}{item.diferenca}
+                            </span>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              </div>
+              
+              <div className="bg-gray-50 print:bg-gray-100 p-5 rounded-lg mt-6">
+                <h3 className="font-medium text-xl mb-4 text-gray-800 print:text-black">Insights da análise de termos:</h3>
+                <ul className="list-disc list-inside text-gray-600 print:text-black space-y-2">
+                  <li>Termos como "sistema" e "regulação" aparecem tanto como fortalezas quanto fragilidades, indicando desenvolvimento heterogêneo entre os estados.</li>
+                  <li>O SISREG é predominantemente citado como fortaleza, demonstrando sua importância para a regulação.</li>
+                  <li>Termos relacionados a recursos humanos e acesso aparecem mais frequentemente como fragilidades.</li>
+                  <li>A interoperabilidade entre sistemas é um dos principais desafios mencionados.</li>
+                </ul>
+              </div>
+            </CardContent>
+          </Card>
+          
+          {/* Seção 6: Recomendações */}
+          <Card className="mb-10 shadow-md print:shadow-none print:border-none card-section-6">
+            <CardHeader className="bg-gradient-to-r from-indigo-50 to-purple-50 print:bg-white border-b">
+              <CardTitle className="text-2xl print:text-black">6. Recomendações para Melhoria da Regulação do SUS</CardTitle>
+            </CardHeader>
+            <CardContent className="p-6 print:p-4">
+              <p className="text-center mb-6 print:mb-4">Baseado na análise das fortalezas e fragilidades reportadas pelas Secretarias Estaduais de Saúde</p>
+              
+              {/* Versão tabbed para tela */}
+              <div className="print:hidden">
+                <Tabs defaultValue="curto">
+                  <TabsList className="grid grid-cols-3 mb-6">
+                    <TabsTrigger value="curto">Curto Prazo</TabsTrigger>
+                    <TabsTrigger value="medio">Médio Prazo</TabsTrigger>
+                    <TabsTrigger value="longo">Longo Prazo</TabsTrigger>
+                  </TabsList>
+                  
+                  <TabsContent value="curto" className="mt-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-4">
+                        <div className="bg-blue-50 p-4 rounded-lg">
+                          <h3 className="font-semibold text-lg mb-2 text-blue-800">Padronização de Protocolos</h3>
+                          <p>Desenvolver e disseminar protocolos de regulação padronizados, adaptáveis às realidades locais, começando pelas condições mais prevalentes.</p>
+                          <div className="mt-2 flex flex-wrap gap-2">
+                            <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Protocolos clínicos</span>
+                            <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Classificação de risco</span>
+                            <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Priorização</span>
+                          </div>
+                        </div>
+                        
+                        <div className="bg-green-50 p-4 rounded-lg">
+                          <h3 className="font-semibold text-lg mb-2 text-green-800">Capacitação das Equipes</h3>
+                          <p>Implementar programas de capacitação continuada para profissionais da regulação, com foco em uso de sistemas e aplicação de protocolos.</p>
+                          <div className="mt-2 flex flex-wrap gap-2">
+                            <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Treinamento online</span>
+                            <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Uso do SISREG</span>
+                            <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Teleconsultoria</span>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="space-y-4">
+                        <div className="bg-purple-50 p-4 rounded-lg">
+                          <h3 className="font-semibold text-lg mb-2 text-purple-800">Expansão da Telessaúde</h3>
+                          <p>Expandir a cobertura dos serviços de telessaúde e telediagnóstico para os municípios que ainda não contam com essa tecnologia.</p>
+                          <div className="mt-2 flex flex-wrap gap-2">
+                            <span className="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">Municípios remotos</span>
+                            <span className="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">Teleconsulta</span>
+                            <span className="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">Telediagnóstico</span>
+                          </div>
+                        </div>
+                        
+                        <div className="bg-yellow-50 p-4 rounded-lg">
+                          <h3 className="font-semibold text-lg mb-2 text-yellow-800">Transparência da Fila</h3>
+                          <p>Implementar painéis públicos de monitoramento das filas de espera para procedimentos regulados, melhorando a transparência do processo.</p>
+                          <div className="mt-2 flex flex-wrap gap-2">
+                            <span className="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded">Dashboards</span>
+                            <span className="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded">Acesso público</span>
+                            <span className="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded">Tempo de espera</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </TabsContent>
+                  
+                  <TabsContent value="medio" className="mt-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-4">
+                        <div className="bg-indigo-50 p-4 rounded-lg">
+                          <h3 className="font-semibold text-lg mb-2 text-indigo-800">Interoperabilidade de Sistemas</h3>
+                          <p>Desenvolver soluções para integração entre os diversos sistemas de informação em saúde, incluindo SISREG, SUSfácilMG e sistemas municipais.</p>
+                          <div className="mt-2 flex flex-wrap gap-2">
+                            <span className="bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded">API de integração</span>
+                            <span className="bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded">Sistemas legados</span>
+                            <span className="bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded">FHIR</span>
+                          </div>
+                        </div>
+                        
+                        <div className="bg-red-50 p-4 rounded-lg">
+                          <h3 className="font-semibold text-lg mb-2 text-red-800">Fortalecimento da Governança Regional</h3>
+                          <p>Fortalecer as instâncias de pactuação regional, como as CIRs e CIBs, com foco na responsabilização dos municípios-polo.</p>
+                          <div className="mt-2 flex flex-wrap gap-2">
+                            <span className="bg-red-100 text-red-800 text-xs px-2 py-1 rounded">Comissões Intergestores</span>
+                            <span className="bg-red-100 text-red-800 text-xs px-2 py-1 rounded">Contratualização</span>
+                            <span className="bg-red-100 text-red-800 text-xs px-2 py-1 rounded">Metas regionais</span>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="space-y-4">
+                        <div className="bg-emerald-50 p-4 rounded-lg">
+                          <h3 className="font-semibold text-lg mb-2 text-emerald-800">Regulação Ambulatorial</h3>
+                          <p>Desenvolver e implementar sistemas de regulação ambulatorial integrados, com uso de inteligência artificial para apoio à decisão.</p>
+                          <div className="mt-2 flex flex-wrap gap-2">
+                            <span className="bg-emerald-100 text-emerald-800 text-xs px-2 py-1 rounded">Especialidades</span>
+                            <span className="bg-emerald-100 text-emerald-800 text-xs px-2 py-1 rounded">IA para suporte</span>
+                            <span className="bg-emerald-100 text-emerald-800 text-xs px-2 py-1 rounded">Priorização automática</span>
+                          </div>
+                        </div>
+                        
+                        <div className="bg-pink-50 p-4 rounded-lg">
+                          <h3 className="font-semibold text-lg mb-2 text-pink-800">Carreira de Regulador</h3>
+                          <p>Estruturar carreiras para médicos reguladores e profissionais de regulação, com planos de carreira e incentivos para fixação.</p>
+                          <div className="mt-2 flex flex-wrap gap-2">
+                            <span className="bg-pink-100 text-pink-800 text-xs px-2 py-1 rounded">Concursos específicos</span>
+                            <span className="bg-pink-100 text-pink-800 text-xs px-2 py-1 rounded">Remuneração adequada</span>
+                            <span className="bg-pink-100 text-pink-800 text-xs px-2 py-1 rounded">Educação permanente</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </TabsContent>
+                  
+                  <TabsContent value="longo" className="mt-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-4">
+                        <div className="bg-cyan-50 p-4 rounded-lg">
+                          <h3 className="font-semibold text-lg mb-2 text-cyan-800">Modernização Tecnológica</h3>
+                          <p>Desenvolver uma nova geração de sistemas de regulação com uso de inteligência artificial, big data e interoperabilidade plena.</p>
+                          <div className="mt-2 flex flex-wrap gap-2">
+                            <span className="bg-cyan-100 text-cyan-800 text-xs px-2 py-1 rounded">IA avançada</span>
+                            <span className="bg-cyan-100 text-cyan-800 text-xs px-2 py-1 rounded">Interoperabilidade total</span>
+                            <span className="bg-cyan-100 text-cyan-800 text-xs px-2 py-1 rounded">Análise preditiva</span>
+                          </div>
+                        </div>
+                        
+                        <div className="bg-amber-50 p-4 rounded-lg">
+                          <h3 className="font-semibold text-lg mb-2 text-amber-800">Regulação Proativa</h3>
+                          <p>Mudar o modelo de regulação de reativo para proativo, identificando necessidades antes mesmo que se tornem demandas agudas.</p>
+                          <div className="mt-2 flex flex-wrap gap-2">
+                            <span className="bg-amber-100 text-amber-800 text-xs px-2 py-1 rounded">Gestão de crônicos</span>
+                            <span className="bg-amber-100 text-amber-800 text-xs px-2 py-1 rounded">Prevenção quaternária</span>
+                            <span className="bg-amber-100 text-amber-800 text-xs px-2 py-1 rounded">Cuidado integrado</span>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="space-y-4">
+                        <div className="bg-teal-50 p-4 rounded-lg">
+                          <h3 className="font-semibold text-lg mb-2 text-teal-800">Regionalização Efetiva</h3>
+                          <p>Redesenhar a regionalização da saúde baseada em análises demográficas, epidemiológicas e de fluxos assistenciais reais.</p>
+                          <div className="mt-2 flex flex-wrap gap-2">
+                            <span className="bg-teal-100 text-teal-800 text-xs px-2 py-1 rounded">Novo PDR</span>
+                            <span className="bg-teal-100 text-teal-800 text-xs px-2 py-1 rounded">Fluxos reais</span>
+                            <span className="bg-teal-100 text-teal-800 text-xs px-2 py-1 rounded">Gestão regional</span>
+                          </div>
+                        </div>
+                        
+                        <div className="bg-rose-50 p-4 rounded-lg">
+                          <h3 className="font-semibold text-lg mb-2 text-rose-800">Financiamento Integrado</h3>
+                          <p>Reformular o modelo de financiamento para apoiar de forma mais efetiva a regulação do acesso, com incentivos para cumprimento de metas.</p>
+                          <div className="mt-2 flex flex-wrap gap-2">
+                            <span className="bg-rose-100 text-rose-800 text-xs px-2 py-1 rounded">Pagamento por desempenho</span>
+                            <span className="bg-rose-100 text-rose-800 text-xs px-2 py-1 rounded">Nova PPI</span>
+                            <span className="bg-rose-100 text-rose-800 text-xs px-2 py-1 rounded">Financiamento regional</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </TabsContent>
+                </Tabs>
+              </div>
+              
+              {/* Versão contínua para impressão */}
+              <div className="hidden print:block">
+                <h3 className="font-semibold text-xl mb-4 text-blue-800 print:text-black">Recomendações de Curto Prazo</h3>
+                <div className="grid grid-cols-1 gap-4 mb-8">
+                  <div className="bg-blue-50 print:bg-gray-100 p-4 rounded-lg">
+                    <h4 className="font-semibold text-lg mb-2 text-blue-800 print:text-black">Padronização de Protocolos</h4>
+                    <p className="text-gray-700 print:text-black">Desenvolver e disseminar protocolos de regulação padronizados, adaptáveis às realidades locais, começando pelas condições mais prevalentes.</p>
+                  </div>
+                  
+                  <div className="bg-green-50 print:bg-gray-100 p-4 rounded-lg">
+                    <h4 className="font-semibold text-lg mb-2 text-green-800 print:text-black">Capacitação das Equipes</h4>
+                    <p className="text-gray-700 print:text-black">Implementar programas de capacitação continuada para profissionais da regulação, com foco em uso de sistemas e aplicação de protocolos.</p>
+                  </div>
+                  
+                  <div className="bg-purple-50 print:bg-gray-100 p-4 rounded-lg">
+                    <h4 className="font-semibold text-lg mb-2 text-purple-800 print:text-black">Expansão da Telessaúde</h4>
+                    <p className="text-gray-700 print:text-black">Expandir a cobertura dos serviços de telessaúde e telediagnóstico para os municípios que ainda não contam com essa tecnologia.</p>
+                  </div>
+                  
+                  <div className="bg-yellow-50 print:bg-gray-100 p-4 rounded-lg">
+                    <h4 className="font-semibold text-lg mb-2 text-yellow-800 print:text-black">Transparência da Fila</h4>
+                    <p className="text-gray-700 print:text-black">Implementar painéis públicos de monitoramento das filas de espera para procedimentos regulados, melhorando a transparência do processo.</p>
+                  </div>
+                </div>
+                
+                <h3 className="font-semibold text-xl mb-4 text-indigo-800 print:text-black">Recomendações de Médio Prazo</h3>
+                <div className="grid grid-cols-1 gap-4 mb-8">
+                  <div className="bg-indigo-50 print:bg-gray-100 p-4 rounded-lg">
+                    <h4 className="font-semibold text-lg mb-2 text-indigo-800 print:text-black">Interoperabilidade de Sistemas</h4>
+                    <p className="text-gray-700 print:text-black">Desenvolver soluções para integração entre os diversos sistemas de informação em saúde, incluindo SISREG, SUSfácilMG e sistemas municipais.</p>
+                  </div>
+                  
+                  <div className="bg-red-50 print:bg-gray-100 p-4 rounded-lg">
+                    <h4 className="font-semibold text-lg mb-2 text-red-800 print:text-black">Fortalecimento da Governança Regional</h4>
+                    <p className="text-gray-700 print:text-black">Fortalecer as instâncias de pactuação regional, como as CIRs e CIBs, com foco na responsabilização dos municípios-polo.</p>
+                  </div>
+                  
+                  <div className="bg-emerald-50 print:bg-gray-100 p-4 rounded-lg">
+                    <h4 className="font-semibold text-lg mb-2 text-emerald-800 print:text-black">Regulação Ambulatorial</h4>
+                    <p className="text-gray-700 print:text-black">Desenvolver e implementar sistemas de regulação ambulatorial integrados, com uso de inteligência artificial para apoio à decisão.</p>
+                  </div>
+                  
+                  <div className="bg-pink-50 print:bg-gray-100 p-4 rounded-lg">
+                    <h4 className="font-semibold text-lg mb-2 text-pink-800 print:text-black">Carreira de Regulador</h4>
+                    <p className="text-gray-700 print:text-black">Estruturar carreiras para médicos reguladores e profissionais de regulação, com planos de carreira e incentivos para fixação.</p>
+                  </div>
+                </div>
+                
+                <h3 className="font-semibold text-xl mb-4 text-cyan-800 print:text-black">Recomendações de Longo Prazo</h3>
+                <div className="grid grid-cols-1 gap-4 mb-8">
+                  <div className="bg-cyan-50 print:bg-gray-100 p-4 rounded-lg">
+                    <h4 className="font-semibold text-lg mb-2 text-cyan-800 print:text-black">Modernização Tecnológica</h4>
+                    <p className="text-gray-700 print:text-black">Desenvolver uma nova geração de sistemas de regulação com uso de inteligência artificial, big data e interoperabilidade plena.</p>
+                  </div>
+                  
+                  <div className="bg-amber-50 print:bg-gray-100 p-4 rounded-lg">
+                    <h4 className="font-semibold text-lg mb-2 text-amber-800 print:text-black">Regulação Proativa</h4>
+                    <p className="text-gray-700 print:text-black">Mudar o modelo de regulação de reativo para proativo, identificando necessidades antes mesmo que se tornem demandas agudas.</p>
+                  </div>
+                  
+                  <div className="bg-teal-50 print:bg-gray-100 p-4 rounded-lg">
+                    <h4 className="font-semibold text-lg mb-2 text-teal-800 print:text-black">Regionalização Efetiva</h4>
+                    <p className="text-gray-700 print:text-black">Redesenhar a regionalização da saúde baseada em análises demográficas, epidemiológicas e de fluxos assistenciais reais.</p>
+                  </div>
+                  
+                  <div className="bg-rose-50 print:bg-gray-100 p-4 rounded-lg">
+                    <h4 className="font-semibold text-lg mb-2 text-rose-800 print:text-black">Financiamento Integrado</h4>
+                    <p className="text-gray-700 print:text-black">Reformular o modelo de financiamento para apoiar de forma mais efetiva a regulação do acesso, com incentivos para cumprimento de metas.</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="mt-8 p-4 bg-gray-50 print:bg-gray-100 rounded-lg">
+                <h3 className="font-semibold text-lg mb-3 print:text-black">Pontos críticos para o sucesso:</h3>
+                <ul className="list-disc pl-5 space-y-2 print:text-black">
+                  <li><span className="font-medium">Integração entre entes federativos</span>: As recomendações dependem de coordenação efetiva entre União, estados e municípios.</li>
+                  <li><span className="font-medium">Sustentabilidade financeira</span>: Muitas das propostas exigem investimentos contínuos e previsíveis ao longo do tempo.</li>
+                  <li><span className="font-medium">Desenvolvimento de recursos humanos</span>: A capacitação e fixação de profissionais qualificados é fundamental para qualquer avanço na regulação.</li>
+                  <li><span className="font-medium">Participação social</span>: Os usuários precisam estar envolvidos no processo para garantir transparência e adequação das soluções.</li>
+                </ul>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ExportableView;
