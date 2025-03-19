@@ -1,22 +1,31 @@
+
 import React, { useEffect } from 'react';
-import { motion } from 'framer-motion';
 import { dadosReais, dadosIntensidade, termosFrequentesFortalezas, termosFrequentesFragilidades, termosCompartilhados } from '@/data/regulacaoData';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { useToast } from "@/components/ui/use-toast";
+import { exportToPDF } from '@/utils/exportUtils';
 
 // Cores para os gráficos
 const COLORS_FORTALEZAS = ['#0088FE', '#4CAF50', '#81C784'];
 const COLORS_FRAGILIDADES = ['#FF8042', '#F44336', '#E57373'];
 
 const Export = () => {
+  const { toast } = useToast();
+
   // Trigger print dialog on component mount
   useEffect(() => {
+    toast({
+      title: "Preparando documento para impressão",
+      description: "O diálogo de impressão abrirá automaticamente em alguns segundos",
+    });
+    
     // Small timeout to ensure everything renders properly before printing
     const timer = setTimeout(() => {
-      window.print();
+      exportToPDF();
     }, 1000);
     
     return () => clearTimeout(timer);
-  }, []);
+  }, [toast]);
 
   return (
     <div className="exportable-document print-layout">

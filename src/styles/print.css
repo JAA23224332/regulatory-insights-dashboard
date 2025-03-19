@@ -48,7 +48,7 @@
   .print-subtitle {
     font-size: 12pt !important;
     text-align: center !important;
-    margin-bottom: 30px !important;
+    margin-bottom: 20px !important;
     color: #4b5563 !important;
     page-break-after: avoid !important;
   }
@@ -57,8 +57,8 @@
   .card {
     page-break-inside: avoid !important;
     break-inside: avoid !important;
-    margin-bottom: 30px !important;
-    padding: 15px !important;
+    margin-bottom: 20px !important;
+    padding: 12px !important;
     border: 1px solid #eee !important;
     background-color: white !important;
     box-shadow: none !important;
@@ -68,25 +68,27 @@
   .card-section-1 {
     page-break-before: auto !important;
     page-break-after: auto !important;
+    max-height: 200px !important;
   }
   
   .card-section-2 {
     page-break-before: always !important;
+    margin-top: 10px !important;
   }
   
   /* Definições para tabelas */
   .print-table {
     width: 100% !important;
     border-collapse: collapse !important;
-    margin: 15px 0 !important;
+    margin: 10px 0 !important;
     page-break-inside: auto !important;
   }
   
   .print-table th, .print-table td {
     border: 1px solid #ddd !important;
-    padding: 6px 8px !important;
+    padding: 4px 6px !important;
     text-align: left !important;
-    font-size: 10pt !important;
+    font-size: 9pt !important;
   }
   
   .print-table th {
@@ -108,19 +110,19 @@
   /* Ajustes específicos para gráficos */
   .chart-container {
     height: auto !important;
-    min-height: 350px !important;
-    max-height: 500px !important;
+    min-height: 300px !important;
+    max-height: 450px !important;
     width: 100% !important;
     page-break-inside: avoid !important;
-    margin: 20px 0 !important;
+    margin: 15px 0 !important;
     overflow: hidden !important;
   }
   
   /* CORREÇÃO: Ajustes específicos para o gráfico comparativo na segunda seção */
   .card-section-2 .chart-container {
     height: auto !important;
-    min-height: 400px !important;
-    max-height: 550px !important;
+    min-height: 350px !important;
+    max-height: 500px !important;
   }
   
   /* Configurações específicas para Recharts */
@@ -128,7 +130,7 @@
   .recharts-responsive-container {
     width: 100% !important;
     height: auto !important;
-    min-height: 300px !important;
+    min-height: 250px !important;
     overflow: visible !important;
     page-break-inside: avoid !important;
   }
@@ -137,13 +139,13 @@
   .card-section-2 .recharts-wrapper,
   .card-section-2 .recharts-surface,
   .card-section-2 .recharts-responsive-container {
-    min-height: 400px !important;
+    min-height: 350px !important;
   }
   
   /* Garantir que os eixos e barras sejam visíveis */
   .recharts-cartesian-axis-tick-value {
     fill: black !important;
-    font-size: 9pt !important;
+    font-size: 8pt !important;
   }
   
   /* CORREÇÃO: Ajuste específico para o eixo Y no gráfico comparativo */
@@ -165,52 +167,53 @@
   /* Configuração de página */
   @page {
     size: A4 portrait;
-    margin: 1.5cm 1.2cm;
+    margin: 1.2cm 1cm;
     orphans: 3;
     widows: 3;
   }
   
-  /* NOVO: Garantir que a primeira página tenha espaço suficiente */
+  /* Limitar altura para caber na primeira página */
   .card-section-1 {
-    margin-top: 20px !important;
-    max-height: 250px !important; /* Limitar altura para caber na primeira página */
+    margin-top: 10px !important;
+    max-height: 220px !important;
   }
   
-  /* NOVO: Ajustes para gráficos na primeira página */
+  /* Ajustes para gráficos na primeira página */
   .card-section-1 .h-[250px] {
-    height: 200px !important;
-    max-height: 200px !important;
+    height: 180px !important;
+    max-height: 180px !important;
   }
   
   /* Estilos para listas */
   ul {
-    padding-left: 20px !important;
-    margin: 10px 0 !important;
+    padding-left: 15px !important;
+    margin: 8px 0 !important;
   }
   
   li {
-    margin-bottom: 5px !important;
+    margin-bottom: 3px !important;
     page-break-inside: avoid !important;
+    font-size: 10pt !important;
   }
   
   /* Ajustes para headings */
   h2 {
     font-size: 14pt !important;
-    margin: 15px 0 !important;
+    margin: 12px 0 8px 0 !important;
     page-break-after: avoid !important;
     color: #1f2937 !important;
   }
   
   h3 {
     font-size: 12pt !important;
-    margin: 10px 0 !important;
+    margin: 8px 0 6px 0 !important;
     page-break-after: avoid !important;
     color: #374151 !important;
   }
   
   /* Espaçamento básico */
   .mb-4, .mb-6, .mb-8 {
-    margin-bottom: 15px !important;
+    margin-bottom: 10px !important;
   }
   
   /* Remover todos os backgrounds gradientes */
@@ -224,7 +227,7 @@
   }
   
   .grid > * {
-    margin-bottom: 15px !important;
+    margin-bottom: 10px !important;
   }
   
   /* Para células coloridas nas tabelas */
@@ -232,40 +235,42 @@
     font-weight: bold !important;
   }
   
-  /* NOVO: Garantir que a segunda seção comece em uma nova página */
+  /* Garantir que a segunda seção comece em uma nova página */
   .card-section-2 {
     page-break-before: always !important;
-    margin-top: 10px !important;
+    margin-top: 0 !important;
   }
   
-  /* NOVO: Mostrar a tabela de print na seção 2 e esconder o gráfico para melhor visualização */
+  /* Mostrar a tabela de print na seção 2 e esconder o gráfico para melhor visualização */
   .card-section-2 .display-print-only {
     display: block !important;
   }
   
+  /* Ajustar visualização dos gráficos */
   .card-section-2 .h-[500px],
   .card-section-2 .h-[600px] {
+    height: auto !important;
     display: none !important;
   }
   
-  /* NOVO: Melhorar visualização da tabela na seção 2 */
+  /* Melhorar visualização da tabela na seção 2 */
   .card-section-2 .print-table {
-    margin: 10px 0 20px 0 !important;
+    margin: 8px 0 15px 0 !important;
     width: 100% !important;
   }
   
-  /* NOVO: Ajustar espaço entre os destaques da análise */
+  /* Ajustar espaço entre os destaques da análise */
   .card-section-2 .space-y-3 li {
-    margin-bottom: 8px !important;
+    margin-bottom: 6px !important;
   }
   
-  /* NOVO: Garantir que o título da página e subtítulo ficam juntos */
+  /* Garantir que o título da página e subtítulo ficam juntos */
   .text-4xl, .text-center.mb-12 {
     page-break-after: avoid !important;
-    margin-bottom: 20px !important;
+    margin-bottom: 15px !important;
   }
   
-  /* NOVO: Ajustar o grid na primeira seção para caber melhor */
+  /* Ajustar o grid na primeira seção para caber melhor */
   .card-section-1 .grid.grid-cols-1, 
   .card-section-1 .grid.grid-cols-3 {
     display: flex !important;
@@ -276,5 +281,77 @@
   .card-section-1 .grid > * {
     width: 30% !important;
     margin-right: 1% !important;
+  }
+  
+  /* Melhorar a visualização de barras coloridas nas tabelas */
+  .print-table td div.flex {
+    align-items: center !important;
+    display: flex !important;
+  }
+  
+  .print-table td div.flex div {
+    display: inline-block !important;
+    max-width: 100px !important;
+    height: 8px !important;
+    margin-right: 4px !important;
+  }
+  
+  /* Ajustes específicos para section-3 e section-4 */
+  .card-section-3, .card-section-4 {
+    page-break-before: always !important;
+  }
+  
+  /* Ajustes para os gráficos de barras */
+  .card-section-6 .recharts-wrapper,
+  .card-section-7 .recharts-wrapper,
+  .card-section-8 .recharts-wrapper {
+    min-height: 300px !important;
+  }
+  
+  /* Ajustes para visualização de PowerPoint */
+  .powerpoint-slide {
+    page-break-before: always !important;
+    page-break-after: always !important;
+    height: 270mm !important;
+    width: 190mm !important;
+    margin: 0 auto !important;
+    padding: 20mm !important;
+    border: 1px dashed #ccc !important;
+    background-color: white !important;
+  }
+  
+  .powerpoint-title {
+    font-size: 24pt !important;
+    text-align: center !important;
+    color: #2563eb !important;
+    margin-bottom: 20mm !important;
+  }
+  
+  /* Indicadores visuais para tabelas */
+  .table-indicator {
+    width: 10px !important;
+    height: 10px !important;
+    display: inline-block !important;
+    margin-right: 5px !important;
+    border-radius: 2px !important;
+  }
+  
+  .table-indicator.fortaleza {
+    background-color: #4CAF50 !important;
+  }
+  
+  .table-indicator.fragilidade {
+    background-color: #F44336 !important;
+  }
+  
+  /* Reduzir o tamanho dos elementos de UI para economizar espaço */
+  p, .text-sm, .text-xs {
+    font-size: 9pt !important;
+    margin: 2px 0 !important;
+  }
+  
+  /* Garantir que todas as tabelas sejam compactas */
+  .print-table th, .print-table td {
+    padding: 3px 5px !important;
   }
 }

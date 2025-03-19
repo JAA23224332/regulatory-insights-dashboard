@@ -3,77 +3,21 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { motion } from 'framer-motion';
 import { Button } from "@/components/ui/button";
-import { Download, Printer, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
+import ExportButtons from './ExportButtons';
+import { 
+  dadosReais, 
+  dadosIntensidade, 
+  termosFrequentesFortalezas, 
+  termosFrequentesFragilidades, 
+  termosCompartilhados 
+} from '@/data/regulacaoData';
 
 // Cores para os gráficos com melhor contraste para impressão
 const COLORS_FORTALEZAS = ['#0062cc', '#00994c', '#57bc6c', '#81C784', '#A5D6A7', '#4CBB17', '#3F704D', '#138808'];
 const COLORS_FRAGILIDADES = ['#cc4125', '#d32f2f', '#e35353', '#EF5350', '#E57373', '#DD2C00', '#B71C1C', '#FF8A65'];
-
-// Dados reais baseados nas informações fornecidas
-const dadosReais = [
-  { categoria: 'Sistemas e tecnologia', fortalezas: 13, fragilidades: 12, total: 25 },
-  { categoria: 'Protocolos e fluxos', fortalezas: 8, fragilidades: 5, total: 13 },
-  { categoria: 'Governança e gestão', fortalezas: 6, fragilidades: 5, total: 11 },
-  { categoria: 'Integração de níveis', fortalezas: 4, fragilidades: 5, total: 9 },
-  { categoria: 'Recursos humanos', fortalezas: 3, fragilidades: 7, total: 10 },
-  { categoria: 'Acesso e equidade', fortalezas: 3, fragilidades: 7, total: 10 },
-  { categoria: 'Regionalização', fortalezas: 0, fragilidades: 4, total: 4 },
-  { categoria: 'Financiamento', fortalezas: 0, fragilidades: 1, total: 1 },
-  { categoria: 'Outros', fortalezas: 8, fragilidades: 17, total: 25 },
-];
-
-// Termos mais frequentes
-const termosFrequentesFortalezas = [
-  { termo: 'sistema', frequencia: 18 },
-  { termo: 'regulação', frequencia: 15 },
-  { termo: 'SISREG', frequencia: 11 },
-  { termo: 'municípios', frequencia: 9 },
-  { termo: 'acesso', frequencia: 8 },
-  { termo: 'teleconsulta', frequencia: 7 },
-  { termo: 'protocolos', frequencia: 6 },
-  { termo: 'risco', frequencia: 6 },
-  { termo: 'telessaúde', frequencia: 5 },
-  { termo: 'classificação', frequencia: 5 },
-];
-
-const termosFrequentesFragilidades = [
-  { termo: 'falta', frequencia: 14 },
-  { termo: 'ausência', frequencia: 12 },
-  { termo: 'sistema', frequencia: 11 },
-  { termo: 'regulação', frequencia: 10 },
-  { termo: 'municípios', frequencia: 9 },
-  { termo: 'dificuldade', frequencia: 8 },
-  { termo: 'acesso', frequencia: 7 },
-  { termo: 'interoperabilidade', frequencia: 6 },
-  { termo: 'recursos humanos', frequencia: 6 },
-  { termo: 'protocolos', frequencia: 5 },
-];
-
-// Dados compartilhados entre fortalezas e fragilidades
-const termosCompartilhados = [
-  { termo: 'sistema', freqFortalezas: 18, freqFragilidades: 11, diferenca: 7 },
-  { termo: 'regulação', freqFortalezas: 15, freqFragilidades: 10, diferenca: 5 },
-  { termo: 'municípios', freqFortalezas: 9, freqFragilidades: 9, diferenca: 0 },
-  { termo: 'acesso', freqFortalezas: 8, freqFragilidades: 7, diferenca: 1 },
-  { termo: 'protocolos', freqFortalezas: 6, freqFragilidades: 5, diferenca: 1 },
-  { termo: 'SISREG', freqFortalezas: 11, freqFragilidades: 3, diferenca: 8 },
-  { termo: 'equipe', freqFortalezas: 4, freqFragilidades: 6, diferenca: -2 },
-  { termo: 'especialidades', freqFortalezas: 4, freqFragilidades: 6, diferenca: -2 },
-];
-
-// Dados de intensidade
-const dadosIntensidade = [
-  { tema: 'Sistemas e tecnologia', intensidadeFortalezas: 1.8, intensidadeFragilidades: 1.5, diferenca: 0.3 },
-  { tema: 'Protocolos e fluxos', intensidadeFortalezas: 1.2, intensidadeFragilidades: 0.7, diferenca: 0.5 },
-  { tema: 'Recursos humanos', intensidadeFortalezas: 0.4, intensidadeFragilidades: 0.9, diferenca: -0.5 },
-  { tema: 'Governança e gestão', intensidadeFortalezas: 0.8, intensidadeFragilidades: 0.7, diferenca: 0.1 },
-  { tema: 'Acesso e equidade', intensidadeFortalezas: 0.5, intensidadeFragilidades: 0.9, diferenca: -0.4 },
-  { tema: 'Regionalização', intensidadeFortalezas: 0.0, intensidadeFragilidades: 0.6, diferenca: -0.6 },
-  { tema: 'Integração de níveis', intensidadeFortalezas: 0.6, intensidadeFragilidades: 0.7, diferenca: -0.1 },
-  { tema: 'Financiamento', intensidadeFortalezas: 0.0, intensidadeFragilidades: 0.1, diferenca: -0.1 },
-];
 
 // Estatísticas gerais
 const estatisticasGerais = {
@@ -142,7 +86,6 @@ const SimpleCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent
 
 const ExportableView = () => {
   const navigate = useNavigate();
-  const { toast } = useToast();
   const documentRef = useRef(null);
   
   useEffect(() => {
@@ -199,102 +142,6 @@ const ExportableView = () => {
     };
   }, []);
   
-  // Improved function to export data as PDF with all content
-  const exportarPDF = () => {
-    // First ensure all print-only content is visible
-    const printOnlyElements = document.querySelectorAll('.display-print-only');
-    printOnlyElements.forEach(el => {
-      (el as HTMLElement).style.display = 'block';
-    });
-    
-    // Set specific print styles for better rendering
-    const printStyle = document.createElement('style');
-    printStyle.setAttribute('id', 'temp-print-style');
-    printStyle.innerHTML = `
-      @media print {
-        html, body {
-          height: 100% !important;
-          width: 100% !important;
-          margin: 0 !important;
-          padding: 0 !important;
-        }
-        
-        .exportable-document {
-          height: auto !important;
-          overflow: visible !important;
-          display: block !important;
-        }
-        
-        /* Ensure all content fits within pages */
-        .card {
-          break-inside: avoid;
-          page-break-inside: avoid;
-          margin-bottom: 20px;
-        }
-        
-        /* Fix specifically for the comparative chart in section 2 */
-        .card-section-2 .h-\\[500px\\] {
-          height: 600px !important;
-          max-width: 100% !important;
-          page-break-inside: avoid !important;
-        }
-        
-        /* Fix text positioning on chart */
-        .card-section-2 .recharts-cartesian-axis-tick-value {
-          font-size: 11pt !important;
-          fill: black !important;
-        }
-
-        /* Fix text readability in highlighted text sections */
-        .card-section-2 .bg-gray-50 ul.space-y-2 li span strong {
-          color: black !important; 
-          font-weight: bold !important;
-        }
-        
-        /* Make sure charts don't get cut off */
-        .recharts-wrapper {
-          width: 100% !important;
-          height: auto !important;
-          min-height: 300px;
-          page-break-inside: avoid !important;
-        }
-        
-        /* Ensure chart text is visible and properly positioned */
-        .recharts-layer.recharts-cartesian-axis-tick text {
-          font-size: 11pt !important;
-          fill: black !important;
-        }
-      }
-    `;
-    document.head.appendChild(printStyle);
-    
-    // Force a small delay to ensure styles are applied
-    setTimeout(() => {
-      // Trigger the print dialog
-      window.print();
-      
-      toast({
-        title: "Exportação de PDF iniciada",
-        description: "Use a opção 'Salvar como PDF' na janela de impressão para exportar o documento completo",
-      });
-      
-      // Reset display after print dialog closes
-      setTimeout(() => {
-        printOnlyElements.forEach(el => {
-          (el as HTMLElement).style.display = 'none';
-        });
-        // Remove the temporary style
-        const tempStyle = document.getElementById('temp-print-style');
-        if (tempStyle) document.head.removeChild(tempStyle);
-      }, 1000);
-    }, 500);
-  };
-  
-  // Also update the print function to match
-  const handlePrint = () => {
-    exportarPDF();
-  };
-  
   // Voltar para a página principal
   const voltarPrincipal = () => {
     navigate('/');
@@ -309,20 +156,7 @@ const ExportableView = () => {
             <ArrowLeft className="h-4 w-4" />
             Voltar ao Dashboard
           </Button>
-          <div className="flex gap-2">
-            <Button variant="outline" onClick={handlePrint} className="flex items-center gap-2">
-              <Printer className="h-4 w-4" />
-              Imprimir
-            </Button>
-            <Button 
-              variant="default" 
-              onClick={exportarPDF} 
-              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700"
-            >
-              <Download className="h-4 w-4" />
-              Exportar PDF
-            </Button>
-          </div>
+          <ExportButtons />
         </div>
 
         {/* Conteúdo do documento para impressão */}
