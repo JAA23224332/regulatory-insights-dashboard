@@ -22,11 +22,8 @@ const Index = () => {
           className="text-center mb-8"
         >
           <h1 className="text-4xl font-light tracking-tight text-gray-900 sm:text-5xl md:text-6xl mb-4">
-            Regulação <span className="text-blue-600">SUS</span>
+            Análise de Fortalezas e Fragilidades
           </h1>
-          <p className="max-w-xl mx-auto text-xl text-gray-500">
-            Dashboard de indicadores e análises sobre a regulação do Sistema Único de Saúde
-          </p>
           <p className="mt-4 text-base text-gray-600">
             Baseado em respostas de 12 Secretarias Estaduais de Saúde | 45 fortalezas e 63 fragilidades identificadas
           </p>
@@ -49,4 +46,3 @@ const Index = () => {
 };
 
 export default Index;
-

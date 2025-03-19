@@ -247,11 +247,8 @@ const ExportableView = () => {
           {/* Cabeçalho do documento */}
           <div className="text-center mb-12">
             <h1 className="text-4xl font-light tracking-tight text-gray-900 sm:text-5xl md:text-6xl mb-4">
-              Regulação <span className="text-blue-600">SUS</span>
-            </h1>
-            <p className="max-w-xl mx-auto text-xl text-gray-500">
               Análise de Fortalezas e Fragilidades
-            </p>
+            </h1>
             <p className="mt-4 text-base text-gray-600">
               Baseado em respostas de {estatisticasGerais.totalEstados} Secretarias Estaduais de Saúde | {estatisticasGerais.totalFortalezas} fortalezas e {estatisticasGerais.totalFragilidades} fragilidades identificadas
             </p>
@@ -1073,7 +1070,7 @@ const ExportableView = () => {
           {/* Rodapé do documento */}
           <div className="text-center mb-8 mt-12 text-sm text-gray-500 print:text-black">
             <p>Relatório gerado em {new Date().toLocaleDateString()}</p>
-            <p>Regulação SUS - Análise de Fortalezas e Fragilidades</p>
+            <p>Análise de Fortalezas e Fragilidades</p>
           </div>
         </div>
       </div>
@@ -1082,3 +1079,4 @@ const ExportableView = () => {
 };
 
 export default ExportableView;
+
