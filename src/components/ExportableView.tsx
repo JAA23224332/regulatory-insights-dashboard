@@ -772,6 +772,74 @@ const ExportableView = () => {
               </div>
             </CardContent>
           </Card>
+
+          {/* Nova Seção 5: Recomendações para Melhoria */}
+          <Card className="mb-10 shadow-md print:shadow-none print:border-none card-section-5">
+            <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 print:bg-white border-b">
+              <CardTitle className="text-2xl print:text-black">5. Recomendações para Melhoria da Regulação no SUS</CardTitle>
+            </CardHeader>
+            <CardContent className="p-6 print:p-4">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="space-y-6">
+                  <div className="bg-white p-5 rounded-lg shadow-sm border border-gray-100 print:border-none print:shadow-none">
+                    <h3 className="text-lg font-medium text-blue-700 print:text-black mb-3 flex items-center">
+                      <span className="inline-block w-3 h-3 rounded-full bg-blue-600 mr-2"></span>
+                      Sistemas de informação e tecnologia
+                    </h3>
+                    <p className="text-gray-700 print:text-black mb-2">
+                      Investir em tecnologias mais integradas e interoperáveis, modernizando sistemas existentes como o SISREG.
+                    </p>
+                    <p className="text-gray-700 print:text-black">
+                      Expandir o uso de telemedicina e telessaúde para ampliar o acesso nas regiões remotas.
+                    </p>
+                  </div>
+                  
+                  <div className="bg-white p-5 rounded-lg shadow-sm border border-gray-100 print:border-none print:shadow-none">
+                    <h3 className="text-lg font-medium text-green-700 print:text-black mb-3 flex items-center">
+                      <span className="inline-block w-3 h-3 rounded-full bg-green-600 mr-2"></span>
+                      Protocolos e processos
+                    </h3>
+                    <p className="text-gray-700 print:text-black">
+                      Padronizar nacionalmente protocolos de regulação e classificação de risco, construindo diretrizes que possam ser adaptadas às realidades locais.
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="space-y-6">
+                  <div className="bg-white p-5 rounded-lg shadow-sm border border-gray-100 print:border-none print:shadow-none">
+                    <h3 className="text-lg font-medium text-purple-700 print:text-black mb-3 flex items-center">
+                      <span className="inline-block w-3 h-3 rounded-full bg-purple-600 mr-2"></span>
+                      Recursos humanos
+                    </h3>
+                    <p className="text-gray-700 print:text-black">
+                      Desenvolver programas de capacitação continuada e estabelecer carreiras específicas para profissionais de regulação, principalmente médicos reguladores.
+                    </p>
+                  </div>
+                  
+                  <div className="bg-white p-5 rounded-lg shadow-sm border border-gray-100 print:border-none print:shadow-none">
+                    <h3 className="text-lg font-medium text-indigo-700 print:text-black mb-3 flex items-center">
+                      <span className="inline-block w-3 h-3 rounded-full bg-indigo-600 mr-2"></span>
+                      Integração entre níveis de atenção
+                    </h3>
+                    <p className="text-gray-700 print:text-black">
+                      Fortalecer a comunicação entre a atenção primária e especializada, usando sistemas como referência e contrarreferência eletrônicas.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="mt-8 bg-blue-50 print:bg-gray-100 p-5 rounded-lg">
+                <h3 className="font-medium text-xl mb-4 text-blue-800 print:text-black">Próximos passos recomendados:</h3>
+                <ul className="space-y-3 list-disc list-inside text-gray-700 print:text-black">
+                  <li className="print:mb-3">Realizar encontros periódicos entre gestores estaduais para compartilhamento de experiências.</li>
+                  <li className="print:mb-3">Desenvolver plano nacional de integração tecnológica dos sistemas de regulação.</li>
+                  <li className="print:mb-3">Implementar iniciativas de educação permanente em regulação para profissionais de saúde.</li>
+                  <li className="print:mb-3">Fortalecer parcerias com instituições acadêmicas para pesquisa e inovação em regulação.</li>
+                  <li className="print:mb-3">Estabelecer metas e indicadores para monitoramento e avaliação dos avanços em processos regulatórios.</li>
+                </ul>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>

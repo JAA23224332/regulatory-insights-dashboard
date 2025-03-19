@@ -134,7 +134,7 @@
   }
   
   /* Ajuste de margens para seções com tabelas adicionais */
-  .card-section-3, .card-section-4 {
+  .card-section-3, .card-section-4, .card-section-5 {
     margin-bottom: 40px !important;
   }
   
@@ -653,3 +653,57 @@
 .space-y-3 > *:last-child {
   margin-bottom: 0;
 }
+
+/* Estilos para a seção de recomendações no modo screen */
+.card-section-5 .bg-white {
+  transition: all 0.3s ease;
+}
+
+.card-section-5 .bg-white:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.card-section-5 .space-y-6 > div {
+  border-left-width: 4px;
+}
+
+.card-section-5 .space-y-6 > div:nth-child(1) {
+  border-left-color: #0066CC;
+}
+
+.card-section-5 .space-y-6 > div:nth-child(2) {
+  border-left-color: #009933;
+}
+
+.card-section-5 .space-y-6 + .space-y-6 > div:nth-child(1) {
+  border-left-color: #9D4EDD;
+}
+
+.card-section-5 .space-y-6 + .space-y-6 > div:nth-child(2) {
+  border-left-color: #023E8A;
+}
+
+.card-section-5 .mt-8.bg-blue-50 {
+  background-image: linear-gradient(to right, #e9f0ff, #f0f7ff);
+  border-left: 4px solid #4285F4;
+}
+
+.card-section-5 .mt-8.bg-blue-50 h3 {
+  color: #2563EB;
+}
+
+.card-section-5 .mt-8.bg-blue-50 li {
+  position: relative;
+  padding-left: 28px;
+}
+
+.card-section-5 .mt-8.bg-blue-50 li::before {
+  content: "•";
+  position: absolute;
+  left: 10px;
+  color: #2563EB;
+  font-weight: bold;
+  font-size: 18px;
+}
+
