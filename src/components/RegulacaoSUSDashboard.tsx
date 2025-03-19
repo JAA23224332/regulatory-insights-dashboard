@@ -654,11 +654,10 @@ const RegulacaoSUSDashboard = () => {
       </motion.div>
       
       <motion.div variants={cardVariants}>
-        <RecomendacoesRegulacao />
+        <RecomendacoesRegulacao tipo="sistemas" />
       </motion.div>
     </motion.div>
   );
 };
 
 export default RegulacaoSUSDashboard;
-
