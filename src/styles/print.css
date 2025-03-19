@@ -57,7 +57,7 @@
   }
   
   th, td {
-    padding: 8px !important;
+    padding: 8px 12px !important;
     text-align: left !important;
     border-bottom: 1px solid #eee !important;
   }
@@ -74,15 +74,24 @@
     margin-top: 20px !important;
     margin-bottom: 30px !important;
     display: table !important;
+    width: 100% !important;
   }
   
   .termo-table th {
     font-weight: 600 !important;
     background-color: #f0f0f0 !important;
+    padding: 10px 12px !important;
+    font-size: 12pt !important;
+    border-bottom: 2px solid #ddd !important;
   }
   
-  .termo-table td, .termo-table th {
-    padding: 6px 10px !important;
+  .termo-table td {
+    padding: 8px 12px !important;
+    vertical-align: middle !important;
+  }
+  
+  .termo-table tr:nth-child(even) {
+    background-color: #f9f9f9 !important;
   }
   
   .termo-positive {
@@ -97,6 +106,31 @@
   
   .termo-neutral {
     color: #000000 !important;
+  }
+  
+  /* Melhoria visual para classificações de termos */
+  .termo-classificacao {
+    font-style: italic !important;
+    font-size: 10pt !important;
+    color: #555555 !important;
+    display: block !important;
+    padding: 2px 0 !important;
+  }
+  
+  /* Destacar linhas de alta relevância */
+  .termo-table tr:nth-child(-n+3) td {
+    background-color: rgba(220, 237, 200, 0.5) !important;
+  }
+  
+  /* Destacar linhas de média relevância */
+  .termo-table tr:nth-child(n+4):nth-child(-n+6) td {
+    background-color: rgba(225, 236, 244, 0.5) !important;
+  }
+  
+  /* Ajustes para números de frequência */
+  .termo-table td:nth-child(2) {
+    text-align: center !important;
+    font-weight: 600 !important;
   }
   
   /* Ajuste de margens para seções com tabelas adicionais */
@@ -277,6 +311,9 @@
     display: table !important;
     width: 100% !important;
     visibility: visible !important;
+    margin-top: 20px !important;
+    margin-bottom: 20px !important;
+    border: none !important;
   }
   
   .hidden.print\:block thead,
@@ -288,6 +325,15 @@
     display: table-row !important;
     display: table-cell !important;
     visibility: visible !important;
+    page-break-inside: avoid !important;
+  }
+  
+  /* Arredondamento para números de frequência */
+  .termo-table span {
+    background-color: transparent !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    font-weight: 600 !important;
   }
   
   /* Ajuste para o corpo da tabela */
@@ -374,10 +420,8 @@
   }
   
   /* Estilos para classificação de termos */
-  .termo-classificacao {
-    font-style: italic !important;
-    font-size: 10pt !important;
-    color: #555555 !important;
+  .term-classification-description {
+    display: none !important;
   }
 }
 
@@ -479,4 +523,62 @@
 
 .fragilidade-financiamento {
   background-color: #588157;
+}
+
+/* Estilos para termos mais frequentes no modo visual */
+.termo-table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.termo-table th {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: #f9f9fa;
+  font-weight: 600;
+  padding: 12px 16px;
+}
+
+.termo-table td {
+  padding: 10px 16px;
+  border-bottom: 1px solid #edf2f7;
+}
+
+.termo-table tr:last-child td {
+  border-bottom: none;
+}
+
+.termo-table tr:hover td {
+  background-color: #f7fafc;
+}
+
+.term-classification-description {
+  color: #718096;
+  font-size: 0.8rem;
+  margin-left: 4px;
+}
+
+/* Estilo para os números de frequência */
+.termo-table .termo-positive span,
+.termo-table .termo-negative span,
+.termo-table .termo-neutral span {
+  transition: all 0.2s ease;
+  text-align: center;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.termo-table .termo-positive span {
+  background-color: #f0fff4;
+  border: 1px solid #c6f6d5;
+}
+
+.termo-table .termo-negative span {
+  background-color: #fff5f5;
+  border: 1px solid #fed7d7;
+}
+
+.termo-table .termo-neutral span {
+  background-color: #f7fafc;
+  border: 1px solid #edf2f7;
 }

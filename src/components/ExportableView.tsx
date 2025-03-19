@@ -229,29 +229,56 @@ const TabelaTermosFrequentes = ({ termos, titulo, tipo }) => {
     return 'termo-neutral';
   };
 
+  const getRelevanceClass = (index) => {
+    if (index < 3) return 'bg-green-50 dark:bg-green-900/20';
+    if (index < 6) return 'bg-blue-50 dark:bg-blue-900/20'; 
+    return 'bg-gray-50 dark:bg-gray-900/20';
+  };
+
+  const getRelevanceText = (index) => {
+    if (index < 3) return 'Alta relevância';
+    if (index < 6) return 'Média relevância'; 
+    return 'Baixa relevância';
+  };
+
   return (
     <div className="mt-6 print:block">
       <h4 className="font-medium text-lg mb-3">{titulo}</h4>
-      <Table className="termo-table">
-        <TableHeader>
-          <TableRow>
-            <TableHead className="text-left">Termo</TableHead>
-            <TableHead className="text-right">Frequência</TableHead>
-            <TableHead className="text-left">Classificação</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {termos.map((item, index) => (
-            <TableRow key={index}>
-              <TableCell className="font-medium">{item.termo}</TableCell>
-              <TableCell className={`text-right ${getClasseCSS()}`}>{item.frequencia}</TableCell>
-              <TableCell className="text-left">
-                {index < 3 ? 'Alta relevância' : index < 6 ? 'Média relevância' : 'Baixa relevância'}
-              </TableCell>
+      <div className="overflow-hidden rounded-lg border print:border-none">
+        <Table className="termo-table">
+          <TableHeader className="bg-gray-50 print:bg-gray-100">
+            <TableRow>
+              <TableHead className="w-[35%] text-left font-semibold">Termo</TableHead>
+              <TableHead className="w-[20%] text-center font-semibold">Frequência</TableHead>
+              <TableHead className="w-[45%] text-left font-semibold">Classificação</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {termos.map((item, index) => (
+              <TableRow key={index} className={getRelevanceClass(index)}>
+                <TableCell className="font-medium">{item.termo}</TableCell>
+                <TableCell className={`text-center ${getClasseCSS()}`}>
+                  <span className="px-2 py-1 rounded-full bg-white print:bg-transparent inline-block min-w-10 font-semibold">
+                    {item.frequencia}
+                  </span>
+                </TableCell>
+                <TableCell className="text-left">
+                  <span className="termo-classificacao">
+                    {getRelevanceText(index)}
+                    <span className="hidden md:inline term-classification-description">
+                      {index < 3 
+                        ? ' - Termo crucial para análise' 
+                        : index < 6 
+                          ? ' - Termo importante para contexto' 
+                          : ' - Termo complementar'}
+                    </span>
+                  </span>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     </div>
   );
 };
@@ -610,7 +637,7 @@ const ExportableView = () => {
                 </div>
               </div>
               
-              {/* Tabela de termos mais frequentes para fortalezas com classificação */}
+              {/* Tabela de termos mais frequentes para fortalezas com classificação aprimorada */}
               <TabelaTermosFrequentes 
                 termos={termosFrequentesFortalezas} 
                 titulo="Termos mais frequentes em fortalezas com classificação de relevância"
@@ -693,7 +720,7 @@ const ExportableView = () => {
                 </div>
               </div>
               
-              {/* Tabela de termos mais frequentes para fragilidades com classificação */}
+              {/* Tabela de termos mais frequentes para fragilidades com classificação aprimorada */}
               <TabelaTermosFrequentes 
                 termos={termosFrequentesFragilidades} 
                 titulo="Termos mais frequentes em fragilidades com classificação de relevância"
@@ -703,28 +730,40 @@ const ExportableView = () => {
               {/* Tabela de termos compartilhados - Visível em impressão */}
               <div className="hidden print:block mt-8">
                 <h4 className="font-medium text-lg mb-3">Termos compartilhados entre fortalezas e fragilidades:</h4>
-                <Table className="termo-table">
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="text-left">Termo</TableHead>
-                      <TableHead className="text-right">Freq. Fortalezas</TableHead>
-                      <TableHead className="text-right">Freq. Fragilidades</TableHead>
-                      <TableHead className="text-right">Diferença</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {termosCompartilhados.map((item, index) => (
-                      <TableRow key={index}>
-                        <TableCell className="font-medium">{item.termo}</TableCell>
-                        <TableCell className="text-right termo-positive">{item.freqFortalezas}</TableCell>
-                        <TableCell className="text-right termo-negative">{item.freqFragilidades}</TableCell>
-                        <TableCell className={`text-right ${item.diferenca > 0 ? 'termo-positive' : item.diferenca < 0 ? 'termo-negative' : 'termo-neutral'}`}>
-                          {item.diferenca > 0 ? '+' : ''}{item.diferenca}
-                        </TableCell>
+                <div className="overflow-hidden rounded-lg border print:border-none">
+                  <Table className="termo-table">
+                    <TableHeader className="bg-gray-50 print:bg-gray-100">
+                      <TableRow>
+                        <TableHead className="w-[25%] text-left font-semibold">Termo</TableHead>
+                        <TableHead className="w-[25%] text-center font-semibold">Freq. Fortalezas</TableHead>
+                        <TableHead className="w-[25%] text-center font-semibold">Freq. Fragilidades</TableHead>
+                        <TableHead className="w-[25%] text-center font-semibold">Diferença</TableHead>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
+                    </TableHeader>
+                    <TableBody>
+                      {termosCompartilhados.map((item, index) => (
+                        <TableRow key={index} className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
+                          <TableCell className="font-medium">{item.termo}</TableCell>
+                          <TableCell className="text-center termo-positive">
+                            <span className="px-2 py-1 rounded-full bg-green-50 print:bg-transparent inline-block min-w-10 font-semibold">
+                              {item.freqFortalezas}
+                            </span>
+                          </TableCell>
+                          <TableCell className="text-center termo-negative">
+                            <span className="px-2 py-1 rounded-full bg-red-50 print:bg-transparent inline-block min-w-10 font-semibold">
+                              {item.freqFragilidades}
+                            </span>
+                          </TableCell>
+                          <TableCell className={`text-center ${item.diferenca > 0 ? 'termo-positive' : item.diferenca < 0 ? 'termo-negative' : 'termo-neutral'}`}>
+                            <span className={`px-2 py-1 rounded-full ${item.diferenca > 0 ? 'bg-green-50' : item.diferenca < 0 ? 'bg-red-50' : 'bg-gray-50'} print:bg-transparent inline-block min-w-10 font-semibold`}>
+                              {item.diferenca > 0 ? '+' : ''}{item.diferenca}
+                            </span>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -735,4 +774,3 @@ const ExportableView = () => {
 };
 
 export default ExportableView;
-
