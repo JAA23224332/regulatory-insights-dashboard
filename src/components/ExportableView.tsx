@@ -265,13 +265,6 @@ const TabelaTermosFrequentes = ({ termos, titulo, tipo }) => {
                 <TableCell className="text-left">
                   <span className="termo-classificacao">
                     {getRelevanceText(index)}
-                    <span className="hidden md:inline term-classification-description">
-                      {index < 3 
-                        ? ' - Termo crucial para análise' 
-                        : index < 6 
-                          ? ' - Termo importante para contexto' 
-                          : ' - Termo complementar'}
-                    </span>
                   </span>
                 </TableCell>
               </TableRow>
