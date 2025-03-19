@@ -124,17 +124,21 @@ const dadosPieFragilidades = prepareDadosPieFragilidades();
 const renderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index, name, percentage }) => {
   const RADIAN = Math.PI / 180;
   // Increase radius to push labels further out
-  const radius = outerRadius * 1.4; // Aumentado para 1.4 para maior distância
+  const radius = outerRadius * 1.7; // Aumentado para 1.7 para maior distância
   
   // Calcular a posição do texto
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
   const y = cy + radius * Math.sin(-midAngle * RADIAN);
   
-  // Ajustar ângulo para evitar sobreposição
-  const adjustedAngle = -midAngle;
-  
   // Abreviação mais agressiva para nomes longos
-  const shortenedName = name.length > 12 ? name.substring(0, 12) + '...' : name;
+  let shortenedName = '';
+  if (name === 'Sistemas e tecnologia') shortenedName = 'Sistemas';
+  else if (name === 'Protocolos e fluxos') shortenedName = 'Protocolos';
+  else if (name === 'Governança e gestão') shortenedName = 'Governança';
+  else if (name === 'Integração de níveis') shortenedName = 'Integração';
+  else if (name === 'Recursos humanos') shortenedName = 'RH';
+  else if (name === 'Acesso e equidade') shortenedName = 'Acesso';
+  else shortenedName = name.length > 10 ? name.substring(0, 10) + '...' : name;
   
   return (
     <text 
@@ -145,9 +149,9 @@ const renderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent
       dominantBaseline="central"
       className="print:text-black"
       style={{ 
-        fontSize: '10px', 
+        fontSize: '9px', 
         fontWeight: 'bold',
-        textShadow: '0 0 2px #fff' // Sombra branca para melhorar a legibilidade
+        textShadow: '0 0 3px white, 0 0 2px white, 0 0 1px white' // Sombra branca mais forte para melhorar a legibilidade
       }}
     >
       {`${shortenedName}: ${percentage}%`}
@@ -176,20 +180,20 @@ const ExportableView = () => {
         }
         .recharts-wrapper {
           overflow: visible !important;
-          min-height: 500px !important;
+          min-height: 650px !important;
         }
         .card-section-3 .recharts-wrapper,
         .card-section-4 .recharts-wrapper {
-          min-height: 550px !important;
+          min-height: 650px !important;
         }
         .recharts-pie {
-          transform: scale(0.75) !important;
+          transform: scale(0.7) !important;
         }
         .recharts-pie-label-text {
-          font-size: 10px !important;
+          font-size: 9px !important;
           font-weight: bold !important;
           fill: black !important;
-          text-shadow: 0 0 2px white !important;
+          text-shadow: 0 0 3px white, 0 0 2px white, 0 0 1px white !important;
         }
       }
     `;
@@ -218,7 +222,7 @@ const ExportableView = () => {
       if (card.classList.contains('card-section-3') || card.classList.contains('card-section-4')) {
         const chartsContainer = card.querySelector('.grid > div:first-child') as HTMLElement;
         if (chartsContainer) {
-          chartsContainer.style.minHeight = '550px';
+          chartsContainer.style.minHeight = '650px';
         }
       }
     });
@@ -231,7 +235,7 @@ const ExportableView = () => {
         title: "Exportação de PDF iniciada",
         description: "Use a opção 'Salvar como PDF' na janela de impressão",
       });
-    }, 2000); // Increased timeout to 2000ms for better rendering
+    }, 4000); // Increased timeout to 4000ms for better rendering
   };
   
   const handlePrint = () => {
@@ -251,7 +255,7 @@ const ExportableView = () => {
       if (card.classList.contains('card-section-3') || card.classList.contains('card-section-4')) {
         const chartsContainer = card.querySelector('.grid > div:first-child') as HTMLElement;
         if (chartsContainer) {
-          chartsContainer.style.minHeight = '550px';
+          chartsContainer.style.minHeight = '650px';
         }
       }
     });
@@ -264,7 +268,7 @@ const ExportableView = () => {
         title: "Impressão iniciada",
         description: "O documento está sendo enviado para impressão",
       });
-    }, 2000); // Increased timeout to 2000ms for better rendering
+    }, 4000); // Increased timeout to 4000ms for better rendering
   };
   
   // Voltar para a página principal
@@ -452,7 +456,7 @@ const ExportableView = () => {
             </CardHeader>
             <CardContent className="p-6 print:p-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 section-fortalezas">
-                <div className="h-[550px] print:h-[550px] flex items-center justify-center">
+                <div className="h-[650px] print:h-[650px] flex items-center justify-center pie-label-container">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
@@ -461,17 +465,17 @@ const ExportableView = () => {
                         cy="50%"
                         labelLine={true}
                         label={renderCustomLabel}
-                        outerRadius={110} // Reduced from 120
-                        innerRadius={55} // Reduced from 60
+                        outerRadius={100} // Reduced size
+                        innerRadius={50}  // Reduced size
                         fill="#8884d8"
                         dataKey="value"
-                        paddingAngle={2} // Adicionado espaço entre setores
+                        paddingAngle={4} // Increased padding between sectors
                       >
                         {dadosPieFortalezas.map((entry, index) => (
                           <Cell 
                             key={`cell-${index}`} 
                             fill={COLORS_FORTALEZAS[index % COLORS_FORTALEZAS.length]} 
-                            strokeWidth={1}
+                            strokeWidth={2}
                             stroke="#fff"
                           />
                         ))}
@@ -519,7 +523,7 @@ const ExportableView = () => {
             </CardHeader>
             <CardContent className="p-6 print:p-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 section-fragilidades">
-                <div className="h-[550px] print:h-[550px] flex items-center justify-center">
+                <div className="h-[650px] print:h-[650px] flex items-center justify-center pie-label-container">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
@@ -528,17 +532,17 @@ const ExportableView = () => {
                         cy="50%"
                         labelLine={true}
                         label={renderCustomLabel}
-                        outerRadius={110} // Reduced from 120
-                        innerRadius={55} // Reduced from 60
+                        outerRadius={100} // Reduced size
+                        innerRadius={50}  // Reduced size 
                         fill="#8884d8"
                         dataKey="value"
-                        paddingAngle={2} // Adicionado espaço entre setores
+                        paddingAngle={4} // Increased padding between sectors
                       >
                         {dadosPieFragilidades.map((entry, index) => (
                           <Cell 
                             key={`cell-${index}`} 
                             fill={COLORS_FRAGILIDADES[index % COLORS_FRAGILIDADES.length]} 
-                            strokeWidth={1}
+                            strokeWidth={2}
                             stroke="#fff"
                           />
                         ))}

@@ -52,8 +52,8 @@
     overflow: visible !important;
     height: auto !important;
     width: 100% !important;
-    min-height: 500px !important; /* Aumentado para 500px */
-    transform: scale(0.9) !important; /* Reduzindo escala para 0.9 */
+    min-height: 600px !important; /* Aumentado para 600px */
+    transform: scale(0.85) !important; /* Reduzindo escala para 0.85 */
     transform-origin: center top !important;
     margin-bottom: 30px !important;
   }
@@ -92,19 +92,19 @@
   /* Controle de altura para visualizações */
   .h-\[400px\], .h-\[500px\], .h-\[350px\], .h-\[300px\], .h-\[250px\], .h-\[200px\] {
     height: auto !important;
-    min-height: 400px !important; /* Increase minimum height */
-    max-height: 600px !important; /* Increased max height */
+    min-height: 450px !important; /* Increase minimum height */
+    max-height: 650px !important; /* Increased max height */
     overflow: visible !important;
   }
   
   /* Improve pie chart specific rendering */
   .recharts-pie {
-    transform: scale(0.75) !important; /* Scale down pie further to 0.75 */
+    transform: scale(0.7) !important; /* Scale down pie further to 0.7 */
     transform-origin: center center !important;
   }
   
   .recharts-pie-label-text {
-    font-size: 10px !important; /* Reduced font size */
+    font-size: 9px !important; /* Reduced font size */
     font-weight: bold !important;
     fill: black !important;
   }
@@ -112,7 +112,7 @@
   /* Adjust pie chart containers specifically */
   .card-section-3 .recharts-wrapper,
   .card-section-4 .recharts-wrapper {
-    min-height: 550px !important; /* Aumentado para 550px */
+    min-height: 650px !important; /* Aumentado para 650px */
     overflow: visible !important;
     margin-bottom: 50px !important;
   }
@@ -132,7 +132,20 @@
   .recharts-pie-label-text {
     overflow: visible !important;
     text-overflow: visible !important;
-    text-shadow: 0 0 2px white !important;
+    text-shadow: 0 0 3px white, 0 0 2px white, 0 0 1px white !important;
+    font-weight: 600 !important;
+  }
+  
+  /* Espaço específico para rótulos de gráfico */
+  .pie-label-container {
+    min-height: 650px !important;
+    margin-bottom: 100px !important;
+  }
+  
+  /* Ajustes específicos para os rótulos do gráfico de pizza */
+  .recharts-pie-label-line {
+    stroke: #999 !important; 
+    stroke-width: 1px !important;
   }
   
   /* Ajustes de margens e paddings */
@@ -156,8 +169,8 @@
   .recharts-responsive-container {
     width: 100% !important;
     height: auto !important;
-    min-height: 400px !important;
-    max-height: 600px !important; /* Increased max height */
+    min-height: 450px !important;
+    max-height: 650px !important; /* Increased max height */
     page-break-inside: avoid !important;
     break-inside: avoid !important;
     overflow: visible !important;
