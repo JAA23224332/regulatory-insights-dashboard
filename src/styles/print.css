@@ -12,6 +12,27 @@
     color-adjust: exact !important;
   }
   
+  /* Título principal para impressão */
+  .print-title {
+    font-size: 24pt !important;
+    text-align: center !important;
+    margin-bottom: 15px !important;
+    color: black !important;
+    page-break-after: avoid !important;
+  }
+  
+  .print-title span {
+    color: #2563eb !important; /* blue-600 */
+  }
+  
+  .print-subtitle {
+    font-size: 14pt !important;
+    text-align: center !important;
+    margin-bottom: 20px !important;
+    color: #4b5563 !important; /* gray-600 */
+    page-break-after: avoid !important;
+  }
+
   /* Classes utilitárias para impressão */
   .print\:hidden {
     display: none !important;
