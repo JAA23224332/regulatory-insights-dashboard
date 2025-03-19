@@ -598,50 +598,155 @@ const ExportableView = () => {
             </CardContent>
           </Card>
 
-          {/* Seção 5: Intensidade dos Temas */}
+          {/* Seção 5: Intensidade dos Temas - IMPROVED */}
           <Card className="mb-10 shadow-md print:shadow-none print:border-none card-section-5">
             <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 print:bg-white border-b">
               <CardTitle className="text-2xl print:text-black">5. Intensidade dos Temas por Estado</CardTitle>
             </CardHeader>
             <CardContent className="p-6 print:p-4">
               <p className="mb-4 text-gray-600 print:text-black">Média de intensidade (escala 0-3) para os principais temas:</p>
-              <div className="h-[400px] print:h-[350px]">
+              
+              {/* Chart for screen view */}
+              <div className="display-screen-only h-[450px] print:hidden">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart
                     data={dadosIntensidade}
-                    margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
+                    margin={{ top: 20, right: 30, left: 20, bottom: 100 }}
                   >
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="tema" angle={-45} textAnchor="end" height={80} />
-                    <YAxis domain={[0, 3]} label={{ value: 'Intensidade média', angle: -90, position: 'insideLeft' }} />
+                    <XAxis 
+                      dataKey="tema" 
+                      angle={-45} 
+                      textAnchor="end" 
+                      height={100} 
+                      tick={{ fontSize: 12, fontWeight: 500 }}
+                      tickMargin={10}
+                    />
+                    <YAxis 
+                      domain={[0, 3]} 
+                      label={{ 
+                        value: 'Intensidade média', 
+                        angle: -90, 
+                        position: 'insideLeft',
+                        style: { textAnchor: 'middle', fontSize: 13, fontWeight: 500 }
+                      }} 
+                      tickCount={7}
+                    />
                     <Tooltip 
                       formatter={(value) => {
                         if (typeof value === 'number') {
                           return [`${value.toFixed(1)}`, 'Intensidade'];
                         }
                         return [value, 'Intensidade'];
-                      }} 
+                      }}
+                      contentStyle={{
+                        backgroundColor: 'white',
+                        border: '1px solid #ddd',
+                        borderRadius: '8px',
+                        padding: '10px'
+                      }}
+                      labelStyle={{
+                        fontWeight: 'bold',
+                        marginBottom: '5px'
+                      }}
                     />
-                    <Legend />
-                    <Bar dataKey="intensidadeFortalezas" name="Fortalezas" fill="#4CAF50" />
-                    <Bar dataKey="intensidadeFragilidades" name="Fragilidades" fill="#F44336" />
+                    <Legend 
+                      verticalAlign="top" 
+                      align="center"
+                      wrapperStyle={{ paddingBottom: '20px' }}
+                    />
+                    <Bar 
+                      dataKey="intensidadeFortalezas" 
+                      name="Fortalezas" 
+                      fill="#4CAF50" 
+                      radius={[4, 4, 0, 0]}
+                      barSize={35}
+                    />
+                    <Bar 
+                      dataKey="intensidadeFragilidades" 
+                      name="Fragilidades" 
+                      fill="#F44336" 
+                      radius={[4, 4, 0, 0]}
+                      barSize={35}
+                    />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
+              
+              {/* Table for print view */}
+              <div className="display-print-only print-section-34">
+                <table className="print-table">
+                  <thead>
+                    <tr>
+                      <th>Tema</th>
+                      <th>Fortalezas</th>
+                      <th>Fragilidades</th>
+                      <th>Diferença</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {dadosIntensidade
+                      .sort((a, b) => b.intensidadeFortalezas - a.intensidadeFortalezas)
+                      .map((item, index) => (
+                      <tr key={index}>
+                        <td>
+                          <strong>{item.tema}</strong>
+                        </td>
+                        <td>
+                          <div className="flex items-center">
+                            <div 
+                              className="h-3 mr-2 rounded-sm" 
+                              style={{
+                                backgroundColor: '#4CAF50',
+                                width: `${(item.intensidadeFortalezas / 3) * 100}%`,
+                                maxWidth: '100px',
+                                minWidth: '5px'
+                              }}
+                            ></div>
+                            {item.intensidadeFortalezas.toFixed(1)}
+                          </div>
+                        </td>
+                        <td>
+                          <div className="flex items-center">
+                            <div 
+                              className="h-3 mr-2 rounded-sm" 
+                              style={{
+                                backgroundColor: '#F44336',
+                                width: `${(item.intensidadeFragilidades / 3) * 100}%`,
+                                maxWidth: '100px',
+                                minWidth: '5px'
+                              }}
+                            ></div>
+                            {item.intensidadeFragilidades.toFixed(1)}
+                          </div>
+                        </td>
+                        <td className={item.diferenca > 0 ? 'text-green-700' : item.diferenca < 0 ? 'text-red-700' : 'text-gray-700'}>
+                          {item.diferenca > 0 ? '+' : ''}{item.diferenca.toFixed(1)}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              
               <div className="mt-6 bg-gray-50 print:bg-gray-100 p-5 rounded-lg">
                 <h3 className="font-medium text-xl mb-4 text-gray-800 print:text-black">Insights sobre intensidade:</h3>
-                <ul className="space-y-2">
+                <ul className="space-y-3">
                   <li className="flex items-start">
-                    <span className="inline-block w-2 h-2 bg-green-500 rounded-full mt-2 mr-2"></span>
+                    <span className="inline-block w-3 h-3 bg-green-500 rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
                     <span className="print:text-black"><strong>Sistemas e tecnologia:</strong> apresenta a maior intensidade tanto em fortalezas (1.8) quanto em fragilidades (1.5)</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="inline-block w-2 h-2 bg-blue-500 rounded-full mt-2 mr-2"></span>
+                    <span className="inline-block w-3 h-3 bg-blue-500 rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
                     <span className="print:text-black"><strong>Protocolos e fluxos:</strong> segunda maior intensidade em fortalezas (1.2), indicando área de bom desenvolvimento</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="inline-block w-2 h-2 bg-red-500 rounded-full mt-2 mr-2"></span>
+                    <span className="inline-block w-3 h-3 bg-red-500 rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
                     <span className="print:text-black"><strong>Regionalização:</strong> apresenta diferença negativa significativa (-0.6), indicando área de maior preocupação</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="inline-block w-3 h-3 bg-yellow-500 rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
+                    <span className="print:text-black"><strong>Recursos humanos:</strong> mostra intensidade maior em fragilidades (0.9) do que em fortalezas (0.4), sugerindo área para melhoria</span>
                   </li>
                 </ul>
               </div>

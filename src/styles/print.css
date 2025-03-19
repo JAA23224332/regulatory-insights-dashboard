@@ -49,11 +49,13 @@
     display: none !important;
   }
   
+  /* Improved table styling for print */
   .print-table {
     display: table !important;
     width: 100% !important;
     border-collapse: collapse !important;
     margin: 1em 0 !important;
+    font-size: 11pt !important;
   }
   
   .print-table th, 
@@ -61,11 +63,29 @@
     padding: 8px !important;
     text-align: left !important;
     border-bottom: 1px solid #ddd !important;
+    vertical-align: middle !important;
   }
   
   .print-table th {
     font-weight: bold !important;
     background-color: #f8f9fa !important;
+    white-space: nowrap !important;
+  }
+  
+  /* Specifically for the intensity table in section 5 */
+  .card-section-5 .print-table th:first-child,
+  .card-section-5 .print-table td:first-child {
+    width: 30% !important;
+    max-width: 30% !important;
+  }
+  
+  .card-section-5 .print-table td div.flex {
+    display: flex !important;
+    align-items: center !important;
+  }
+  
+  .card-section-5 .print-table td div.flex div {
+    display: inline-block !important;
   }
 
   /* Remoção de sombras e ajustes de fundo */
@@ -180,6 +200,15 @@
   .display-print-only {
     display: block !important;
   }
+  
+  /* Better spacing in the insights list */
+  .card-section-5 ul.space-y-3 li {
+    margin-bottom: 10px !important;
+  }
+  
+  .card-section-5 ul.space-y-3 li span.inline-block {
+    display: inline-block !important;
+  }
 }
 
 /* Estilos específicos para a exportação */
@@ -201,6 +230,7 @@
   display: none;
 }
 
+/* Category color classes */
 .category-color-fortaleza-0 { background-color: #0062cc; }
 .category-color-fortaleza-1 { background-color: #00994c; }
 .category-color-fortaleza-2 { background-color: #57bc6c; }
