@@ -1,3 +1,4 @@
+
 /* Estilos de impressão */
 @media print {
   body {
@@ -51,6 +52,9 @@
     overflow: visible !important;
     height: auto !important;
     width: 100% !important;
+    min-height: 400px !important; /* Increase minimum height for charts */
+    transform: scale(0.95) !important; /* Slightly scale down to ensure fitting */
+    transform-origin: center top !important;
   }
   
   /* Remoção de sombras e ajustes de fundo */
@@ -87,8 +91,26 @@
   /* Controle de altura para visualizações */
   .h-\[400px\], .h-\[500px\], .h-\[350px\], .h-\[300px\], .h-\[250px\], .h-\[200px\] {
     height: auto !important;
-    min-height: 250px !important;
-    max-height: 400px !important;
+    min-height: 350px !important; /* Increase minimum height */
+    max-height: 500px !important; /* Allow more max height */
+    overflow: visible !important;
+  }
+  
+  /* Improve pie chart specific rendering */
+  .recharts-pie {
+    transform: scale(0.85) !important; /* Slightly scale down pie to ensure labels are visible */
+    transform-origin: center center !important;
+  }
+  
+  .recharts-pie-label-text {
+    font-size: 11px !important;
+    font-weight: bold !important;
+  }
+  
+  /* Adjust pie chart containers specifically */
+  .card-section-3 .recharts-wrapper,
+  .card-section-4 .recharts-wrapper {
+    min-height: 450px !important;
     overflow: visible !important;
   }
   
@@ -113,8 +135,8 @@
   .recharts-responsive-container {
     width: 100% !important;
     height: auto !important;
-    min-height: 250px !important;
-    max-height: 450px !important;
+    min-height: 350px !important;
+    max-height: 550px !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
     overflow: visible !important;
@@ -192,6 +214,19 @@
   [class*="bg-gradient-to-"] {
     background: white !important;
   }
+  
+  /* Better handling of grid layout in sections 3 and 4 */
+  .card-section-3 .grid,
+  .card-section-4 .grid {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  
+  .card-section-3 .grid > div,
+  .card-section-4 .grid > div {
+    width: 100% !important;
+    margin-bottom: 2rem !important;
+  }
 }
 
 /* Estilos específicos para a exportação */
@@ -222,3 +257,4 @@
   margin-top: 0.25rem;
   font-size: 0.875rem;
 }
+
