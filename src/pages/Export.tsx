@@ -25,11 +25,13 @@ const Export = () => {
 
     forceRender();
 
+    // Ensure chart is fully rendered before export
     const timer = setTimeout(forceRender, 500);
     return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
+    // Auto-export after chart is fully rendered
     const timer = setTimeout(() => {
       window.requestAnimationFrame(() => {
         window.requestAnimationFrame(() => {

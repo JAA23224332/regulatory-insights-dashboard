@@ -1,3 +1,4 @@
+
 /* Estilos de impressão */
 @media print {
   /* Reset básico para impressão */
@@ -87,11 +88,11 @@
   
   /* Título centralizado e espaçado */
   .print-title {
-    font-size: 24pt !important;
+    font-size: 26pt !important;
     font-weight: 700 !important;
     text-align: center !important;
-    margin-top: 15px !important;
-    margin-bottom: 15px !important;
+    margin-top: 20px !important;
+    margin-bottom: 20px !important;
     page-break-after: avoid !important;
     break-after: avoid !important;
     color: #000 !important;
@@ -118,7 +119,7 @@
   .recharts-wrapper {
     width: 100% !important;
     height: 100% !important;
-    min-height: 80vh !important;
+    min-height: 85vh !important;
     display: block !important;
     margin: 0 auto !important;
     transform: scale(1) !important;
@@ -133,21 +134,21 @@
   
   /* Tamanho das fontes dos eixos */
   .recharts-cartesian-axis-tick-value {
-    font-size: 18pt !important;
+    font-size: 20pt !important;
     font-weight: 600 !important;
     fill: #000 !important;
   }
   
   /* Específico para o eixo Y (categorias) */
   .recharts-cartesian-axis.recharts-yAxis .recharts-cartesian-axis-tick-value {
-    font-size: 18pt !important;
+    font-size: 20pt !important;
     font-weight: 600 !important;
     fill: #000 !important;
   }
   
   /* Específico para o eixo X (valores) */
   .recharts-cartesian-axis.recharts-xAxis .recharts-cartesian-axis-tick-value {
-    font-size: 18pt !important;
+    font-size: 20pt !important;
     font-weight: 600 !important;
     fill: #000 !important;
   }
@@ -160,7 +161,7 @@
   }
   
   .recharts-legend-item-text {
-    font-size: 20pt !important;
+    font-size: 22pt !important;
     font-weight: bold !important;
     fill: #000 !important;
     color: #000 !important;
@@ -243,118 +244,8 @@
   
   /* Altura máxima do gráfico para garantir que caiba na página */
   .recharts-responsive-container {
-    height: 90vh !important;
-    min-height: 500px !important;
-    max-height: 850px !important;
-  }
-
-  /* Additional pie chart styling for print */
-  .pie-label {
-    font-size: 12pt !important;
-    font-weight: bold !important;
-  }
-  
-  .recharts-legend-item {
-    margin-right: 10px !important;
-  }
-  
-  .recharts-legend-item-text {
-    color: black !important;
-    font-size: 12pt !important;
-  }
-  
-  .print-chart-legend {
-    margin-top: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .print-legend-item {
-    display: inline-flex;
-    align-items: center;
-    margin: 0 5px;
-  }
-  
-  .print-legend-color {
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    margin-right: 3px;
-  }
-  
-  /* Correções para tabelas de gráfico de barras na impressão */
-  .display-print-only table.print-table {
-    width: 100%;
-    page-break-inside: avoid;
-    margin-bottom: 15px !important;
-  }
-  
-  .display-print-only table.print-table th,
-  .display-print-only table.print-table td {
-    padding: 4px 6px !important;
-    text-align: left;
-    font-size: 12pt !important;
-  }
-  
-  .display-print-only table.print-table th:first-child,
-  .display-print-only table.print-table td:first-child {
-    width: 40%;
-  }
-}
-
-/* Additional pie chart styling for print */
-@media print {
-  .pie-label {
-    font-size: 12pt !important;
-    font-weight: bold !important;
-  }
-  
-  .recharts-legend-item {
-    margin-right: 10px !important;
-  }
-  
-  .recharts-legend-item-text {
-    color: black !important;
-    font-size: 12pt !important;
-  }
-  
-  .print-chart-legend {
-    margin-top: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .print-legend-item {
-    display: inline-flex;
-    align-items: center;
-    margin: 0 5px;
-  }
-  
-  .print-legend-color {
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    margin-right: 3px;
-  }
-  
-  /* Correções para tabelas de gráfico de barras na impressão */
-  .display-print-only table.print-table {
-    width: 100%;
-    page-break-inside: avoid;
-    margin-bottom: 15px !important;
-  }
-  
-  .display-print-only table.print-table th,
-  .display-print-only table.print-table td {
-    padding: 4px 6px !important;
-    text-align: left;
-    font-size: 12pt !important;
-  }
-  
-  .display-print-only table.print-table th:first-child,
-  .display-print-only table.print-table td:first-child {
-    width: 40%;
+    height: 95vh !important;
+    min-height: 600px !important;
+    max-height: 900px !important;
   }
 }

@@ -1,3 +1,4 @@
+
 // Função para exportação de PDF que usa a funcionalidade nativa de impressão
 export const exportToPDF = () => {
   try {
@@ -110,140 +111,32 @@ export const exportToPDF = () => {
         }
       });
     };
-    
-    // Função para preparar as tabelas de termos frequentes para impressão
-    const prepareTermosTables = () => {
-      // Melhorar o layout das tabelas de termos frequentes
-      const termosTabelas = document.querySelectorAll('.card-section-6 .display-print-only table, .card-section-7 .display-print-only table');
-      termosTabelas.forEach(tabela => {
-        if (tabela instanceof HTMLElement) {
-          tabela.style.pageBreakInside = 'avoid';
-          tabela.style.breakInside = 'avoid';
-          tabela.style.marginBottom = '10px';
-          
-          // Ajustar as barras para melhor visualização
-          const barras = tabela.querySelectorAll('td div.flex div');
-          barras.forEach(barra => {
-            if (barra instanceof HTMLElement) {
-              barra.style.height = '8px';
-              barra.style.borderRadius = '2px';
-              barra.style.minWidth = '5px';
-            }
-          });
-        }
-      });
-      
-      // Garantir que os insights não sejam cortados
-      const insights = document.querySelectorAll('.bg-gray-50');
-      insights.forEach(insight => {
-        if (insight instanceof HTMLElement) {
-          insight.style.pageBreakInside = 'avoid';
-          insight.style.breakInside = 'avoid';
-          insight.style.marginTop = '10px';
-          insight.style.marginBottom = '10px';
-          insight.style.padding = '10px';
-        }
-      });
-    };
 
     // Preparar o documento para impressão
-    const prepareForPrint = () => {
-      // Simplificar e limpar renderização de gráficos para impressão
-      const pieChartLabels = document.querySelectorAll('.recharts-pie-label-text');
-      pieChartLabels.forEach(label => {
-        if (label instanceof HTMLElement) {
-          label.style.display = 'none';
-        }
-      });
-      
-      const pieChartLabelLines = document.querySelectorAll('.recharts-pie-label-line');
-      pieChartLabelLines.forEach(line => {
-        if (line instanceof HTMLElement) {
-          line.style.display = 'none';
-        }
-      });
-      
-      // Exibir legendas personalizadas para impressão
-      const customLegends = document.querySelectorAll('.custom-print-pie-legend');
-      customLegends.forEach(legend => {
-        if (legend instanceof HTMLElement) {
-          legend.style.display = 'block';
-        }
-      });
-      
-      // Aplicar transformações para evitar sobreposições
-      const pieCharts = document.querySelectorAll('.recharts-pie');
-      pieCharts.forEach(chart => {
-        if (chart instanceof SVGElement) {
-          chart.style.transform = 'scale(0.8)';
-          chart.style.transformOrigin = 'center';
-        }
-      });
-      
-      // Ajustar altura dos elementos que podem causar quebras de página ruins
-      const heightSelectors = ['.h\\[400px\\]', '.h\\[450px\\]', '.h\\[500px\\]', '.h\\[600px\\]'];
-      heightSelectors.forEach(selector => {
-        const elements = document.querySelectorAll(selector);
-        elements.forEach(element => {
-          if (element instanceof HTMLElement) {
-            element.style.height = 'auto';
-            element.style.maxHeight = '250px';
-          }
-        });
-      });
-      
-      // Garantir que cada título de seção comece em uma nova página
-      const sectionTitles = document.querySelectorAll('.card-section-2, .card-section-3, .card-section-4, .card-section-5, .card-section-6, .card-section-7, .card-section-8, .card-section-9');
-      sectionTitles.forEach(section => {
-        if (section instanceof HTMLElement) {
-          section.style.pageBreakBefore = 'always';
-          section.style.breakBefore = 'page';
-          section.style.paddingTop = '10px'; // Espaço no topo para evitar corte do título
-        }
-      });
-      
-      // Garantir que os títulos das seções fiquem no topo da página
-      const sectionHeaders = document.querySelectorAll('.section-title, h2.text-xl, .card h2, .comparativo-titulo');
-      sectionHeaders.forEach(header => {
-        if (header instanceof HTMLElement) {
-          header.style.pageBreakBefore = 'auto';
-          header.style.pageBreakAfter = 'avoid';
-          header.style.breakAfter = 'avoid';
-          header.style.marginTop = '10px';
-        }
-      });
-      
-      // Força o título principal a ficar no topo da primeira página
-      const mainTitle = document.querySelector('.print-title');
-      if (mainTitle instanceof HTMLElement) {
-        mainTitle.style.pageBreakAfter = 'avoid';
-        mainTitle.style.breakAfter = 'avoid';
-        mainTitle.style.marginTop = '10px';
-      }
-      
-      // Força o subtítulo a ficar junto com o título principal
-      const subtitle = document.querySelector('.print-subtitle');
-      if (subtitle instanceof HTMLElement) {
-        subtitle.style.pageBreakBefore = 'avoid';
-        subtitle.style.breakBefore = 'avoid';
-        subtitle.style.pageBreakAfter = 'avoid';
-        subtitle.style.breakAfter = 'avoid';
-      }
-      
-      // Preparar tabelas de termos frequentes para melhor visualização
-      prepareTermosTables();
-    };
-    
-    // Tempo para a preparação da visualização
     setTimeout(() => {
       // Esconder notificações e outros elementos que não devem aparecer na impressão
       hideToastElements();
       
-      // Preparar gráficos e elementos visuais para impressão
-      prepareForPrint();
-      
-      // Esperar um momento para garantir que os elementos foram escondidos
+      // Esperar um momento para garantir que o gráfico esteja completamente carregado
       setTimeout(() => {
+        // Força o tamanho do gráfico a ocupar toda a página
+        const chartContainer = document.querySelector('.chart-container');
+        if (chartContainer instanceof HTMLElement) {
+          chartContainer.style.height = '90vh';
+          chartContainer.style.minHeight = '600px';
+          chartContainer.style.display = 'block';
+          chartContainer.style.visibility = 'visible';
+        }
+        
+        // Aumenta as fontes do gráfico para melhor visibilidade na impressão
+        const axisTicks = document.querySelectorAll('.recharts-cartesian-axis-tick-value');
+        axisTicks.forEach(tick => {
+          if (tick instanceof SVGElement) {
+            tick.style.fontSize = '20pt';
+            tick.style.fontWeight = '600';
+          }
+        });
+        
         // Inicia o processo de impressão do navegador
         window.print();
         
@@ -252,7 +145,7 @@ export const exportToPDF = () => {
           document.body.classList.remove('printing-pdf');
           restoreHiddenElements();
         }, 1000);
-      }, 300);
+      }, 500);
     }, 500);
   } catch (error) {
     console.error("Erro ao preparar impressão:", error);
