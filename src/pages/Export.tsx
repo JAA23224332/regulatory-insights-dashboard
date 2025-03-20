@@ -1,7 +1,9 @@
+
 import React, { useEffect, useRef } from 'react';
 import { dadosReais, dadosIntensidade, termosFrequentesFortalezas, termosFrequentesFragilidades, termosCompartilhados, dadosDistribuicaoPie, estatisticasGerais } from '@/data/regulacaoData';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 import { exportToPDF } from '@/utils/exportUtils';
+import { ChartContainer } from '@/components/ui/chart';
 
 // Cores para os gráficos
 const COLORS_FORTALEZAS = ['#4CAF50']; // Verde
@@ -284,29 +286,30 @@ const Export = () => {
           </div>
         </div>
         
-        {/* Gráfico de pizza para a distribuição de fortalezas e fragilidades */}
-        <div className="pie-chart-container mb-6">
-          <ResponsiveContainer width="100%" height={250}>
-            <PieChart>
-              <Pie
-                data={dadosDistribuicaoPie}
-                cx="50%"
-                cy="50%"
-                outerRadius={80}
-                innerRadius={0}
-                fill="#8884d8"
-                dataKey="value"
-                nameKey="name"
-                label={({name, percent}) => `${name}: ${(percent * 100).toFixed(0)}%`}
-              >
-                {dadosDistribuicaoPie.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS_PIE[index % COLORS_PIE.length]} />
-                ))}
-              </Pie>
+        {/* Gráfico de barras empilhadas para melhor visualização e evitar problemas de sobreposição */}
+        <div className="chart-container mb-6">
+          <ChartContainer 
+            className="h-[250px]"
+            config={{
+              fortalezas: { color: "#4CAF50" },
+              fragilidades: { color: "#F44336" }
+            }}
+          >
+            <BarChart
+              data={[
+                { name: 'Distribuição', fortalezas: dadosDistribuicaoPie[0].value, fragilidades: dadosDistribuicaoPie[1].value }
+              ]}
+              margin={{ top: 20, right: 30, left: 30, bottom: 20 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip formatter={(value) => [value, '']} />
               <Legend />
-              <Tooltip formatter={(value, name) => [value, name]} />
-            </PieChart>
-          </ResponsiveContainer>
+              <Bar dataKey="fortalezas" name="Fortalezas" stackId="a" fill="#4CAF50" />
+              <Bar dataKey="fragilidades" name="Fragilidades" stackId="a" fill="#F44336" />
+            </BarChart>
+          </ChartContainer>
           
           {/* Legendas abaixo do gráfico com percentuais corrigidos */}
           <div className="flex justify-center space-x-8 mt-2">
@@ -315,21 +318,27 @@ const Export = () => {
           </div>
         </div>
         
-        {/* Área de principais constatações com percentuais corrigidos */}
+        {/* Área de principais constatações com formatação melhorada */}
         <div className="principais-constatacoes border-t pt-4 mt-4">
           <h3 className="font-semibold text-lg mb-3">Principais constatações:</h3>
-          <ul className="space-y-2">
+          <ul className="space-y-4">
             <li className="flex items-start">
-              <span className="text-red-600 font-bold mr-2">•</span>
-              <span>{estatisticasGerais.temasMaisFragilidades}% dos temas aparecem com maior frequência como fragilidades</span>
+              <span className="text-red-600 font-bold mr-2 flex-shrink-0">•</span>
+              <span className="text-sm block w-[calc(100%-15px)]">
+                {estatisticasGerais.temasMaisFragilidades}% dos temas aparecem com maior frequência como fragilidades
+              </span>
             </li>
             <li className="flex items-start">
-              <span className="text-green-600 font-bold mr-2">•</span>
-              <span>{estatisticasGerais.temasMaisFortalezas}% dos temas aparecem com maior frequência como fortalezas</span>
+              <span className="text-green-600 font-bold mr-2 flex-shrink-0">•</span>
+              <span className="text-sm block w-[calc(100%-15px)]">
+                {estatisticasGerais.temasMaisFortalezas}% dos temas aparecem com maior frequência como fortalezas
+              </span>
             </li>
             <li className="flex items-start">
-              <span className="text-gray-600 font-bold mr-2">•</span>
-              <span>{estatisticasGerais.temasEquilibrados}% dos temas apresentam equilíbrio entre fortalezas e fragilidades</span>
+              <span className="text-gray-600 font-bold mr-2 flex-shrink-0">•</span>
+              <span className="text-sm block w-[calc(100%-15px)]">
+                {estatisticasGerais.temasEquilibrados}% dos temas apresentam equilíbrio entre fortalezas e fragilidades
+              </span>
             </li>
           </ul>
         </div>
@@ -654,4 +663,3 @@ const Export = () => {
 };
 
 export default Export;
-

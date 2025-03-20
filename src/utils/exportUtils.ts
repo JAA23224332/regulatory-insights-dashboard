@@ -189,27 +189,39 @@ export const exportToPDF = () => {
       tableElement.style.marginBottom = '15px';
     });
     
-    // Fix for statistics text overlap issue
-    const statsTexts = document.querySelectorAll('.principais-constatacoes li span');
-    statsTexts.forEach((text) => {
-      const textElement = text as HTMLElement;
-      textElement.style.fontSize = '9pt';
-      textElement.style.lineHeight = '1.2';
-      textElement.style.display = 'inline-block';
-      textElement.style.maxWidth = '95%';
-      textElement.style.wordWrap = 'break-word';
-      textElement.style.whiteSpace = 'normal';
-      textElement.style.color = '#000';
-    });
-    
-    // Fix for statistics list items
+    // Fix for statistics text overlap issue - ENHANCED SOLUTION
     const statsItems = document.querySelectorAll('.principais-constatacoes li');
-    statsItems.forEach((item) => {
+    statsItems.forEach((item, index) => {
       const itemElement = item as HTMLElement;
-      itemElement.style.marginBottom = '10px';
-      itemElement.style.lineHeight = '1.3';
+      itemElement.style.marginBottom = '15px';
+      itemElement.style.lineHeight = '1.4';
       itemElement.style.pageBreakInside = 'avoid';
       itemElement.style.breakInside = 'avoid';
+      itemElement.style.display = 'flex';
+      itemElement.style.alignItems = 'flex-start';
+      itemElement.style.maxWidth = '100%';
+      
+      // Separate the bullet from the text to prevent overlap
+      const bulletSpan = itemElement.querySelector('span:first-child');
+      const textSpan = itemElement.querySelector('span:last-child');
+      
+      if (bulletSpan) {
+        bulletSpan.textContent = '•';
+        (bulletSpan as HTMLElement).style.marginRight = '8px';
+        (bulletSpan as HTMLElement).style.flexShrink = '0';
+      }
+      
+      if (textSpan) {
+        (textSpan as HTMLElement).style.fontSize = '8pt';
+        (textSpan as HTMLElement).style.lineHeight = '1.4';
+        (textSpan as HTMLElement).style.display = 'block';
+        (textSpan as HTMLElement).style.width = 'calc(100% - 15px)';
+        (textSpan as HTMLElement).style.wordWrap = 'break-word';
+        (textSpan as HTMLElement).style.whiteSpace = 'normal';
+        (textSpan as HTMLElement).style.color = '#000';
+        (textSpan as HTMLElement).style.fontWeight = 'normal';
+        (textSpan as HTMLElement).style.overflow = 'visible';
+      }
     });
     
     // Ensure recommendation section is visible
@@ -243,37 +255,38 @@ export const exportToPDF = () => {
         
         /* Specifically fix stats text overlap */
         .principais-constatacoes li { 
-          padding-left: 15px; 
-          text-indent: -15px; 
-          margin-bottom: 10px; 
-          line-height: 1.3;
-          page-break-inside: avoid;
-          break-inside: avoid;
+          display: flex !important;
+          align-items: flex-start !important;
+          padding-left: 0 !important; 
+          text-indent: 0 !important; 
+          margin-bottom: 15px !important; 
+          line-height: 1.4 !important;
+          page-break-inside: avoid !important;
+          break-inside: avoid !important;
+          max-width: 100% !important;
         }
         
-        .principais-constatacoes li span { 
-          font-size: 9pt !important; 
-          line-height: 1.2 !important; 
-          display: inline-block !important;
-          max-width: 95% !important;
+        .principais-constatacoes li span:first-child { 
+          margin-right: 8px !important;
+          flex-shrink: 0 !important;
+        }
+        
+        .principais-constatacoes li span:last-child { 
+          font-size: 8pt !important; 
+          line-height: 1.4 !important; 
+          display: block !important;
+          width: calc(100% - 15px) !important;
           word-wrap: break-word !important;
           white-space: normal !important;
           color: #000 !important;
+          font-weight: normal !important;
+          overflow: visible !important;
         }
         
         /* Ensure proper page breaks */
         .card-section-3, .card-section-4, .card-section-5, .card-section-6, .card-section-7, .card-section-8 {
           page-break-before: always;
           break-before: page;
-        }
-        
-        /* Fix bullet points */
-        .principais-constatacoes li:before {
-          content: "•";
-          position: absolute;
-          left: 0;
-          top: 0;
-          color: #555;
         }
       }
     `;
