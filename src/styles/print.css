@@ -1,3 +1,4 @@
+
 /* Estilos de impressão */
 @media print {
   /* Reset básico para impressão */
@@ -387,7 +388,7 @@
   
   /* Estilos para a seção de recomendações */
   .card-section-8 {
-    page-break-before: always;
+    page-break-before: always !important;
     margin-top: 30px !important;
   }
   
@@ -403,6 +404,7 @@
   .card-section-8 ul {
     padding-left: 0 !important;
     margin: 15px 0 !important;
+    list-style-type: none !important;
   }
   
   .card-section-8 li {
@@ -414,5 +416,23 @@
   .card-section-8 strong {
     color: #333 !important;
     font-weight: 600 !important;
+  }
+  
+  /* Garantir que as recomendações apareçam na impressão */
+  .card-section-8, 
+  .card-section-8 h2, 
+  .card-section-8 ul, 
+  .card-section-8 li, 
+  .card-section-8 strong {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
+  /* Certificar que nenhuma propriedade oculte as recomendações */
+  .card-section-8 {
+    overflow: visible !important;
+    max-height: none !important;
+    height: auto !important;
   }
 }

@@ -402,7 +402,7 @@ const Export = () => {
         </table>
       </div>
       
-      {/* Seção 8: Recomendações */}
+      {/* Seção 8: Recomendações - VISÍVEL PARA IMPRESSÃO */}
       <div className="card card-section-8">
         <h2 className="text-xl font-semibold mb-4">Recomendações para Melhoria da Regulação no SUS</h2>
         
