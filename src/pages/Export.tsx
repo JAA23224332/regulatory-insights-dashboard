@@ -285,11 +285,11 @@ const Export = () => {
           </div>
         </div>
         
-        {/* Substituindo o gráfico de barras empilhadas por um gráfico de pizza */}
+        {/* Gráfico de pizza com tamanho maior e legenda na lateral */}
         <div className="chart-container mb-6">
           <div className="flex justify-center items-center">
             <ChartContainer 
-              className="h-[300px] w-[400px]"
+              className="h-[400px] w-[600px]" 
               config={{
                 fortalezas: { color: "#4CAF50" },
                 fragilidades: { color: "#F44336" }
@@ -298,29 +298,28 @@ const Export = () => {
               <PieChart>
                 <Pie
                   data={dadosDistribuicaoPie}
-                  cx="50%"
+                  cx="45%" 
                   cy="50%"
                   labelLine={true}
-                  outerRadius={80}
+                  outerRadius={150} 
                   fill="#8884d8"
                   dataKey="value"
                   nameKey="name"
-                  label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                  label={({ name, percent }) => `${(percent * 100).toFixed(0)}%`}
                 >
                   {dadosDistribuicaoPie.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS_PIE[index % COLORS_PIE.length]} />
                   ))}
                 </Pie>
-                <Tooltip />
-                <Legend />
+                <Legend 
+                  layout="vertical" 
+                  verticalAlign="middle" 
+                  align="right"
+                  wrapperStyle={{ fontSize: '14px', paddingLeft: '30px' }}
+                />
+                <Tooltip formatter={(value, name) => [`${value} (${dadosDistribuicaoPie.find(item => item.name === name)?.percentage}%)`, name]} />
               </PieChart>
             </ChartContainer>
-          </div>
-          
-          {/* Legendas abaixo do gráfico com percentuais */}
-          <div className="flex justify-center space-x-8 mt-2">
-            <div className="text-green-600 font-medium">Fortalezas: {dadosDistribuicaoPie[0].percentage}%</div>
-            <div className="text-red-600 font-medium">Fragilidades: {dadosDistribuicaoPie[1].percentage}%</div>
           </div>
         </div>
         
