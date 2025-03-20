@@ -3,7 +3,7 @@
 @media print {
   /* Reset básico para impressão */
   body, html {
-    font-size: 9pt !important; /* Reduzindo tamanho da fonte base */
+    font-size: 10pt !important;
     background-color: white !important;
     color: black !important;
     margin: 0 !important;
@@ -86,54 +86,44 @@
     margin: 0 !important;
   }
   
-  /* Estilos para títulos - REDUZINDO ESPAÇAMENTO */
+  /* Estilos para títulos */
   .print-title {
-    font-size: 14pt !important;
+    font-size: 18pt !important;
     font-weight: 700 !important;
     text-align: center !important;
-    margin-bottom: 4px !important;
+    margin-bottom: 8px !important;
     page-break-after: avoid !important;
     color: #000 !important;
   }
   
   .print-subtitle {
-    font-size: 8pt !important;
+    font-size: 9pt !important;
     text-align: center !important;
-    margin-bottom: 8px !important;
+    margin-bottom: 15px !important;
     color: #555 !important;
     page-break-after: avoid !important;
   }
   
-  /* Estilos para seções - REDUZINDO ESPAÇAMENTO */
+  /* Estilos para seções */
   .section-title {
-    font-size: 12pt !important;
+    font-size: 14pt !important;
     font-weight: 600 !important;
-    margin-top: 12px !important;
-    margin-bottom: 6px !important;
+    margin-top: 30px !important;
+    margin-bottom: 15px !important;
     border-bottom: 1px solid #ddd !important;
-    padding-bottom: 3px !important;
+    padding-bottom: 5px !important;
     color: #333 !important;
   }
   
-  /* Estilos para cards/seções - REDUZINDO ESPAÇAMENTO */
+  /* Estilos para cards/seções */
   .card {
     page-break-inside: avoid !important;
     break-inside: avoid !important;
-    margin-bottom: 8px !important;
-    padding: 4px !important;
+    margin-bottom: 15px !important;
+    padding: 8px !important;
     border: none !important;
     background-color: white !important;
     box-shadow: none !important;
-  }
-  
-  /* Reduzindo espaçamento dos cabeçalhos de card */
-  .card-header {
-    padding: 4px 6px !important;
-    margin-bottom: 4px !important;
-  }
-  
-  .card-content {
-    padding: 4px 6px !important;
   }
   
   /* Cards da seção de visão geral */
@@ -148,8 +138,8 @@
   .card-section-1 .rounded-lg {
     width: 30% !important;
     text-align: center !important;
-    margin-bottom: 6px !important;
-    padding: 6px 3px !important;
+    margin-bottom: 10px !important;
+    padding: 10px 5px !important;
     border-radius: 0 !important;
   }
   
@@ -171,7 +161,7 @@
   
   /* Textos nos cards estatísticos */
   .card-section-1 .text-lg {
-    font-size: 14pt !important;
+    font-size: 16pt !important;
     font-weight: bold !important;
     margin-bottom: 2px !important;
     text-align: center !important;
@@ -179,7 +169,7 @@
   }
   
   .card-section-1 .text-sm {
-    font-size: 7pt !important;
+    font-size: 8pt !important;
     text-align: center !important;
     display: block !important;
   }
@@ -193,7 +183,7 @@
   .recharts-wrapper {
     margin: 0 auto !important;
     height: auto !important;
-    max-height: 200px !important; /* Reduzindo altura máxima */
+    max-height: 300px !important;
     display: block !important;
     text-align: center !important;
     position: relative !important;
@@ -211,7 +201,7 @@
   
   /* Corrigir a sobreposição no gráfico de pizza */
   .recharts-pie {
-    transform: scale(0.7) !important; /* Reduzindo escala */
+    transform: scale(0.8) !important;
     transform-origin: center !important;
     transform-box: fill-box !important;
   }
@@ -229,9 +219,9 @@
   /* Tamanho e posicionamento da legenda */
   .recharts-legend-wrapper {
     position: relative !important;
-    margin-top: 10px !important; /* Reduzindo margem */
-    padding-top: 5px !important; /* Reduzindo padding */
-    font-size: 7pt !important; /* Reduzindo tamanho da fonte */
+    margin-top: 20px !important;
+    padding-top: 10px !important;
+    font-size: 8pt !important;
     width: 100% !important;
     display: block !important;
     text-align: center !important;
@@ -240,25 +230,25 @@
   /* Legenda customizada para impressão que não sobrepõe */
   .print-chart-legend {
     display: block !important;
-    margin-top: 10px !important;
-    margin-bottom: 5px !important;
+    margin-top: 20px !important;
+    margin-bottom: 10px !important;
     text-align: center !important;
-    font-size: 8pt !important;
+    font-size: 10pt !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
   }
   
   .print-legend-item {
     display: inline-block !important;
-    margin-right: 10px !important;
-    margin-bottom: 3px !important;
+    margin-right: 20px !important;
+    margin-bottom: 5px !important;
   }
   
   .print-legend-color {
     display: inline-block !important;
-    width: 8px !important;
-    height: 8px !important;
-    margin-right: 3px !important;
+    width: 12px !important;
+    height: 12px !important;
+    margin-right: 5px !important;
     vertical-align: middle !important;
   }
   
@@ -270,12 +260,12 @@
     background-color: #F44336 !important;
   }
   
-  /* Tabelas - REDUZINDO ESPAÇAMENTO */
+  /* Tabelas */
   .print-table {
     width: 100% !important;
     border-collapse: collapse !important;
-    margin: 4px 0 !important; /* Reduzindo margem */
-    font-size: 7pt !important; /* Reduzindo tamanho da fonte */
+    margin: 8px 0 !important;
+    font-size: 8pt !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
   }
@@ -283,10 +273,9 @@
   .print-table th, 
   .print-table td {
     border: 1px solid #ddd !important;
-    padding: 3px 4px !important; /* Reduzindo padding */
+    padding: 4px 6px !important;
     text-align: left !important;
-    font-size: 7pt !important; /* Reduzindo tamanho da fonte */
-    line-height: 1.1 !important; /* Reduzindo altura da linha */
+    font-size: 8pt !important;
   }
   
   .print-table th {
@@ -294,19 +283,19 @@
     font-weight: bold !important;
   }
   
-  /* Constatações - REDUZINDO ESPAÇAMENTO */
+  /* Constatações */
   .principais-constatacoes {
     background-color: #f9f9f9 !important;
-    padding: 4px !important; /* Reduzindo padding */
-    margin-top: 5px !important; /* Reduzindo margem */
+    padding: 8px !important;
+    margin-top: 10px !important;
     border-top: 1px solid #eee !important;
     border-bottom: 1px solid #eee !important;
   }
   
   .principais-constatacoes h3 {
-    font-size: 9pt !important; /* Reduzindo tamanho da fonte */
+    font-size: 10pt !important;
     font-weight: bold !important;
-    margin-bottom: 3px !important; /* Reduzindo margem */
+    margin-bottom: 6px !important;
   }
   
   .principais-constatacoes ul {
@@ -316,34 +305,34 @@
   }
   
   .principais-constatacoes li {
-    margin-bottom: 3px !important; /* Reduzindo margem */
-    padding-left: 8px !important; /* Reduzindo padding */
+    margin-bottom: 6px !important;
+    padding-left: 12px !important;
     position: relative !important;
-    line-height: 1.1 !important; /* Reduzindo altura da linha */
+    line-height: 1.2 !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
-    font-size: 7pt !important; /* Reduzindo tamanho da fonte */
+    font-size: 8pt !important;
   }
   
   .principais-constatacoes li span {
     display: inline-block !important;
-    font-size: 7pt !important; /* Reduzindo tamanho da fonte */
-    line-height: 1.1 !important; /* Reduzindo altura da linha */
+    font-size: 8pt !important;
+    line-height: 1.2 !important;
     max-width: 95% !important;
     word-wrap: break-word !important;
     white-space: normal !important;
     color: #000 !important;
   }
   
-  /* Bullets coloridos - REDUZINDO TAMANHO */
+  /* Bullets coloridos */
   .bullet-green, .bullet-red, .bullet-blue,
   .principais-constatacoes li:before,
   .bg-gray-50 li .inline-block {
     display: inline-block !important;
-    width: 6px !important; /* Reduzindo tamanho */
-    height: 6px !important; /* Reduzindo tamanho */
+    width: 8px !important;
+    height: 8px !important;
     border-radius: 50% !important;
-    margin-right: 4px !important; /* Reduzindo margem */
+    margin-right: 6px !important;
   }
   
   .bullet-green, .constatacao-green:before, 
@@ -361,35 +350,35 @@
     background-color: #2196F3 !important;
   }
   
-  /* Insights e constatações - REDUZINDO ESPAÇAMENTO */
+  /* Insights e constatações */
   .bg-gray-50 {
     background-color: #f9f9f9 !important;
     border: 1px solid #eee !important;
-    margin-top: 8px !important; /* Reduzindo margem */
-    padding: 5px !important; /* Reduzindo padding */
-    font-size: 7pt !important; /* Reduzindo tamanho da fonte */
+    margin-top: 15px !important;
+    padding: 10px !important;
+    font-size: 8pt !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
   }
   
   .bg-gray-50 h3 {
-    font-size: 9pt !important; /* Reduzindo tamanho da fonte */
+    font-size: 10pt !important;
     font-weight: bold !important;
-    margin-bottom: 4px !important; /* Reduzindo margem */
+    margin-bottom: 8px !important;
     color: #333 !important;
   }
   
   .bg-gray-50 ul {
     margin: 0 !important;
-    padding-left: 3px !important; /* Reduzindo padding */
+    padding-left: 5px !important;
     list-style-type: none !important;
   }
   
   .bg-gray-50 li {
-    margin-bottom: 3px !important; /* Reduzindo margem */
-    font-size: 7pt !important; /* Reduzindo tamanho da fonte */
-    line-height: 1.2 !important; /* Reduzindo altura da linha */
-    padding-left: 8px !important; /* Reduzindo padding */
+    margin-bottom: 5px !important;
+    font-size: 8pt !important;
+    line-height: 1.4 !important;
+    padding-left: 12px !important;
     position: relative !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
@@ -398,7 +387,7 @@
   /* Configuração de página */
   @page {
     size: A4 portrait;
-    margin: 0.5cm 0.5cm; /* Reduzindo margens da página */
+    margin: 1cm 1cm;
   }
   
   /* Controle de quebra de página */
@@ -417,7 +406,7 @@
     break-before: page !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
-    padding: 5px !important; /* Reduzindo padding */
+    padding: 10px !important;
     border: 1px solid #ddd !important;
     background-color: #f9f9f9 !important;
   }
@@ -502,7 +491,7 @@
   /* Corrigir sobreposição e melhorar visualização */
   /* Adicionar espaçamento e organização melhores */
   .card {
-    margin-bottom: 10px !important; /* Reduzindo margem */
+    margin-bottom: 30px !important;
     clear: both !important;
     float: none !important;
     width: 100% !important;
@@ -511,11 +500,11 @@
   
   /* Melhorar renderização do gráfico de pizza na impressão */
   .pie-chart-container {
-    height: 150px !important; /* Reduzindo altura */
+    height: 250px !important;
     position: relative !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
-    margin-bottom: 15px !important; /* Reduzindo margem */
+    margin-bottom: 30px !important;
     clear: both !important;
   }
   
@@ -524,8 +513,8 @@
     position: relative !important;
     z-index: 1 !important;
     height: auto !important;
-    max-height: 180px !important; /* Reduzindo altura máxima */
-    margin-bottom: 15px !important; /* Reduzindo margem */
+    max-height: 300px !important;
+    margin-bottom: 40px !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
     clear: both !important;
@@ -540,8 +529,8 @@
   .card-section-7, 
   .card-section-8, 
   .card-section-9 {
-    margin-top: 15px !important; /* Reduzindo margem */
-    padding-top: 5px !important; /* Reduzindo padding */
+    margin-top: 30px !important;
+    padding-top: 10px !important;
     border-top: 1px solid #ddd !important;
     clear: both !important;
   }
@@ -551,9 +540,9 @@
     display: block !important;
     width: 100% !important;
     text-align: center !important;
-    margin-top: 15px !important; /* Reduzindo margem */
-    margin-bottom: 8px !important; /* Reduzindo margem */
-    font-size: 7pt !important; /* Reduzindo tamanho da fonte */
+    margin-top: 30px !important;
+    margin-bottom: 15px !important;
+    font-size: 9pt !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
   }
@@ -561,7 +550,7 @@
   /* CORREÇÕES ESPECÍFICAS PARA TABELAS E INSIGHTS */
   /* Melhorar a visualização das tabelas */
   .display-print-only table.print-table {
-    margin-bottom: 10px !important; /* Reduzindo margem */
+    margin-bottom: 20px !important;
     width: 100% !important;
     max-width: 100% !important;
     page-break-inside: avoid !important;
@@ -571,8 +560,8 @@
   /* Aumentar o tamanho da fonte nas tabelas para melhor legibilidade */
   .display-print-only table.print-table th,
   .display-print-only table.print-table td {
-    font-size: 7pt !important; /* Reduzindo tamanho da fonte */
-    padding: 3px 4px !important; /* Reduzindo padding */
+    font-size: 9pt !important;
+    padding: 5px 8px !important;
     word-wrap: break-word !important;
     max-width: 300px !important;
   }
@@ -591,40 +580,40 @@
   
   /* Melhorar a aparência das barras nas tabelas */
   .display-print-only table.print-table td .flex.items-center div {
-    height: 6px !important; /* Reduzindo altura */
-    min-width: 5px !important; /* Reduzindo largura mínima */
-    max-width: 80px !important; /* Reduzindo largura máxima */
+    height: 8px !important;
+    min-width: 8px !important;
+    max-width: 100px !important;
     background-color: #4CAF50 !important;
   }
   
   /* Melhorar a formatação dos insights */
   .bg-gray-50 {
-    margin: 10px 0 !important; /* Reduzindo margem */
-    padding: 8px !important; /* Reduzindo padding */
+    margin: 20px 0 !important;
+    padding: 15px !important;
     background-color: #f9f9f9 !important;
     border: 1px solid #e0e0e0 !important;
-    border-radius: 3px !important; /* Reduzindo raio da borda */
+    border-radius: 5px !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
   }
   
   .bg-gray-50 h3 {
-    font-size: 8pt !important; /* Reduzindo tamanho da fonte */
-    margin-bottom: 5px !important; /* Reduzindo margem */
+    font-size: 11pt !important;
+    margin-bottom: 12px !important;
     color: #000 !important;
   }
   
   .bg-gray-50 li {
-    margin-bottom: 3px !important; /* Reduzindo margem */
-    font-size: 7pt !important; /* Reduzindo tamanho da fonte */
-    line-height: 1.2 !important; /* Reduzindo altura da linha */
+    margin-bottom: 8px !important;
+    font-size: 9pt !important;
+    line-height: 1.5 !important;
     display: flex !important;
     align-items: flex-start !important;
   }
   
   .bg-gray-50 li .inline-block {
-    margin-top: 2px !important; /* Reduzindo margem */
-    margin-right: 4px !important; /* Reduzindo margem */
+    margin-top: 4px !important;
+    margin-right: 8px !important;
     flex-shrink: 0 !important;
   }
   
@@ -636,7 +625,7 @@
   /* Garantir que os insights sobre termos frequentes sejam exibidos corretamente */
   .card-section-6 .bg-gray-50,
   .card-section-7 .bg-gray-50 {
-    margin-top: 12px !important; /* Reduzindo margem */
+    margin-top: 30px !important;
     clear: both !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
@@ -650,149 +639,39 @@
 
   /* Adicionar mais espaço entre as linhas na tabela de visualização */
   .display-print-only table.print-table td .flex.items-center {
-    padding: 1px 0 !important; /* Reduzindo padding */
+    padding: 2px 0 !important;
   }
   
   /* Aumentar a largura das barras na visualização */
   .display-print-only table.print-table td .flex.items-center div {
-    border-radius: 1px !important; /* Reduzindo raio da borda */
+    border-radius: 2px !important;
   }
   
   /* Garantir que os insights não sejam cortados */
   .bg-gray-50 ul {
-    padding-left: 5px !important; /* Reduzindo padding */
-    margin-bottom: 3px !important; /* Reduzindo margem */
-  }
-
-  /* REDUZIR ESPAÇAMENTO NO TÍTULO E SUBTÍTULO PRINCIPAL */
-  h1.text-4xl, h1.text-5xl, h1.text-6xl {
-    font-size: 16pt !important; /* Reduzindo tamanho da fonte */
-    margin-top: 8px !important; /* Reduzindo margem */
-    margin-bottom: 4px !important; /* Reduzindo margem */
-    line-height: 1.2 !important; /* Reduzindo altura da linha */
-  }
-
-  p.mt-4, p.text-base, p.text-gray-600 {
-    font-size: 8pt !important; /* Reduzindo tamanho da fonte */
-    margin-top: 2px !important; /* Reduzindo margem */
-    margin-bottom: 8px !important; /* Reduzindo margem */
-  }
-
-  /* Reduzir espaçamento nos cabeçalhos de seção */
-  .card-header, .CardHeader {
-    padding: 6px !important; /* Reduzindo padding */
-    margin-bottom: 0 !important;
-  }
-
-  .card-title, .CardTitle {
-    font-size: 12pt !important; /* Reduzindo tamanho da fonte */
-    margin: 0 !important;
-  }
-
-  .card-content, .CardContent {
-    padding: 6px !important; /* Reduzindo padding */
-  }
-
-  /* Reduzir tamanho do rodapé */
-  .text-center.mb-8.mt-12.text-sm {
-    margin-top: 8px !important; /* Reduzindo margem */
-    margin-bottom: 4px !important; /* Reduzindo margem */
-    font-size: 7pt !important; /* Reduzindo tamanho da fonte */
-  }
-
-  /* Compactar mais o layout dos gráficos de barra */
-  .h-[400px], .h-[450px], .h-[500px], .h-[600px] {
-    height: 150px !important; /* Altura fixa reduzida para todos os gráficos */
-  }
-
-  /* Reduzir o tamanho dos cards de visão geral */
-  .card-section-1 .p-4 {
-    padding: 3px !important; /* Reduzindo padding */
-  }
-
-  .card-section-1 .text-3xl {
-    font-size: 12pt !important; /* Reduzindo tamanho da fonte */
-    margin-bottom: 0 !important;
-  }
-
-  .card-section-1 .text-sm {
-    font-size: 7pt !important; /* Reduzindo tamanho da fonte */
-  }
-
-  /* Compactar cards de sugestões */
-  .card-section-9 li {
-    margin-bottom: 4px !important; /* Reduzindo margem */
-    padding: 3px !important; /* Reduzindo padding */
-  }
-
-  .card-section-9 .font-medium {
-    font-size: 8pt !important; /* Reduzindo tamanho da fonte */
-    margin-bottom: 1px !important; /* Reduzindo margem */
-  }
-
-  .card-section-9 p {
-    font-size: 7pt !important; /* Reduzindo tamanho da fonte */
-    line-height: 1.2 !important; /* Reduzindo altura da linha */
-  }
-
-  /* Ajustes específicos para gráficos de barra */
-  .recharts-cartesian-axis-tick text {
-    font-size: 6pt !important; /* Reduzindo tamanho da fonte */
-  }
-
-  .recharts-layer.recharts-cartesian-axis-tick line {
-    stroke-width: 0.5px !important; /* Reduzindo espessura da linha */
-  }
-
-  .recharts-cartesian-grid-horizontal line,
-  .recharts-cartesian-grid-vertical line {
-    stroke-width: 0.5px !important; /* Reduzindo espessura da linha */
-    stroke-opacity: 0.3 !important; /* Reduzindo opacidade */
-  }
-
-  /* Reduz o espaçamento do comparativo por categoria (seção 2) */
-  .card-section-2 {
-    page-break-inside: avoid !important; /* Evitar quebra de página dentro da seção */
-  }
-
-  .card-section-2 .h-[500px],
-  .card-section-2 .print:h-[600px] {
-    height: auto !important;
-    max-height: 180px !important; /* Altura máxima reduzida */
-  }
-
-  .card-section-2 .display-print-only {
-    margin-top: 0 !important;
-  }
-
-  /* IMPORTANTE: Certifique-se de que a tabela comparativa seja exibida e não o gráfico */
-  .card-section-2 .display-screen-only {
-    display: none !important;
-  }
-
-  .card-section-2 .display-print-only {
-    display: block !important;
+    padding-left: 10px !important;
+    margin-bottom: 5px !important;
   }
 }
 
 /* Additional pie chart styling for print */
 @media print {
   .pie-label {
-    font-size: 6pt !important; /* Reduzindo tamanho da fonte */
+    font-size: 12pt !important;
     font-weight: bold !important;
   }
   
   .recharts-legend-item {
-    margin-right: 8px !important; /* Reduzindo margem */
+    margin-right: 20px !important;
   }
   
   .recharts-legend-item-text {
     color: black !important;
-    font-size: 6pt !important; /* Reduzindo tamanho da fonte */
+    font-size: 12pt !important;
   }
   
   .print-chart-legend {
-    margin-top: 8px !important; /* Reduzindo margem */
+    margin-top: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -801,14 +680,14 @@
   .print-legend-item {
     display: inline-flex;
     align-items: center;
-    margin: 0 5px !important; /* Reduzindo margem */
+    margin: 0 10px;
   }
   
   .print-legend-color {
     display: inline-block;
-    width: 6px !important; /* Reduzindo tamanho */
-    height: 6px !important; /* Reduzindo tamanho */
-    margin-right: 3px !important; /* Reduzindo margem */
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
   }
   
   .fortalezas-color {
@@ -827,7 +706,7 @@
   
   .display-print-only table.print-table th,
   .display-print-only table.print-table td {
-    padding: 2px !important; /* Reduzindo padding ainda mais */
+    padding: 5px;
     text-align: left;
   }
   
@@ -839,38 +718,5 @@
   .display-print-only table.print-table th:last-child,
   .display-print-only table.print-table td:last-child {
     width: 60%;
-  }
-
-  /* Ajuste de margem global da página */
-  .max-w-7xl {
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-
-  /* Reduzir espaçamento entre cabeçalho e corpo do card */
-  .bg-gradient-to-r {
-    background: none !important; /* Remover gradiente */
-    padding: 4px !important; /* Reduzindo padding */
-  }
-
-  /* Reduzir altura dos parágrafos introdutórios das seções */
-  .mb-4.text-gray-600 {
-    margin-bottom: 2px !important; /* Reduzindo margem */
-    font-size: 7pt !important; /* Reduzindo tamanho da fonte */
-  }
-
-  /* Compactar mais as seções */
-  .mb-10 {
-    margin-bottom: 6px !important; /* Reduzindo margem */
-  }
-
-  .mb-6, .mb-8, .mb-12 {
-    margin-bottom: 4px !important; /* Reduzindo margem */
-  }
-
-  /* Certifique-se de que as tabelas e gráficos não sejam cortados */
-  .card-section-6, 
-  .card-section-7 {
-    page-break-before: auto !important; /* Permitir quebras de página automáticas */
   }
 }

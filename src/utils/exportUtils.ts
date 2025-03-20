@@ -134,14 +134,14 @@ export const exportToPDF = () => {
       if (tabela instanceof HTMLElement) {
         tabela.style.pageBreakInside = 'avoid';
         tabela.style.breakInside = 'avoid';
-        tabela.style.marginBottom = '10px';
+        tabela.style.marginBottom = '20px';
         
         // Ajustar as barras para melhor visualização
         const barras = tabela.querySelectorAll('td div.flex div');
         barras.forEach(barra => {
           if (barra instanceof HTMLElement) {
-            barra.style.height = '6px';
-            barra.style.borderRadius = '1px';
+            barra.style.height = '8px';
+            barra.style.borderRadius = '2px';
             barra.style.minWidth = '5px';
           }
         });
@@ -154,9 +154,9 @@ export const exportToPDF = () => {
       if (insight instanceof HTMLElement) {
         insight.style.pageBreakInside = 'avoid';
         insight.style.breakInside = 'avoid';
-        insight.style.marginTop = '8px';
-        insight.style.marginBottom = '8px';
-        insight.style.padding = '6px';
+        insight.style.marginTop = '20px';
+        insight.style.marginBottom = '20px';
+        insight.style.padding = '15px';
       }
     });
   };
@@ -192,58 +192,13 @@ export const exportToPDF = () => {
     const pieCharts = document.querySelectorAll('.recharts-pie');
     pieCharts.forEach(chart => {
       if (chart instanceof SVGElement) {
-        chart.style.transform = 'scale(0.7)';
+        chart.style.transform = 'scale(0.8)';
         chart.style.transformOrigin = 'center';
       }
     });
     
     // Preparar tabelas de termos frequentes para melhor visualização
     prepareTermosTables();
-    
-    // Reduzir espaçamento entre elementos
-    const cardHeaders = document.querySelectorAll('.card-header, .CardHeader');
-    cardHeaders.forEach(header => {
-      if (header instanceof HTMLElement) {
-        header.style.padding = '4px';
-        header.style.marginBottom = '0';
-      }
-    });
-    
-    const cardTitles = document.querySelectorAll('.card-title, .CardTitle');
-    cardTitles.forEach(title => {
-      if (title instanceof HTMLElement) {
-        title.style.fontSize = '12pt';
-        title.style.margin = '0';
-      }
-    });
-    
-    // Garantir que as tabelas apareçam corretamente
-    const tables = document.querySelectorAll('.display-print-only table');
-    tables.forEach(table => {
-      if (table instanceof HTMLElement) {
-        table.style.display = 'table';
-        table.style.width = '100%';
-        table.style.borderCollapse = 'collapse';
-        table.style.margin = '4px 0';
-        
-        // Reduzir espaçamento nas células
-        const cells = table.querySelectorAll('th, td');
-        cells.forEach(cell => {
-          if (cell instanceof HTMLElement) {
-            cell.style.padding = '2px';
-            cell.style.fontSize = '7pt';
-          }
-        });
-      }
-    });
-    
-    // Certifique-se de que os gráficos e tabelas não se sobreponham
-    const chartContainers = document.querySelectorAll('.h-[400px], .h-[450px], .h-[500px], .h-[600px]');
-    chartContainers.forEach(container => {
-      if (container instanceof HTMLElement) {
-        container.style.height = '150px';
-      }
-    });
   };
   
   // Tempo para a preparação da visualização
