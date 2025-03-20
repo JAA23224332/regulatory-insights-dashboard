@@ -1,4 +1,3 @@
-
 /* Estilos de impressão */
 @media print {
   /* Reset básico para impressão */
@@ -76,12 +75,12 @@
     margin: 0 !important;
   }
   
-  /* Estilos para títulos - OTIMIZADO PARA CADA PÁGINA */
+  /* Estilos para títulos - ATUALIZADO PARA GARANTIR POSICIONAMENTO CORRETO */
   .print-title {
-    font-size: 20pt !important;
+    font-size: 18pt !important;
     font-weight: 700 !important;
     text-align: center !important;
-    margin-top: 20px !important;
+    margin-top: 15px !important;
     margin-bottom: 5px !important;
     page-break-before: auto !important;
     page-break-after: avoid !important;
@@ -93,9 +92,9 @@
   }
   
   .print-subtitle {
-    font-size: 10pt !important;
+    font-size: 9pt !important;
     text-align: center !important;
-    margin-bottom: 15px !important;
+    margin-bottom: 10px !important;
     color: #555 !important;
     page-break-before: avoid !important;
     page-break-after: avoid !important;
@@ -103,14 +102,14 @@
     break-after: avoid !important;
   }
   
-  /* Estilos para seções - AUMENTADO */
+  /* Estilos para seções */
   .section-title, .card h2, .comparativo-titulo, h2.text-xl {
-    font-size: 16pt !important;
+    font-size: 14pt !important;
     font-weight: 600 !important;
-    margin-top: 20px !important;
-    margin-bottom: 15px !important;
+    margin-top: 15px !important;
+    margin-bottom: 10px !important;
     border-bottom: 1px solid #ddd !important;
-    padding-bottom: 5px !important;
+    padding-bottom: 3px !important;
     color: #333 !important;
     page-break-before: auto !important;
     page-break-after: avoid !important;
@@ -120,16 +119,14 @@
     z-index: 99 !important;
   }
   
-  /* Controle de quebra de página para cada seção principal - OTIMIZADO */
+  /* Controle de quebra de página para cada seção principal - IMPORTANTE */
   .card-section-2, .card-section-3, .card-section-4, .card-section-5, 
   .card-section-6, .card-section-7, .card-section-8, .card-section-9 {
     page-break-before: always !important;
     break-before: page !important;
-    padding-top: 20px !important;
+    padding-top: 10px !important;
     position: relative !important;
     z-index: 1 !important;
-    height: auto !important;
-    max-height: none !important;
   }
   
   /* A primeira seção não deve ter quebra de página */
@@ -138,18 +135,15 @@
     break-after: page !important;
   }
 
-  /* Estilos para cards/seções - EXPANDIDO */
+  /* Estilos para cards/seções */
   .card {
     page-break-inside: avoid !important;
     break-inside: avoid !important;
-    margin-bottom: 20px !important;
-    padding: 8px !important;
+    margin-bottom: 10px !important;
+    padding: 5px !important;
     border: none !important;
     background-color: white !important;
     box-shadow: none !important;
-    width: 100% !important;
-    height: auto !important;
-    max-height: none !important;
   }
   
   /* Cards da seção de visão geral */
@@ -205,31 +199,26 @@
     color: #000 !important;
   }
   
-  /* OTIMIZAÇÃO DO TAMANHO DOS GRÁFICOS - AUMENTADO */
+  /* Gráfico de pizza - CORREÇÃO PARA PROBLEMAS DE SOBREPOSIÇÃO */
   .recharts-wrapper {
     margin: 0 auto !important;
     height: auto !important;
-    max-height: 320px !important; /* AUMENTADO de 200px para 320px */
-    width: 100% !important;
-    max-width: 650px !important; /* AUMENTADO para ocupar mais espaço */
+    max-height: 200px !important;
     display: block !important;
     text-align: center !important;
-    overflow: visible !important;
   }
   
-  /* Controle preciso do posicionamento do SVG e gráfico de pizza - AJUSTADO */
+  /* Controle preciso do posicionamento do SVG e gráfico de pizza */
   .recharts-wrapper svg {
     display: block !important;
     margin: 0 auto !important;
     height: auto !important;
-    max-height: 320px !important; /* AUMENTADO de 200px para 320px */
-    width: 100% !important;
-    max-width: 650px !important;
+    max-height: 200px !important;
   }
   
-  /* Corrigir a sobreposição no gráfico de pizza - AJUSTADO */
+  /* Corrigir a sobreposição no gráfico de pizza */
   .recharts-pie {
-    transform: scale(0.8) !important;
+    transform: scale(0.7) !important;
     transform-origin: center !important;
   }
   
@@ -243,37 +232,37 @@
     display: none !important;
   }
   
-  /* Tamanho e posicionamento da legenda - EXPANDIDO */
+  /* Tamanho e posicionamento da legenda */
   .recharts-legend-wrapper {
     position: relative !important;
-    margin-top: 15px !important;
+    margin-top: 10px !important;
     padding-top: 5px !important;
-    font-size: 9pt !important;
+    font-size: 8pt !important;
     width: 100% !important;
     display: block !important;
     text-align: center !important;
   }
   
-  /* Legenda customizada para impressão - EXPANDIDA */
+  /* Legenda customizada para impressão que não sobrepõe */
   .print-chart-legend {
     display: block !important;
-    margin-top: 15px !important;
-    margin-bottom: 10px !important;
+    margin-top: 10px !important;
+    margin-bottom: 5px !important;
     text-align: center !important;
-    font-size: 9pt !important;
+    font-size: 8pt !important;
   }
   
   .print-legend-item {
     display: inline-block !important;
-    margin-right: 15px !important;
-    margin-bottom: 5px !important;
+    margin-right: 10px !important;
+    margin-bottom: 3px !important;
   }
   
   .print-legend-color {
     display: inline-block !important;
-    width: 10px !important;
-    height: 10px !important;
-    margin-right: 5px !important;
+    width: 8px !important;
+    height: 8px !important;
+    margin-right: 3px !important;
     vertical-align: middle !important;
   }
   
@@ -285,12 +274,12 @@
     background-color: #F44336 !important;
   }
   
-  /* Tabelas - AUMENTADAS */
+  /* Tabelas */
   .print-table {
     width: 100% !important;
     border-collapse: collapse !important;
-    margin: 10px 0 !important;
-    font-size: 9pt !important; /* AUMENTADO de 8pt para 9pt */
+    margin: 5px 0 !important;
+    font-size: 8pt !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
   }
@@ -298,9 +287,9 @@
   .print-table th, 
   .print-table td {
     border: 1px solid #ddd !important;
-    padding: 4px 6px !important; /* AUMENTADO para dar mais espaço */
+    padding: 3px 4px !important;
     text-align: left !important;
-    font-size: 9pt !important; /* AUMENTADO de 8pt para 9pt */
+    font-size: 8pt !important;
   }
   
   .print-table th {
@@ -398,10 +387,10 @@
     break-inside: avoid !important;
   }
   
-  /* Configuração de página - AJUSTADA */
+  /* Configuração de página */
   @page {
     size: A4 portrait;
-    margin: 1.2cm 0.8cm; /* AUMENTADO a margem superior para acomodar títulos maiores */
+    margin: 1cm 0.8cm;
   }
   
   /* Controle de quebra de página */
@@ -492,11 +481,11 @@
   
   /* Melhorar renderização do gráfico de pizza na impressão */
   .pie-chart-container {
-    height: 280px !important; /* AUMENTADO de 180px para 280px */
+    height: 180px !important;
     position: relative !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
-    margin-bottom: 20px !important;
+    margin-bottom: 15px !important;
     clear: both !important;
   }
   
@@ -505,8 +494,8 @@
     position: relative !important;
     z-index: 1 !important;
     height: auto !important;
-    max-height: 350px !important; /* AUMENTADO de 200px para 350px */
-    margin-bottom: 25px !important;
+    max-height: 200px !important;
+    margin-bottom: 20px !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
     clear: both !important;
@@ -521,9 +510,9 @@
   .card-section-7, 
   .card-section-8, 
   .card-section-9 {
-    margin-top: 0 !important; /* REDUZIDO para ganhar espaço vertical */
-    padding-top: 15px !important;
-    border-top: none !important;
+    margin-top: 15px !important;
+    padding-top: 5px !important;
+    border-top: 1px solid #ddd !important;
     clear: both !important;
   }
   
@@ -552,37 +541,36 @@
   /* Aumentar o tamanho da fonte nas tabelas para melhor legibilidade */
   .display-print-only table.print-table th,
   .display-print-only table.print-table td {
-    font-size: 9pt !important; /* AUMENTADO de 8pt para 9pt */
-    padding: 4px 8px !important; /* AUMENTADO para melhor visualização */
+    font-size: 8pt !important;
+    padding: 3px 5px !important;
     word-wrap: break-word !important;
-    max-width: 400px !important; /* AUMENTADO de 300px para 400px */
+    max-width: 300px !important;
   }
   
   /* Ajustar largura das colunas */
   .display-print-only table.print-table th:first-child,
   .display-print-only table.print-table td:first-child {
-    width: 45% !important; /* AUMENTADO de 40% para 45% */
+    width: 40% !important;
   }
 
   /* Ajustar a coluna de visualização (barras verdes) */
   .display-print-only table.print-table th:last-child,
   .display-print-only table.print-table td:last-child {
-    width: 30% !important; /* AUMENTADO de 25% para 30% */
+    width: 25% !important; 
   }
   
   /* Melhorar a aparência das barras nas tabelas */
   .display-print-only table.print-table td .flex.items-center div {
-    height: 8px !important; /* AUMENTADO de 6px para 8px */
-    min-width: 8px !important; /* AUMENTADO de 6px para 8px */
-    max-width: 150px !important; /* AUMENTADO de 80px para 150px */
+    height: 6px !important;
+    min-width: 6px !important;
+    max-width: 80px !important;
     background-color: #4CAF50 !important;
-    border-radius: 3px !important;
   }
   
   /* Melhorar a formatação dos insights */
   .bg-gray-50 {
-    margin: 15px 0 !important;
-    padding: 12px !important;
+    margin: 10px 0 !important;
+    padding: 8px !important;
     background-color: #f9f9f9 !important;
     border: 1px solid #e0e0e0 !important;
     border-radius: 3px !important;
@@ -591,15 +579,15 @@
   }
   
   .bg-gray-50 h3 {
-    font-size: 11pt !important; /* AUMENTADO de 9pt para 11pt */
-    margin-bottom: 8px !important;
+    font-size: 9pt !important;
+    margin-bottom: 5px !important;
     color: #000 !important;
   }
   
   .bg-gray-50 li {
-    margin-bottom: 6px !important;
-    font-size: 9pt !important; /* AUMENTADO de 8pt para 9pt */
-    line-height: 1.4 !important;
+    margin-bottom: 4px !important;
+    font-size: 8pt !important;
+    line-height: 1.3 !important;
     display: flex !important;
     align-items: flex-start !important;
   }
@@ -723,135 +711,107 @@
     color: #777 !important;
   }
   
-  /* AJUSTE DE ALTURA PARA GRÁFICOS E VISUALIZAÇÕES */
+  /* Reduzir altura dos gráficos de barra */
   .h-\[500px\], .h-\[450px\], .h-\[400px\], .h-\[600px\] {
     height: auto !important;
-    max-height: 450px !important; /* AUMENTADO de 250px para 450px */
+    max-height: 250px !important;
   }
   
-  /* Garantir que o container de gráfico de pizza ocupe melhor o espaço */
-  .pie-chart-container {
-    height: 280px !important; /* AUMENTADO de 180px para 280px */
-    position: relative !important;
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
-    margin-bottom: 20px !important;
-    clear: both !important;
+  /* Reduzir tamanho de todos os textos para melhor aproveitamento do espaço */
+  p, li, span {
+    font-size: 8pt !important;
   }
   
-  /* Eliminar problema de sobreposição na impressão usando controle explícito de Z-index */
-  .chart-container {
-    position: relative !important;
-    z-index: 1 !important;
+  h1, h2, h3, .text-2xl, .text-xl {
+    font-size: 11pt !important;
+    margin-bottom: 5px !important;
+  }
+  
+  /* Otimizar altura das tabelas */
+  .print-table tr {
     height: auto !important;
-    max-height: 350px !important; /* AUMENTADO de 200px para 350px */
-    margin-bottom: 25px !important;
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
-    clear: both !important;
   }
   
-  /* Melhorar renderização das barras nas tabelas */
-  .display-print-only table.print-table td .flex.items-center div {
-    height: 8px !important; /* AUMENTADO de 6px para 8px */
-    min-width: 8px !important; /* AUMENTADO de 6px para 8px */
-    max-width: 150px !important; /* AUMENTADO de 80px para 150px */
-    background-color: #4CAF50 !important;
-    border-radius: 3px !important;
+  .print-table td {
+    padding-top: 2px !important;
+    padding-bottom: 2px !important;
+  }
+}
+
+/* Additional pie chart styling for print */
+@media print {
+  .pie-label {
+    font-size: 8pt !important;
+    font-weight: bold !important;
   }
   
-  /* AJUSTES ESPECÍFICOS PARA VISUALIZAÇÕES DE TERMOS FREQUENTES */
-  .card-section-6 .display-print-only table.print-table,
-  .card-section-7 .display-print-only table.print-table {
-    margin-top: 15px !important;
-    margin-bottom: 15px !important;
-    font-size: 9pt !important;
+  .recharts-legend-item {
+    margin-right: 10px !important;
   }
   
-  /* Aumentar o tamanho da fonte nas tabelas para melhor legibilidade */
+  .recharts-legend-item-text {
+    color: black !important;
+    font-size: 8pt !important;
+  }
+  
+  .print-chart-legend {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .print-legend-item {
+    display: inline-flex;
+    align-items: center;
+    margin: 0 5px;
+  }
+  
+  .print-legend-color {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin-right: 3px;
+  }
+  
+  /* Bar chart print fixes */
+  .display-print-only table.print-table {
+    width: 100%;
+    page-break-inside: avoid;
+  }
+  
   .display-print-only table.print-table th,
   .display-print-only table.print-table td {
-    font-size: 9pt !important; /* AUMENTADO de 8pt para 9pt */
-    padding: 4px 8px !important; /* AUMENTADO para melhor visualização */
-    word-wrap: break-word !important;
-    max-width: 400px !important; /* AUMENTADO de 300px para 400px */
+    padding: 2px 3px;
+    text-align: left;
   }
   
-  /* Ajustar largura das colunas das tabelas de termos frequentes */
   .display-print-only table.print-table th:first-child,
   .display-print-only table.print-table td:first-child {
-    width: 45% !important; /* AUMENTADO de 40% para 45% */
+    width: 40%;
   }
-
-  /* Ajustar a coluna de visualização (barras verdes) */
+  
   .display-print-only table.print-table th:last-child,
   .display-print-only table.print-table td:last-child {
-    width: 30% !important; /* AUMENTADO de 25% para 30% */
+    width: 60%;
   }
   
-  /* AJUSTES PARA INSIGHTS E CONSTATAÇÕES */
-  .bg-gray-50 {
-    margin: 15px 0 !important;
-    padding: 12px !important;
-    background-color: #f9f9f9 !important;
-    border: 1px solid #e0e0e0 !important;
-    border-radius: 3px !important;
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
+  /* Ajuste específico para tabelas de termos frequentes */
+  .card-section-6 table tr td:nth-child(3),
+  .card-section-7 table tr td:nth-child(3) {
+    width: 35% !important;
   }
   
-  .bg-gray-50 h3 {
-    font-size: 11pt !important; /* AUMENTADO de 9pt para 11pt */
-    margin-bottom: 8px !important;
-    color: #000 !important;
+  /* Título e subtítulo da página - ATUALIZADO PARA GARANTIR QUEBRAS CORRETAS */
+  .text-4xl, .text-5xl, .text-6xl {
+    font-size: 16pt !important;
+    line-height: 1.2 !important;
+    margin-bottom: 5px !important;
+    page-break-before: auto !important;
+    page-break-after: avoid !important;
+    break-before: auto !important;
+    break-after: avoid !important;
   }
   
-  .bg-gray-50 li {
-    margin-bottom: 6px !important;
-    font-size: 9pt !important; /* AUMENTADO de 8pt para 9pt */
-    line-height: 1.4 !important;
-    display: flex !important;
-    align-items: flex-start !important;
-  }
-  
-  /* Diminuir margens dos bullets nos insights */
-  .bg-gray-50 li .inline-block {
-    margin-top: 3px !important;
-    margin-right: 5px !important;
-    flex-shrink: 0 !important;
-  }
-  
-  .bg-gray-50 li span {
-    display: block !important;
-    width: 95% !important;
-  }
-  
-  /* Melhorar visualização de imagens e gráficos */
-  img, svg {
-    max-width: 100% !important;
-    height: auto !important;
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
-  }
-  
-  /* Maximizar o tamanho da área útil de visualização */
-  .visualization-container {
-    width: 100% !important;
-    max-width: 700px !important;
-    margin: 0 auto !important;
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
-  }
-  
-  /* Garantir que textos longos não sejam cortados */
-  p, li, td, th {
-    orphans: 2 !important;
-    widows: 2 !important;
-    word-wrap: break-word !important;
-  }
-  
-  /* Aumentar a visibilidade do texto em geral */
-  body {
-    text-rendering: optimizeLegibility !important;
-  }
+  /* ... keep existing code (ajustes finos das barras de frequência) */
 }
