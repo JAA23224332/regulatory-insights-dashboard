@@ -1,5 +1,5 @@
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { dadosReais, dadosComparativoCategoria } from '@/data/regulacaoData';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { exportToPDF } from '@/utils/exportUtils';
@@ -43,20 +43,21 @@ const Export = () => {
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
                 data={dadosComparativoCategoria}
-                layout="vertical"
-                margin={{ top: 30, right: 50, left: 300, bottom: 50 }}
+                layout="horizontal"
+                margin={{ top: 30, right: 50, left: 30, bottom: 160 }}
+                barSize={40}
+                barGap={10}
               >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis 
-                  type="number" 
-                  tick={{ fontSize: 18, fontWeight: 'bold' }}
-                  tickCount={10}
+                  dataKey="categoria" 
+                  tick={{ fontSize: 16, fontWeight: 'bold', angle: -45, textAnchor: 'end' }}
+                  height={120}
+                  interval={0}
                 />
                 <YAxis 
-                  type="category" 
-                  dataKey="categoria" 
-                  tick={{ fontSize: 18, fontWeight: 'bold' }} 
-                  width={300} 
+                  type="number" 
+                  tick={{ fontSize: 16, fontWeight: 'bold' }} 
                 />
                 <Tooltip 
                   contentStyle={{ 
@@ -73,7 +74,8 @@ const Export = () => {
                   wrapperStyle={{ 
                     paddingTop: '30px', 
                     fontSize: '18px',
-                    fontWeight: 'bold'
+                    fontWeight: 'bold',
+                    marginBottom: '50px'
                   }}
                 />
                 <Bar 
@@ -82,7 +84,6 @@ const Export = () => {
                   fill={COLORS_BAR.fortalezas} 
                   stroke="#007010"
                   strokeWidth={1}
-                  barSize={50} 
                 />
                 <Bar 
                   dataKey="fragilidades" 
@@ -90,7 +91,6 @@ const Export = () => {
                   fill={COLORS_BAR.fragilidades} 
                   stroke="#B00000"
                   strokeWidth={1}
-                  barSize={50} 
                 />
               </BarChart>
             </ResponsiveContainer>

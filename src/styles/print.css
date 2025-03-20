@@ -1,4 +1,3 @@
-
 /* Estilos de impressão */
 @media print {
   /* Reset básico para impressão */
@@ -119,35 +118,29 @@
   /* Configuração específica para Recharts */
   .recharts-wrapper {
     width: 100% !important;
-    height: auto !important;
-    min-height: 900px !important;
+    height: 900px !important;
     margin: 0 auto !important;
   }
   
   /* Aumentar o tamanho da fonte dos eixos */
   .recharts-cartesian-axis-tick text {
-    font-size: 18pt !important;
+    font-size: 16pt !important;
     font-weight: bold !important;
     fill: #000 !important;
   }
   
-  /* Eixo Y específico (categorias) */
-  .recharts-cartesian-axis.recharts-yAxis .recharts-cartesian-axis-tick text {
-    font-size: 18pt !important;
-    font-weight: bold !important;
-    fill: #000 !important;
-  }
-  
-  /* Eixo X específico (valores) */
+  /* Eixo X específico (categorias) */
   .recharts-cartesian-axis.recharts-xAxis .recharts-cartesian-axis-tick text {
-    font-size: 18pt !important;
+    font-size: 16pt !important;
     font-weight: bold !important;
     fill: #000 !important;
   }
   
-  /* Aumentar espaço para o texto das categorias */
-  .recharts-cartesian-axis.recharts-yAxis {
-    width: 300px !important;
+  /* Eixo Y específico (valores) */
+  .recharts-cartesian-axis.recharts-yAxis .recharts-cartesian-axis-tick text {
+    font-size: 16pt !important;
+    font-weight: bold !important;
+    fill: #000 !important;
   }
   
   /* Melhorar contraste das cores das barras */
@@ -165,18 +158,19 @@
   
   /* Aumentar tamanho das barras */
   .recharts-bar-rectangle {
-    height: 50px !important;
+    height: 40px !important;
   }
   
   /* Ajustar legenda para ficar melhor posicionada */
   .recharts-legend-wrapper {
     padding-top: 10px !important;
-    margin-bottom: 10px !important;
+    margin-bottom: 50px !important;
     text-align: center !important;
     display: flex !important;
     justify-content: center !important;
     position: relative !important;
     width: 100% !important;
+    height: auto !important;
   }
   
   .recharts-legend-item {
@@ -240,9 +234,11 @@
     border: 1px solid #B00000 !important;
   }
   
-  /* Remover padding desnecessário */
-  .chart-container.mb-6 {
-    margin-bottom: 0 !important;
+  /* Ajustes específicos para o gráfico horizontal */
+  .recharts-xAxis .recharts-cartesian-axis-tick text {
+    text-anchor: end !important;
+    transform: rotate(-45deg) !important;
+    transform-origin: bottom right !important;
   }
   
   /* Ajustes adicionais para garantir que o gráfico ocupe o espaço adequado */
@@ -251,13 +247,11 @@
     min-height: 900px !important;
   }
   
-  /* Garantir que o container do gráfico tenha margem adequada */
   .ChartContainer {
     margin: 0 auto !important;
     width: 95% !important;
   }
   
-  /* Ajustar margens para o gráfico comparativo */
   .card-section-2 .recharts-wrapper {
     margin: 0 auto !important;
     transform: scale(1) !important;
