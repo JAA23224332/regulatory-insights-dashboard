@@ -189,12 +189,12 @@ export const exportToPDF = () => {
       tableElement.style.marginBottom = '15px';
     });
     
-    // Fix for statistics text overlap issue - ENHANCED SOLUTION
+    // ENHANCED FIX for statistics text overlap issue
     const statsItems = document.querySelectorAll('.principais-constatacoes li');
-    statsItems.forEach((item, index) => {
+    statsItems.forEach((item) => {
       const itemElement = item as HTMLElement;
-      itemElement.style.marginBottom = '15px';
-      itemElement.style.lineHeight = '1.4';
+      itemElement.style.marginBottom = '25px';  // Increased spacing between items
+      itemElement.style.lineHeight = '1.5';
       itemElement.style.pageBreakInside = 'avoid';
       itemElement.style.breakInside = 'avoid';
       itemElement.style.display = 'flex';
@@ -206,21 +206,29 @@ export const exportToPDF = () => {
       const textSpan = itemElement.querySelector('span:last-child');
       
       if (bulletSpan) {
-        bulletSpan.textContent = '•';
-        (bulletSpan as HTMLElement).style.marginRight = '8px';
+        (bulletSpan as HTMLElement).style.marginRight = '12px';  // Increased spacing
         (bulletSpan as HTMLElement).style.flexShrink = '0';
+        (bulletSpan as HTMLElement).style.marginTop = '2px';
       }
       
       if (textSpan) {
-        (textSpan as HTMLElement).style.fontSize = '8pt';
-        (textSpan as HTMLElement).style.lineHeight = '1.4';
+        (textSpan as HTMLElement).style.fontSize = '11pt';  // Slightly larger font
+        (textSpan as HTMLElement).style.lineHeight = '1.6';  // Better line height
         (textSpan as HTMLElement).style.display = 'block';
-        (textSpan as HTMLElement).style.width = 'calc(100% - 15px)';
+        (textSpan as HTMLElement).style.width = 'calc(100% - 25px)';  // More space for text
         (textSpan as HTMLElement).style.wordWrap = 'break-word';
         (textSpan as HTMLElement).style.whiteSpace = 'normal';
         (textSpan as HTMLElement).style.color = '#000';
         (textSpan as HTMLElement).style.fontWeight = 'normal';
         (textSpan as HTMLElement).style.overflow = 'visible';
+        
+        // Make sure strong tags are visible
+        const strongElements = textSpan.querySelectorAll('strong');
+        strongElements.forEach((strong) => {
+          (strong as HTMLElement).style.fontWeight = 'bold';
+          (strong as HTMLElement).style.fontSize = '11pt';
+          (strong as HTMLElement).style.color = '#000';
+        });
       }
     });
     
@@ -259,28 +267,35 @@ export const exportToPDF = () => {
           align-items: flex-start !important;
           padding-left: 0 !important; 
           text-indent: 0 !important; 
-          margin-bottom: 15px !important; 
-          line-height: 1.4 !important;
+          margin-bottom: 25px !important; 
+          line-height: 1.6 !important;
           page-break-inside: avoid !important;
           break-inside: avoid !important;
           max-width: 100% !important;
         }
         
         .principais-constatacoes li span:first-child { 
-          margin-right: 8px !important;
+          margin-right: 12px !important;
           flex-shrink: 0 !important;
+          margin-top: 2px !important;
         }
         
         .principais-constatacoes li span:last-child { 
-          font-size: 8pt !important; 
-          line-height: 1.4 !important; 
+          font-size: 11pt !important; 
+          line-height: 1.6 !important; 
           display: block !important;
-          width: calc(100% - 15px) !important;
+          width: calc(100% - 25px) !important;
           word-wrap: break-word !important;
           white-space: normal !important;
           color: #000 !important;
           font-weight: normal !important;
           overflow: visible !important;
+        }
+        
+        .principais-constatacoes li span:last-child strong {
+          font-weight: bold !important;
+          font-size: 11pt !important;
+          color: #000 !important;
         }
         
         /* Ensure proper page breaks */
