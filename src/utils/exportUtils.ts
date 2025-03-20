@@ -200,12 +200,13 @@ export const exportToPDF = () => {
         firstSection.style.breakAfter = 'page';
       }
       
-      // Assegura que seções seguintes começem em nova página
-      const secondSection = document.querySelector('.card-section-2');
-      if (secondSection && secondSection instanceof HTMLElement) {
-        secondSection.style.pageBreakBefore = 'always';
-        secondSection.style.breakBefore = 'page';
-      }
+      // Oculta as seções seguintes durante a impressão
+      const otherSections = document.querySelectorAll('.card-section-2, .card-section-3, .card-section-4, .card-section-5, .card-section-6, .card-section-7');
+      otherSections.forEach(section => {
+        if (section instanceof HTMLElement) {
+          section.style.display = 'none';
+        }
+      });
       
       // Preparar tabelas de termos frequentes para melhor visualização
       prepareTermosTables();
