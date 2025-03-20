@@ -1,3 +1,4 @@
+
 import { saveAs } from 'file-saver';
 import * as XLSX from 'xlsx';
 import { 
@@ -188,14 +189,27 @@ export const exportToPDF = () => {
       tableElement.style.marginBottom = '15px';
     });
     
-    // Adjust text in statistics to prevent overlapping
+    // Fix for statistics text overlap issue
     const statsTexts = document.querySelectorAll('.principais-constatacoes li span');
     statsTexts.forEach((text) => {
       const textElement = text as HTMLElement;
-      textElement.style.fontSize = '11pt';
-      textElement.style.lineHeight = '1.4';
+      textElement.style.fontSize = '9pt';
+      textElement.style.lineHeight = '1.2';
       textElement.style.display = 'inline-block';
-      textElement.style.maxWidth = '90%';
+      textElement.style.maxWidth = '95%';
+      textElement.style.wordWrap = 'break-word';
+      textElement.style.whiteSpace = 'normal';
+      textElement.style.color = '#000';
+    });
+    
+    // Fix for statistics list items
+    const statsItems = document.querySelectorAll('.principais-constatacoes li');
+    statsItems.forEach((item) => {
+      const itemElement = item as HTMLElement;
+      itemElement.style.marginBottom = '10px';
+      itemElement.style.lineHeight = '1.3';
+      itemElement.style.pageBreakInside = 'avoid';
+      itemElement.style.breakInside = 'avoid';
     });
     
     // Ensure recommendation section is visible
@@ -226,27 +240,53 @@ export const exportToPDF = () => {
       @media print {
         body { font-size: 11pt; line-height: 1.3; }
         .card { margin-bottom: 25px; page-break-inside: avoid; break-inside: avoid; }
-        .principais-constatacoes li span { font-size: 11pt; line-height: 1.4; max-width: 90%; }
-        .print-table { font-size: 10pt; width: 100%; margin-bottom: 15px; }
-        .pie-chart-container { height: 220px; }
-        .chart-container { height: 380px; }
         
-        /* Fix for overlapping text in stats */
-        .principais-constatacoes li { padding-left: 15px; text-indent: -15px; margin-bottom: 8px; }
+        /* Specifically fix stats text overlap */
+        .principais-constatacoes li { 
+          padding-left: 15px; 
+          text-indent: -15px; 
+          margin-bottom: 10px; 
+          line-height: 1.3;
+          page-break-inside: avoid;
+          break-inside: avoid;
+        }
+        
+        .principais-constatacoes li span { 
+          font-size: 9pt !important; 
+          line-height: 1.2 !important; 
+          display: inline-block !important;
+          max-width: 95% !important;
+          word-wrap: break-word !important;
+          white-space: normal !important;
+          color: #000 !important;
+        }
         
         /* Ensure proper page breaks */
         .card-section-3, .card-section-4, .card-section-5, .card-section-6, .card-section-7, .card-section-8 {
           page-break-before: always;
           break-before: page;
         }
+        
+        /* Fix bullet points */
+        .principais-constatacoes li:before {
+          content: "•";
+          position: absolute;
+          left: 0;
+          top: 0;
+          color: #555;
+        }
       }
     `;
     document.head.appendChild(styleSheet);
+    
+    return () => {
+      document.head.removeChild(styleSheet);
+    };
   };
   
   // Execute all adjustments before printing
   adjustSpacingForPrint();
-  addPrintStyles();
+  const removeStyles = addPrintStyles();
   
   // Delay printing to ensure DOM updates have been applied
   setTimeout(() => {
@@ -255,10 +295,7 @@ export const exportToPDF = () => {
     // Clean up after printing
     setTimeout(() => {
       document.body.classList.remove('printing-pdf');
-      const styleSheet = document.getElementById('print-specific-styles');
-      if (styleSheet) {
-        document.head.removeChild(styleSheet);
-      }
+      removeStyles();
     }, 1000);
   }, 800);
 };

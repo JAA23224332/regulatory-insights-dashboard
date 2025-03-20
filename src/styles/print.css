@@ -209,30 +209,46 @@
     margin-right: 8px !important;
   }
   
-  /* Estilos para lista de constatações principais */
+  /* Estilos para lista de constatações principais - AJUSTADOS PARA CORRIGIR SOBREPOSIÇÃO */
   .principais-constatacoes {
     background-color: #f9f9f9 !important;
-    padding: 10px !important; /* Reduced from 15px */
-    margin-top: 15px !important; /* Reduced from 20px */
+    padding: 10px !important;
+    margin-top: 15px !important;
     border-top: 1px solid #eee !important;
     border-bottom: 1px solid #eee !important;
   }
   
   .principais-constatacoes h3 {
-    font-size: 12pt !important; /* Reduced from 14pt */
+    font-size: 11pt !important; /* Reduced from 12pt */
     font-weight: bold !important;
-    margin-bottom: 10px !important; /* Reduced from 15px */
+    margin-bottom: 8px !important; /* Reduced from 10px */
   }
   
   .principais-constatacoes ul {
     list-style-type: none !important;
     padding-left: 0 !important;
+    margin: 0 !important; /* Added explicit margin */
   }
   
   .principais-constatacoes li {
-    margin-bottom: 6px !important; /* Reduced from 10px */
-    padding-left: 15px !important; /* Reduced from 18px */
+    margin-bottom: 10px !important; /* Increased from 6px */
+    padding-left: 15px !important;
     position: relative !important;
+    line-height: 1.3 !important; /* Reduced line height */
+    overflow: visible !important; /* Ensure content is visible */
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+  
+  /* Corrigido problema de sobreposição */
+  .principais-constatacoes li span {
+    display: inline-block !important;
+    font-size: 9pt !important; /* Reduced from 11pt */
+    line-height: 1.2 !important; /* Reduced line height */
+    max-width: 95% !important; /* Slightly wider */
+    word-wrap: break-word !important; /* Force word wrapping */
+    white-space: normal !important; /* Prevent whitespace nowrap */
+    color: #000 !important; /* Ensure black text */
   }
   
   .principais-constatacoes li:before {
@@ -240,19 +256,18 @@
     position: absolute !important;
     left: 0 !important;
     color: #555 !important;
+    top: 0 !important; /* Aligned to top */
   }
   
-  /* Constatação com bullet azul */
+  /* Constatação com bullet azul, verde, vermelho */
   .constatacao-blue:before {
     color: #2196F3 !important;
   }
   
-  /* Constatação com bullet verde */
   .constatacao-green:before {
     color: #4CAF50 !important;
   }
   
-  /* Constatação com bullet vermelho */
   .constatacao-red:before {
     color: #F44336 !important;
   }
@@ -482,3 +497,4 @@
     position: static !important;
   }
 }
+
