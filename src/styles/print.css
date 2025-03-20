@@ -1,3 +1,4 @@
+
 /* Estilos de impressão */
 @media print {
   /* Reset básico para impressão */
@@ -385,36 +386,43 @@
     margin: 10px 0 !important;
   }
   
-  /* Estilos para a seção de recomendações */
+  /* ESTILOS ESPECÍFICOS PARA A SEÇÃO DE RECOMENDAÇÕES */
   .card-section-8 {
     page-break-before: always !important;
     margin-top: 30px !important;
+    display: block !important;
+    visibility: visible !important;
   }
   
   .card-section-8 h2 {
-    font-size: 16pt !important;
+    font-size: 18pt !important;
     font-weight: 600 !important;
-    margin-bottom: 20px !important;
+    margin-bottom: 25px !important;
     border-bottom: 1px solid #ddd !important;
     padding-bottom: 8px !important;
     color: #333 !important;
+    display: block !important;
   }
   
   .card-section-8 ul {
     padding-left: 0 !important;
-    margin: 15px 0 !important;
+    margin: 20px 0 !important;
     list-style-type: none !important;
+    display: block !important;
   }
   
   .card-section-8 li {
-    margin-bottom: 14px !important;
+    margin-bottom: 20px !important;
     position: relative !important;
-    padding-left: 20px !important;
+    padding-left: 25px !important;
+    display: block !important;
+    page-break-inside: avoid !important;
   }
   
   .card-section-8 strong {
     color: #333 !important;
     font-weight: 600 !important;
+    display: inline !important;
   }
   
   /* Garantir que as recomendações apareçam na impressão */
@@ -422,10 +430,12 @@
   .card-section-8 h2, 
   .card-section-8 ul, 
   .card-section-8 li, 
-  .card-section-8 strong {
+  .card-section-8 strong,
+  .card-section-8 p {
     display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
+    overflow: visible !important;
   }
   
   /* Certificar que nenhuma propriedade oculte as recomendações */
