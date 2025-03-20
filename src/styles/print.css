@@ -218,6 +218,85 @@
     font-weight: bold !important;
   }
   
+  /* NOVOS AJUSTES PARA GRÁFICOS DE BARRAS */
+  /* Melhorar a visualização dos gráficos de barras na impressão */
+  .recharts-bar-rectangles {
+    display: block !important;
+    height: auto !important;
+    visibility: visible !important;
+  }
+  
+  .recharts-bar-rectangle {
+    visibility: visible !important;
+    shape-rendering: crispEdges !important;
+  }
+  
+  /* Forçar cores corretas nas barras */
+  .recharts-rectangle[fill="#10B981"] {
+    fill: #10B981 !important;
+    color: #10B981 !important;
+    stroke: none !important;
+  }
+  
+  .recharts-rectangle[fill="#EF4444"] {
+    fill: #EF4444 !important; 
+    color: #EF4444 !important;
+    stroke: none !important;
+  }
+  
+  /* Garantir que o container do gráfico tenha espaço adequado */
+  .chart-container {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 300px !important;
+    margin: 10px 0 !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+  
+  /* Ajustar o tamanho do SVG do gráfico */
+  .recharts-wrapper svg {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 250px !important;
+    overflow: visible !important;
+  }
+  
+  /* Ajustes para o posicionamento das barras */
+  .recharts-layer.recharts-bar-graphical {
+    transform: translateX(-10px) !important;
+  }
+  
+  /* Assegurar visibilidade do texto nos eixos */
+  .recharts-cartesian-axis-tick-value {
+    font-size: 8pt !important;
+    fill: black !important;
+    font-weight: normal !important;
+  }
+  
+  /* Estilos para legendas dos gráficos de barras */
+  .fortalezas-label, .fragilidades-label {
+    display: inline-block !important;
+    margin-right: 15px !important;
+    font-size: 8pt !important;
+  }
+  
+  .fortalezas-color, .fragilidades-color {
+    display: inline-block !important;
+    width: 12px !important;
+    height: 12px !important;
+    margin-right: 5px !important;
+    vertical-align: middle !important;
+  }
+  
+  .fortalezas-color {
+    background-color: #10B981 !important;
+  }
+  
+  .fragilidades-color {
+    background-color: #EF4444 !important;
+  }
+  
   /* Gráficos de barra */
   .card-section-2 .recharts-wrapper,
   .card-section-3 .recharts-wrapper,
@@ -423,7 +502,7 @@
     display: none !important;
   }
   
-  /* NOVA REGRA: Esconder específicamente 'regulatory-insights-dashboard' */
+  /* Esconder específicamente 'regulatory-insights-dashboard' */
   *:contains("regulatory-insights-dashboard"),
   [title*="regulatory-insights-dashboard"],
   [alt*="regulatory-insights-dashboard"],

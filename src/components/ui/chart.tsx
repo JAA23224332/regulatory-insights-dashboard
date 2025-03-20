@@ -55,11 +55,23 @@ const ChartContainer = React.forwardRef<
           className
         )}
         {...props}
+        // Adicionado a classe chart-container para melhorar a impressão
+        className={cn(className, "chart-container")}
       >
         <ChartStyle id={chartId} config={config} />
         <RechartsPrimitive.ResponsiveContainer width="100%" height="100%">
           {children}
         </RechartsPrimitive.ResponsiveContainer>
+        
+        {/* Adicionando uma legenda explícita para impressão que será apenas visível na impressão */}
+        <div className="hidden print:block print:mt-4">
+          <div className="fortalezas-label">
+            <span className="fortalezas-color"></span> Fortalezas
+          </div>
+          <div className="fragilidades-label">
+            <span className="fragilidades-color"></span> Fragilidades
+          </div>
+        </div>
       </div>
     </ChartContext.Provider>
   )
