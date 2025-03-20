@@ -11,15 +11,19 @@ interface ExportButtonsProps {
 
 const ExportButtons = ({ className = '' }: ExportButtonsProps) => {
   const handlePrintPDF = () => {
-    // Mostrar feedback visual para o usuário apenas na tela, não no PDF final
+    // Mostrar feedback visual para o usuário apenas na tela
     const toastId = toast.loading('Preparando documento para impressão...');
     
-    // Fechar o toast antes da impressão começar
+    // Fechar o toast COMPLETAMENTE antes da impressão começar
     setTimeout(() => {
       toast.dismiss(toastId);
-      // Trigger PDF export after toast is dismissed
-      exportToPDF();
-    }, 1500);
+      
+      // Dar um pouco mais de tempo para garantir que o toast seja removido da DOM
+      setTimeout(() => {
+        // Trigger PDF export after toast is completely dismissed
+        exportToPDF();
+      }, 300);
+    }, 1200);
   };
   
   return (
@@ -37,4 +41,3 @@ const ExportButtons = ({ className = '' }: ExportButtonsProps) => {
 };
 
 export default ExportButtons;
-
