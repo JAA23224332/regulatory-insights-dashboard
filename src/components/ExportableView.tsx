@@ -1,4 +1,3 @@
-
 import React, { useRef, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
@@ -163,7 +162,7 @@ const ExportableView = () => {
           </div>
 
           {/* Página 1: Apenas Visão Geral da Regulação do SUS */}
-          <Card className="mb-10 shadow-md print:shadow-none print:border-none card-section-1">
+          <Card className="mb-10 shadow-md print:shadow-none print:border-none">
             <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 print:bg-white border-b">
               <CardTitle className="text-2xl print:text-black">1. Visão Geral da Regulação do SUS</CardTitle>
             </CardHeader>
@@ -232,9 +231,9 @@ const ExportableView = () => {
             </CardContent>
           </Card>
 
-          {/* Página 2 e seguintes: Manter as demais seções (ocultas para impressão) */}
-          <div className="print:hidden card-section-2">
-            <Card className="mb-10 shadow-md print:shadow-none print:border-none">
+          {/* Página 2 e seguintes: Manter as demais seções */}
+          <div className="print:page-break-before">
+            <Card className="mb-10 shadow-md print:shadow-none print:border-none card-section-2">
               <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 print:bg-white border-b">
                 <CardTitle className="text-2xl print:text-black">2. Comparativo por Categoria</CardTitle>
               </CardHeader>
@@ -344,9 +343,7 @@ const ExportableView = () => {
                 </div>
               </CardContent>
             </Card>
-          </div>
 
-          <div className="print:hidden">
             <Card className="mb-10 shadow-md print:shadow-none print:border-none card-section-3">
               <CardHeader className="bg-gradient-to-r from-green-50 to-green-100 print:bg-white border-b">
                 <CardTitle className="text-2xl print:text-black">3. Análise Detalhada das Fortalezas</CardTitle>
@@ -696,11 +693,5 @@ const ExportableView = () => {
                 </div>
               </CardContent>
             </Card>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default ExportableView;
+          
+            <Card className="mb-10 shadow-md print
