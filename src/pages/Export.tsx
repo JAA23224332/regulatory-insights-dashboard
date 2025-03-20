@@ -315,7 +315,13 @@ const Export = () => {
                   layout="vertical" 
                   verticalAlign="middle" 
                   align="right"
-                  wrapperStyle={{ fontSize: '14px', paddingLeft: '30px' }}
+                  wrapperStyle={{ 
+                    fontSize: '14px', 
+                    paddingLeft: '30px',
+                    right: 0,
+                    width: 'auto',
+                    position: 'absolute'
+                  }}
                 />
                 <Tooltip formatter={(value, name) => [`${value} (${dadosDistribuicaoPie.find(item => item.name === name)?.percentage}%)`, name]} />
               </PieChart>

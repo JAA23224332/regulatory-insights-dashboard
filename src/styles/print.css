@@ -1,4 +1,3 @@
-
 /* Estilos de impressão */
 @media print {
   /* Reset básico para impressão */
@@ -135,13 +134,28 @@
     text-align: center !important;
   }
   
-  /* Tamanho e posicionamento da legenda */
+  /* Tamanho e posicionamento da legenda - CORRIGIDO */
   .recharts-legend-wrapper {
     position: absolute !important;
-    right: 0 !important;
+    right: 10px !important; /* Posicionamento mais à direita */
     top: 50% !important;
     transform: translateY(-50%) !important;
     font-size: 8pt !important;
+    width: auto !important; /* Largura automática */
+    max-width: 30% !important; /* Limitar largura máxima */
+  }
+  
+  /* Forçar a legenda a ficar visível e na lateral */
+  .recharts-default-legend {
+    display: block !important;
+    text-align: left !important;
+    margin-left: 15px !important;
+  }
+  
+  /* Forçar itens da legenda a ficarem em coluna */
+  .recharts-legend-item {
+    display: block !important;
+    margin-bottom: 5px !important;
   }
   
   /* Ajustes para texto no gráfico de pizza */
