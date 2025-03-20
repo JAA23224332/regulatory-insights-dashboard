@@ -1,3 +1,4 @@
+
 // Função para exportação de PDF que usa a funcionalidade nativa de impressão
 export const exportToPDF = () => {
   try {
@@ -119,15 +120,15 @@ export const exportToPDF = () => {
         if (tabela instanceof HTMLElement) {
           tabela.style.pageBreakInside = 'avoid';
           tabela.style.breakInside = 'avoid';
-          tabela.style.marginBottom = '10px';
+          tabela.style.marginBottom = '15px';
           
           // Ajustar as barras para melhor visualização
           const barras = tabela.querySelectorAll('td div.flex div');
           barras.forEach(barra => {
             if (barra instanceof HTMLElement) {
-              barra.style.height = '8px';
-              barra.style.borderRadius = '2px';
-              barra.style.minWidth = '5px';
+              barra.style.height = '10px';
+              barra.style.borderRadius = '3px';
+              barra.style.minWidth = '8px';
             }
           });
         }
@@ -139,9 +140,9 @@ export const exportToPDF = () => {
         if (insight instanceof HTMLElement) {
           insight.style.pageBreakInside = 'avoid';
           insight.style.breakInside = 'avoid';
-          insight.style.marginTop = '10px';
-          insight.style.marginBottom = '10px';
-          insight.style.padding = '10px';
+          insight.style.marginTop = '15px';
+          insight.style.marginBottom = '15px';
+          insight.style.padding = '12px';
         }
       });
     };
@@ -175,19 +176,19 @@ export const exportToPDF = () => {
       const pieCharts = document.querySelectorAll('.recharts-pie');
       pieCharts.forEach(chart => {
         if (chart instanceof SVGElement) {
-          chart.style.transform = 'scale(0.8)';
+          chart.style.transform = 'scale(0.85)'; // Aumentado de 0.8 para 0.85
           chart.style.transformOrigin = 'center';
         }
       });
       
-      // Ajustar altura dos elementos que podem causar quebras de página ruins
+      // Otimizar altura dos elementos para preencher melhor a página
       const heightSelectors = ['.h\\[400px\\]', '.h\\[450px\\]', '.h\\[500px\\]', '.h\\[600px\\]'];
       heightSelectors.forEach(selector => {
         const elements = document.querySelectorAll(selector);
         elements.forEach(element => {
           if (element instanceof HTMLElement) {
             element.style.height = 'auto';
-            element.style.maxHeight = '250px';
+            element.style.maxHeight = '450px'; // Aumentado de 250px para 450px
           }
         });
       });
@@ -198,7 +199,7 @@ export const exportToPDF = () => {
         if (section instanceof HTMLElement) {
           section.style.pageBreakBefore = 'always';
           section.style.breakBefore = 'page';
-          section.style.paddingTop = '10px'; // Espaço no topo para evitar corte do título
+          section.style.paddingTop = '20px'; // Aumentado de 10px para 20px
         }
       });
       
@@ -209,7 +210,7 @@ export const exportToPDF = () => {
           header.style.pageBreakBefore = 'auto';
           header.style.pageBreakAfter = 'avoid';
           header.style.breakAfter = 'avoid';
-          header.style.marginTop = '10px';
+          header.style.marginTop = '15px'; // Aumentado de 10px para 15px
         }
       });
       
@@ -218,7 +219,7 @@ export const exportToPDF = () => {
       if (mainTitle instanceof HTMLElement) {
         mainTitle.style.pageBreakAfter = 'avoid';
         mainTitle.style.breakAfter = 'avoid';
-        mainTitle.style.marginTop = '10px';
+        mainTitle.style.marginTop = '20px'; // Aumentado de 10px para 20px
       }
       
       // Força o subtítulo a ficar junto com o título principal
@@ -229,6 +230,27 @@ export const exportToPDF = () => {
         subtitle.style.pageBreakAfter = 'avoid';
         subtitle.style.breakAfter = 'avoid';
       }
+      
+      // Maximizar o tamanho da área de gráficos
+      const chartContainers = document.querySelectorAll('.chart-container, .pie-chart-container');
+      chartContainers.forEach(container => {
+        if (container instanceof HTMLElement) {
+          container.style.height = 'auto';
+          container.style.maxHeight = '350px'; // Aumentado para aproveitar melhor o espaço
+          container.style.pageBreakInside = 'avoid';
+          container.style.breakInside = 'avoid';
+          container.style.marginBottom = '20px';
+        }
+      });
+      
+      // Aumentar o espaço para as barras de comparação
+      const barCharts = document.querySelectorAll('.recharts-bar-rectangle');
+      barCharts.forEach(bar => {
+        if (bar instanceof SVGElement) {
+          bar.style.transform = 'scaleY(1.1)'; // Aumentar ligeiramente a altura das barras
+          bar.style.transformOrigin = 'bottom';
+        }
+      });
       
       // Preparar tabelas de termos frequentes para melhor visualização
       prepareTermosTables();
