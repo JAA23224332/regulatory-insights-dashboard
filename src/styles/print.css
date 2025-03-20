@@ -348,10 +348,19 @@
     color: #333 !important;
   }
   
-  /* Configuração de página */
+  /* Configuração de página atualizada para garantir espaço para todas as seções */
   @page {
     size: A4 portrait;
-    margin: 2cm 2cm;
+    margin: 1.5cm 1.5cm;
+  }
+  
+  /* Regra adicional para garantir visibilidade absoluta da seção de recomendações */
+  @page recomendacoes {
+    margin: 1cm;
+  }
+  
+  #recomendacoes-section {
+    page: recomendacoes;
   }
   
   /* Estilos para listas */
@@ -386,8 +395,9 @@
   }
   
   /* ESTILOS ESPECÍFICOS PARA A SEÇÃO DE RECOMENDAÇÕES - REFORÇADOS */
-  .card-section-8,
-  .recomendacoes-section {
+  #recomendacoes-section,
+  .recomendacoes-section,
+  .card-section-8 {
     display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
@@ -395,13 +405,20 @@
     z-index: 999 !important;
     page-break-before: always !important;
     margin-top: 30px !important;
+    margin-bottom: 30px !important;
+    padding: 20px !important;
     overflow: visible !important;
     max-height: none !important;
     height: auto !important;
     transform: none !important;
     pointer-events: auto !important;
+    border: 2px solid #ddd !important;
+    background-color: #f9f9f9 !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
   }
   
+  .recomendacoes-section h2,
   .card-section-8 h2,
   .recomendacoes-title {
     font-size: 18pt !important;
@@ -415,6 +432,7 @@
     opacity: 1 !important;
   }
   
+  .recomendacoes-section ul,
   .card-section-8 ul,
   .recomendacoes-list {
     padding-left: 0 !important;
@@ -425,6 +443,7 @@
     opacity: 1 !important;
   }
   
+  .recomendacoes-section li,
   .card-section-8 li {
     margin-bottom: 20px !important;
     position: relative !important;
@@ -435,6 +454,7 @@
     opacity: 1 !important;
   }
   
+  .recomendacoes-section li:before,
   .card-section-8 li:before {
     content: "•" !important;
     position: absolute !important;
@@ -447,6 +467,7 @@
     opacity: 1 !important;
   }
   
+  .recomendacoes-section strong,
   .card-section-8 strong {
     color: #333 !important;
     font-weight: 600 !important;
@@ -455,6 +476,7 @@
     opacity: 1 !important;
   }
   
+  .recomendacoes-section p,
   .card-section-8 p {
     margin-top: 5px !important;
     display: block !important;

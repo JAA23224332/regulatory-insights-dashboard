@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { dadosReais, dadosIntensidade, termosFrequentesFortalezas, termosFrequentesFragilidades, termosCompartilhados } from '@/data/regulacaoData';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
@@ -17,8 +18,20 @@ const dadosDistribuicaoPie = [
 // Fixed inline styles using valid TypeScript values
 const recomendacoesStyle = {
   display: 'block',
-  visibility: 'visible' as const, // Type assertion to use the valid TypeScript type
-  pageBreakBefore: 'always' as const, // Type assertion to use the valid TypeScript type
+  visibility: 'visible' as const,
+  pageBreakBefore: 'always' as const,
+  margin: '30px 0',
+  padding: '20px',
+  border: '2px solid #ddd',
+  backgroundColor: '#f9f9f9',
+};
+
+// Additional style to ensure recommendations items appear
+const recomendacoesItemStyle = {
+  display: 'block',
+  visibility: 'visible' as const,
+  pageBreakInside: 'avoid' as const,
+  margin: '15px 0',
 };
 
 const Export = () => {
@@ -34,10 +47,18 @@ const Export = () => {
     // Small timeout to ensure everything renders properly before printing
     const timer = setTimeout(() => {
       exportToPDF();
-    }, 1000);
+    }, 1500); // Increased timeout to ensure full rendering
     
     return () => clearTimeout(timer);
   }, [toast]);
+
+  // Force recommendations section to be visible after component mounts
+  useEffect(() => {
+    const recomendacoesSection = document.querySelector('.recomendacoes-section');
+    if (recomendacoesSection) {
+      recomendacoesSection.setAttribute('style', 'display: block !important; visibility: visible !important; page-break-before: always !important; opacity: 1 !important;');
+    }
+  }, []);
 
   return (
     <div className="exportable-document print-layout">
@@ -408,36 +429,36 @@ const Export = () => {
       </div>
       
       {/* Seção 8: Recomendações para Melhoria da Regulação no SUS - REFORÇADA VISIBILIDADE */}
-      <div className="card card-section-8 recomendacoes-section" style={recomendacoesStyle}>
+      <div id="recomendacoes-section" className="card card-section-8 recomendacoes-section" style={recomendacoesStyle}>
         <h2 className="text-xl font-semibold mb-4 recomendacoes-title">Recomendações para Melhoria da Regulação no SUS</h2>
         
         <ul className="space-y-4 recomendacoes-list">
-          <li>
+          <li style={recomendacoesItemStyle}>
             <strong>Sistemas de informação e tecnologia:</strong> 
             <p>Investir em tecnologias mais integradas e interoperáveis, modernizando sistemas existentes como o SISREG. Expandir o uso de telemedicina e telessaúde para ampliar o acesso nas regiões remotas.</p>
           </li>
           
-          <li>
+          <li style={recomendacoesItemStyle}>
             <strong>Protocolos e processos:</strong> 
             <p>Padronizar nacionalmente protocolos de regulação e classificação de risco, construindo diretrizes que possam ser adaptadas às realidades locais.</p>
           </li>
           
-          <li>
+          <li style={recomendacoesItemStyle}>
             <strong>Recursos humanos:</strong> 
             <p>Desenvolver programas de capacitação continuada e estabelecer carreiras específicas para profissionais de regulação, principalmente médicos reguladores.</p>
           </li>
           
-          <li>
+          <li style={recomendacoesItemStyle}>
             <strong>Integração entre níveis de atenção:</strong> 
             <p>Fortalecer a comunicação entre a atenção primária e especializada, usando sistemas como referência e contrarreferência eletrônicas.</p>
           </li>
           
-          <li>
+          <li style={recomendacoesItemStyle}>
             <strong>Regionalização:</strong> 
             <p>Fortalecer os processos de regionalização, garantindo que os municípios-polo cumpram seu papel assistencial conforme planejado nos PDRs.</p>
           </li>
           
-          <li>
+          <li style={recomendacoesItemStyle}>
             <strong>Política integrada:</strong> 
             <p>Desenvolver uma política nacional de regulação integrada, com diretrizes claras e incentivos para implementação em todos os níveis.</p>
           </li>
