@@ -14,6 +14,13 @@ const dadosDistribuicaoPie = [
   { name: 'Fragilidades', value: 63, percentage: 58 },
 ];
 
+// Fixed inline styles using valid TypeScript values
+const recomendacoesStyle = {
+  display: 'block',
+  visibility: 'visible' as const, // Type assertion to use the valid TypeScript type
+  pageBreakBefore: 'always' as const, // Type assertion to use the valid TypeScript type
+};
+
 const Export = () => {
   const { toast } = useToast();
 
@@ -401,7 +408,7 @@ const Export = () => {
       </div>
       
       {/* Seção 8: Recomendações para Melhoria da Regulação no SUS - REFORÇADA VISIBILIDADE */}
-      <div className="card card-section-8 recomendacoes-section" style={{display: 'block !important', visibility: 'visible !important', pageBreakBefore: 'always !important'}}>
+      <div className="card card-section-8 recomendacoes-section" style={recomendacoesStyle}>
         <h2 className="text-xl font-semibold mb-4 recomendacoes-title">Recomendações para Melhoria da Regulação no SUS</h2>
         
         <ul className="space-y-4 recomendacoes-list">
@@ -447,4 +454,3 @@ const Export = () => {
 };
 
 export default Export;
-
