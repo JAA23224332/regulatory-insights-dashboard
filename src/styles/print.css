@@ -1,3 +1,4 @@
+
 /* Estilos de impressão */
 @media print {
   /* Reset básico para impressão */
@@ -813,4 +814,44 @@
     align-items: flex-start !important;
   }
   
-  /* Diminuir marg
+  /* Diminuir margens dos bullets nos insights */
+  .bg-gray-50 li .inline-block {
+    margin-top: 3px !important;
+    margin-right: 5px !important;
+    flex-shrink: 0 !important;
+  }
+  
+  .bg-gray-50 li span {
+    display: block !important;
+    width: 95% !important;
+  }
+  
+  /* Melhorar visualização de imagens e gráficos */
+  img, svg {
+    max-width: 100% !important;
+    height: auto !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+  
+  /* Maximizar o tamanho da área útil de visualização */
+  .visualization-container {
+    width: 100% !important;
+    max-width: 700px !important;
+    margin: 0 auto !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+  
+  /* Garantir que textos longos não sejam cortados */
+  p, li, td, th {
+    orphans: 2 !important;
+    widows: 2 !important;
+    word-wrap: break-word !important;
+  }
+  
+  /* Aumentar a visibilidade do texto em geral */
+  body {
+    text-rendering: optimizeLegibility !important;
+  }
+}
