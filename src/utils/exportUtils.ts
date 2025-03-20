@@ -238,8 +238,7 @@ export const exportToPDF = () => {
     });
     
     // Certifique-se de que os gráficos e tabelas não se sobreponham
-    // Corrigindo o seletor que causava o erro
-    const chartContainers = document.querySelectorAll('.h-\\[400px\\], .h-\\[450px\\], .h-\\[500px\\], .h-\\[600px\\]');
+    const chartContainers = document.querySelectorAll('.h-[400px], .h-[450px], .h-[500px], .h-[600px]');
     chartContainers.forEach(container => {
       if (container instanceof HTMLElement) {
         container.style.height = '150px';

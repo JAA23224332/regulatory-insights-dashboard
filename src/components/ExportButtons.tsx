@@ -21,18 +21,8 @@ const ExportButtons = ({ className = '' }: ExportButtonsProps) => {
     
     // Pequeno delay para dar tempo da toast notification aparecer antes da janela de impressão
     setTimeout(() => {
-      try {
-        exportToPDF();
-      } catch (error) {
-        console.error("Erro ao exportar para PDF:", error);
-        toast({
-          title: "Erro na impressão",
-          description: "Houve um problema ao preparar o documento. Por favor, tente novamente.",
-          variant: "destructive",
-          duration: 5000,
-        });
-      }
-    }, 500);
+      exportToPDF();
+    }, 300);
   };
   
   return (
