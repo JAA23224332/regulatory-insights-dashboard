@@ -6,7 +6,8 @@ import {
   dadosIntensidade, 
   termosFrequentesFortalezas, 
   termosFrequentesFragilidades, 
-  termosCompartilhados 
+  termosCompartilhados,
+  estatisticasGerais
 } from '@/data/regulacaoData';
 
 // Function to create and download PPTX file using xlsx
@@ -162,93 +163,96 @@ export const exportToPowerPoint = () => {
   saveAs(blob, 'Analise_Regulacao_SUS.xlsx');
 };
 
-// Function to trigger PDF export with better styling
+// Função completamente reescrita para garantir que as recomendações sejam exibidas
 export const exportToPDF = () => {
-  // Aggressively force all recommendation elements to be visible
+  // Função para forçar a visibilidade de todas as seções de recomendações
   const forceRecomendacoesVisibility = () => {
-    const recomendacoesSection = document.getElementById('recomendacoes-section');
+    console.log("Forçando visibilidade das recomendações...");
+    
+    // 1. Captura todos os possíveis elementos de recomendações
+    const recomendacoesSectionId = document.getElementById('recomendacoes-section');
     const allRecomendacoesSections = document.querySelectorAll('.recomendacoes-section, .card-section-8');
     
-    if (recomendacoesSection || allRecomendacoesSections.length > 0) {
-      // Force the specific section with ID
-      if (recomendacoesSection) {
-        const style = recomendacoesSection.style;
-        style.setProperty('display', 'block', 'important');
-        style.setProperty('visibility', 'visible', 'important');
-        style.setProperty('opacity', '1', 'important');
-        style.setProperty('page-break-before', 'always', 'important');
-        style.setProperty('break-before', 'page', 'important');
-        style.setProperty('position', 'relative', 'important');
-        style.setProperty('z-index', '9999', 'important');
+    if (recomendacoesSectionId || allRecomendacoesSections.length > 0) {
+      // 2. Força a seção específica com ID
+      if (recomendacoesSectionId) {
+        const style = recomendacoesSectionId.style;
+        style.display = 'block';
+        style.visibility = 'visible';
+        style.opacity = '1';
+        style.pageBreakBefore = 'always';
+        style.breakBefore = 'page';
+        style.position = 'relative';
+        style.zIndex = '9999';
         
-        // Make sure all children are visible too
-        const children = recomendacoesSection.querySelectorAll('*');
+        // Certifica-se de que todos os filhos estejam visíveis também
+        const children = recomendacoesSectionId.querySelectorAll('*');
         children.forEach(child => {
           const elem = child as HTMLElement;
-          elem.style.setProperty('display', child.tagName.toLowerCase() === 'strong' ? 'inline' : 'block', 'important');
-          elem.style.setProperty('visibility', 'visible', 'important');
-          elem.style.setProperty('opacity', '1', 'important');
+          elem.style.display = child.tagName.toLowerCase() === 'strong' ? 'inline' : 'block';
+          elem.style.visibility = 'visible';
+          elem.style.opacity = '1';
         });
       }
       
-      // Force all sections with class
+      // 3. Força todas as seções com classes
       allRecomendacoesSections.forEach(section => {
         const sectionElem = section as HTMLElement;
-        sectionElem.style.setProperty('display', 'block', 'important');
-        sectionElem.style.setProperty('visibility', 'visible', 'important');
-        sectionElem.style.setProperty('opacity', '1', 'important');
-        sectionElem.style.setProperty('page-break-before', 'always', 'important');
-        sectionElem.style.setProperty('break-before', 'page', 'important');
-        sectionElem.style.setProperty('position', 'relative', 'important');
-        sectionElem.style.setProperty('z-index', '9999', 'important');
+        sectionElem.style.display = 'block';
+        sectionElem.style.visibility = 'visible';
+        sectionElem.style.opacity = '1';
+        sectionElem.style.pageBreakBefore = 'always';
+        sectionElem.style.breakBefore = 'page';
+        sectionElem.style.position = 'relative';
+        sectionElem.style.zIndex = '9999';
         
-        // Make sure all children are visible too
+        // Certifica-se de que todos os filhos estejam visíveis também
         const children = sectionElem.querySelectorAll('*');
         children.forEach(child => {
           const elem = child as HTMLElement;
-          elem.style.setProperty('display', child.tagName.toLowerCase() === 'strong' ? 'inline' : 'block', 'important');
-          elem.style.setProperty('visibility', 'visible', 'important');
-          elem.style.setProperty('opacity', '1', 'important');
+          elem.style.display = child.tagName.toLowerCase() === 'strong' ? 'inline' : 'block';
+          elem.style.visibility = 'visible';
+          elem.style.opacity = '1';
         });
       });
       
-      console.log("Forced visibility for recommendations section completed");
+      console.log("Visibilidade forçada para seção de recomendações concluída");
       return true;
     }
     
-    console.warn("Recommendations section not found in DOM!");
+    console.warn("Seção de recomendações não encontrada no DOM!");
     return false;
   };
   
-  // Set a flag to indicate we're printing
+  // 4. Adiciona classe para indicar impressão
   document.body.classList.add('printing-pdf');
   
-  // Add meta viewport tag with specific settings for print
+  // 5. Adiciona meta tag viewport com configurações específicas para impressão
   const viewportMeta = document.createElement('meta');
   viewportMeta.setAttribute('name', 'viewport');
   viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0');
   document.head.appendChild(viewportMeta);
   
-  // Force visibility for recommendations section
+  // 6. Forçar a visibilidade para seção de recomendações
   forceRecomendacoesVisibility();
   
-  // Force a longer delay to ensure styles are applied
+  // 7. Usa setTimeout maior para garantir que os estilos sejam aplicados
   setTimeout(() => {
-    // Double-check visibility before printing
+    // 8. Verifica a visibilidade novamente antes de imprimir
     forceRecomendacoesVisibility();
     
-    // Use requestAnimationFrame to ensure DOM is updated
+    // 9. Usa requestAnimationFrame para garantir que o DOM esteja atualizado
     window.requestAnimationFrame(() => {
       window.requestAnimationFrame(() => {
-        console.log("Triggering print dialog");
+        console.log("Abrindo diálogo de impressão");
         window.print();
         
-        // Clean up after printing
+        // 10. Limpa após a impressão
         setTimeout(() => {
           document.body.classList.remove('printing-pdf');
           document.head.removeChild(viewportMeta);
         }, 1000);
       });
     });
-  }, 2000);
+  }, 3000); // Tempo aumentado para 3 segundos
 };

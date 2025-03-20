@@ -63,7 +63,7 @@ export const termosCompartilhados = [
   { termo: 'especialidades', freqFortalezas: 4, freqFragilidades: 6, diferenca: -2 },
 ];
 
-// Estatísticas gerais
+// Estatísticas gerais - Assegurando consistência com os percentuais mostrados no gráfico
 export const estatisticasGerais = {
   totalEstados: 12,
   totalFortalezas: 45,
@@ -72,3 +72,9 @@ export const estatisticasGerais = {
   temasMaisFragilidades: 52, // %
   temasEquilibrados: 10, // %
 };
+
+// Dados específicos para o gráfico de pizza com os percentuais corretos
+export const dadosDistribuicaoPie = [
+  { name: 'Fortalezas', value: 45, percentage: 42 },
+  { name: 'Fragilidades', value: 63, percentage: 58 },
+];

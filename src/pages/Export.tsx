@@ -1,66 +1,89 @@
 
 import React, { useEffect, useRef } from 'react';
-import { dadosReais, dadosIntensidade, termosFrequentesFortalezas, termosFrequentesFragilidades, termosCompartilhados } from '@/data/regulacaoData';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { dadosReais, dadosIntensidade, termosFrequentesFortalezas, termosFrequentesFragilidades, termosCompartilhados, dadosDistribuicaoPie, estatisticasGerais } from '@/data/regulacaoData';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 import { useToast } from "@/components/ui/use-toast";
 import { exportToPDF } from '@/utils/exportUtils';
 
 // Cores para os gráficos
 const COLORS_FORTALEZAS = ['#4CAF50']; // Verde
 const COLORS_FRAGILIDADES = ['#F44336']; // Vermelho
-
-// Dados para o gráfico de pizza de distribuição
-const dadosDistribuicaoPie = [
-  { name: 'Fortalezas', value: 45, percentage: 42 },
-  { name: 'Fragilidades', value: 63, percentage: 58 },
-];
+const COLORS_PIE = ['#4CAF50', '#F44336']; // Verde e Vermelho
 
 const Export = () => {
   const { toast } = useToast();
   const recomendacoesRef = useRef<HTMLDivElement>(null);
   
-  // Garantir que a seção de recomendações esteja visível
+  // Garantir que a seção de recomendações esteja visível após a montagem do componente
   useEffect(() => {
     if (recomendacoesRef.current) {
       const style = recomendacoesRef.current.style;
-      style.setProperty('display', 'block', 'important');
-      style.setProperty('visibility', 'visible', 'important');
-      style.setProperty('opacity', '1', 'important');
-      style.setProperty('page-break-before', 'always', 'important');
-      style.setProperty('break-before', 'page', 'important');
-      style.setProperty('border', '2px solid #000', 'important');
-      style.setProperty('background-color', '#f9f9f9', 'important');
-      style.setProperty('padding', '20px', 'important');
-      style.setProperty('margin-top', '30px', 'important');
-      style.setProperty('margin-bottom', '30px', 'important');
-      style.setProperty('z-index', '9999', 'important');
+      style.display = 'block';
+      style.visibility = 'visible';
+      style.opacity = '1';
+      style.pageBreakBefore = 'always';
+      style.breakBefore = 'page';
+      style.border = '2px solid #000';
+      style.backgroundColor = '#f9f9f9';
+      style.padding = '20px';
+      style.marginTop = '30px';
+      style.marginBottom = '30px';
+      style.zIndex = '9999';
+      style.position = 'relative';
 
       // Força visibilidade para todos os elementos filhos
       const children = recomendacoesRef.current.querySelectorAll('*');
       children.forEach(child => {
         const childElement = child as HTMLElement;
-        childElement.style.setProperty('display', child.tagName.toLowerCase() === 'strong' ? 'inline' : 'block', 'important');
-        childElement.style.setProperty('visibility', 'visible', 'important');
-        childElement.style.setProperty('opacity', '1', 'important');
+        childElement.style.display = child.tagName.toLowerCase() === 'strong' ? 'inline' : 'block';
+        childElement.style.visibility = 'visible';
+        childElement.style.opacity = '1';
       });
     }
   }, []);
 
-  // Trigger print dialog with delay to ensure everything renders
+  // Atualizar o DOM para garantir que todos os elementos sejam renderizados corretamente
+  useEffect(() => {
+    const forceRender = () => {
+      // Força a renderização de todos os elementos importantes
+      const allSections = document.querySelectorAll('.card');
+      allSections.forEach(section => {
+        const sectionElem = section as HTMLElement;
+        sectionElem.style.display = 'block';
+        sectionElem.style.visibility = 'visible';
+        sectionElem.style.opacity = '1';
+      });
+
+      // Força especificamente a seção de recomendações
+      if (recomendacoesRef.current) {
+        recomendacoesRef.current.style.display = 'block';
+        recomendacoesRef.current.style.visibility = 'visible';
+        recomendacoesRef.current.style.opacity = '1';
+      }
+    };
+
+    // Executar a primeira vez
+    forceRender();
+
+    // Executar novamente após um pequeno atraso
+    const timer = setTimeout(forceRender, 500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Trigger print dialog com atraso para garantir que tudo seja renderizado
   useEffect(() => {
     toast({
       title: "Preparando documento para impressão",
       description: "O diálogo de impressão abrirá automaticamente em alguns segundos",
     });
     
-    // Increased timeout to ensure full rendering before printing
+    // Tempo aumentado para garantir renderização completa antes da impressão
     const timer = setTimeout(() => {
+      // Força novamente a visibilidade antes de imprimir
       if (recomendacoesRef.current) {
-        // Verifica novamente a visibilidade antes de imprimir
-        const style = recomendacoesRef.current.style;
-        style.setProperty('display', 'block', 'important');
-        style.setProperty('visibility', 'visible', 'important');
-        style.setProperty('opacity', '1', 'important');
+        recomendacoesRef.current.style.display = 'block';
+        recomendacoesRef.current.style.visibility = 'visible';
+        recomendacoesRef.current.style.opacity = '1';
       }
       
       // Força atualização do DOM antes de imprimir
@@ -69,10 +92,178 @@ const Export = () => {
           exportToPDF();
         });
       });
-    }, 2500); // Tempo aumentado para garantir renderização completa
+    }, 2500);
     
     return () => clearTimeout(timer);
   }, [toast]);
+
+  // Renderiza o componente de recomendações de forma independente
+  const renderRecomendacoes = () => {
+    return (
+      <div 
+        id="recomendacoes-section" 
+        ref={recomendacoesRef}
+        className="card card-section-8 recomendacoes-section"
+        style={{
+          display: 'block',
+          visibility: 'visible',
+          pageBreakBefore: 'always',
+          breakBefore: 'page',
+          border: '2px solid #000',
+          backgroundColor: '#f9f9f9',
+          padding: '20px',
+          marginTop: '30px',
+          marginBottom: '30px',
+          zIndex: 9999,
+          position: 'relative',
+          opacity: 1
+        }}
+      >
+        <h2 
+          className="text-xl font-semibold mb-4 recomendacoes-title"
+          style={{
+            display: 'block',
+            visibility: 'visible',
+            opacity: 1,
+            fontSize: '18pt',
+            fontWeight: 700,
+            marginBottom: '25px',
+            borderBottom: '2px solid #000',
+            paddingBottom: '10px',
+            color: '#000'
+          }}
+        >
+          Recomendações para Melhoria da Regulação no SUS
+        </h2>
+        
+        <ul 
+          className="space-y-4 recomendacoes-list"
+          style={{
+            display: 'block',
+            visibility: 'visible',
+            opacity: 1,
+            listStyleType: 'disc',
+            paddingLeft: '20px',
+            margin: '20px 0'
+          }}
+        >
+          <li 
+            className="recomendacao-item"
+            style={{
+              display: 'block',
+              visibility: 'visible',
+              opacity: 1,
+              marginBottom: '20px',
+              pageBreakInside: 'avoid',
+              breakInside: 'avoid'
+            }}
+          >
+            <strong style={{display: 'inline', visibility: 'visible', opacity: 1, fontWeight: 700, color: '#000'}}>
+              Sistemas de informação e tecnologia:
+            </strong> 
+            <p style={{display: 'block', visibility: 'visible', opacity: 1, marginTop: '5px'}}>
+              Investir em tecnologias mais integradas e interoperáveis, modernizando sistemas existentes como o SISREG. Expandir o uso de telemedicina e telessaúde para ampliar o acesso nas regiões remotas.
+            </p>
+          </li>
+          
+          <li 
+            className="recomendacao-item"
+            style={{
+              display: 'block',
+              visibility: 'visible',
+              opacity: 1,
+              marginBottom: '20px',
+              pageBreakInside: 'avoid',
+              breakInside: 'avoid'
+            }}
+          >
+            <strong style={{display: 'inline', visibility: 'visible', opacity: 1, fontWeight: 700, color: '#000'}}>
+              Protocolos e processos:
+            </strong> 
+            <p style={{display: 'block', visibility: 'visible', opacity: 1, marginTop: '5px'}}>
+              Padronizar nacionalmente protocolos de regulação e classificação de risco, construindo diretrizes que possam ser adaptadas às realidades locais.
+            </p>
+          </li>
+          
+          <li 
+            className="recomendacao-item"
+            style={{
+              display: 'block',
+              visibility: 'visible',
+              opacity: 1,
+              marginBottom: '20px',
+              pageBreakInside: 'avoid',
+              breakInside: 'avoid'
+            }}
+          >
+            <strong style={{display: 'inline', visibility: 'visible', opacity: 1, fontWeight: 700, color: '#000'}}>
+              Recursos humanos:
+            </strong> 
+            <p style={{display: 'block', visibility: 'visible', opacity: 1, marginTop: '5px'}}>
+              Desenvolver programas de capacitação continuada e estabelecer carreiras específicas para profissionais de regulação, principalmente médicos reguladores.
+            </p>
+          </li>
+          
+          <li 
+            className="recomendacao-item"
+            style={{
+              display: 'block',
+              visibility: 'visible',
+              opacity: 1,
+              marginBottom: '20px',
+              pageBreakInside: 'avoid',
+              breakInside: 'avoid'
+            }}
+          >
+            <strong style={{display: 'inline', visibility: 'visible', opacity: 1, fontWeight: 700, color: '#000'}}>
+              Integração entre níveis de atenção:
+            </strong> 
+            <p style={{display: 'block', visibility: 'visible', opacity: 1, marginTop: '5px'}}>
+              Fortalecer a comunicação entre a atenção primária e especializada, usando sistemas como referência e contrarreferência eletrônicas.
+            </p>
+          </li>
+          
+          <li 
+            className="recomendacao-item"
+            style={{
+              display: 'block',
+              visibility: 'visible',
+              opacity: 1,
+              marginBottom: '20px',
+              pageBreakInside: 'avoid',
+              breakInside: 'avoid'
+            }}
+          >
+            <strong style={{display: 'inline', visibility: 'visible', opacity: 1, fontWeight: 700, color: '#000'}}>
+              Regionalização:
+            </strong> 
+            <p style={{display: 'block', visibility: 'visible', opacity: 1, marginTop: '5px'}}>
+              Fortalecer os processos de regionalização, garantindo que os municípios-polo cumpram seu papel assistencial conforme planejado nos PDRs.
+            </p>
+          </li>
+          
+          <li 
+            className="recomendacao-item"
+            style={{
+              display: 'block',
+              visibility: 'visible',
+              opacity: 1,
+              marginBottom: '20px',
+              pageBreakInside: 'avoid',
+              breakInside: 'avoid'
+            }}
+          >
+            <strong style={{display: 'inline', visibility: 'visible', opacity: 1, fontWeight: 700, color: '#000'}}>
+              Política integrada:
+            </strong> 
+            <p style={{display: 'block', visibility: 'visible', opacity: 1, marginTop: '5px'}}>
+              Desenvolver uma política nacional de regulação integrada, com diretrizes claras e incentivos para implementação em todos os níveis.
+            </p>
+          </li>
+        </ul>
+      </div>
+    );
+  };
 
   return (
     <div className="exportable-document print-layout">
@@ -113,27 +304,41 @@ const Export = () => {
                 innerRadius={0}
                 fill="#8884d8"
                 dataKey="value"
-                label={false}
+                nameKey="name"
+                label={({name, percent}) => `${name}: ${(percent * 100).toFixed(0)}%`}
               >
                 {dadosDistribuicaoPie.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={index === 0 ? '#4CAF50' : '#F44336'} />
+                  <Cell key={`cell-${index}`} fill={COLORS_PIE[index % COLORS_PIE.length]} />
                 ))}
               </Pie>
+              <Legend />
+              <Tooltip formatter={(value, name) => [value, name]} />
             </PieChart>
           </ResponsiveContainer>
           
-          {/* Legendas abaixo do gráfico */}
-          <div className="fortalezas-percent">Fortalezas: 42%</div>
-          <div className="fragilidades-percent">Fragilidades: 58%</div>
+          {/* Legendas abaixo do gráfico com percentuais corrigidos */}
+          <div className="flex justify-center space-x-8 mt-2">
+            <div className="text-green-600 font-medium">Fortalezas: {dadosDistribuicaoPie[0].percentage}%</div>
+            <div className="text-red-600 font-medium">Fragilidades: {dadosDistribuicaoPie[1].percentage}%</div>
+          </div>
         </div>
         
-        {/* Área de principais constatações */}
-        <div className="principais-constatacoes">
-          <h3>Principais constatações:</h3>
-          <ul>
-            <li className="constatacao-red">52% dos temas aparecem com maior frequência como fragilidades</li>
-            <li className="constatacao-green">38% dos temas aparecem com maior frequência como fortalezas</li>
-            <li>10% dos temas apresentam equilíbrio entre fortalezas e fragilidades</li>
+        {/* Área de principais constatações com percentuais corrigidos */}
+        <div className="principais-constatacoes border-t pt-4 mt-4">
+          <h3 className="font-semibold text-lg mb-3">Principais constatações:</h3>
+          <ul className="space-y-2">
+            <li className="flex items-start">
+              <span className="text-red-600 font-bold mr-2">•</span>
+              <span>{estatisticasGerais.temasMaisFragilidades}% dos temas aparecem com maior frequência como fragilidades</span>
+            </li>
+            <li className="flex items-start">
+              <span className="text-green-600 font-bold mr-2">•</span>
+              <span>{estatisticasGerais.temasMaisFortalezas}% dos temas aparecem com maior frequência como fortalezas</span>
+            </li>
+            <li className="flex items-start">
+              <span className="text-gray-600 font-bold mr-2">•</span>
+              <span>{estatisticasGerais.temasEquilibrados}% dos temas apresentam equilíbrio entre fortalezas e fragilidades</span>
+            </li>
           </ul>
         </div>
       </div>
@@ -189,6 +394,8 @@ const Export = () => {
                 fontSize={12}
                 tickLine={false}
               />
+              <Tooltip />
+              <Legend />
               <Bar 
                 dataKey="fortalezas" 
                 name="Fortalezas" 
@@ -442,174 +649,18 @@ const Export = () => {
         </table>
       </div>
       
-      {/* Seção 8: Recomendações - COMPLETAMENTE REESCRITA E REFORÇADA */}
-      <div 
-        id="recomendacoes-section" 
-        ref={recomendacoesRef}
-        className="card card-section-8 recomendacoes-section"
-        style={{
-          display: 'block',
-          visibility: 'visible',
-          pageBreakBefore: 'always',
-          breakBefore: 'page',
-          border: '2px solid #000',
-          backgroundColor: '#f9f9f9',
-          padding: '20px',
-          marginTop: '30px',
-          marginBottom: '30px',
-          zIndex: 9999,
-          position: 'relative',
-          opacity: 1
-        }}
-      >
-        <h2 
-          className="text-xl font-semibold mb-4 recomendacoes-title"
-          style={{
-            display: 'block',
-            visibility: 'visible',
-            opacity: 1,
-            fontSize: '18pt',
-            fontWeight: 700,
-            marginBottom: '25px',
-            borderBottom: '2px solid #000',
-            paddingBottom: '10px',
-            color: '#000'
-          }}
-        >
-          Recomendações para Melhoria da Regulação no SUS
-        </h2>
-        
-        <ul 
-          className="space-y-4 recomendacoes-list"
-          style={{
-            display: 'block',
-            visibility: 'visible',
-            opacity: 1,
-            listStyleType: 'disc',
-            paddingLeft: '20px',
-            margin: '20px 0'
-          }}
-        >
-          <li 
-            className="recomendacao-item"
-            style={{
-              display: 'block',
-              visibility: 'visible',
-              opacity: 1,
-              marginBottom: '20px',
-              pageBreakInside: 'avoid',
-              breakInside: 'avoid'
-            }}
-          >
-            <strong style={{display: 'inline', visibility: 'visible', opacity: 1, fontWeight: 700, color: '#000'}}>
-              Sistemas de informação e tecnologia:
-            </strong> 
-            <p style={{display: 'block', visibility: 'visible', opacity: 1, marginTop: '5px'}}>
-              Investir em tecnologias mais integradas e interoperáveis, modernizando sistemas existentes como o SISREG. Expandir o uso de telemedicina e telessaúde para ampliar o acesso nas regiões remotas.
-            </p>
-          </li>
-          
-          <li 
-            className="recomendacao-item"
-            style={{
-              display: 'block',
-              visibility: 'visible',
-              opacity: 1,
-              marginBottom: '20px',
-              pageBreakInside: 'avoid',
-              breakInside: 'avoid'
-            }}
-          >
-            <strong style={{display: 'inline', visibility: 'visible', opacity: 1, fontWeight: 700, color: '#000'}}>
-              Protocolos e processos:
-            </strong> 
-            <p style={{display: 'block', visibility: 'visible', opacity: 1, marginTop: '5px'}}>
-              Padronizar nacionalmente protocolos de regulação e classificação de risco, construindo diretrizes que possam ser adaptadas às realidades locais.
-            </p>
-          </li>
-          
-          <li 
-            className="recomendacao-item"
-            style={{
-              display: 'block',
-              visibility: 'visible',
-              opacity: 1,
-              marginBottom: '20px',
-              pageBreakInside: 'avoid',
-              breakInside: 'avoid'
-            }}
-          >
-            <strong style={{display: 'inline', visibility: 'visible', opacity: 1, fontWeight: 700, color: '#000'}}>
-              Recursos humanos:
-            </strong> 
-            <p style={{display: 'block', visibility: 'visible', opacity: 1, marginTop: '5px'}}>
-              Desenvolver programas de capacitação continuada e estabelecer carreiras específicas para profissionais de regulação, principalmente médicos reguladores.
-            </p>
-          </li>
-          
-          <li 
-            className="recomendacao-item"
-            style={{
-              display: 'block',
-              visibility: 'visible',
-              opacity: 1,
-              marginBottom: '20px',
-              pageBreakInside: 'avoid',
-              breakInside: 'avoid'
-            }}
-          >
-            <strong style={{display: 'inline', visibility: 'visible', opacity: 1, fontWeight: 700, color: '#000'}}>
-              Integração entre níveis de atenção:
-            </strong> 
-            <p style={{display: 'block', visibility: 'visible', opacity: 1, marginTop: '5px'}}>
-              Fortalecer a comunicação entre a atenção primária e especializada, usando sistemas como referência e contrarreferência eletrônicas.
-            </p>
-          </li>
-          
-          <li 
-            className="recomendacao-item"
-            style={{
-              display: 'block',
-              visibility: 'visible',
-              opacity: 1,
-              marginBottom: '20px',
-              pageBreakInside: 'avoid',
-              breakInside: 'avoid'
-            }}
-          >
-            <strong style={{display: 'inline', visibility: 'visible', opacity: 1, fontWeight: 700, color: '#000'}}>
-              Regionalização:
-            </strong> 
-            <p style={{display: 'block', visibility: 'visible', opacity: 1, marginTop: '5px'}}>
-              Fortalecer os processos de regionalização, garantindo que os municípios-polo cumpram seu papel assistencial conforme planejado nos PDRs.
-            </p>
-          </li>
-          
-          <li 
-            className="recomendacao-item"
-            style={{
-              display: 'block',
-              visibility: 'visible',
-              opacity: 1,
-              marginBottom: '20px',
-              pageBreakInside: 'avoid',
-              breakInside: 'avoid'
-            }}
-          >
-            <strong style={{display: 'inline', visibility: 'visible', opacity: 1, fontWeight: 700, color: '#000'}}>
-              Política integrada:
-            </strong> 
-            <p style={{display: 'block', visibility: 'visible', opacity: 1, marginTop: '5px'}}>
-              Desenvolver uma política nacional de regulação integrada, com diretrizes claras e incentivos para implementação em todos os níveis.
-            </p>
-          </li>
-        </ul>
-      </div>
+      {/* Seção 8: Recomendações - Renderizada como componente separado */}
+      {renderRecomendacoes()}
       
       {/* Rodapé com informações sobre o documento */}
       <div className="mt-8 text-sm text-center text-gray-500">
         <p>Documento gerado com base na análise de respostas de 12 Secretarias Estaduais de Saúde.</p>
         <p>Data da geração: {new Date().toLocaleDateString()}</p>
+      </div>
+      
+      {/* Elemento oculto que serve como duplicata da seção de recomendações, forçando sua impressão */}
+      <div className="hidden-for-pdf-only" style={{ position: 'absolute', bottom: 0, left: 0, opacity: 0, pointerEvents: 'none' }}>
+        {renderRecomendacoes()}
       </div>
     </div>
   );
