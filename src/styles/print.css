@@ -1,8 +1,9 @@
+
 /* Estilos de impressão */
 @media print {
   /* Reset básico para impressão */
   body, html {
-    font-size: 10pt !important;
+    font-size: 12pt !important;
     background-color: white !important;
     color: black !important;
     margin: 0 !important;
@@ -77,11 +78,11 @@
   
   /* Estilos para títulos - OTIMIZADO PARA CADA PÁGINA */
   .print-title {
-    font-size: 20pt !important;
+    font-size: 24pt !important;
     font-weight: 700 !important;
     text-align: center !important;
-    margin-top: 20px !important;
-    margin-bottom: 5px !important;
+    margin-top: 30px !important;
+    margin-bottom: 8px !important;
     page-break-before: auto !important;
     page-break-after: avoid !important;
     break-before: auto !important;
@@ -92,9 +93,9 @@
   }
   
   .print-subtitle {
-    font-size: 10pt !important;
+    font-size: 14pt !important;
     text-align: center !important;
-    margin-bottom: 15px !important;
+    margin-bottom: 20px !important;
     color: #555 !important;
     page-break-before: avoid !important;
     page-break-after: avoid !important;
@@ -104,12 +105,12 @@
   
   /* Estilos para seções - AUMENTADO */
   .section-title, .card h2, .comparativo-titulo, h2.text-xl {
-    font-size: 16pt !important;
+    font-size: 18pt !important;
     font-weight: 600 !important;
-    margin-top: 20px !important;
+    margin-top: 25px !important;
     margin-bottom: 15px !important;
     border-bottom: 1px solid #ddd !important;
-    padding-bottom: 5px !important;
+    padding-bottom: 8px !important;
     color: #333 !important;
     page-break-before: auto !important;
     page-break-after: avoid !important;
@@ -124,7 +125,7 @@
   .card-section-6, .card-section-7, .card-section-8, .card-section-9 {
     page-break-before: always !important;
     break-before: page !important;
-    padding-top: 20px !important;
+    padding-top: 30px !important;
     position: relative !important;
     z-index: 1 !important;
     height: auto !important;
@@ -141,8 +142,8 @@
   .card {
     page-break-inside: avoid !important;
     break-inside: avoid !important;
-    margin-bottom: 20px !important;
-    padding: 8px !important;
+    margin-bottom: 25px !important;
+    padding: 12px !important;
     border: none !important;
     background-color: white !important;
     box-shadow: none !important;
@@ -163,8 +164,8 @@
   .card-section-1 .rounded-lg {
     width: 30% !important;
     text-align: center !important;
-    margin-bottom: 5px !important;
-    padding: 5px !important;
+    margin-bottom: 10px !important;
+    padding: 8px !important;
     border-radius: 0 !important;
   }
   
@@ -186,15 +187,15 @@
   
   /* Textos nos cards estatísticos */
   .card-section-1 .text-lg {
-    font-size: 16pt !important;
+    font-size: 18pt !important;
     font-weight: bold !important;
-    margin-bottom: 2px !important;
+    margin-bottom: 5px !important;
     text-align: center !important;
     display: block !important;
   }
   
   .card-section-1 .text-sm {
-    font-size: 8pt !important;
+    font-size: 12pt !important;
     text-align: center !important;
     display: block !important;
   }
@@ -208,9 +209,9 @@
   .recharts-wrapper {
     margin: 0 auto !important;
     height: auto !important;
-    max-height: 320px !important; /* AUMENTADO de 200px para 320px */
+    max-height: 350px !important;
     width: 100% !important;
-    max-width: 650px !important; /* AUMENTADO para ocupar mais espaço */
+    max-width: 680px !important;
     display: block !important;
     text-align: center !important;
     overflow: visible !important;
@@ -221,9 +222,9 @@
     display: block !important;
     margin: 0 auto !important;
     height: auto !important;
-    max-height: 320px !important; /* AUMENTADO de 200px para 320px */
+    max-height: 350px !important;
     width: 100% !important;
-    max-width: 650px !important;
+    max-width: 680px !important;
   }
   
   /* Corrigir a sobreposição no gráfico de pizza - AJUSTADO */
@@ -245,9 +246,9 @@
   /* Tamanho e posicionamento da legenda - EXPANDIDO */
   .recharts-legend-wrapper {
     position: relative !important;
-    margin-top: 15px !important;
-    padding-top: 5px !important;
-    font-size: 9pt !important;
+    margin-top: 18px !important;
+    padding-top: 8px !important;
+    font-size: 12pt !important;
     width: 100% !important;
     display: block !important;
     text-align: center !important;
@@ -256,23 +257,23 @@
   /* Legenda customizada para impressão - EXPANDIDA */
   .print-chart-legend {
     display: block !important;
-    margin-top: 15px !important;
-    margin-bottom: 10px !important;
+    margin-top: 18px !important;
+    margin-bottom: 15px !important;
     text-align: center !important;
-    font-size: 9pt !important;
+    font-size: 12pt !important;
   }
   
   .print-legend-item {
     display: inline-block !important;
-    margin-right: 15px !important;
-    margin-bottom: 5px !important;
+    margin-right: 20px !important;
+    margin-bottom: 8px !important;
   }
   
   .print-legend-color {
     display: inline-block !important;
-    width: 10px !important;
-    height: 10px !important;
-    margin-right: 5px !important;
+    width: 12px !important;
+    height: 12px !important;
+    margin-right: 6px !important;
     vertical-align: middle !important;
   }
   
@@ -288,8 +289,8 @@
   .print-table {
     width: 100% !important;
     border-collapse: collapse !important;
-    margin: 10px 0 !important;
-    font-size: 9pt !important; /* AUMENTADO de 8pt para 9pt */
+    margin: 12px 0 !important;
+    font-size: 12pt !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
   }
@@ -297,9 +298,9 @@
   .print-table th, 
   .print-table td {
     border: 1px solid #ddd !important;
-    padding: 4px 6px !important; /* AUMENTADO para dar mais espaço */
+    padding: 6px 8px !important;
     text-align: left !important;
-    font-size: 9pt !important; /* AUMENTADO de 8pt para 9pt */
+    font-size: 12pt !important;
   }
   
   .print-table th {
@@ -310,16 +311,16 @@
   /* Constatações */
   .principais-constatacoes {
     background-color: #f9f9f9 !important;
-    padding: 5px !important;
-    margin-top: 5px !important;
+    padding: 8px !important;
+    margin-top: 10px !important;
     border-top: 1px solid #eee !important;
     border-bottom: 1px solid #eee !important;
   }
   
   .principais-constatacoes h3 {
-    font-size: 9pt !important;
+    font-size: 14pt !important;
     font-weight: bold !important;
-    margin-bottom: 4px !important;
+    margin-bottom: 8px !important;
   }
   
   .principais-constatacoes ul {
@@ -329,23 +330,23 @@
   }
   
   .principais-constatacoes li {
-    margin-bottom: 4px !important;
-    padding-left: 8px !important;
+    margin-bottom: 6px !important;
+    padding-left: 10px !important;
     position: relative !important;
-    line-height: 1.2 !important;
+    line-height: 1.4 !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
-    font-size: 8pt !important;
+    font-size: 12pt !important;
   }
   
   /* Bullets coloridos */
   .bullet-green, .bullet-red, .bullet-blue,
   .bg-gray-50 li .inline-block {
     display: inline-block !important;
-    width: 6px !important;
-    height: 6px !important;
+    width: 8px !important;
+    height: 8px !important;
     border-radius: 50% !important;
-    margin-right: 4px !important;
+    margin-right: 6px !important;
   }
   
   .bullet-green, .constatacao-green:before, 
@@ -367,31 +368,31 @@
   .bg-gray-50 {
     background-color: #f9f9f9 !important;
     border: 1px solid #eee !important;
-    margin-top: 8px !important;
-    padding: 6px !important;
-    font-size: 8pt !important;
+    margin-top: 12px !important;
+    padding: 10px !important;
+    font-size: 12pt !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
   }
   
   .bg-gray-50 h3 {
-    font-size: 9pt !important;
+    font-size: 14pt !important;
     font-weight: bold !important;
-    margin-bottom: 5px !important;
+    margin-bottom: 8px !important;
     color: #333 !important;
   }
   
   .bg-gray-50 ul {
     margin: 0 !important;
-    padding-left: 3px !important;
+    padding-left: 5px !important;
     list-style-type: none !important;
   }
   
   .bg-gray-50 li {
-    margin-bottom: 3px !important;
-    font-size: 8pt !important;
-    line-height: 1.3 !important;
-    padding-left: 8px !important;
+    margin-bottom: 6px !important;
+    font-size: 12pt !important;
+    line-height: 1.5 !important;
+    padding-left: 10px !important;
     position: relative !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
@@ -400,7 +401,7 @@
   /* Configuração de página - AJUSTADA */
   @page {
     size: A4 portrait;
-    margin: 1.2cm 0.8cm; /* AUMENTADO a margem superior para acomodar títulos maiores */
+    margin: 1.5cm 1cm;
   }
   
   /* Controle de quebra de página */
@@ -419,7 +420,7 @@
     break-before: page !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
-    padding: 6px !important;
+    padding: 10px !important;
     border: 1px solid #ddd !important;
     background-color: #f9f9f9 !important;
   }
@@ -444,8 +445,8 @@
   /* Esconder a URL no rodapé da página */
   @page {
     margin-bottom: 0;
-    orphans: 2;
-    widows: 2;
+    orphans: 3;
+    widows: 3;
   }
   
   /* Ocultar qualquer elemento que contenha o texto de URL */
@@ -482,7 +483,7 @@
   /* Corrigir sobreposição e melhorar visualização */
   /* Adicionar espaçamento e organização melhores */
   .card {
-    margin-bottom: 15px !important;
+    margin-bottom: 20px !important;
     clear: both !important;
     float: none !important;
     width: 100% !important;
@@ -491,11 +492,11 @@
   
   /* Melhorar renderização do gráfico de pizza na impressão */
   .pie-chart-container {
-    height: 280px !important; /* AUMENTADO de 180px para 280px */
+    height: 300px !important;
     position: relative !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
-    margin-bottom: 20px !important;
+    margin-bottom: 25px !important;
     clear: both !important;
   }
   
@@ -504,8 +505,8 @@
     position: relative !important;
     z-index: 1 !important;
     height: auto !important;
-    max-height: 350px !important; /* AUMENTADO de 200px para 350px */
-    margin-bottom: 25px !important;
+    max-height: 380px !important;
+    margin-bottom: 30px !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
     clear: both !important;
@@ -520,8 +521,8 @@
   .card-section-7, 
   .card-section-8, 
   .card-section-9 {
-    margin-top: 0 !important; /* REDUZIDO para ganhar espaço vertical */
-    padding-top: 15px !important;
+    margin-top: 0 !important;
+    padding-top: 25px !important;
     border-top: none !important;
     clear: both !important;
   }
@@ -531,9 +532,9 @@
     display: block !important;
     width: 100% !important;
     text-align: center !important;
-    margin-top: 15px !important;
-    margin-bottom: 10px !important;
-    font-size: 8pt !important;
+    margin-top: 18px !important;
+    margin-bottom: 15px !important;
+    font-size: 12pt !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
   }
@@ -541,7 +542,7 @@
   /* CORREÇÕES ESPECÍFICAS PARA TABELAS E INSIGHTS */
   /* Melhorar a visualização das tabelas */
   .display-print-only table.print-table {
-    margin-bottom: 10px !important;
+    margin-bottom: 15px !important;
     width: 100% !important;
     max-width: 100% !important;
     page-break-inside: avoid !important;
@@ -551,61 +552,61 @@
   /* Aumentar o tamanho da fonte nas tabelas para melhor legibilidade */
   .display-print-only table.print-table th,
   .display-print-only table.print-table td {
-    font-size: 9pt !important; /* AUMENTADO de 8pt para 9pt */
-    padding: 4px 8px !important; /* AUMENTADO para melhor visualização */
+    font-size: 12pt !important;
+    padding: 6px 10px !important;
     word-wrap: break-word !important;
-    max-width: 400px !important; /* AUMENTADO de 300px para 400px */
+    max-width: 450px !important;
   }
   
   /* Ajustar largura das colunas */
   .display-print-only table.print-table th:first-child,
   .display-print-only table.print-table td:first-child {
-    width: 45% !important; /* AUMENTADO de 40% para 45% */
+    width: 45% !important;
   }
 
   /* Ajustar a coluna de visualização (barras verdes) */
   .display-print-only table.print-table th:last-child,
   .display-print-only table.print-table td:last-child {
-    width: 30% !important; /* AUMENTADO de 25% para 30% */
+    width: 30% !important;
   }
   
   /* Melhorar a aparência das barras nas tabelas */
   .display-print-only table.print-table td .flex.items-center div {
-    height: 8px !important; /* AUMENTADO de 6px para 8px */
-    min-width: 8px !important; /* AUMENTADO de 6px para 8px */
-    max-width: 150px !important; /* AUMENTADO de 80px para 150px */
+    height: 10px !important;
+    min-width: 10px !important;
+    max-width: 180px !important;
     background-color: #4CAF50 !important;
     border-radius: 3px !important;
   }
   
   /* Melhorar a formatação dos insights */
   .bg-gray-50 {
-    margin: 15px 0 !important;
-    padding: 12px !important;
+    margin: 18px 0 !important;
+    padding: 15px !important;
     background-color: #f9f9f9 !important;
     border: 1px solid #e0e0e0 !important;
-    border-radius: 3px !important;
+    border-radius: 4px !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
   }
   
   .bg-gray-50 h3 {
-    font-size: 11pt !important; /* AUMENTADO de 9pt para 11pt */
-    margin-bottom: 8px !important;
+    font-size: 14pt !important;
+    margin-bottom: 10px !important;
     color: #000 !important;
   }
   
   .bg-gray-50 li {
-    margin-bottom: 6px !important;
-    font-size: 9pt !important; /* AUMENTADO de 8pt para 9pt */
-    line-height: 1.4 !important;
+    margin-bottom: 8px !important;
+    font-size: 12pt !important;
+    line-height: 1.5 !important;
     display: flex !important;
     align-items: flex-start !important;
   }
   
   .bg-gray-50 li .inline-block {
-    margin-top: 3px !important;
-    margin-right: 5px !important;
+    margin-top: 5px !important;
+    margin-right: 6px !important;
     flex-shrink: 0 !important;
   }
   
@@ -617,7 +618,7 @@
   /* Garantir que os insights sobre termos frequentes sejam exibidos corretamente */
   .card-section-6 .bg-gray-50,
   .card-section-7 .bg-gray-50 {
-    margin-top: 10px !important;
+    margin-top: 15px !important;
     clear: both !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
@@ -626,115 +627,115 @@
   /* Corrigir problemas específicos do relatório */
   .card-section-6 .display-print-only table.print-table,
   .card-section-7 .display-print-only table.print-table {
-    margin-bottom: 0 !important;
+    margin-bottom: 5px !important;
   }
 
   /* Adicionar mais espaço entre as linhas na tabela de visualização */
   .display-print-only table.print-table td .flex.items-center {
-    padding: 1px 0 !important;
+    padding: 2px 0 !important;
   }
   
   /* Aumentar a largura das barras na visualização */
   .display-print-only table.print-table td .flex.items-center div {
-    border-radius: 2px !important;
+    border-radius: 3px !important;
   }
   
   /* Garantir que os insights não sejam cortados */
   .bg-gray-50 ul {
-    padding-left: 5px !important;
-    margin-bottom: 2px !important;
+    padding-left: 8px !important;
+    margin-bottom: 3px !important;
   }
   
   /* Ajustar layout dos textos na seção de recomendações */
   .card-section-9 ul {
-    margin-top: 5px !important;
+    margin-top: 8px !important;
   }
   
   .card-section-9 li {
-    margin-bottom: 8px !important;
+    margin-bottom: 12px !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
   }
   
   .card-section-9 .font-medium {
-    font-size: 9pt !important;
-    margin-bottom: 2px !important;
+    font-size: 13pt !important;
+    margin-bottom: 4px !important;
     display: block !important;
   }
   
   .card-section-9 p {
-    font-size: 8pt !important;
-    line-height: 1.3 !important;
+    font-size: 12pt !important;
+    line-height: 1.5 !important;
     margin: 0 !important;
   }
   
   /* Ajustar cabeçalhos de todos os cards */
   .card-header {
-    padding: 5px 10px !important;
+    padding: 8px 12px !important;
   }
   
   .card-content {
-    padding: 8px !important;
+    padding: 12px !important;
   }
   
   /* Reduzir o tamanho do título principal */
   .text-4xl {
-    font-size: 16pt !important;
-    margin-bottom: 5px !important;
+    font-size: 20pt !important;
+    margin-bottom: 8px !important;
   }
   
   /* Centralizar e ajustar texto da página */
   .text-center.mb-12 {
-    margin-bottom: 10px !important;
+    margin-bottom: 15px !important;
   }
   
   .text-center.mb-12 p {
-    margin-top: 2px !important;
-    font-size: 9pt !important;
+    margin-top: 4px !important;
+    font-size: 12pt !important;
   }
   
   /* Reduzir espaçamento vertical geral */
   .space-y-2 > * + *,
   .space-y-3 > * + *,
   .space-y-4 > * + * {
-    margin-top: 5px !important;
+    margin-top: 8px !important;
   }
   
   /* Ajustar margens e espaçamentos dos cards da visão geral */
   .card-section-1 .card-content {
-    padding: 5px !important;
+    padding: 8px !important;
   }
   
   /* Reduzir margem abaixo de todos os elementos */
   .mb-4, .mb-6, .mb-8, .mb-10 {
-    margin-bottom: 5px !important;
+    margin-bottom: 8px !important;
   }
   
   /* Ajustar tamanho e posicionamento do rodapé */
   .text-center.mb-8.mt-12 {
-    margin-top: 8px !important;
+    margin-top: 12px !important;
     margin-bottom: 0 !important;
   }
   
   .text-center.mb-8.mt-12 p {
     margin: 0 !important;
-    font-size: 7pt !important;
+    font-size: 10pt !important;
     color: #777 !important;
   }
   
   /* AJUSTE DE ALTURA PARA GRÁFICOS E VISUALIZAÇÕES */
   .h-\[500px\], .h-\[450px\], .h-\[400px\], .h-\[600px\] {
     height: auto !important;
-    max-height: 450px !important; /* AUMENTADO de 250px para 450px */
+    max-height: 480px !important;
   }
   
   /* Garantir que o container de gráfico de pizza ocupe melhor o espaço */
   .pie-chart-container {
-    height: 280px !important; /* AUMENTADO de 180px para 280px */
+    height: 300px !important;
     position: relative !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
-    margin-bottom: 20px !important;
+    margin-bottom: 25px !important;
     clear: both !important;
   }
   
@@ -743,8 +744,8 @@
     position: relative !important;
     z-index: 1 !important;
     height: auto !important;
-    max-height: 350px !important; /* AUMENTADO de 200px para 350px */
-    margin-bottom: 25px !important;
+    max-height: 380px !important;
+    margin-bottom: 30px !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
     clear: both !important;
@@ -752,9 +753,9 @@
   
   /* Melhorar renderização das barras nas tabelas */
   .display-print-only table.print-table td .flex.items-center div {
-    height: 8px !important; /* AUMENTADO de 6px para 8px */
-    min-width: 8px !important; /* AUMENTADO de 6px para 8px */
-    max-width: 150px !important; /* AUMENTADO de 80px para 150px */
+    height: 10px !important;
+    min-width: 10px !important;
+    max-width: 180px !important;
     background-color: #4CAF50 !important;
     border-radius: 3px !important;
   }
@@ -762,55 +763,78 @@
   /* AJUSTES ESPECÍFICOS PARA VISUALIZAÇÕES DE TERMOS FREQUENTES */
   .card-section-6 .display-print-only table.print-table,
   .card-section-7 .display-print-only table.print-table {
-    margin-top: 15px !important;
-    margin-bottom: 15px !important;
-    font-size: 9pt !important;
+    margin-top: 18px !important;
+    margin-bottom: 18px !important;
+    font-size: 12pt !important;
   }
   
   /* Aumentar o tamanho da fonte nas tabelas para melhor legibilidade */
   .display-print-only table.print-table th,
   .display-print-only table.print-table td {
-    font-size: 9pt !important; /* AUMENTADO de 8pt para 9pt */
-    padding: 4px 8px !important; /* AUMENTADO para melhor visualização */
+    font-size: 12pt !important;
+    padding: 6px 10px !important;
     word-wrap: break-word !important;
-    max-width: 400px !important; /* AUMENTADO de 300px para 400px */
+    max-width: 450px !important;
   }
   
   /* Ajustar largura das colunas das tabelas de termos frequentes */
   .display-print-only table.print-table th:first-child,
   .display-print-only table.print-table td:first-child {
-    width: 45% !important; /* AUMENTADO de 40% para 45% */
+    width: 45% !important;
   }
 
   /* Ajustar a coluna de visualização (barras verdes) */
   .display-print-only table.print-table th:last-child,
   .display-print-only table.print-table td:last-child {
-    width: 30% !important; /* AUMENTADO de 25% para 30% */
+    width: 30% !important;
   }
   
   /* AJUSTES PARA INSIGHTS E CONSTATAÇÕES */
   .bg-gray-50 {
-    margin: 15px 0 !important;
-    padding: 12px !important;
+    margin: 18px 0 !important;
+    padding: 15px !important;
     background-color: #f9f9f9 !important;
     border: 1px solid #e0e0e0 !important;
-    border-radius: 3px !important;
+    border-radius: 4px !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
   }
   
   .bg-gray-50 h3 {
-    font-size: 11pt !important; /* AUMENTADO de 9pt para 11pt */
-    margin-bottom: 8px !important;
+    font-size: 14pt !important;
+    margin-bottom: 10px !important;
     color: #000 !important;
   }
   
   .bg-gray-50 li {
-    margin-bottom: 6px !important;
-    font-size: 9pt !important; /* AUMENTADO de 8pt para 9pt */
-    line-height: 1.4 !important;
+    margin-bottom: 8px !important;
+    font-size: 12pt !important;
+    line-height: 1.5 !important;
     display: flex !important;
     align-items: flex-start !important;
   }
   
-  /* Diminuir marg
+  /* Diminuir margens para maximizar espaço */
+  .p-4, .p-6, .p-8 {
+    padding: 12px !important;
+  }
+  
+  .m-4, .m-6, .m-8 {
+    margin: 12px !important;
+  }
+  
+  /* Melhorar espaçamento entre elementos */
+  .mt-4, .mt-6, .mt-8 {
+    margin-top: 10px !important;
+  }
+  
+  .mb-4, .mb-6, .mb-8 {
+    margin-bottom: 10px !important;
+  }
+  
+  /* Garantir que todos os elementos façam bom uso do espaço */
+  .w-full, .max-w-full {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
