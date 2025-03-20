@@ -126,10 +126,50 @@ export const exportToPDF = () => {
     });
   };
   
+  // Preparar o documento para impressão
+  const prepareForPrint = () => {
+    // Simplificar e limpar renderização de gráficos para impressão
+    const pieChartLabels = document.querySelectorAll('.recharts-pie-label-text');
+    pieChartLabels.forEach(label => {
+      if (label instanceof HTMLElement) {
+        label.style.display = 'none';
+      }
+    });
+    
+    const pieChartLabelLines = document.querySelectorAll('.recharts-pie-label-line');
+    pieChartLabelLines.forEach(line => {
+      if (line instanceof HTMLElement) {
+        line.style.display = 'none';
+      }
+    });
+    
+    // Exibir legendas personalizadas para impressão
+    const customLegends = document.querySelectorAll('.custom-print-pie-legend');
+    customLegends.forEach(legend => {
+      if (legend instanceof HTMLElement) {
+        legend.style.display = 'block';
+        legend.style.visibility = 'visible';
+        legend.style.opacity = '1';
+      }
+    });
+    
+    // Aplicar transformações para evitar sobreposições
+    const pieCharts = document.querySelectorAll('.recharts-pie');
+    pieCharts.forEach(chart => {
+      if (chart instanceof SVGElement) {
+        chart.style.transform = 'scale(0.8)';
+        chart.style.transformOrigin = 'center';
+      }
+    });
+  };
+  
   // Tempo para a preparação da visualização
   setTimeout(() => {
     // Esconder notificações e outros elementos que não devem aparecer na impressão
     hideToastElements();
+    
+    // Preparar gráficos e elementos visuais para impressão
+    prepareForPrint();
     
     // Esperar um momento para garantir que os elementos foram escondidos
     setTimeout(() => {

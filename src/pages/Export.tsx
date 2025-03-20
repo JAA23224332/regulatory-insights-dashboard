@@ -1,11 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import { dadosReais, dadosIntensidade, termosFrequentesFortalezas, termosFrequentesFragilidades, termosCompartilhados, dadosDistribuicaoPie, estatisticasGerais } from '@/data/regulacaoData';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
+import { PieChart, Pie, Cell, Legend } from 'recharts';
 import { exportToPDF } from '@/utils/exportUtils';
 import { ChartContainer } from '@/components/ui/chart';
 
-const COLORS_FORTALEZAS = ['#4CAF50']; // Verde
-const COLORS_FRAGILIDADES = ['#F44336']; // Vermelho
 const COLORS_PIE = ['#4CAF50', '#F44336']; // Verde e Vermelho
 
 const Export = () => {
@@ -245,25 +243,8 @@ const Export = () => {
     );
   };
 
-  const renderCustomizedPieLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }: any) => {
-    const RADIAN = Math.PI / 180;
-    const radius = outerRadius * 1.1;
-    const x = cx + radius * Math.cos(-midAngle * RADIAN);
-    const y = cy + radius * Math.sin(-midAngle * RADIAN);
-  
-    return (
-      <text 
-        x={x} 
-        y={y} 
-        fill={COLORS_PIE[index % COLORS_PIE.length]}
-        textAnchor={x > cx ? 'start' : 'end'} 
-        dominantBaseline="central"
-        className="pie-label"
-        style={{ fontWeight: 'bold', fontSize: '14px' }}
-      >
-        {dadosDistribuicaoPie[index].name}: {`${(percent * 100).toFixed(0)}%`}
-      </text>
-    );
+  const renderCustomizedPieLabel = () => {
+    return null;
   };
 
   return (
@@ -294,7 +275,7 @@ const Export = () => {
         <div className="chart-container mb-6">
           <div className="flex justify-center items-center flex-col">
             <ChartContainer 
-              className="h-[400px] w-[600px]" 
+              className="h-[300px] w-[400px]" 
               config={{
                 fortalezas: { color: "#4CAF50" },
                 fragilidades: { color: "#F44336" }
@@ -305,8 +286,8 @@ const Export = () => {
                   data={dadosDistribuicaoPie}
                   cx="50%" 
                   cy="50%"
-                  labelLine={true}
-                  outerRadius={120} 
+                  labelLine={false}
+                  outerRadius={100}
                   fill="#8884d8"
                   dataKey="value"
                   nameKey="name"
@@ -327,18 +308,19 @@ const Export = () => {
                     textAlign: 'center'
                   }}
                 />
-                <Tooltip formatter={(value, name) => [`${value} (${dadosDistribuicaoPie.find(item => item.name === name)?.percentage}%)`, name]} />
               </PieChart>
             </ChartContainer>
             
-            <div className="text-center mt-2 print:block hidden">
-              <div className="inline-block mr-6">
-                <span className="inline-block w-4 h-4 bg-green-500 mr-2"></span>
-                <span>Fortalezas: {dadosDistribuicaoPie[0].percentage}</span>
-              </div>
-              <div className="inline-block">
-                <span className="inline-block w-4 h-4 bg-red-500 mr-2"></span>
-                <span>Fragilidades: {dadosDistribuicaoPie[1].percentage}</span>
+            <div className="custom-print-pie-legend print:block">
+              <div className="flex justify-center space-x-4">
+                <div className="flex items-center">
+                  <span className="inline-block w-4 h-4 bg-green-500 mr-2"></span>
+                  <span>Fortalezas: {dadosDistribuicaoPie[0].percentage}</span>
+                </div>
+                <div className="flex items-center">
+                  <span className="inline-block w-4 h-4 bg-red-500 mr-2"></span>
+                  <span>Fragilidades: {dadosDistribuicaoPie[1].percentage}</span>
+                </div>
               </div>
             </div>
           </div>

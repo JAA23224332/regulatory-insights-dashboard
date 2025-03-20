@@ -1,3 +1,4 @@
+
 /* Estilos de impressão */
 @media print {
   /* Reset básico para impressão */
@@ -178,161 +179,69 @@
     color: #000 !important;
   }
   
-  /* Gráfico de pizza */
+  /* Gráfico de pizza - CORREÇÃO PARA PROBLEMAS DE SOBREPOSIÇÃO */
   .recharts-wrapper {
     margin: 0 auto !important;
     height: auto !important;
     max-height: 300px !important;
     display: block !important;
     text-align: center !important;
-  }
-  
-  /* Tamanho e posicionamento da legenda - CORRIGIDO */
-  .recharts-legend-wrapper {
-    position: absolute !important;
-    right: 10px !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-    font-size: 8pt !important;
-    width: auto !important;
-    max-width: 30% !important;
-  }
-  
-  /* Forçar a legenda a ficar visível e na lateral */
-  .recharts-default-legend {
-    display: block !important;
-    text-align: left !important;
-    margin-left: 15px !important;
-  }
-  
-  /* Forçar itens da legenda a ficarem em coluna */
-  .recharts-legend-item {
-    display: block !important;
-    margin-bottom: 5px !important;
-  }
-  
-  /* Ajustes para texto no gráfico de pizza */
-  .recharts-layer .recharts-pie-label-text {
-    font-size: 8pt !important;
-    font-weight: bold !important;
-  }
-  
-  /* CORREÇÃO PARA BARRAS HORIZONTAIS */
-  /* Corrigir o problema das barras sobrepostas e distorcidas */
-  .recharts-bar {
-    overflow: visible !important;
-    transform: none !important;
-  }
-  
-  .recharts-bar-rectangles {
-    transform: none !important;
-  }
-  
-  .recharts-bar-rectangle {
+    position: relative !important;
     overflow: visible !important;
   }
   
-  /* Garantir que as barras tenham suas cores corretas na impressão */
-  .recharts-rectangle[fill="#4CAF50"],
-  .recharts-rectangle[fill="green"],
-  .recharts-rectangle[fill="#10B981"] {
-    fill: #4CAF50 !important; 
-    color: #4CAF50 !important;
-    print-color-adjust: exact !important;
-    -webkit-print-color-adjust: exact !important;
-  }
-  
-  .recharts-rectangle[fill="#F44336"],
-  .recharts-rectangle[fill="red"],
-  .recharts-rectangle[fill="#EF4444"] {
-    fill: #F44336 !important; 
-    color: #F44336 !important;
-    print-color-adjust: exact !important;
-    -webkit-print-color-adjust: exact !important;
-  }
-  
-  /* Evitar sobreposição das barras */
-  .recharts-layer[name="Fortalezas"] {
-    position: relative !important;
-    z-index: 2 !important;
-  }
-  
-  .recharts-layer[name="Fragilidades"] {
-    position: relative !important;
-    z-index: 1 !important;
-  }
-  
-  /* Garantir que o container do gráfico tenha espaço adequado */
-  .chart-container {
-    width: 100% !important;
-    height: auto !important;
-    min-height: 350px !important;
-    max-height: 500px !important;
-    margin: 10px 0 20px 0 !important;
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
-    position: relative !important;
-    transform-origin: center center !important;
-    transform: scale(0.95) !important;
-  }
-  
-  /* Ajustar o tamanho do SVG do gráfico */
+  /* Controle preciso do posicionamento do SVG e gráfico de pizza */
   .recharts-wrapper svg {
-    width: 100% !important;
-    height: auto !important;
-    overflow: visible !important;
-  }
-  
-  /* Corrigir o posicionamento dos eixos */
-  .recharts-cartesian-grid {
-    transform: none !important;
-  }
-  
-  .recharts-xAxis,
-  .recharts-yAxis {
-    transform: none !important;
-    overflow: visible !important;
-  }
-  
-  /* Assegurar que os textos dos eixos sejam visíveis e formatados corretamente */
-  .recharts-cartesian-axis-tick-value {
-    font-size: 8pt !important;
-    fill: black !important;
-    font-weight: normal !important;
-    overflow: visible !important;
-  }
-  
-  /* Para gráficos com layout vertical (barras horizontais) */
-  .recharts-barChart[layout="vertical"] {
-    height: auto !important;
-    min-height: 400px !important;
-    overflow: visible !important;
-  }
-  
-  /* Aumentar a largura do eixo Y para acomodar textos longos */
-  .recharts-cartesian-axis.recharts-yAxis {
-    width: auto !important;
-    overflow: visible !important;
-  }
-  
-  /* Melhorar a visualização alternativa para impressão usando tabelas */
-  .display-print-only {
     display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
+    margin: 0 auto !important;
+    position: relative !important;
+    overflow: visible !important;
+    height: auto !important;
   }
   
-  /* Legenda específica para impressão no gráfico de barras */
+  /* Corrigir a sobreposição no gráfico de pizza */
+  .recharts-pie {
+    transform: scale(0.8) !important;
+    transform-origin: center !important;
+    transform-box: fill-box !important;
+  }
+  
+  /* Remover linhas de label para evitar sobreposição */
+  .recharts-pie-label-line {
+    display: none !important;
+  }
+  
+  /* Desabilitar labels de texto que podem sobrepor */
+  .recharts-pie-label-text {
+    display: none !important;
+  }
+  
+  /* Tamanho e posicionamento da legenda */
+  .recharts-legend-wrapper {
+    position: relative !important;
+    margin-top: 20px !important;
+    padding-top: 10px !important;
+    font-size: 8pt !important;
+    width: 100% !important;
+    display: block !important;
+    text-align: center !important;
+  }
+  
+  /* Legenda customizada para impressão que não sobrepõe */
   .print-chart-legend {
     display: block !important;
-    margin-top: 10px !important;
+    margin-top: 20px !important;
+    margin-bottom: 10px !important;
     text-align: center !important;
-    font-size: 8pt !important;
+    font-size: 10pt !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
   }
   
   .print-legend-item {
     display: inline-block !important;
-    margin-right: 15px !important;
+    margin-right: 20px !important;
+    margin-bottom: 5px !important;
   }
   
   .print-legend-color {
@@ -351,28 +260,14 @@
     background-color: #F44336 !important;
   }
   
-  /* Estilos para a legenda de impressão visível */
-  .print:block {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-  }
-  
-  /* Gráficos de barra */
-  .card-section-2 .recharts-wrapper,
-  .card-section-3 .recharts-wrapper,
-  .card-section-4 .recharts-wrapper {
-    height: auto !important;
-    min-height: 350px !important;
-    max-height: 500px !important;
-  }
-  
   /* Tabelas */
   .print-table {
     width: 100% !important;
     border-collapse: collapse !important;
     margin: 8px 0 !important;
     font-size: 8pt !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
   }
   
   .print-table th, 
@@ -380,6 +275,7 @@
     border: 1px solid #ddd !important;
     padding: 4px 6px !important;
     text-align: left !important;
+    font-size: 8pt !important;
   }
   
   .print-table th {
@@ -493,18 +389,6 @@
     break-before: page;
   }
   
-  /* Gráfico de pizza com legenda à direita */
-  .pie-chart-container {
-    position: relative !important;
-    width: 100% !important;
-    max-width: 500px !important;
-    margin: 0 auto !important;
-  }
-  
-  .recharts-legend-item-text {
-    font-size: 8pt !important;
-  }
-  
   /* Garantir que elementos específicos sejam impressos corretamente */
   #recomendacoes-section,
   .recomendacoes-section,
@@ -520,14 +404,9 @@
     background-color: #f9f9f9 !important;
   }
   
-  /* Forçar cores em gráficos de pizza */
+  /* Forçar cores em gráficos */
   .recharts-pie-sector {
     stroke: none !important;
-  }
-  
-  /* As seções de fortalezas e fragilidades */
-  .recharts-bar-rectangle path {
-    stroke-width: 0 !important;
   }
   
   /* Assegurar que todas as linhas de tabela sejam impressas */
@@ -542,20 +421,19 @@
   }
   
   /* Remover URLs e elementos da barra de endereço */
-  /* Isso remove explicitamente qualquer elemento que possa mostrar a URL do projeto */
   a::after {
     content: "" !important;
     display: none !important;
   }
   
-  /* Esconder a URL no rodapé da página (alguns navegadores mostram isso automaticamente) */
+  /* Esconder a URL no rodapé da página */
   @page {
     margin-bottom: 0;
     orphans: 2;
     widows: 2;
   }
   
-  /* Ocultar qualquer elemento que contenha o texto de URL do Lovable */
+  /* Ocultar qualquer elemento que contenha o texto de URL */
   *[href*="lovable.dev"],
   *[href*="projects"],
   *[src*="lovable.dev"],
@@ -564,7 +442,7 @@
     display: none !important;
   }
   
-  /* Esconder específicamente 'regulatory-insights-dashboard' */
+  /* Esconder específicamente nomes de projetos */
   *:contains("regulatory-insights-dashboard"),
   [title*="regulatory-insights-dashboard"],
   [alt*="regulatory-insights-dashboard"],
@@ -602,11 +480,70 @@
   body::before {
     content: none !important;
   }
+  
+  /* Corrigir sobreposição e melhorar visualização */
+  /* Adicionar espaçamento e organização melhores */
+  .card {
+    margin-bottom: 30px !important;
+    clear: both !important;
+    float: none !important;
+    width: 100% !important;
+    position: static !important;
+  }
+  
+  /* Melhorar renderização do gráfico de pizza na impressão */
+  .pie-chart-container {
+    height: 250px !important;
+    position: relative !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    margin-bottom: 30px !important;
+    clear: both !important;
+  }
+  
+  /* Eliminar problema de sobreposição na impressão usando controle explícito de Z-index */
+  .chart-container {
+    position: relative !important;
+    z-index: 1 !important;
+    height: auto !important;
+    max-height: 300px !important;
+    margin-bottom: 40px !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    clear: both !important;
+  }
+  
+  /* Melhorar espaçamento entre seções */
+  .card-section-2, 
+  .card-section-3, 
+  .card-section-4, 
+  .card-section-5, 
+  .card-section-6, 
+  .card-section-7, 
+  .card-section-8, 
+  .card-section-9 {
+    margin-top: 30px !important;
+    padding-top: 10px !important;
+    border-top: 1px solid #ddd !important;
+    clear: both !important;
+  }
+  
+  /* Legenda personalizada visível para impressão */
+  .custom-print-pie-legend {
+    display: block !important;
+    width: 100% !important;
+    text-align: center !important;
+    margin-top: 30px !important;
+    margin-bottom: 15px !important;
+    font-size: 9pt !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
 }
 
 /* Adicionar regras específicas para elementos que podem ter sido injetados pelo navegador */
 @media print {
-  /* Esconder qualquer texto que contenha 'regulatory-insights' */
+  /* Esconder qualquer texto que contenha nomes de projetos */
   body *:not(script):not(style):not(link) {
     content-visibility: auto;
   }
