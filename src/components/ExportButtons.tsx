@@ -14,15 +14,15 @@ const ExportButtons = ({ className = '' }: ExportButtonsProps) => {
   
   const handlePrintPDF = () => {
     toast({
-      title: "Preparando para exportar",
-      description: "O documento está sendo preparado. A visualização para impressão será aberta em instantes.",
-      duration: 3000,
+      title: "Preparando visualizações para exportação",
+      description: "Aguarde enquanto preparamos todas as visualizações e gráficos para o PDF. Isso pode levar alguns segundos.",
+      duration: 5000,
     });
     
-    // Pequeno delay para dar tempo da toast notification aparecer antes da preparação do PDF
+    // Delay aumentado para dar tempo da toast notification aparecer e usuário entender que o processo está em andamento
     setTimeout(() => {
       exportToPDF();
-    }, 1000);
+    }, 1500);
   };
   
   return (

@@ -147,6 +147,59 @@ export const exportToPDF = () => {
       });
     };
 
+    // Função para garantir que os gráficos de barras sejam renderizados corretamente
+    const prepareBarCharts = () => {
+      // Seleciona todos os gráficos de barras
+      const barCharts = document.querySelectorAll('.recharts-wrapper, .recharts-surface, .recharts-bar, .recharts-cartesian-grid');
+      barCharts.forEach(chart => {
+        if (chart instanceof SVGElement || chart instanceof HTMLElement) {
+          chart.style.visibility = 'visible';
+          chart.style.display = 'block';
+          chart.style.opacity = '1';
+          
+          // Garantir que os elementos internos também estejam visíveis
+          const children = chart.querySelectorAll('*');
+          children.forEach(child => {
+            if (child instanceof SVGElement || child instanceof HTMLElement) {
+              child.style.visibility = 'visible';
+              child.style.display = 'block';
+              child.style.opacity = '1';
+            }
+          });
+        }
+      });
+      
+      // Garantir que os textos dos gráficos estão visíveis
+      const chartTexts = document.querySelectorAll('.recharts-text, .recharts-cartesian-axis-tick-value, .recharts-label');
+      chartTexts.forEach(text => {
+        if (text instanceof SVGElement) {
+          text.style.visibility = 'visible';
+          text.style.opacity = '1';
+          text.setAttribute('fill', '#000');
+          text.setAttribute('font-size', '10px');
+          text.setAttribute('font-weight', 'normal');
+        }
+      });
+      
+      // Garantir que as barras dos gráficos estão visíveis com cores corretas
+      const chartBars = document.querySelectorAll('.recharts-bar-rectangle');
+      chartBars.forEach(bar => {
+        if (bar instanceof SVGElement) {
+          bar.style.visibility = 'visible';
+          bar.style.opacity = '1';
+        }
+      });
+      
+      // Forçar renderização dos rótulos laterais dos gráficos de barras
+      const chartLabels = document.querySelectorAll('.recharts-cartesian-axis-tick');
+      chartLabels.forEach(label => {
+        if (label instanceof SVGElement) {
+          label.style.visibility = 'visible';
+          label.style.opacity = '1';
+        }
+      });
+    };
+
     // Preparar o documento para impressão
     const prepareForPrint = () => {
       // Garantir que todas as seções estão visíveis e renderizadas
@@ -176,6 +229,36 @@ export const exportToPDF = () => {
           }
         });
       }
+      
+      // Garantir que todos os gráficos e visualizações estejam visíveis
+      const charts = document.querySelectorAll('.chart-container, .recharts-wrapper, recharts-surface');
+      charts.forEach(chart => {
+        if (chart instanceof HTMLElement) {
+          chart.style.display = 'block';
+          chart.style.visibility = 'visible';
+          chart.style.opacity = '1';
+          chart.style.height = 'auto';
+          chart.style.minHeight = '300px';
+          chart.style.pageBreakInside = 'avoid';
+          chart.style.breakInside = 'avoid';
+          chart.style.marginBottom = '20px';
+        }
+      });
+      
+      // Garantir que todas as visualizações de distribuição estejam visíveis
+      const distributions = document.querySelectorAll('[class*="distribuicao"], [id*="distribuicao"]');
+      distributions.forEach(dist => {
+        if (dist instanceof HTMLElement) {
+          dist.style.display = 'block';
+          dist.style.visibility = 'visible';
+          dist.style.opacity = '1';
+          dist.style.pageBreakInside = 'avoid';
+          dist.style.breakInside = 'avoid';
+        }
+      });
+      
+      // Forçar renderização dos gráficos de barras específicos
+      prepareBarCharts();
       
       // Simplificar e limpar renderização de gráficos para impressão
       const pieChartLabels = document.querySelectorAll('.recharts-pie-label-text');
@@ -263,7 +346,7 @@ export const exportToPDF = () => {
       prepareTermosTables();
     };
     
-    // Tempo para a preparação da visualização
+    // Tempo para a preparação da visualização - aumentado para garantir carregamento completo
     setTimeout(() => {
       // Esconder notificações e outros elementos que não devem aparecer na impressão
       hideToastElements();
@@ -271,23 +354,29 @@ export const exportToPDF = () => {
       // Preparar gráficos e elementos visuais para impressão
       prepareForPrint();
       
-      // Esperar um momento mais longo para garantir que os elementos foram completamente renderizados
+      // Tempo adicional para renderização dos gráficos de barras e outras visualizações
       setTimeout(() => {
-        // Inicia o processo de impressão do navegador
-        window.print();
+        // Segunda passada para garantir que tudo está visível
+        prepareBarCharts();
         
-        // Remove a classe e restaura elementos após impressão
+        // Esperar um momento mais longo para garantir que os elementos foram completamente renderizados
         setTimeout(() => {
-          document.body.classList.remove('printing-pdf');
-          restoreHiddenElements();
-        }, 2000);
-      }, 1000);
-    }, 1000);
+          // Inicia o processo de impressão do navegador
+          window.print();
+          
+          // Remove a classe e restaura elementos após impressão
+          setTimeout(() => {
+            document.body.classList.remove('printing-pdf');
+            restoreHiddenElements();
+          }, 2000);
+        }, 1500);
+      }, 1500);
+    }, 1500);
   } catch (error) {
     console.error("Erro ao preparar impressão:", error);
     // Tentar imprimir mesmo com erro, após um delay
     setTimeout(() => {
       window.print();
-    }, 1000);
+    }, 1500);
   }
 };
