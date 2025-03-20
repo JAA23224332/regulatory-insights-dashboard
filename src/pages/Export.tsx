@@ -407,11 +407,11 @@ const Export = () => {
         <h2 className="text-xl font-semibold mb-4">Recomendações para Melhoria da Regulação no SUS</h2>
         
         <ul className="space-y-3">
-          <li>• <strong>Sistemas de informação e tecnologia</strong>: Investir em tecnologias mais integradas e interoperáveis, modernizando sistemas existentes como o SISREG.</li>
-          <li>• <strong>Protocolos e processos</strong>: Padronizar nacionalmente protocolos de regulação e classificação de risco.</li>
-          <li>• <strong>Recursos humanos</strong>: Desenvolver programas de capacitação continuada e estabelecer carreiras específicas para profissionais de regulação.</li>
-          <li>• <strong>Integração entre níveis de atenção</strong>: Fortalecer a comunicação entre a atenção primária e especializada.</li>
-          <li>• <strong>Regionalização</strong>: Fortalecer os processos de regionalização, garantindo que os municípios-polo cumpram seu papel assistencial.</li>
+          <li>• <strong>Sistemas de informação e tecnologia</strong>: Investir em tecnologias mais integradas e interoperáveis, modernizando sistemas existentes como o SISREG. Expandir o uso de telemedicina e telessaúde para ampliar o acesso nas regiões remotas.</li>
+          <li>• <strong>Protocolos e processos</strong>: Padronizar nacionalmente protocolos de regulação e classificação de risco, construindo diretrizes que possam ser adaptadas às realidades locais.</li>
+          <li>• <strong>Recursos humanos</strong>: Desenvolver programas de capacitação continuada e estabelecer carreiras específicas para profissionais de regulação, principalmente médicos reguladores.</li>
+          <li>• <strong>Integração entre níveis de atenção</strong>: Fortalecer a comunicação entre a atenção primária e especializada, usando sistemas como referência e contrarreferência eletrônicas.</li>
+          <li>• <strong>Regionalização</strong>: Fortalecer os processos de regionalização, garantindo que os municípios-polo cumpram seu papel assistencial conforme planejado nos PDRs.</li>
           <li>• <strong>Política integrada</strong>: Desenvolver uma política nacional de regulação integrada, com diretrizes claras e incentivos para implementação em todos os níveis.</li>
         </ul>
       </div>
