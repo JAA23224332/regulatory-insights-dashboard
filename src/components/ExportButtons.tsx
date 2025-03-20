@@ -20,9 +20,9 @@ const ExportButtons = ({ className = '' }: ExportButtonsProps) => {
         setTimeout(resolve, 2000);
       }),
       {
-        loading: 'Preparando documento PDF...',
-        success: 'PDF pronto para impressão',
-        error: 'Erro ao gerar PDF'
+        loading: 'Preparando documento para impressão...',
+        success: 'Documento pronto para impressão',
+        error: 'Erro ao gerar documento'
       }
     );
   };
@@ -35,7 +35,7 @@ const ExportButtons = ({ className = '' }: ExportButtonsProps) => {
         className="flex items-center gap-2"
       >
         <Printer className="h-4 w-4" />
-        PDF
+        Imprimir
       </Button>
     </div>
   );
