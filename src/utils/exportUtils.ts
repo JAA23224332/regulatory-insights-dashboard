@@ -1,3 +1,4 @@
+
 // Função para exportação de PDF que usa a funcionalidade nativa de impressão
 export const exportToPDF = () => {
   try {
@@ -148,6 +149,34 @@ export const exportToPDF = () => {
 
     // Preparar o documento para impressão
     const prepareForPrint = () => {
+      // Garantir que todas as seções estão visíveis e renderizadas
+      const allSections = document.querySelectorAll('.card, .card-section-1, .card-section-2, .card-section-3, .card-section-4, .card-section-5, .card-section-6, .card-section-7, .card-section-8, .card-section-9, #recomendacoes-section, .recomendacoes-section');
+      allSections.forEach(section => {
+        if (section instanceof HTMLElement) {
+          section.style.display = 'block';
+          section.style.visibility = 'visible';
+          section.style.opacity = '1';
+        }
+      });
+      
+      // Forçar renderização completa das recomendações
+      const recomendacoesSection = document.getElementById('recomendacoes-section');
+      if (recomendacoesSection) {
+        recomendacoesSection.style.display = 'block';
+        recomendacoesSection.style.visibility = 'visible';
+        recomendacoesSection.style.opacity = '1';
+        
+        // Garantir que todos os itens dentro da seção também estão visíveis
+        const recomendacoesItems = recomendacoesSection.querySelectorAll('*');
+        recomendacoesItems.forEach(item => {
+          if (item instanceof HTMLElement) {
+            item.style.display = item.tagName.toLowerCase() === 'strong' ? 'inline' : 'block';
+            item.style.visibility = 'visible';
+            item.style.opacity = '1';
+          }
+        });
+      }
+      
       // Simplificar e limpar renderização de gráficos para impressão
       const pieChartLabels = document.querySelectorAll('.recharts-pie-label-text');
       pieChartLabels.forEach(label => {
@@ -242,7 +271,7 @@ export const exportToPDF = () => {
       // Preparar gráficos e elementos visuais para impressão
       prepareForPrint();
       
-      // Esperar um momento para garantir que os elementos foram escondidos
+      // Esperar um momento mais longo para garantir que os elementos foram completamente renderizados
       setTimeout(() => {
         // Inicia o processo de impressão do navegador
         window.print();
@@ -251,12 +280,14 @@ export const exportToPDF = () => {
         setTimeout(() => {
           document.body.classList.remove('printing-pdf');
           restoreHiddenElements();
-        }, 1000);
-      }, 300);
-    }, 500);
+        }, 2000);
+      }, 1000);
+    }, 1000);
   } catch (error) {
     console.error("Erro ao preparar impressão:", error);
-    // Tentar imprimir mesmo com erro
-    window.print();
+    // Tentar imprimir mesmo com erro, após um delay
+    setTimeout(() => {
+      window.print();
+    }, 1000);
   }
 };
