@@ -113,7 +113,7 @@ const Export = () => {
             color: '#000'
           }}
         >
-          Recomendações para Melhoria da Regulação no SUS
+          8. Sugestões para Melhoria da Regulação no SUS
         </h2>
         
         <ul 
