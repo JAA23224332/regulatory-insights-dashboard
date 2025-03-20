@@ -83,7 +83,7 @@ const Export = () => {
       <div 
         id="recomendacoes-section" 
         ref={recomendacoesRef}
-        className="card card-section-8 recomendacoes-section"
+        className="card card-section-9 recomendacoes-section"
         style={{
           display: 'block',
           visibility: 'visible',
@@ -113,7 +113,7 @@ const Export = () => {
             color: '#000'
           }}
         >
-          8. Sugestões para Melhoria da Regulação no SUS
+          9. Sugestões para Melhoria da Regulação no SUS
         </h2>
         
         <ul 
