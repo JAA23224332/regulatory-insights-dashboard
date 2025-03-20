@@ -360,9 +360,9 @@ const Export = () => {
           2. Comparativo por Categoria
         </div>
         
-        <div className="chart-container mb-6" style={{ height: '500px' }}>
+        <div className="chart-container mb-6" style={{ height: '600px' }}>
           <ChartContainer 
-            className="h-[500px] w-full" 
+            className="h-[600px] w-full" 
             config={{
               fortalezas: { color: "#4CAF50" },
               fragilidades: { color: "#F44336" }
@@ -372,15 +372,15 @@ const Export = () => {
               <BarChart
                 data={dadosComparativoCategoria}
                 layout="vertical"
-                margin={{ top: 20, right: 30, left: 150, bottom: 30 }}
+                margin={{ top: 20, right: 30, left: 180, bottom: 30 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis type="number" />
                 <YAxis 
                   type="category" 
                   dataKey="categoria" 
-                  tick={{ fontSize: 12 }} 
-                  width={150} 
+                  tick={{ fontSize: 14 }} 
+                  width={180} 
                 />
                 <Tooltip />
                 <Legend 
@@ -388,8 +388,8 @@ const Export = () => {
                   align="center"
                   wrapperStyle={{ paddingTop: '20px' }}
                 />
-                <Bar dataKey="fortalezas" name="Fortalezas" fill={COLORS_BAR.fortalezas} />
-                <Bar dataKey="fragilidades" name="Fragilidades" fill={COLORS_BAR.fragilidades} />
+                <Bar dataKey="fortalezas" name="Fortalezas" fill={COLORS_BAR.fortalezas} barSize={30} />
+                <Bar dataKey="fragilidades" name="Fragilidades" fill={COLORS_BAR.fragilidades} barSize={30} />
               </BarChart>
             </ResponsiveContainer>
           </ChartContainer>
@@ -623,3 +623,4 @@ const Export = () => {
 };
 
 export default Export;
+

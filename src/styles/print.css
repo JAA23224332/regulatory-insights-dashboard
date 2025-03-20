@@ -1,4 +1,3 @@
-
 /* Estilos de impressão */
 @media print {
   /* Reset básico para impressão */
@@ -715,39 +714,39 @@
   /* AUMENTAR TAMANHO DOS GRÁFICOS DE BARRA PARA IMPRESSÃO */
   .h-\[500px\], .h-\[450px\], .h-\[400px\] {
     height: auto !important;
-    max-height: 300px !important;
+    max-height: 500px !important;
   }
 
   /* Aumento especial para o comparativo por categoria (seção 2) */
   .card-section-2 .recharts-wrapper,
   .card-section-2 .recharts-responsive-container {
     height: auto !important;
-    min-height: 400px !important; /* Aumentado de 350px para 400px */
-    max-height: 450px !important; /* Aumentado de 400px para 450px */
-    margin-bottom: 25px !important;
+    min-height: 550px !important;
+    max-height: 600px !important;
+    margin-bottom: 30px !important;
   }
   
   /* Ajuste nos eixos Y para o gráfico comparativo por categoria */
   .card-section-2 .recharts-cartesian-axis.recharts-yAxis .recharts-cartesian-axis-tick {
-    font-size: 14pt !important; /* Aumentado de 12pt para 14pt */
+    font-size: 14pt !important;
     font-weight: bold !important;
   }
   
   /* Aumentar espaço para o texto das categorias */
   .card-section-2 .recharts-cartesian-axis.recharts-yAxis {
-    width: 200px !important; /* Aumentado de 180px para 200px */
+    width: 220px !important;
   }
 
   /* Melhorar visualização das barras no comparativo */
   .card-section-2 .recharts-bar-rectangle {
-    height: 30px !important; /* Aumentado de 25px para 30px */
+    height: 35px !important;
   }
 
   /* Ajustar margens para o gráfico comparativo */
   .card-section-2 .recharts-wrapper {
-    margin-left: -40px !important; /* Aumentado de -30px para -40px */
-    width: calc(100% + 40px) !important; /* Ajustado para corresponder ao margin-left */
-    transform: scale(1.1) !important; /* Aplicando um escalonamento leve para aumentar ainda mais */
+    margin-left: -35px !important;
+    width: calc(100% + 35px) !important;
+    transform: scale(1) !important;
     transform-origin: center !important;
   }
   
@@ -775,7 +774,7 @@
   
   /* Especificar para as labels do eixo X no gráfico de comparativo */
   .card-section-2 .recharts-cartesian-axis.recharts-xAxis .recharts-cartesian-axis-tick-value {
-    font-size: 14pt !important; /* Aumentado para corresponder às labels do eixo Y */
+    font-size: 14pt !important;
     font-weight: bold !important;
   }
   
@@ -853,12 +852,12 @@
   .display-print-only table.print-table {
     width: 100%;
     page-break-inside: avoid;
-    margin-bottom: 15px !important; /* Aumentado para dar mais espaço */
+    margin-bottom: 15px !important;
   }
   
   .display-print-only table.print-table th,
   .display-print-only table.print-table td {
-    padding: 4px 6px !important; /* Aumentado de 2px 3px para 4px 6px */
+    padding: 4px 6px !important;
     text-align: left;
     font-size: 12pt !important;
   }
@@ -868,3 +867,4 @@
     width: 40%;
   }
 }
+
