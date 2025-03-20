@@ -806,6 +806,12 @@
     padding-top: 2px !important;
     padding-bottom: 2px !important;
   }
+  
+  /* Ajustar a coluna de visualização (barras verdes) */
+  .display-print-only table.print-table th:last-child,
+  .display-print-only table.print-table td:last-child {
+    width: 25% !important;
+  }
 }
 
 /* Additional pie chart styling for print */
@@ -857,10 +863,3 @@
     text-align: left;
     font-size: 12pt !important;
   }
-  
-  .display-print-only table.print-table th:first-child,
-  .display-print-only table.print-table td:first-child {
-    width: 40%;
-  }
-  
-  .display-print-only table.print-table th:last-child,
