@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { dadosReais, dadosIntensidade, termosFrequentesFortalezas, termosFrequentesFragilidades, termosCompartilhados } from '@/data/regulacaoData';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { useToast } from "@/components/ui/use-toast";
@@ -15,50 +15,64 @@ const dadosDistribuicaoPie = [
   { name: 'Fragilidades', value: 63, percentage: 58 },
 ];
 
-// Fixed inline styles using valid TypeScript values
-const recomendacoesStyle = {
-  display: 'block',
-  visibility: 'visible' as const,
-  pageBreakBefore: 'always' as const,
-  margin: '30px 0',
-  padding: '20px',
-  border: '2px solid #ddd',
-  backgroundColor: '#f9f9f9',
-};
-
-// Additional style to ensure recommendations items appear
-const recomendacoesItemStyle = {
-  display: 'block',
-  visibility: 'visible' as const,
-  pageBreakInside: 'avoid' as const,
-  margin: '15px 0',
-};
-
 const Export = () => {
   const { toast } = useToast();
+  const recomendacoesRef = useRef<HTMLDivElement>(null);
+  
+  // Garantir que a seção de recomendações esteja visível
+  useEffect(() => {
+    if (recomendacoesRef.current) {
+      const style = recomendacoesRef.current.style;
+      style.setProperty('display', 'block', 'important');
+      style.setProperty('visibility', 'visible', 'important');
+      style.setProperty('opacity', '1', 'important');
+      style.setProperty('page-break-before', 'always', 'important');
+      style.setProperty('break-before', 'page', 'important');
+      style.setProperty('border', '2px solid #000', 'important');
+      style.setProperty('background-color', '#f9f9f9', 'important');
+      style.setProperty('padding', '20px', 'important');
+      style.setProperty('margin-top', '30px', 'important');
+      style.setProperty('margin-bottom', '30px', 'important');
+      style.setProperty('z-index', '9999', 'important');
 
-  // Trigger print dialog on component mount
+      // Força visibilidade para todos os elementos filhos
+      const children = recomendacoesRef.current.querySelectorAll('*');
+      children.forEach(child => {
+        const childElement = child as HTMLElement;
+        childElement.style.setProperty('display', child.tagName.toLowerCase() === 'strong' ? 'inline' : 'block', 'important');
+        childElement.style.setProperty('visibility', 'visible', 'important');
+        childElement.style.setProperty('opacity', '1', 'important');
+      });
+    }
+  }, []);
+
+  // Trigger print dialog with delay to ensure everything renders
   useEffect(() => {
     toast({
       title: "Preparando documento para impressão",
       description: "O diálogo de impressão abrirá automaticamente em alguns segundos",
     });
     
-    // Small timeout to ensure everything renders properly before printing
+    // Increased timeout to ensure full rendering before printing
     const timer = setTimeout(() => {
-      exportToPDF();
-    }, 1500); // Increased timeout to ensure full rendering
+      if (recomendacoesRef.current) {
+        // Verifica novamente a visibilidade antes de imprimir
+        const style = recomendacoesRef.current.style;
+        style.setProperty('display', 'block', 'important');
+        style.setProperty('visibility', 'visible', 'important');
+        style.setProperty('opacity', '1', 'important');
+      }
+      
+      // Força atualização do DOM antes de imprimir
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => {
+          exportToPDF();
+        });
+      });
+    }, 2500); // Tempo aumentado para garantir renderização completa
     
     return () => clearTimeout(timer);
   }, [toast]);
-
-  // Force recommendations section to be visible after component mounts
-  useEffect(() => {
-    const recomendacoesSection = document.querySelector('.recomendacoes-section');
-    if (recomendacoesSection) {
-      recomendacoesSection.setAttribute('style', 'display: block !important; visibility: visible !important; page-break-before: always !important; opacity: 1 !important;');
-    }
-  }, []);
 
   return (
     <div className="exportable-document print-layout">
@@ -70,7 +84,7 @@ const Export = () => {
         Baseado em respostas de 12 Secretarias Estaduais de Saúde | 45 fortalezas e 63 fragilidades identificadas
       </div>
       
-      {/* Seção 1: Visão Geral - REFORMATADA conforme imagem de exemplo */}
+      {/* Seção 1: Visão Geral */}
       <div className="card card-section-1">
         <div className="grid grid-cols-1 gap-2 mb-4">
           <div className="bg-blue-50 p-3 rounded-lg">
@@ -124,7 +138,7 @@ const Export = () => {
         </div>
       </div>
       
-      {/* Seção 2: Comparativo - Título e notificação conforme imagem */}
+      {/* Seção 2: Comparativo */}
       <div className="card card-section-2">
         <div className="comparativo-titulo">
           2. Comparativo por Categoria
@@ -428,39 +442,166 @@ const Export = () => {
         </table>
       </div>
       
-      {/* Seção 8: Recomendações para Melhoria da Regulação no SUS - REFORÇADA VISIBILIDADE */}
-      <div id="recomendacoes-section" className="card card-section-8 recomendacoes-section" style={recomendacoesStyle}>
-        <h2 className="text-xl font-semibold mb-4 recomendacoes-title">Recomendações para Melhoria da Regulação no SUS</h2>
+      {/* Seção 8: Recomendações - COMPLETAMENTE REESCRITA E REFORÇADA */}
+      <div 
+        id="recomendacoes-section" 
+        ref={recomendacoesRef}
+        className="card card-section-8 recomendacoes-section"
+        style={{
+          display: 'block',
+          visibility: 'visible',
+          pageBreakBefore: 'always',
+          breakBefore: 'page',
+          border: '2px solid #000',
+          backgroundColor: '#f9f9f9',
+          padding: '20px',
+          marginTop: '30px',
+          marginBottom: '30px',
+          zIndex: 9999,
+          position: 'relative',
+          opacity: 1
+        }}
+      >
+        <h2 
+          className="text-xl font-semibold mb-4 recomendacoes-title"
+          style={{
+            display: 'block',
+            visibility: 'visible',
+            opacity: 1,
+            fontSize: '18pt',
+            fontWeight: 700,
+            marginBottom: '25px',
+            borderBottom: '2px solid #000',
+            paddingBottom: '10px',
+            color: '#000'
+          }}
+        >
+          Recomendações para Melhoria da Regulação no SUS
+        </h2>
         
-        <ul className="space-y-4 recomendacoes-list">
-          <li style={recomendacoesItemStyle}>
-            <strong>Sistemas de informação e tecnologia:</strong> 
-            <p>Investir em tecnologias mais integradas e interoperáveis, modernizando sistemas existentes como o SISREG. Expandir o uso de telemedicina e telessaúde para ampliar o acesso nas regiões remotas.</p>
+        <ul 
+          className="space-y-4 recomendacoes-list"
+          style={{
+            display: 'block',
+            visibility: 'visible',
+            opacity: 1,
+            listStyleType: 'disc',
+            paddingLeft: '20px',
+            margin: '20px 0'
+          }}
+        >
+          <li 
+            className="recomendacao-item"
+            style={{
+              display: 'block',
+              visibility: 'visible',
+              opacity: 1,
+              marginBottom: '20px',
+              pageBreakInside: 'avoid',
+              breakInside: 'avoid'
+            }}
+          >
+            <strong style={{display: 'inline', visibility: 'visible', opacity: 1, fontWeight: 700, color: '#000'}}>
+              Sistemas de informação e tecnologia:
+            </strong> 
+            <p style={{display: 'block', visibility: 'visible', opacity: 1, marginTop: '5px'}}>
+              Investir em tecnologias mais integradas e interoperáveis, modernizando sistemas existentes como o SISREG. Expandir o uso de telemedicina e telessaúde para ampliar o acesso nas regiões remotas.
+            </p>
           </li>
           
-          <li style={recomendacoesItemStyle}>
-            <strong>Protocolos e processos:</strong> 
-            <p>Padronizar nacionalmente protocolos de regulação e classificação de risco, construindo diretrizes que possam ser adaptadas às realidades locais.</p>
+          <li 
+            className="recomendacao-item"
+            style={{
+              display: 'block',
+              visibility: 'visible',
+              opacity: 1,
+              marginBottom: '20px',
+              pageBreakInside: 'avoid',
+              breakInside: 'avoid'
+            }}
+          >
+            <strong style={{display: 'inline', visibility: 'visible', opacity: 1, fontWeight: 700, color: '#000'}}>
+              Protocolos e processos:
+            </strong> 
+            <p style={{display: 'block', visibility: 'visible', opacity: 1, marginTop: '5px'}}>
+              Padronizar nacionalmente protocolos de regulação e classificação de risco, construindo diretrizes que possam ser adaptadas às realidades locais.
+            </p>
           </li>
           
-          <li style={recomendacoesItemStyle}>
-            <strong>Recursos humanos:</strong> 
-            <p>Desenvolver programas de capacitação continuada e estabelecer carreiras específicas para profissionais de regulação, principalmente médicos reguladores.</p>
+          <li 
+            className="recomendacao-item"
+            style={{
+              display: 'block',
+              visibility: 'visible',
+              opacity: 1,
+              marginBottom: '20px',
+              pageBreakInside: 'avoid',
+              breakInside: 'avoid'
+            }}
+          >
+            <strong style={{display: 'inline', visibility: 'visible', opacity: 1, fontWeight: 700, color: '#000'}}>
+              Recursos humanos:
+            </strong> 
+            <p style={{display: 'block', visibility: 'visible', opacity: 1, marginTop: '5px'}}>
+              Desenvolver programas de capacitação continuada e estabelecer carreiras específicas para profissionais de regulação, principalmente médicos reguladores.
+            </p>
           </li>
           
-          <li style={recomendacoesItemStyle}>
-            <strong>Integração entre níveis de atenção:</strong> 
-            <p>Fortalecer a comunicação entre a atenção primária e especializada, usando sistemas como referência e contrarreferência eletrônicas.</p>
+          <li 
+            className="recomendacao-item"
+            style={{
+              display: 'block',
+              visibility: 'visible',
+              opacity: 1,
+              marginBottom: '20px',
+              pageBreakInside: 'avoid',
+              breakInside: 'avoid'
+            }}
+          >
+            <strong style={{display: 'inline', visibility: 'visible', opacity: 1, fontWeight: 700, color: '#000'}}>
+              Integração entre níveis de atenção:
+            </strong> 
+            <p style={{display: 'block', visibility: 'visible', opacity: 1, marginTop: '5px'}}>
+              Fortalecer a comunicação entre a atenção primária e especializada, usando sistemas como referência e contrarreferência eletrônicas.
+            </p>
           </li>
           
-          <li style={recomendacoesItemStyle}>
-            <strong>Regionalização:</strong> 
-            <p>Fortalecer os processos de regionalização, garantindo que os municípios-polo cumpram seu papel assistencial conforme planejado nos PDRs.</p>
+          <li 
+            className="recomendacao-item"
+            style={{
+              display: 'block',
+              visibility: 'visible',
+              opacity: 1,
+              marginBottom: '20px',
+              pageBreakInside: 'avoid',
+              breakInside: 'avoid'
+            }}
+          >
+            <strong style={{display: 'inline', visibility: 'visible', opacity: 1, fontWeight: 700, color: '#000'}}>
+              Regionalização:
+            </strong> 
+            <p style={{display: 'block', visibility: 'visible', opacity: 1, marginTop: '5px'}}>
+              Fortalecer os processos de regionalização, garantindo que os municípios-polo cumpram seu papel assistencial conforme planejado nos PDRs.
+            </p>
           </li>
           
-          <li style={recomendacoesItemStyle}>
-            <strong>Política integrada:</strong> 
-            <p>Desenvolver uma política nacional de regulação integrada, com diretrizes claras e incentivos para implementação em todos os níveis.</p>
+          <li 
+            className="recomendacao-item"
+            style={{
+              display: 'block',
+              visibility: 'visible',
+              opacity: 1,
+              marginBottom: '20px',
+              pageBreakInside: 'avoid',
+              breakInside: 'avoid'
+            }}
+          >
+            <strong style={{display: 'inline', visibility: 'visible', opacity: 1, fontWeight: 700, color: '#000'}}>
+              Política integrada:
+            </strong> 
+            <p style={{display: 'block', visibility: 'visible', opacity: 1, marginTop: '5px'}}>
+              Desenvolver uma política nacional de regulação integrada, com diretrizes claras e incentivos para implementação em todos os níveis.
+            </p>
           </li>
         </ul>
       </div>

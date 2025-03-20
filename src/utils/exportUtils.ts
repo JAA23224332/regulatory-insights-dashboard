@@ -164,24 +164,91 @@ export const exportToPowerPoint = () => {
 
 // Function to trigger PDF export with better styling
 export const exportToPDF = () => {
+  // Aggressively force all recommendation elements to be visible
+  const forceRecomendacoesVisibility = () => {
+    const recomendacoesSection = document.getElementById('recomendacoes-section');
+    const allRecomendacoesSections = document.querySelectorAll('.recomendacoes-section, .card-section-8');
+    
+    if (recomendacoesSection || allRecomendacoesSections.length > 0) {
+      // Force the specific section with ID
+      if (recomendacoesSection) {
+        const style = recomendacoesSection.style;
+        style.setProperty('display', 'block', 'important');
+        style.setProperty('visibility', 'visible', 'important');
+        style.setProperty('opacity', '1', 'important');
+        style.setProperty('page-break-before', 'always', 'important');
+        style.setProperty('break-before', 'page', 'important');
+        style.setProperty('position', 'relative', 'important');
+        style.setProperty('z-index', '9999', 'important');
+        
+        // Make sure all children are visible too
+        const children = recomendacoesSection.querySelectorAll('*');
+        children.forEach(child => {
+          const elem = child as HTMLElement;
+          elem.style.setProperty('display', child.tagName.toLowerCase() === 'strong' ? 'inline' : 'block', 'important');
+          elem.style.setProperty('visibility', 'visible', 'important');
+          elem.style.setProperty('opacity', '1', 'important');
+        });
+      }
+      
+      // Force all sections with class
+      allRecomendacoesSections.forEach(section => {
+        const sectionElem = section as HTMLElement;
+        sectionElem.style.setProperty('display', 'block', 'important');
+        sectionElem.style.setProperty('visibility', 'visible', 'important');
+        sectionElem.style.setProperty('opacity', '1', 'important');
+        sectionElem.style.setProperty('page-break-before', 'always', 'important');
+        sectionElem.style.setProperty('break-before', 'page', 'important');
+        sectionElem.style.setProperty('position', 'relative', 'important');
+        sectionElem.style.setProperty('z-index', '9999', 'important');
+        
+        // Make sure all children are visible too
+        const children = sectionElem.querySelectorAll('*');
+        children.forEach(child => {
+          const elem = child as HTMLElement;
+          elem.style.setProperty('display', child.tagName.toLowerCase() === 'strong' ? 'inline' : 'block', 'important');
+          elem.style.setProperty('visibility', 'visible', 'important');
+          elem.style.setProperty('opacity', '1', 'important');
+        });
+      });
+      
+      console.log("Forced visibility for recommendations section completed");
+      return true;
+    }
+    
+    console.warn("Recommendations section not found in DOM!");
+    return false;
+  };
+  
   // Set a flag to indicate we're printing
   document.body.classList.add('printing-pdf');
   
-  // Force a small delay to ensure styles are applied
+  // Add meta viewport tag with specific settings for print
+  const viewportMeta = document.createElement('meta');
+  viewportMeta.setAttribute('name', 'viewport');
+  viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0');
+  document.head.appendChild(viewportMeta);
+  
+  // Force visibility for recommendations section
+  forceRecomendacoesVisibility();
+  
+  // Force a longer delay to ensure styles are applied
   setTimeout(() => {
-    // Add meta viewport tag with specific settings for print
-    const viewportMeta = document.createElement('meta');
-    viewportMeta.setAttribute('name', 'viewport');
-    viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0');
-    document.head.appendChild(viewportMeta);
+    // Double-check visibility before printing
+    forceRecomendacoesVisibility();
     
-    // Trigger the print dialog
-    window.print();
-    
-    // Clean up after printing
-    setTimeout(() => {
-      document.body.classList.remove('printing-pdf');
-      document.head.removeChild(viewportMeta);
-    }, 1000);
-  }, 500);
+    // Use requestAnimationFrame to ensure DOM is updated
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        console.log("Triggering print dialog");
+        window.print();
+        
+        // Clean up after printing
+        setTimeout(() => {
+          document.body.classList.remove('printing-pdf');
+          document.head.removeChild(viewportMeta);
+        }, 1000);
+      });
+    });
+  }, 2000);
 };
