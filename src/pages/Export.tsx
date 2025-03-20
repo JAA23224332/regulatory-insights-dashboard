@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef } from 'react';
 import { dadosReais, dadosIntensidade, termosFrequentesFortalezas, termosFrequentesFragilidades, termosCompartilhados, dadosDistribuicaoPie, estatisticasGerais, dadosComparativoCategoria } from '@/data/regulacaoData';
 import { PieChart, Pie, Cell, Legend, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
@@ -361,10 +360,9 @@ const Export = () => {
           2. Comparativo por Categoria
         </div>
         
-        {/* Gráfico de barras comparativo aumentado em 20% */}
-        <div className="chart-container mb-6" style={{ height: '420px' }}> {/* Aumento de 20% na altura */}
+        <div className="chart-container mb-6" style={{ height: '500px' }}>
           <ChartContainer 
-            className="h-[420px] w-full" 
+            className="h-[500px] w-full" 
             config={{
               fortalezas: { color: "#4CAF50" },
               fragilidades: { color: "#F44336" }
@@ -374,7 +372,7 @@ const Export = () => {
               <BarChart
                 data={dadosComparativoCategoria}
                 layout="vertical"
-                margin={{ top: 20, right: 30, left: 120, bottom: 20 }}
+                margin={{ top: 20, right: 30, left: 150, bottom: 30 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis type="number" />
@@ -382,10 +380,14 @@ const Export = () => {
                   type="category" 
                   dataKey="categoria" 
                   tick={{ fontSize: 12 }} 
-                  width={120} 
+                  width={150} 
                 />
                 <Tooltip />
-                <Legend />
+                <Legend 
+                  verticalAlign="bottom"
+                  align="center"
+                  wrapperStyle={{ paddingTop: '20px' }}
+                />
                 <Bar dataKey="fortalezas" name="Fortalezas" fill={COLORS_BAR.fortalezas} />
                 <Bar dataKey="fragilidades" name="Fragilidades" fill={COLORS_BAR.fragilidades} />
               </BarChart>
