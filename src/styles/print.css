@@ -1,8 +1,9 @@
+
 /* Estilos de impressão */
 @media print {
   /* Reset básico para impressão */
   body, html {
-    font-size: 10pt !important;
+    font-size: 12pt !important;
     background-color: white !important;
     color: black !important;
     margin: 0 !important;
@@ -92,7 +93,7 @@
   }
   
   .print-subtitle {
-    font-size: 9pt !important;
+    font-size: 12pt !important;
     text-align: center !important;
     margin-bottom: 10px !important;
     color: #555 !important;
@@ -189,7 +190,7 @@
   }
   
   .card-section-1 .text-sm {
-    font-size: 8pt !important;
+    font-size: 12pt !important;
     text-align: center !important;
     display: block !important;
   }
@@ -237,7 +238,7 @@
     position: relative !important;
     margin-top: 10px !important;
     padding-top: 5px !important;
-    font-size: 8pt !important;
+    font-size: 12pt !important;
     width: 100% !important;
     display: block !important;
     text-align: center !important;
@@ -249,7 +250,7 @@
     margin-top: 10px !important;
     margin-bottom: 5px !important;
     text-align: center !important;
-    font-size: 8pt !important;
+    font-size: 12pt !important;
   }
   
   .print-legend-item {
@@ -279,7 +280,7 @@
     width: 100% !important;
     border-collapse: collapse !important;
     margin: 5px 0 !important;
-    font-size: 8pt !important;
+    font-size: 12pt !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
   }
@@ -289,7 +290,7 @@
     border: 1px solid #ddd !important;
     padding: 3px 4px !important;
     text-align: left !important;
-    font-size: 8pt !important;
+    font-size: 12pt !important;
   }
   
   .print-table th {
@@ -307,7 +308,7 @@
   }
   
   .principais-constatacoes h3 {
-    font-size: 9pt !important;
+    font-size: 12pt !important;
     font-weight: bold !important;
     margin-bottom: 4px !important;
   }
@@ -325,7 +326,7 @@
     line-height: 1.2 !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
-    font-size: 8pt !important;
+    font-size: 12pt !important;
   }
   
   /* Bullets coloridos */
@@ -359,13 +360,13 @@
     border: 1px solid #eee !important;
     margin-top: 8px !important;
     padding: 6px !important;
-    font-size: 8pt !important;
+    font-size: 12pt !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
   }
   
   .bg-gray-50 h3 {
-    font-size: 9pt !important;
+    font-size: 12pt !important;
     font-weight: bold !important;
     margin-bottom: 5px !important;
     color: #333 !important;
@@ -379,7 +380,7 @@
   
   .bg-gray-50 li {
     margin-bottom: 3px !important;
-    font-size: 8pt !important;
+    font-size: 12pt !important;
     line-height: 1.3 !important;
     padding-left: 8px !important;
     position: relative !important;
@@ -523,7 +524,7 @@
     text-align: center !important;
     margin-top: 15px !important;
     margin-bottom: 10px !important;
-    font-size: 8pt !important;
+    font-size: 12pt !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
   }
@@ -541,7 +542,7 @@
   /* Aumentar o tamanho da fonte nas tabelas para melhor legibilidade */
   .display-print-only table.print-table th,
   .display-print-only table.print-table td {
-    font-size: 8pt !important;
+    font-size: 12pt !important;
     padding: 3px 5px !important;
     word-wrap: break-word !important;
     max-width: 300px !important;
@@ -579,14 +580,14 @@
   }
   
   .bg-gray-50 h3 {
-    font-size: 9pt !important;
+    font-size: 12pt !important;
     margin-bottom: 5px !important;
     color: #000 !important;
   }
   
   .bg-gray-50 li {
     margin-bottom: 4px !important;
-    font-size: 8pt !important;
+    font-size: 12pt !important;
     line-height: 1.3 !important;
     display: flex !important;
     align-items: flex-start !important;
@@ -646,13 +647,13 @@
   }
   
   .card-section-9 .font-medium {
-    font-size: 9pt !important;
+    font-size: 12pt !important;
     margin-bottom: 2px !important;
     display: block !important;
   }
   
   .card-section-9 p {
-    font-size: 8pt !important;
+    font-size: 12pt !important;
     line-height: 1.3 !important;
     margin: 0 !important;
   }
@@ -679,7 +680,7 @@
   
   .text-center.mb-12 p {
     margin-top: 2px !important;
-    font-size: 9pt !important;
+    font-size: 12pt !important;
   }
   
   /* Reduzir espaçamento vertical geral */
@@ -707,7 +708,7 @@
   
   .text-center.mb-8.mt-12 p {
     margin: 0 !important;
-    font-size: 7pt !important;
+    font-size: 12pt !important;
     color: #777 !important;
   }
   
@@ -719,11 +720,11 @@
   
   /* Reduzir tamanho de todos os textos para melhor aproveitamento do espaço */
   p, li, span {
-    font-size: 8pt !important;
+    font-size: 12pt !important;
   }
   
   h1, h2, h3, .text-2xl, .text-xl {
-    font-size: 11pt !important;
+    font-size: 14pt !important;
     margin-bottom: 5px !important;
   }
   
@@ -741,7 +742,7 @@
 /* Additional pie chart styling for print */
 @media print {
   .pie-label {
-    font-size: 8pt !important;
+    font-size: 12pt !important;
     font-weight: bold !important;
   }
   
@@ -751,7 +752,7 @@
   
   .recharts-legend-item-text {
     color: black !important;
-    font-size: 8pt !important;
+    font-size: 12pt !important;
   }
   
   .print-chart-legend {
@@ -812,6 +813,4 @@
     break-before: auto !important;
     break-after: avoid !important;
   }
-  
-  /* ... keep existing code (ajustes finos das barras de frequência) */
 }
