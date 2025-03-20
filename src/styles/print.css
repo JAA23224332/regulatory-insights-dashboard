@@ -1,4 +1,3 @@
-
 /* Estilos de impressão */
 @media print {
   /* Reset básico para impressão */
@@ -626,5 +625,72 @@
   div::before {
     content: none !important;
     display: none !important;
+  }
+}
+
+/* Additional pie chart styling for print */
+@media print {
+  .pie-label {
+    font-size: 12pt !important;
+    font-weight: bold !important;
+  }
+  
+  .recharts-legend-item {
+    margin-right: 20px !important;
+  }
+  
+  .recharts-legend-item-text {
+    color: black !important;
+    font-size: 12pt !important;
+  }
+  
+  .print-chart-legend {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .print-legend-item {
+    display: inline-flex;
+    align-items: center;
+    margin: 0 10px;
+  }
+  
+  .print-legend-color {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
+  }
+  
+  .fortalezas-color {
+    background-color: #4CAF50;
+  }
+  
+  .fragilidades-color {
+    background-color: #F44336;
+  }
+  
+  /* Bar chart print fixes */
+  .display-print-only table.print-table {
+    width: 100%;
+    page-break-inside: avoid;
+  }
+  
+  .display-print-only table.print-table th,
+  .display-print-only table.print-table td {
+    padding: 5px;
+    text-align: left;
+  }
+  
+  .display-print-only table.print-table th:first-child,
+  .display-print-only table.print-table td:first-child {
+    width: 40%;
+  }
+  
+  .display-print-only table.print-table th:last-child,
+  .display-print-only table.print-table td:last-child {
+    width: 60%;
   }
 }

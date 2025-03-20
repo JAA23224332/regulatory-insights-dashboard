@@ -246,6 +246,28 @@ const Export = () => {
     );
   };
 
+  // Format percentage for pie chart labels
+  const renderCustomizedPieLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }: any) => {
+    const RADIAN = Math.PI / 180;
+    const radius = outerRadius * 1.1;
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+  
+    return (
+      <text 
+        x={x} 
+        y={y} 
+        fill={COLORS_PIE[index % COLORS_PIE.length]}
+        textAnchor={x > cx ? 'start' : 'end'} 
+        dominantBaseline="central"
+        className="pie-label"
+        style={{ fontWeight: 'bold', fontSize: '14px' }}
+      >
+        {dadosDistribuicaoPie[index].name}: {`${(percent * 100).toFixed(0)}%`}
+      </text>
+    );
+  };
+
   return (
     <div className="exportable-document print-layout pb-20">
       <div className="print-title">
@@ -272,7 +294,7 @@ const Export = () => {
         </div>
         
         <div className="chart-container mb-6">
-          <div className="flex justify-center items-center">
+          <div className="flex justify-center items-center flex-col">
             <ChartContainer 
               className="h-[400px] w-[600px]" 
               config={{
@@ -283,34 +305,44 @@ const Export = () => {
               <PieChart>
                 <Pie
                   data={dadosDistribuicaoPie}
-                  cx="45%" 
+                  cx="50%" 
                   cy="50%"
-                  labelLine={false} 
-                  outerRadius={150} 
+                  labelLine={true}
+                  outerRadius={120} 
                   fill="#8884d8"
                   dataKey="value"
                   nameKey="name"
-                  label={({ percent }) => `${(percent * 100).toFixed(0)}%`}
+                  label={renderCustomizedPieLabel}
                 >
                   {dadosDistribuicaoPie.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS_PIE[index % COLORS_PIE.length]} />
                   ))}
                 </Pie>
                 <Legend 
-                  layout="vertical" 
-                  verticalAlign="middle" 
-                  align="right"
+                  layout="horizontal" 
+                  verticalAlign="bottom"
+                  align="center"
                   wrapperStyle={{ 
-                    fontSize: '14px', 
-                    paddingLeft: '30px',
-                    right: 0,
-                    width: 'auto',
-                    position: 'absolute'
+                    fontSize: '14px',
+                    paddingTop: '20px',
+                    width: '100%',
+                    textAlign: 'center'
                   }}
                 />
                 <Tooltip formatter={(value, name) => [`${value} (${dadosDistribuicaoPie.find(item => item.name === name)?.percentage}%)`, name]} />
               </PieChart>
             </ChartContainer>
+            
+            <div className="text-center mt-2 print:block hidden">
+              <div className="inline-block mr-6">
+                <span className="inline-block w-4 h-4 bg-green-500 mr-2"></span>
+                <span>Fortalezas: {dadosDistribuicaoPie[0].percentage}</span>
+              </div>
+              <div className="inline-block">
+                <span className="inline-block w-4 h-4 bg-red-500 mr-2"></span>
+                <span>Fragilidades: {dadosDistribuicaoPie[1].percentage}</span>
+              </div>
+            </div>
           </div>
         </div>
         
@@ -401,11 +433,11 @@ const Export = () => {
         </div>
         
         <div className="display-print-only mb-3">
-          <table className="print-table">
+          <table className="print-table w-full">
             <thead>
               <tr>
-                <th>Categoria</th>
-                <th>Visualização</th>
+                <th style={{ width: '40%' }}>Categoria</th>
+                <th style={{ width: '60%' }}>Visualização</th>
               </tr>
             </thead>
             <tbody>
@@ -414,28 +446,38 @@ const Export = () => {
                   <td><strong>{item.categoria}</strong></td>
                   <td>
                     <div className="flex items-center">
-                      <span style={{ 
-                        display: 'inline-block',
-                        width: `${item.fortalezas * 5}px`,
-                        height: '10px',
-                        backgroundColor: '#4CAF50',
-                        marginRight: '3px'
-                      }}></span>
-                      <span style={{ 
-                        display: 'inline-block',
-                        width: `${item.fragilidades * 5}px`,
-                        height: '10px',
-                        backgroundColor: '#F44336'
-                      }}></span>
+                      <div className="w-full relative h-10 flex items-center">
+                        <div className="flex items-center absolute" style={{ width: '100%', zIndex: 1 }}>
+                          <span style={{ 
+                            display: 'inline-block',
+                            width: `${(item.fortalezas / Math.max(...dadosReais.map(d => Math.max(d.fortalezas, d.fragilidades)))) * 100}%`,
+                            height: '16px',
+                            backgroundColor: '#4CAF50',
+                            marginRight: '0'
+                          }}></span>
+                          <span style={{ 
+                            display: 'inline-block',
+                            width: `${(item.fragilidades / Math.max(...dadosReais.map(d => Math.max(d.fortalezas, d.fragilidades)))) * 100}%`,
+                            height: '16px',
+                            backgroundColor: '#F44336'
+                          }}></span>
+                        </div>
+                        <div className="absolute left-0 right-0 top-0 bottom-0 flex items-center justify-between px-2 text-xs text-white" style={{ zIndex: 2 }}>
+                          <span style={{ visibility: item.fortalezas > 0 ? 'visible' : 'hidden' }}>{item.fortalezas}</span>
+                          <span style={{ visibility: item.fragilidades > 0 ? 'visible' : 'hidden' }}>{item.fragilidades}</span>
+                        </div>
+                      </div>
                     </div>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-          <div className="text-xs text-gray-700 mt-1 mb-3">
-            <span className="inline-block w-3 h-3 bg-green-600 mr-1"></span> Fortalezas
-            <span className="inline-block w-3 h-3 bg-red-600 ml-3 mr-1"></span> Fragilidades
+          <div className="text-xs text-gray-700 mt-3 mb-3 flex items-center justify-center">
+            <span className="inline-block w-4 h-4 bg-green-600 mr-1"></span> 
+            <span className="mr-4">Fortalezas</span>
+            <span className="inline-block w-4 h-4 bg-red-600 mr-1"></span> 
+            <span>Fragilidades</span>
           </div>
         </div>
         
