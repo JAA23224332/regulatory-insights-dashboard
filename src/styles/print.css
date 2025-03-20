@@ -357,6 +357,8 @@
     margin-top: 15px !important;
     padding: 10px !important;
     font-size: 8pt !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
   }
   
   .bg-gray-50 h3 {
@@ -369,12 +371,17 @@
   .bg-gray-50 ul {
     margin: 0 !important;
     padding-left: 5px !important;
+    list-style-type: none !important;
   }
   
   .bg-gray-50 li {
     margin-bottom: 5px !important;
     font-size: 8pt !important;
-    line-height: 1.2 !important;
+    line-height: 1.4 !important;
+    padding-left: 12px !important;
+    position: relative !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
   }
   
   /* Configuração de página */
@@ -539,29 +546,111 @@
     page-break-inside: avoid !important;
     break-inside: avoid !important;
   }
-}
 
-/* Adicionar regras específicas para elementos que podem ter sido injetados pelo navegador */
-@media print {
-  /* Esconder qualquer texto que contenha nomes de projetos */
-  body *:not(script):not(style):not(link) {
-    content-visibility: auto;
+  /* CORREÇÕES ESPECÍFICAS PARA TABELAS E INSIGHTS */
+  /* Melhorar a visualização das tabelas */
+  .display-print-only table.print-table {
+    margin-bottom: 20px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
   }
   
-  body *:not(script):not(style):not(link)::before,
-  body *:not(script):not(style):not(link)::after {
-    content: normal !important;
+  /* Aumentar o tamanho da fonte nas tabelas para melhor legibilidade */
+  .display-print-only table.print-table th,
+  .display-print-only table.print-table td {
+    font-size: 9pt !important;
+    padding: 5px 8px !important;
+    word-wrap: break-word !important;
+    max-width: 300px !important;
   }
   
-  /* Isso força que qualquer conteúdo injetado no início da página seja removido */
-  html::before,
-  body::before,
-  #root::before,
-  .exportable-document::before,
-  .print-layout::before,
-  div::before {
-    content: none !important;
-    display: none !important;
+  /* Ajustar largura das colunas */
+  .display-print-only table.print-table th:first-child,
+  .display-print-only table.print-table td:first-child {
+    width: 40% !important;
+  }
+
+  /* Ajustar a coluna de visualização (barras verdes) */
+  .display-print-only table.print-table th:last-child,
+  .display-print-only table.print-table td:last-child {
+    width: 25% !important; 
+  }
+  
+  /* Melhorar a aparência das barras nas tabelas */
+  .display-print-only table.print-table td .flex.items-center div {
+    height: 8px !important;
+    min-width: 8px !important;
+    max-width: 100px !important;
+    background-color: #4CAF50 !important;
+  }
+  
+  /* Melhorar a formatação dos insights */
+  .bg-gray-50 {
+    margin: 20px 0 !important;
+    padding: 15px !important;
+    background-color: #f9f9f9 !important;
+    border: 1px solid #e0e0e0 !important;
+    border-radius: 5px !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+  
+  .bg-gray-50 h3 {
+    font-size: 11pt !important;
+    margin-bottom: 12px !important;
+    color: #000 !important;
+  }
+  
+  .bg-gray-50 li {
+    margin-bottom: 8px !important;
+    font-size: 9pt !important;
+    line-height: 1.5 !important;
+    display: flex !important;
+    align-items: flex-start !important;
+  }
+  
+  .bg-gray-50 li .inline-block {
+    margin-top: 4px !important;
+    margin-right: 8px !important;
+    flex-shrink: 0 !important;
+  }
+  
+  .bg-gray-50 li span {
+    display: block !important;
+    width: 95% !important;
+  }
+
+  /* Garantir que os insights sobre termos frequentes sejam exibidos corretamente */
+  .card-section-6 .bg-gray-50,
+  .card-section-7 .bg-gray-50 {
+    margin-top: 30px !important;
+    clear: both !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+  
+  /* Corrigir problemas específicos do relatório */
+  .card-section-6 .display-print-only table.print-table,
+  .card-section-7 .display-print-only table.print-table {
+    margin-bottom: 0 !important;
+  }
+
+  /* Adicionar mais espaço entre as linhas na tabela de visualização */
+  .display-print-only table.print-table td .flex.items-center {
+    padding: 2px 0 !important;
+  }
+  
+  /* Aumentar a largura das barras na visualização */
+  .display-print-only table.print-table td .flex.items-center div {
+    border-radius: 2px !important;
+  }
+  
+  /* Garantir que os insights não sejam cortados */
+  .bg-gray-50 ul {
+    padding-left: 10px !important;
+    margin-bottom: 5px !important;
   }
 }
 

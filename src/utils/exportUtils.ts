@@ -126,6 +126,41 @@ export const exportToPDF = () => {
     });
   };
   
+  // Função para preparar as tabelas de termos frequentes para impressão
+  const prepareTermosTables = () => {
+    // Melhorar o layout das tabelas de termos frequentes
+    const termosTabelas = document.querySelectorAll('.card-section-6 .display-print-only table, .card-section-7 .display-print-only table');
+    termosTabelas.forEach(tabela => {
+      if (tabela instanceof HTMLElement) {
+        tabela.style.pageBreakInside = 'avoid';
+        tabela.style.breakInside = 'avoid';
+        tabela.style.marginBottom = '20px';
+        
+        // Ajustar as barras para melhor visualização
+        const barras = tabela.querySelectorAll('td div.flex div');
+        barras.forEach(barra => {
+          if (barra instanceof HTMLElement) {
+            barra.style.height = '8px';
+            barra.style.borderRadius = '2px';
+            barra.style.minWidth = '5px';
+          }
+        });
+      }
+    });
+    
+    // Garantir que os insights não sejam cortados
+    const insights = document.querySelectorAll('.bg-gray-50');
+    insights.forEach(insight => {
+      if (insight instanceof HTMLElement) {
+        insight.style.pageBreakInside = 'avoid';
+        insight.style.breakInside = 'avoid';
+        insight.style.marginTop = '20px';
+        insight.style.marginBottom = '20px';
+        insight.style.padding = '15px';
+      }
+    });
+  };
+
   // Preparar o documento para impressão
   const prepareForPrint = () => {
     // Simplificar e limpar renderização de gráficos para impressão
@@ -161,6 +196,9 @@ export const exportToPDF = () => {
         chart.style.transformOrigin = 'center';
       }
     });
+    
+    // Preparar tabelas de termos frequentes para melhor visualização
+    prepareTermosTables();
   };
   
   // Tempo para a preparação da visualização
@@ -181,6 +219,6 @@ export const exportToPDF = () => {
         document.body.classList.remove('printing-pdf');
         restoreHiddenElements();
       }, 1000);
-    }, 100);
-  }, 300);
+    }, 300);
+  }, 500); // Aumentando o tempo de espera para garantir que todos os elementos estejam carregados
 };
