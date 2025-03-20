@@ -10,10 +10,12 @@ interface ExportButtonsProps {
 
 const ExportButtons = ({ className = '' }: ExportButtonsProps) => {
   const handlePrintPDF = () => {
+    // Silenciosamente exporta para PDF sem notificações
     exportToPDF();
   };
   
   const handleExportPowerPoint = () => {
+    // Silenciosamente exporta para PowerPoint sem notificações
     exportToPowerPoint();
   };
   

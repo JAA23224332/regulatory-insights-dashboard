@@ -162,92 +162,103 @@ export const exportToPowerPoint = () => {
   saveAs(blob, 'Analise_Regulacao_SUS.xlsx');
 };
 
-// Completely rewritten function to export to PDF without notifications
+// Rewritten function for PDF export with better spacing and no notifications
 export const exportToPDF = () => {
-  // Função para forçar a visibilidade de todas as seções de recomendações
-  const forceRecomendacoesVisibility = () => {
-    // 1. Captura todos os possíveis elementos de recomendações
-    const recomendacoesSectionId = document.getElementById('recomendacoes-section');
-    const allRecomendacoesSections = document.querySelectorAll('.recomendacoes-section, .card-section-8');
-    
-    if (recomendacoesSectionId || allRecomendacoesSections.length > 0) {
-      // 2. Força a seção específica com ID
-      if (recomendacoesSectionId) {
-        const style = recomendacoesSectionId.style;
-        style.display = 'block';
-        style.visibility = 'visible';
-        style.opacity = '1';
-        style.pageBreakBefore = 'always';
-        style.breakBefore = 'page';
-        style.position = 'relative';
-        style.zIndex = '9999';
-        
-        // Certifica-se de que todos os filhos estejam visíveis também
-        const children = recomendacoesSectionId.querySelectorAll('*');
-        children.forEach(child => {
-          const elem = child as HTMLElement;
-          elem.style.display = child.tagName.toLowerCase() === 'strong' ? 'inline' : 'block';
-          elem.style.visibility = 'visible';
-          elem.style.opacity = '1';
-        });
-      }
-      
-      // 3. Força todas as seções com classes
-      allRecomendacoesSections.forEach(section => {
-        const sectionElem = section as HTMLElement;
-        sectionElem.style.display = 'block';
-        sectionElem.style.visibility = 'visible';
-        sectionElem.style.opacity = '1';
-        sectionElem.style.pageBreakBefore = 'always';
-        sectionElem.style.breakBefore = 'page';
-        sectionElem.style.position = 'relative';
-        sectionElem.style.zIndex = '9999';
-        
-        // Certifica-se de que todos os filhos estejam visíveis também
-        const children = sectionElem.querySelectorAll('*');
-        children.forEach(child => {
-          const elem = child as HTMLElement;
-          elem.style.display = child.tagName.toLowerCase() === 'strong' ? 'inline' : 'block';
-          elem.style.visibility = 'visible';
-          elem.style.opacity = '1';
-        });
-      });
-      
-      return true;
-    }
-    
-    return false;
-  };
-  
-  // 4. Adiciona classe para indicar impressão
+  // Add print-mode class to the body to activate specific print styles
   document.body.classList.add('printing-pdf');
   
-  // 5. Adiciona meta tag viewport com configurações específicas para impressão
-  const viewportMeta = document.createElement('meta');
-  viewportMeta.setAttribute('name', 'viewport');
-  viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0');
-  document.head.appendChild(viewportMeta);
-  
-  // 6. Forçar a visibilidade para seção de recomendações
-  forceRecomendacoesVisibility();
-  
-  // 7. Usa setTimeout maior para garantir que os estilos sejam aplicados
-  setTimeout(() => {
-    // 8. Verifica a visibilidade novamente antes de imprimir
-    forceRecomendacoesVisibility();
-    
-    // 9. Usa requestAnimationFrame para garantir que o DOM esteja atualizado
-    window.requestAnimationFrame(() => {
-      window.requestAnimationFrame(() => {
-        // Abre diálogo de impressão sem notificações
-        window.print();
-        
-        // 10. Limpa após a impressão
-        setTimeout(() => {
-          document.body.classList.remove('printing-pdf');
-          document.head.removeChild(viewportMeta);
-        }, 1000);
-      });
+  // Adjust spacing for print to prevent overlapping
+  const adjustSpacingForPrint = () => {
+    // Adjust card spacings
+    const cards = document.querySelectorAll('.card');
+    cards.forEach((card) => {
+      const cardElement = card as HTMLElement;
+      cardElement.style.marginBottom = '30px';
+      cardElement.style.pageBreakInside = 'avoid';
+      cardElement.style.breakInside = 'avoid';
     });
-  }, 3000); // Tempo aumentado para 3 segundos
+    
+    // Adjust table spacing
+    const tables = document.querySelectorAll('.print-table');
+    tables.forEach((table) => {
+      const tableElement = table as HTMLElement;
+      tableElement.style.fontSize = '10pt';
+      tableElement.style.width = '100%';
+      tableElement.style.tableLayout = 'fixed';
+      tableElement.style.marginBottom = '15px';
+    });
+    
+    // Adjust text in statistics to prevent overlapping
+    const statsTexts = document.querySelectorAll('.principais-constatacoes li span');
+    statsTexts.forEach((text) => {
+      const textElement = text as HTMLElement;
+      textElement.style.fontSize = '11pt';
+      textElement.style.lineHeight = '1.4';
+      textElement.style.display = 'inline-block';
+      textElement.style.maxWidth = '90%';
+    });
+    
+    // Ensure recommendation section is visible
+    const recomendacoesSection = document.getElementById('recomendacoes-section');
+    if (recomendacoesSection) {
+      recomendacoesSection.style.display = 'block';
+      recomendacoesSection.style.visibility = 'visible';
+      recomendacoesSection.style.opacity = '1';
+      recomendacoesSection.style.pageBreakBefore = 'always';
+      recomendacoesSection.style.breakBefore = 'page';
+      
+      // Force all children to be visible
+      const children = recomendacoesSection.querySelectorAll('*');
+      children.forEach(child => {
+        const elem = child as HTMLElement;
+        elem.style.display = child.tagName.toLowerCase() === 'strong' ? 'inline' : 'block';
+        elem.style.visibility = 'visible';
+        elem.style.opacity = '1';
+      });
+    }
+  };
+  
+  // Add specific print stylesheet for better control
+  const addPrintStyles = () => {
+    const styleSheet = document.createElement('style');
+    styleSheet.id = 'print-specific-styles';
+    styleSheet.innerHTML = `
+      @media print {
+        body { font-size: 11pt; line-height: 1.3; }
+        .card { margin-bottom: 25px; page-break-inside: avoid; break-inside: avoid; }
+        .principais-constatacoes li span { font-size: 11pt; line-height: 1.4; max-width: 90%; }
+        .print-table { font-size: 10pt; width: 100%; margin-bottom: 15px; }
+        .pie-chart-container { height: 220px; }
+        .chart-container { height: 380px; }
+        
+        /* Fix for overlapping text in stats */
+        .principais-constatacoes li { padding-left: 15px; text-indent: -15px; margin-bottom: 8px; }
+        
+        /* Ensure proper page breaks */
+        .card-section-3, .card-section-4, .card-section-5, .card-section-6, .card-section-7, .card-section-8 {
+          page-break-before: always;
+          break-before: page;
+        }
+      }
+    `;
+    document.head.appendChild(styleSheet);
+  };
+  
+  // Execute all adjustments before printing
+  adjustSpacingForPrint();
+  addPrintStyles();
+  
+  // Delay printing to ensure DOM updates have been applied
+  setTimeout(() => {
+    window.print();
+    
+    // Clean up after printing
+    setTimeout(() => {
+      document.body.classList.remove('printing-pdf');
+      const styleSheet = document.getElementById('print-specific-styles');
+      if (styleSheet) {
+        document.head.removeChild(styleSheet);
+      }
+    }, 1000);
+  }, 800);
 };
