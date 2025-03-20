@@ -1,4 +1,3 @@
-
 /* Estilos de impressão */
 @media print {
   /* Reset básico para impressão */
@@ -18,8 +17,17 @@
   
   /* Esconder elementos desnecessários */
   header, footer, nav, button, .display-screen-only, [role="alert"], 
-  .notification, .export-message, .export-notification, .comparativo-notificacao {
+  .notification, .export-message, .export-notification, .comparativo-notificacao,
+  .url-bar, .browser-address, .address-bar, .browser-chrome, .browser-url,
+  [data-browser-chrome], [data-url-display], .lovable-url, .project-url,
+  .browser-interface, .url-display {
     display: none !important;
+  }
+
+  /* Esconder COMPLETAMENTE qualquer elemento da interface do navegador */
+  body::before, body::after, html::before, html::after {
+    display: none !important;
+    content: none !important;
   }
   
   /* Esconder TODOS os tipos de notificações e toasts */
@@ -182,12 +190,12 @@
   /* Tamanho e posicionamento da legenda - CORRIGIDO */
   .recharts-legend-wrapper {
     position: absolute !important;
-    right: 10px !important; /* Posicionamento mais à direita */
+    right: 10px !important;
     top: 50% !important;
     transform: translateY(-50%) !important;
     font-size: 8pt !important;
-    width: auto !important; /* Largura automática */
-    max-width: 30% !important; /* Limitar largura máxima */
+    width: auto !important;
+    max-width: 30% !important;
   }
   
   /* Forçar a legenda a ficar visível e na lateral */
@@ -390,5 +398,27 @@
   * {
     overflow: visible !important;
   }
+  
+  /* Remover URLs e elementos da barra de endereço */
+  /* Isso remove explicitamente qualquer elemento que possa mostrar a URL do projeto */
+  a::after {
+    content: "" !important;
+    display: none !important;
+  }
+  
+  /* Esconder a URL no rodapé da página (alguns navegadores mostram isso automaticamente) */
+  @page {
+    margin-bottom: 0;
+    orphans: 2;
+    widows: 2;
+  }
+  
+  /* Ocultar qualquer elemento que contenha o texto de URL do Lovable */
+  *[href*="lovable.dev"],
+  *[href*="projects"],
+  *[src*="lovable.dev"],
+  *[src*="projects"] {
+    visibility: hidden !important;
+    display: none !important;
+  }
 }
-

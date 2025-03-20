@@ -32,8 +32,26 @@ export const exportToPDF = () => {
       '.toast-progress'
     ];
     
+    // Seletores para elementos de URL e barra de endereço do navegador
+    const urlBarSelectors = [
+      '.url-bar',
+      '.browser-address',
+      '.address-bar',
+      '.browser-chrome',
+      '.browser-url',
+      '[data-browser-chrome]',
+      '[data-url-display]',
+      '.lovable-url',
+      '.project-url',
+      '.browser-interface',
+      '.url-display'
+    ];
+    
+    // Combinar todos os seletores
+    const allSelectors = [...toastSelectors, ...urlBarSelectors];
+    
     // Aplicar display: none e outras propriedades para garantir ocultação
-    toastSelectors.forEach(selector => {
+    allSelectors.forEach(selector => {
       const elements = document.querySelectorAll(selector);
       elements.forEach(el => {
         if (el instanceof HTMLElement) {
@@ -75,6 +93,14 @@ export const exportToPDF = () => {
           el.style.display = 'none';
         }
       });
+    });
+    
+    // Remover URLs do conteúdo da página
+    const links = document.querySelectorAll('a[href*="lovable.dev"], a[href*="projects"]');
+    links.forEach(link => {
+      if (link instanceof HTMLElement) {
+        link.style.display = 'none';
+      }
     });
   };
   
