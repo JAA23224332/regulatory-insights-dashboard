@@ -193,20 +193,6 @@ export const exportToPDF = () => {
         });
       });
       
-      // Adiciona quebra de página após a primeira seção
-      const firstSection = document.querySelector('.card-section-1');
-      if (firstSection && firstSection instanceof HTMLElement) {
-        firstSection.style.pageBreakAfter = 'always';
-        firstSection.style.breakAfter = 'page';
-      }
-      
-      // Assegura que seções seguintes começem em nova página
-      const secondSection = document.querySelector('.card-section-2');
-      if (secondSection && secondSection instanceof HTMLElement) {
-        secondSection.style.pageBreakBefore = 'always';
-        secondSection.style.breakBefore = 'page';
-      }
-      
       // Preparar tabelas de termos frequentes para melhor visualização
       prepareTermosTables();
     };
