@@ -11,7 +11,7 @@
     print-color-adjust: exact !important;
     color-adjust: exact !important;
     width: 100% !important;
-    height: auto !important;
+    height: 100% !important;
     overflow: visible !important;
   }
   
@@ -68,749 +68,238 @@
   #root, .exportable-document, .print-layout {
     display: block !important;
     width: 100% !important;
-    height: auto !important;
+    height: 100% !important;
     overflow: visible !important;
     background: white !important;
     padding: 0 !important;
     margin: 0 !important;
   }
   
-  /* Estilos para títulos - ATUALIZADO PARA GARANTIR POSICIONAMENTO CORRETO */
+  /* Configuração para gráfico em página inteira */
+  .full-page-chart-container {
+    width: 100% !important;
+    height: 100% !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    display: block !important;
+    position: relative !important;
+  }
+  
+  /* Título centralizado e espaçado */
   .print-title {
-    font-size: 18pt !important;
+    font-size: 24pt !important;
     font-weight: 700 !important;
     text-align: center !important;
     margin-top: 15px !important;
-    margin-bottom: 5px !important;
-    page-break-before: auto !important;
+    margin-bottom: 15px !important;
     page-break-after: avoid !important;
-    break-before: auto !important;
     break-after: avoid !important;
     color: #000 !important;
     position: relative !important;
     z-index: 100 !important;
   }
   
-  .print-subtitle {
-    font-size: 12pt !important;
-    text-align: center !important;
-    margin-bottom: 10px !important;
-    color: #555 !important;
-    page-break-before: avoid !important;
-    page-break-after: avoid !important;
-    break-before: avoid !important;
-    break-after: avoid !important;
-  }
-  
-  /* Estilos para seções */
-  .section-title, .card h2, .comparativo-titulo, h2.text-xl {
-    font-size: 14pt !important;
-    font-weight: 600 !important;
-    margin-top: 15px !important;
-    margin-bottom: 10px !important;
-    border-bottom: 1px solid #ddd !important;
-    padding-bottom: 3px !important;
-    color: #333 !important;
-    page-break-before: auto !important;
-    page-break-after: avoid !important;
-    break-before: auto !important;
-    break-after: avoid !important;
-    position: relative !important;
-    z-index: 99 !important;
-  }
-  
-  /* Controle de quebra de página para cada seção principal - IMPORTANTE */
-  .card-section-2, .card-section-3, .card-section-4, .card-section-5, 
-  .card-section-6, .card-section-7, .card-section-8, .card-section-9 {
-    page-break-before: always !important;
-    break-before: page !important;
-    padding-top: 10px !important;
-    position: relative !important;
-    z-index: 1 !important;
-  }
-  
-  /* A primeira seção não deve ter quebra de página */
-  .card-section-1 {
-    page-break-after: always !important;
-    break-after: page !important;
-  }
-
-  /* Estilos para cards/seções */
-  .card {
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
-    margin-bottom: 10px !important;
-    padding: 5px !important;
-    border: none !important;
-    background-color: white !important;
-    box-shadow: none !important;
-  }
-  
-  /* Cards da seção de visão geral */
-  .card-section-1 .grid {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: wrap !important;
-    justify-content: space-between !important;
+  /* Configuração do container do gráfico */
+  .chart-container {
+    height: 100% !important;
+    min-height: 90vh !important;
     width: 100% !important;
-  }
-  
-  .card-section-1 .rounded-lg {
-    width: 30% !important;
-    text-align: center !important;
-    margin-bottom: 5px !important;
-    padding: 5px !important;
-    border-radius: 0 !important;
-  }
-  
-  /* Cores dos cards */
-  .bg-blue-50 {
-    background-color: #f0f7ff !important;
-    color: #000 !important;
-  }
-  
-  .bg-green-50 {
-    background-color: #f0fff4 !important;
-    color: #000 !important;
-  }
-  
-  .bg-red-50 {
-    background-color: #fff5f5 !important;
-    color: #000 !important;
-  }
-  
-  /* Textos nos cards estatísticos */
-  .card-section-1 .text-lg {
-    font-size: 16pt !important;
-    font-weight: bold !important;
-    margin-bottom: 2px !important;
-    text-align: center !important;
-    display: block !important;
-  }
-  
-  .card-section-1 .text-sm {
-    font-size: 12pt !important;
-    text-align: center !important;
-    display: block !important;
-  }
-  
-  /* Cores de texto */
-  .text-blue-600, .text-green-600, .text-red-600 {
-    color: #000 !important;
-  }
-  
-  /* Gráfico de pizza - CORREÇÃO PARA PROBLEMAS DE SOBREPOSIÇÃO */
-  .recharts-wrapper {
-    margin: 0 auto !important;
-    height: auto !important;
-    max-height: 200px !important;
-    display: block !important;
-    text-align: center !important;
-  }
-  
-  /* Controle preciso do posicionamento do SVG e gráfico de pizza */
-  .recharts-wrapper svg {
-    display: block !important;
-    margin: 0 auto !important;
-    height: auto !important;
-    max-height: 200px !important;
-  }
-  
-  /* Corrigir a sobreposição no gráfico de pizza */
-  .recharts-pie {
-    transform: scale(0.7) !important;
-    transform-origin: center !important;
-  }
-  
-  /* Remover linhas de label para evitar sobreposição */
-  .recharts-pie-label-line {
-    display: none !important;
-  }
-  
-  /* Desabilitar labels de texto que podem sobrepor */
-  .recharts-pie-label-text {
-    display: none !important;
-  }
-  
-  /* Tamanho e posicionamento da legenda */
-  .recharts-legend-wrapper {
-    position: relative !important;
-    margin-top: 10px !important;
-    padding-top: 5px !important;
-    font-size: 12pt !important;
-    width: 100% !important;
-    display: block !important;
-    text-align: center !important;
-  }
-  
-  /* Legenda customizada para impressão que não sobrepõe */
-  .print-chart-legend {
-    display: block !important;
-    margin-top: 10px !important;
-    margin-bottom: 5px !important;
-    text-align: center !important;
-    font-size: 12pt !important;
-  }
-  
-  .print-legend-item {
-    display: inline-block !important;
-    margin-right: 10px !important;
-    margin-bottom: 3px !important;
-  }
-  
-  .print-legend-color {
-    display: inline-block !important;
-    width: 8px !important;
-    height: 8px !important;
-    margin-right: 3px !important;
-    vertical-align: middle !important;
-  }
-  
-  .fortalezas-color {
-    background-color: #4CAF50 !important;
-  }
-  
-  .fragilidades-color {
-    background-color: #F44336 !important;
-  }
-  
-  /* Tabelas */
-  .print-table {
-    width: 100% !important;
-    border-collapse: collapse !important;
-    margin: 5px 0 !important;
-    font-size: 12pt !important;
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
-  }
-  
-  .print-table th, 
-  .print-table td {
-    border: 1px solid #ddd !important;
-    padding: 3px 4px !important;
-    text-align: left !important;
-    font-size: 12pt !important;
-  }
-  
-  .print-table th {
-    background-color: #f5f5f5 !important;
-    font-weight: bold !important;
-  }
-  
-  /* Constatações */
-  .principais-constatacoes {
-    background-color: #f9f9f9 !important;
-    padding: 5px !important;
-    margin-top: 5px !important;
-    border-top: 1px solid #eee !important;
-    border-bottom: 1px solid #eee !important;
-  }
-  
-  .principais-constatacoes h3 {
-    font-size: 12pt !important;
-    font-weight: bold !important;
-    margin-bottom: 4px !important;
-  }
-  
-  .principais-constatacoes ul {
-    list-style-type: none !important;
-    padding-left: 0 !important;
-    margin: 0 !important;
-  }
-  
-  .principais-constatacoes li {
-    margin-bottom: 4px !important;
-    padding-left: 8px !important;
-    position: relative !important;
-    line-height: 1.2 !important;
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
-    font-size: 12pt !important;
-  }
-  
-  /* Bullets coloridos */
-  .bullet-green, .bullet-red, .bullet-blue,
-  .bg-gray-50 li .inline-block {
-    display: inline-block !important;
-    width: 6px !important;
-    height: 6px !important;
-    border-radius: 50% !important;
-    margin-right: 4px !important;
-  }
-  
-  .bullet-green, .constatacao-green:before, 
-  .bg-gray-50 li .bg-green-500 {
-    background-color: #4CAF50 !important;
-  }
-  
-  .bullet-red, .constatacao-red:before,
-  .bg-gray-50 li .bg-red-500 {
-    background-color: #F44336 !important;
-  }
-  
-  .bullet-blue, .constatacao-blue:before,
-  .bg-gray-50 li .bg-blue-500 {
-    background-color: #2196F3 !important;
-  }
-  
-  /* Insights e constatações */
-  .bg-gray-50 {
-    background-color: #f9f9f9 !important;
-    border: 1px solid #eee !important;
-    margin-top: 8px !important;
-    padding: 6px !important;
-    font-size: 12pt !important;
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
-  }
-  
-  .bg-gray-50 h3 {
-    font-size: 12pt !important;
-    font-weight: bold !important;
-    margin-bottom: 5px !important;
-    color: #333 !important;
-  }
-  
-  .bg-gray-50 ul {
-    margin: 0 !important;
-    padding-left: 3px !important;
-    list-style-type: none !important;
-  }
-  
-  .bg-gray-50 li {
-    margin-bottom: 3px !important;
-    font-size: 12pt !important;
-    line-height: 1.3 !important;
-    padding-left: 8px !important;
-    position: relative !important;
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
-  }
-  
-  /* Configuração de página */
-  @page {
-    size: A4 portrait;
-    margin: 1cm 0.8cm;
-  }
-  
-  /* Controle de quebra de página */
-  .card-section-3, .card-section-5, .card-section-7 {
-    page-break-before: always;
-    break-before: page;
-  }
-  
-  /* Garantir que elementos específicos sejam impressos corretamente */
-  #recomendacoes-section,
-  .recomendacoes-section,
-  .card-section-8 {
     display: block !important;
     visibility: visible !important;
-    page-break-before: always !important;
-    break-before: page !important;
+    opacity: 1 !important;
+    margin: 0 auto !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
-    padding: 6px !important;
-    border: 1px solid #ddd !important;
-    background-color: #f9f9f9 !important;
-  }
-  
-  /* Forçar cores em gráficos */
-  .recharts-pie-sector {
-    stroke: none !important;
-  }
-  
-  /* Assegurar que todas as linhas de tabela sejam impressas */
-  tr, td, th {
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
-  }
-  
-  /* Remover URLs e elementos da barra de endereço */
-  a::after {
-    content: "" !important;
-    display: none !important;
-  }
-  
-  /* Esconder a URL no rodapé da página */
-  @page {
-    margin-bottom: 0;
-    orphans: 2;
-    widows: 2;
-  }
-  
-  /* Ocultar qualquer elemento que contenha o texto de URL */
-  *[href*="lovable.dev"],
-  *[href*="projects"],
-  *[src*="lovable.dev"],
-  *[src*="projects"] {
-    visibility: hidden !important;
-    display: none !important;
-  }
-  
-  /* Esconder específicamente nomes de projetos */
-  *:contains("regulatory-insights-dashboard"),
-  [title*="regulatory-insights-dashboard"],
-  [alt*="regulatory-insights-dashboard"],
-  [data-content*="regulatory-insights-dashboard"] {
-    display: none !important;
-  }
-  
-  /* Remover cabeçalhos de página do navegador ao imprimir */
-  @page {
-    margin-top: 0;
-    margin-header: 0;
-    margin-footer: 0;
-    marks: none;
-  }
-  
-  /* Forçar que nenhum cabeçalho ou rodapé seja adicionado pelo navegador */
-  @page :first {
-    margin-top: 0;
-    margin-header: 0;
-  }
-  
-  /* Corrigir sobreposição e melhorar visualização */
-  /* Adicionar espaçamento e organização melhores */
-  .card {
-    margin-bottom: 15px !important;
-    clear: both !important;
-    float: none !important;
-    width: 100% !important;
-    position: static !important;
-  }
-  
-  /* Melhorar renderização do gráfico de pizza na impressão */
-  .pie-chart-container {
-    height: 180px !important;
     position: relative !important;
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
-    margin-bottom: 15px !important;
-    clear: both !important;
+    z-index: 10 !important;
   }
   
-  /* Eliminar problema de sobreposição na impressão usando controle explícito de Z-index */
-  .chart-container {
-    position: relative !important;
-    z-index: 1 !important;
-    height: auto !important;
-    max-height: 200px !important;
-    margin-bottom: 20px !important;
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
-    clear: both !important;
-  }
-  
-  /* Melhorar espaçamento entre seções */
-  .card-section-2, 
-  .card-section-3, 
-  .card-section-4, 
-  .card-section-5, 
-  .card-section-6, 
-  .card-section-7, 
-  .card-section-8, 
-  .card-section-9 {
-    margin-top: 15px !important;
-    padding-top: 5px !important;
-    border-top: 1px solid #ddd !important;
-    clear: both !important;
-  }
-  
-  /* Legenda personalizada visível para impressão */
-  .custom-print-pie-legend {
-    display: block !important;
+  /* Configuração específica do gráfico de barras comparativo */
+  .recharts-wrapper {
     width: 100% !important;
-    text-align: center !important;
-    margin-top: 15px !important;
-    margin-bottom: 10px !important;
-    font-size: 12pt !important;
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
-  }
-
-  /* CORREÇÕES ESPECÍFICAS PARA TABELAS E INSIGHTS */
-  /* Melhorar a visualização das tabelas */
-  .display-print-only table.print-table {
-    margin-bottom: 10px !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
-  }
-  
-  /* Aumentar o tamanho da fonte nas tabelas para melhor legibilidade */
-  .display-print-only table.print-table th,
-  .display-print-only table.print-table td {
-    font-size: 12pt !important;
-    padding: 3px 5px !important;
-    word-wrap: break-word !important;
-    max-width: 300px !important;
-  }
-  
-  /* Ajustar largura das colunas */
-  .display-print-only table.print-table th:first-child,
-  .display-print-only table.print-table td:first-child {
-    width: 40% !important;
-  }
-
-  /* Ajustar a coluna de visualização (barras verdes) */
-  .display-print-only table.print-table th:last-child,
-  .display-print-only table.print-table td:last-child {
-    width: 25% !important; 
-  }
-  
-  /* Melhorar a aparência das barras nas tabelas */
-  .display-print-only table.print-table td .flex.items-center div {
-    height: 6px !important;
-    min-width: 6px !important;
-    max-width: 80px !important;
-    background-color: #4CAF50 !important;
-  }
-  
-  /* Melhorar a formatação dos insights */
-  .bg-gray-50 {
-    margin: 10px 0 !important;
-    padding: 8px !important;
-    background-color: #f9f9f9 !important;
-    border: 1px solid #e0e0e0 !important;
-    border-radius: 3px !important;
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
-  }
-  
-  .bg-gray-50 h3 {
-    font-size: 12pt !important;
-    margin-bottom: 5px !important;
-    color: #000 !important;
-  }
-  
-  .bg-gray-50 li {
-    margin-bottom: 4px !important;
-    font-size: 12pt !important;
-    line-height: 1.3 !important;
-    display: flex !important;
-    align-items: flex-start !important;
-  }
-  
-  .bg-gray-50 li .inline-block {
-    margin-top: 3px !important;
-    margin-right: 5px !important;
-    flex-shrink: 0 !important;
-  }
-  
-  .bg-gray-50 li span {
+    height: 100% !important;
+    min-height: 80vh !important;
     display: block !important;
-    width: 95% !important;
-  }
-
-  /* Garantir que os insights sobre termos frequentes sejam exibidos corretamente */
-  .card-section-6 .bg-gray-50,
-  .card-section-7 .bg-gray-50 {
-    margin-top: 10px !important;
-    clear: both !important;
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
+    margin: 0 auto !important;
+    transform: scale(1) !important;
+    transform-origin: center !important;
+    overflow: visible !important;
   }
   
-  /* Corrigir problemas específicos do relatório */
-  .card-section-6 .display-print-only table.print-table,
-  .card-section-7 .display-print-only table.print-table {
-    margin-bottom: 0 !important;
-  }
-
-  /* Adicionar mais espaço entre as linhas na tabela de visualização */
-  .display-print-only table.print-table td .flex.items-center {
-    padding: 1px 0 !important;
+  /* Aumentar o espaço para o texto das categorias */
+  .recharts-cartesian-axis.recharts-yAxis {
+    width: 280px !important;
   }
   
-  /* Aumentar a largura das barras na visualização */
-  .display-print-only table.print-table td .flex.items-center div {
-    border-radius: 2px !important;
+  /* Tamanho das fontes dos eixos */
+  .recharts-cartesian-axis-tick-value {
+    font-size: 18pt !important;
+    font-weight: 600 !important;
+    fill: #000 !important;
   }
   
-  /* Garantir que os insights não sejam cortados */
-  .bg-gray-50 ul {
-    padding-left: 5px !important;
-    margin-bottom: 2px !important;
+  /* Específico para o eixo Y (categorias) */
+  .recharts-cartesian-axis.recharts-yAxis .recharts-cartesian-axis-tick-value {
+    font-size: 18pt !important;
+    font-weight: 600 !important;
+    fill: #000 !important;
   }
   
-  /* Ajustar layout dos textos na seção de recomendações */
-  .card-section-9 ul {
-    margin-top: 5px !important;
+  /* Específico para o eixo X (valores) */
+  .recharts-cartesian-axis.recharts-xAxis .recharts-cartesian-axis-tick-value {
+    font-size: 18pt !important;
+    font-weight: 600 !important;
+    fill: #000 !important;
   }
   
-  .card-section-9 li {
-    margin-bottom: 8px !important;
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
-  }
-  
-  .card-section-9 .font-medium {
-    font-size: 12pt !important;
-    margin-bottom: 2px !important;
-    display: block !important;
-  }
-  
-  .card-section-9 p {
-    font-size: 12pt !important;
-    line-height: 1.3 !important;
-    margin: 0 !important;
-  }
-  
-  /* Ajustar cabeçalhos de todos os cards */
-  .card-header {
-    padding: 5px 10px !important;
-  }
-  
-  .card-content {
-    padding: 8px !important;
-  }
-  
-  /* Reduzir o tamanho do título principal */
-  .text-4xl {
-    font-size: 16pt !important;
-    margin-bottom: 5px !important;
-  }
-  
-  /* Centralizar e ajustar texto da página */
-  .text-center.mb-12 {
-    margin-bottom: 10px !important;
-  }
-  
-  .text-center.mb-12 p {
-    margin-top: 2px !important;
-    font-size: 12pt !important;
-  }
-  
-  /* Reduzir espaçamento vertical geral */
-  .space-y-2 > * + *,
-  .space-y-3 > * + *,
-  .space-y-4 > * + * {
-    margin-top: 5px !important;
-  }
-  
-  /* Ajustar margens e espaçamentos dos cards da visão geral */
-  .card-section-1 .card-content {
-    padding: 5px !important;
-  }
-  
-  /* Reduzir margem abaixo de todos os elementos */
-  .mb-4, .mb-6, .mb-8, .mb-10 {
-    margin-bottom: 5px !important;
-  }
-  
-  /* Ajustar tamanho e posicionamento do rodapé */
-  .text-center.mb-8.mt-12 {
-    margin-top: 8px !important;
-    margin-bottom: 0 !important;
-  }
-  
-  .text-center.mb-8.mt-12 p {
-    margin: 0 !important;
-    font-size: 12pt !important;
-    color: #777 !important;
-  }
-  
-  /* AUMENTAR TAMANHO DOS GRÁFICOS DE BARRA PARA IMPRESSÃO */
-  .h-\[500px\], .h-\[450px\], .h-\[400px\], .h-\[600px\], .h-\[700px\] {
-    height: auto !important;
-    max-height: 700px !important;
-  }
-
-  /* Aumento especial para o comparativo por categoria (seção 2) */
-  .card-section-2 .recharts-wrapper,
-  .card-section-2 .recharts-responsive-container {
-    height: auto !important;
-    min-height: 700px !important;
-    max-height: 800px !important;
+  /* Melhorar a legenda */
+  .recharts-legend-wrapper {
+    bottom: 20px !important;
+    padding-top: 30px !important;
     margin-bottom: 30px !important;
   }
   
-  /* Ajuste nos eixos Y para o gráfico comparativo por categoria */
-  .card-section-2 .recharts-cartesian-axis.recharts-yAxis .recharts-cartesian-axis-tick {
-    font-size: 16pt !important;
+  .recharts-legend-item-text {
+    font-size: 20pt !important;
     font-weight: bold !important;
-  }
-  
-  /* Aumentar espaço para o texto das categorias */
-  .card-section-2 .recharts-cartesian-axis.recharts-yAxis {
-    width: 250px !important;
-  }
-
-  /* Melhorar visualização das barras no comparativo */
-  .card-section-2 .recharts-bar-rectangle {
-    height: 40px !important;
-  }
-
-  /* Ajustar margens para o gráfico comparativo */
-  .card-section-2 .recharts-wrapper {
-    margin-left: -20px !important;
-    width: calc(100% + 20px) !important;
-    transform: scale(1) !important;
-    transform-origin: center !important;
-  }
-  
-  /* Melhorar renderização de todos os gráficos na impressão */
-  .recharts-wrapper {
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
-    margin-bottom: 15px !important;
-    clear: both !important;
-    height: auto !important;
-    min-height: 250px !important;
-  }
-  
-  /* Melhorar legibilidade do texto nos gráficos */
-  .recharts-text {
-    font-size: 14pt !important;
     fill: #000 !important;
+    color: #000 !important;
   }
   
-  /* Garantir que as labels dos eixos sejam visíveis */
-  .recharts-cartesian-axis-tick-value {
-    font-size: 14pt !important;
-    fill: #000 !important;
+  /* Aumentar o tamanho das barras */
+  .recharts-bar-rectangle {
+    height: 60px !important;
   }
   
-  /* Especificar para as labels do eixo X no gráfico de comparativo */
-  .card-section-2 .recharts-cartesian-axis.recharts-xAxis .recharts-cartesian-axis-tick-value {
-    font-size: 16pt !important;
-    font-weight: bold !important;
-  }
-  
-  /* Melhorar a legenda do gráfico comparativo */
-  .card-section-2 .recharts-legend-wrapper {
-    padding-top: 20px !important;
-    margin-bottom: 15px !important;
-  }
-  
-  .card-section-2 .recharts-legend-item-text {
-    font-size: 16pt !important;
-    font-weight: bold !important;
-  }
-  
-  /* Ajustar o grid para melhorar a visualização */
-  .card-section-2 .recharts-cartesian-grid-horizontal line,
-  .card-section-2 .recharts-cartesian-grid-vertical line {
+  /* Melhorar o grid */
+  .recharts-cartesian-grid-horizontal line,
+  .recharts-cartesian-grid-vertical line {
     stroke-width: 1.5 !important;
     stroke: #000 !important;
     stroke-opacity: 0.3 !important;
   }
   
-  /* Otimizar altura das tabelas */
-  .print-table tr {
-    height: auto !important;
+  /* Definir configuração de página para paisagem */
+  @page {
+    size: landscape;
+    margin: 1cm;
   }
   
-  .print-table td {
-    padding-top: 2px !important;
-    padding-bottom: 2px !important;
+  /* Remover todos os outros elementos para garantir apenas o gráfico */
+  .card,
+  .card-section-1, 
+  .card-section-2,
+  .card-section-3,
+  .card-section-4,
+  .print-table,
+  .mt-8, 
+  .text-sm,
+  .text-center, 
+  .text-gray-500 {
+    display: none !important;
   }
   
-  /* Ajustar a coluna de visualização (barras verdes) */
-  .display-print-only table.print-table th:last-child,
-  .display-print-only table.print-table td:last-child {
-    width: 25% !important;
+  /* Mostrar apenas o gráfico comparativo */
+  .full-page-chart-container {
+    display: block !important;
+  }
+  
+  /* Otimizar o tooltip para impressão */
+  .recharts-tooltip-wrapper {
+    font-size: 18pt !important;
+  }
+  
+  /* Ajustar cores para impressão */
+  .recharts-bar-rectangle[fill="#4CAF50"] {
+    fill: #4CAF50 !important;
+    stroke: #4CAF50 !important;
+  }
+  
+  .recharts-bar-rectangle[fill="#F44336"] {
+    fill: #F44336 !important;
+    stroke: #F44336 !important;
+  }
+  
+  /* Garantir que as cores sejam renderizadas */
+  .recharts-rectangle {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+  
+  /* Remover URLs do rodapé da página */
+  a::after {
+    content: "" !important;
+    display: none !important;
+  }
+  
+  /* Remover cabeçalhos de página do navegador ao imprimir */
+  @page {
+    margin-top: 0.5cm;
+    margin-header: 0;
+    margin-footer: 0;
+    marks: none;
+  }
+  
+  /* Altura máxima do gráfico para garantir que caiba na página */
+  .recharts-responsive-container {
+    height: 90vh !important;
+    min-height: 500px !important;
+    max-height: 850px !important;
+  }
+
+  /* Additional pie chart styling for print */
+  .pie-label {
+    font-size: 12pt !important;
+    font-weight: bold !important;
+  }
+  
+  .recharts-legend-item {
+    margin-right: 10px !important;
+  }
+  
+  .recharts-legend-item-text {
+    color: black !important;
+    font-size: 12pt !important;
+  }
+  
+  .print-chart-legend {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .print-legend-item {
+    display: inline-flex;
+    align-items: center;
+    margin: 0 5px;
+  }
+  
+  .print-legend-color {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin-right: 3px;
+  }
+  
+  /* Correções para tabelas de gráfico de barras na impressão */
+  .display-print-only table.print-table {
+    width: 100%;
+    page-break-inside: avoid;
+    margin-bottom: 15px !important;
+  }
+  
+  .display-print-only table.print-table th,
+  .display-print-only table.print-table td {
+    padding: 4px 6px !important;
+    text-align: left;
+    font-size: 12pt !important;
+  }
+  
+  .display-print-only table.print-table th:first-child,
+  .display-print-only table.print-table td:first-child {
+    width: 40%;
   }
 }
 
