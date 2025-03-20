@@ -15,6 +15,30 @@
     overflow: visible !important;
   }
   
+  /* Forçar visibilidade para todas as visualizações */
+  svg, .recharts-wrapper, .recharts-surface, .recharts-bar, .recharts-pie, 
+  .recharts-cartesian-grid, .chart-container, .exportable-document,
+  .card, .card-section-1, .card-section-2, .card-section-3, 
+  .card-section-4, .card-section-5, .card-section-6, .card-section-7, 
+  .card-section-8, .card-section-9, #recomendacoes-section, .recomendacoes-section,
+  .print-title, .print-subtitle, [data-export-visible="true"] {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    height: auto !important;
+    width: auto !important;
+    overflow: visible !important;
+    page-break-inside: auto !important;
+    break-inside: auto !important;
+  }
+  
+  /* Forçar a exibição de todos os elementos SVG */
+  svg * {
+    visibility: visible !important;
+    display: inline !important;
+    opacity: 1 !important;
+  }
+  
   /* Esconder elementos desnecessários */
   header, footer, nav, button, .display-screen-only, [role="alert"], 
   .notification, .export-message, .export-notification, .comparativo-notificacao,
@@ -813,5 +837,47 @@
     break-after: avoid !important;
   }
   
-  /* ... keep existing code (ajustes finos das barras de frequência) */
+  /* Ajustes finos das barras de frequência */
+  .display-print-only table.print-table td .flex.items-center div {
+    height: 6px !important;
+    min-width: 6px !important;
+    max-width: 80px !important;
+    background-color: #4CAF50 !important;
+  }
 }
+
+/* Correções específicas para gráficos de barras e visualizações */
+@media print {
+  .recharts-wrapper, .recharts-surface {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: 300px !important;
+    overflow: visible !important;
+  }
+  
+  .recharts-bar, .recharts-cartesian-grid, .recharts-layer, 
+  .recharts-cartesian-axis, .recharts-cartesian-axis-tick,
+  .recharts-legend-wrapper, .recharts-tooltip-wrapper {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
+  .recharts-cartesian-axis-tick-value, .recharts-text, .recharts-label {
+    fill: #000 !important;
+    font-size: 8pt !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
+  .recharts-bar-rectangle {
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
+  /* Forçar contraste alto para melhor leitura em impressão */
+  .recharts-bar-rectangle

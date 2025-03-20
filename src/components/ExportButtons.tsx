@@ -15,14 +15,26 @@ const ExportButtons = ({ className = '' }: ExportButtonsProps) => {
   const handlePrintPDF = () => {
     toast({
       title: "Preparando visualizações para exportação",
-      description: "Aguarde enquanto preparamos todas as visualizações e gráficos para o PDF. Isso pode levar alguns segundos.",
-      duration: 5000,
+      description: "Aguarde enquanto preparamos todas as visualizações e gráficos para o PDF. Este processo pode levar até 10 segundos.",
+      duration: 10000,
     });
     
-    // Delay aumentado para dar tempo da toast notification aparecer e usuário entender que o processo está em andamento
+    // Delay maior para garantir que todas as visualizações sejam renderizadas corretamente
     setTimeout(() => {
-      exportToPDF();
-    }, 1500);
+      // Forçar uma renderização completa antes de exportar
+      document.querySelectorAll('.recharts-wrapper, .recharts-surface, svg, .card, .card-section-1, .card-section-2, .card-section-3, .card-section-4, .card-section-5, .card-section-6, .card-section-7, .card-section-8, .card-section-9').forEach(el => {
+        if (el instanceof HTMLElement || el instanceof SVGElement) {
+          el.style.display = 'block';
+          el.style.visibility = 'visible';
+          el.style.opacity = '1';
+        }
+      });
+      
+      // Iniciar a exportação com um atraso adicional para permitir a renderização
+      setTimeout(() => {
+        exportToPDF();
+      }, 3000);
+    }, 2000);
   };
   
   return (
