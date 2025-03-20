@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef } from 'react';
 import { dadosReais, dadosIntensidade, termosFrequentesFortalezas, termosFrequentesFragilidades, termosCompartilhados, dadosDistribuicaoPie, estatisticasGerais } from '@/data/regulacaoData';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
@@ -246,7 +245,6 @@ const Export = () => {
     );
   };
 
-  // Format percentage for pie chart labels
   const renderCustomizedPieLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }: any) => {
     const RADIAN = Math.PI / 180;
     const radius = outerRadius * 1.1;
@@ -396,90 +394,6 @@ const Export = () => {
             ))}
           </tbody>
         </table>
-        
-        <div className="chart-container h-[500px] display-screen-only">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart
-              data={dadosReais}
-              layout="vertical"
-              margin={{ top: 20, right: 30, left: 180, bottom: 20 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-              <XAxis type="number" stroke="#333" fontSize={12} />
-              <YAxis 
-                type="category" 
-                dataKey="categoria" 
-                width={170}
-                stroke="#333"
-                fontSize={12}
-                tickLine={false}
-              />
-              <Tooltip />
-              <Legend />
-              <Bar 
-                dataKey="fortalezas" 
-                name="Fortalezas" 
-                fill="#4CAF50" 
-                barSize={20}
-              />
-              <Bar 
-                dataKey="fragilidades" 
-                name="Fragilidades" 
-                fill="#F44336" 
-                barSize={20}
-              />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-        
-        <div className="display-print-only mb-3">
-          <table className="print-table w-full">
-            <thead>
-              <tr>
-                <th style={{ width: '40%' }}>Categoria</th>
-                <th style={{ width: '60%' }}>Visualização</th>
-              </tr>
-            </thead>
-            <tbody>
-              {dadosReais.map((item, index) => (
-                <tr key={index}>
-                  <td><strong>{item.categoria}</strong></td>
-                  <td>
-                    <div className="flex items-center">
-                      <div className="w-full relative h-10 flex items-center">
-                        <div className="flex items-center absolute" style={{ width: '100%', zIndex: 1 }}>
-                          <span style={{ 
-                            display: 'inline-block',
-                            width: `${(item.fortalezas / Math.max(...dadosReais.map(d => Math.max(d.fortalezas, d.fragilidades)))) * 100}%`,
-                            height: '16px',
-                            backgroundColor: '#4CAF50',
-                            marginRight: '0'
-                          }}></span>
-                          <span style={{ 
-                            display: 'inline-block',
-                            width: `${(item.fragilidades / Math.max(...dadosReais.map(d => Math.max(d.fortalezas, d.fragilidades)))) * 100}%`,
-                            height: '16px',
-                            backgroundColor: '#F44336'
-                          }}></span>
-                        </div>
-                        <div className="absolute left-0 right-0 top-0 bottom-0 flex items-center justify-between px-2 text-xs text-white" style={{ zIndex: 2 }}>
-                          <span style={{ visibility: item.fortalezas > 0 ? 'visible' : 'hidden' }}>{item.fortalezas}</span>
-                          <span style={{ visibility: item.fragilidades > 0 ? 'visible' : 'hidden' }}>{item.fragilidades}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <div className="text-xs text-gray-700 mt-3 mb-3 flex items-center justify-center">
-            <span className="inline-block w-4 h-4 bg-green-600 mr-1"></span> 
-            <span className="mr-4">Fortalezas</span>
-            <span className="inline-block w-4 h-4 bg-red-600 mr-1"></span> 
-            <span>Fragilidades</span>
-          </div>
-        </div>
         
         <div className="mt-4">
           <h3 className="font-medium text-lg mb-3">Destaques da análise:</h3>
