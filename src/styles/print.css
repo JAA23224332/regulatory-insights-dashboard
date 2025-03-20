@@ -385,18 +385,25 @@
     margin: 10px 0 !important;
   }
   
-  /* ESTILOS ESPECÍFICOS PARA A SEÇÃO DE RECOMENDAÇÕES */
-  .card-section-8 {
-    page-break-before: always !important;
-    margin-top: 30px !important;
+  /* ESTILOS ESPECÍFICOS PARA A SEÇÃO DE RECOMENDAÇÕES - REFORÇADOS */
+  .card-section-8,
+  .recomendacoes-section {
     display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
     position: static !important;
     z-index: 999 !important;
+    page-break-before: always !important;
+    margin-top: 30px !important;
+    overflow: visible !important;
+    max-height: none !important;
+    height: auto !important;
+    transform: none !important;
+    pointer-events: auto !important;
   }
   
-  .card-section-8 h2 {
+  .card-section-8 h2,
+  .recomendacoes-title {
     font-size: 18pt !important;
     font-weight: 600 !important;
     margin-bottom: 25px !important;
@@ -405,14 +412,17 @@
     color: #333 !important;
     display: block !important;
     visibility: visible !important;
+    opacity: 1 !important;
   }
   
-  .card-section-8 ul {
+  .card-section-8 ul,
+  .recomendacoes-list {
     padding-left: 0 !important;
     margin: 20px 0 !important;
     list-style-type: none !important;
     display: block !important;
     visibility: visible !important;
+    opacity: 1 !important;
   }
   
   .card-section-8 li {
@@ -422,6 +432,7 @@
     display: block !important;
     page-break-inside: avoid !important;
     visibility: visible !important;
+    opacity: 1 !important;
   }
   
   .card-section-8 li:before {
@@ -432,6 +443,8 @@
     font-size: 16pt !important;
     line-height: 1 !important;
     display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
   }
   
   .card-section-8 strong {
@@ -439,35 +452,55 @@
     font-weight: 600 !important;
     display: inline !important;
     visibility: visible !important;
+    opacity: 1 !important;
   }
   
   .card-section-8 p {
     margin-top: 5px !important;
     display: block !important;
     visibility: visible !important;
+    opacity: 1 !important;
   }
   
-  /* Garantir que as recomendações apareçam na impressão */
-  .card-section-8, 
-  .card-section-8 h2, 
-  .card-section-8 ul, 
-  .card-section-8 li, 
-  .card-section-8 strong,
-  .card-section-8 p {
+  /* Força exibição explícita para cada elemento dentro da seção de recomendações */
+  .recomendacoes-section *,
+  .card-section-8 * {
     display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
     overflow: visible !important;
-    max-height: none !important;
-    height: auto !important;
   }
   
-  /* Certificar que nenhuma propriedade oculte as recomendações */
+  .recomendacoes-section strong,
+  .card-section-8 strong {
+    display: inline !important;
+  }
+  
+  /* Forçar quebra de página antes da seção de recomendações */
+  .recomendacoes-section,
   .card-section-8 {
+    page-break-before: always !important;
+    break-before: always !important;
+    -webkit-page-break-before: always !important;
+  }
+  
+  /* Garantir que nenhuma configuração geral oculte seções específicas */
+  .card,
+  .card-section-1,
+  .card-section-2,
+  .card-section-3,
+  .card-section-4,
+  .card-section-5,
+  .card-section-6,
+  .card-section-7,
+  .card-section-8 {
+    page-break-inside: auto !important;
+    break-inside: auto !important;
     overflow: visible !important;
     max-height: none !important;
-    height: auto !important;
-    transform: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
     position: static !important;
   }
 }

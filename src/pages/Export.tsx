@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { dadosReais, dadosIntensidade, termosFrequentesFortalezas, termosFrequentesFragilidades, termosCompartilhados } from '@/data/regulacaoData';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
@@ -401,11 +400,11 @@ const Export = () => {
         </table>
       </div>
       
-      {/* Seção 8: Recomendações para Melhoria da Regulação no SUS */}
-      <div className="card card-section-8">
-        <h2 className="text-xl font-semibold mb-4">Recomendações para Melhoria da Regulação no SUS</h2>
+      {/* Seção 8: Recomendações para Melhoria da Regulação no SUS - REFORÇADA VISIBILIDADE */}
+      <div className="card card-section-8 recomendacoes-section" style={{display: 'block !important', visibility: 'visible !important', pageBreakBefore: 'always !important'}}>
+        <h2 className="text-xl font-semibold mb-4 recomendacoes-title">Recomendações para Melhoria da Regulação no SUS</h2>
         
-        <ul className="space-y-4">
+        <ul className="space-y-4 recomendacoes-list">
           <li>
             <strong>Sistemas de informação e tecnologia:</strong> 
             <p>Investir em tecnologias mais integradas e interoperáveis, modernizando sistemas existentes como o SISREG. Expandir o uso de telemedicina e telessaúde para ampliar o acesso nas regiões remotas.</p>
@@ -448,3 +447,4 @@ const Export = () => {
 };
 
 export default Export;
+
