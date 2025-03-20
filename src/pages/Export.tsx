@@ -23,7 +23,7 @@ const CustomXAxisTick = (props: any) => {
         dy={16} 
         textAnchor="end" 
         fill="#666"
-        fontSize={16}
+        fontSize={12}
         fontWeight="bold"
         transform="rotate(-45)"
       >
@@ -46,6 +46,9 @@ const Export = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  // Ordenar dados para melhor visualização
+  const dadosOrdenados = [...dadosComparativoCategoria].sort((a, b) => b.total - a.total);
+
   return (
     <div className="exportable-document print-layout pb-20">
       {/* Seção do gráfico de comparativo por categoria */}
@@ -54,9 +57,9 @@ const Export = () => {
           Comparativo por Categoria
         </div>
         
-        <div className="chart-container mb-6" style={{ height: '900px' }}>
+        <div className="chart-container mb-6" style={{ height: '600px' }}>
           <ChartContainer 
-            className="h-[900px] w-full" 
+            className="h-[600px] w-full" 
             config={{
               fortalezas: { color: COLORS_BAR.fortalezas },
               fragilidades: { color: COLORS_BAR.fragilidades }
@@ -64,40 +67,42 @@ const Export = () => {
           >
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
-                data={dadosComparativoCategoria}
-                layout="horizontal"
-                margin={{ top: 30, right: 50, left: 30, bottom: 160 }}
-                barSize={40}
-                barGap={10}
+                data={dadosOrdenados}
+                layout="vertical"
+                margin={{ top: 20, right: 50, left: 160, bottom: 40 }}
+                barSize={25}
+                barGap={8}
               >
-                <CartesianGrid strokeDasharray="3 3" />
+                <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} />
                 <XAxis 
-                  dataKey="categoria" 
-                  tick={<CustomXAxisTick />}
-                  height={120}
-                  interval={0}
+                  type="number"
+                  tick={{ fontSize: 12, fontWeight: 'bold' }}
+                  domain={[0, 'dataMax + 2']}
                 />
                 <YAxis 
-                  type="number" 
-                  tick={{ fontSize: 16, fontWeight: 'bold' }} 
+                  dataKey="categoria"
+                  type="category" 
+                  tick={{ fontSize: 12, fontWeight: 'bold' }}
+                  width={150}
                 />
                 <Tooltip 
                   contentStyle={{ 
-                    fontSize: '16px', 
+                    fontSize: '14px', 
                     fontWeight: 'bold',
                     backgroundColor: '#fff',
                     border: '2px solid #ccc'
                   }}
                   itemStyle={{ color: '#000' }}
+                  formatter={(value, name) => [`${value} menções`, name === 'fortalezas' ? 'Fortalezas' : 'Fragilidades']}
                 />
                 <Legend 
                   verticalAlign="bottom"
                   align="center"
                   wrapperStyle={{ 
-                    paddingTop: '30px', 
-                    fontSize: '18px',
+                    paddingTop: '20px', 
+                    fontSize: '14px',
                     fontWeight: 'bold',
-                    marginBottom: '50px'
+                    marginBottom: '10px'
                   }}
                 />
                 <Bar 
