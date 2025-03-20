@@ -1,10 +1,15 @@
+
 import React, { useEffect, useRef } from 'react';
-import { dadosReais, dadosIntensidade, termosFrequentesFortalezas, termosFrequentesFragilidades, termosCompartilhados, dadosDistribuicaoPie, estatisticasGerais } from '@/data/regulacaoData';
-import { PieChart, Pie, Cell, Legend } from 'recharts';
+import { dadosReais, dadosIntensidade, termosFrequentesFortalezas, termosFrequentesFragilidades, termosCompartilhados, dadosDistribuicaoPie, estatisticasGerais, dadosComparativoCategoria } from '@/data/regulacaoData';
+import { PieChart, Pie, Cell, Legend, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { exportToPDF } from '@/utils/exportUtils';
 import { ChartContainer } from '@/components/ui/chart';
 
 const COLORS_PIE = ['#4CAF50', '#F44336']; // Verde e Vermelho
+const COLORS_BAR = {
+  fortalezas: '#4CAF50',
+  fragilidades: '#F44336'
+};
 
 const Export = () => {
   const recomendacoesRef = useRef<HTMLDivElement>(null);
@@ -354,6 +359,38 @@ const Export = () => {
       <div className="card card-section-2">
         <div className="comparativo-titulo">
           2. Comparativo por Categoria
+        </div>
+        
+        {/* Gráfico de barras comparativo aumentado em 20% */}
+        <div className="chart-container mb-6" style={{ height: '420px' }}> {/* Aumento de 20% na altura */}
+          <ChartContainer 
+            className="h-[420px] w-full" 
+            config={{
+              fortalezas: { color: "#4CAF50" },
+              fragilidades: { color: "#F44336" }
+            }}
+          >
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                data={dadosComparativoCategoria}
+                layout="vertical"
+                margin={{ top: 20, right: 30, left: 120, bottom: 20 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis type="number" />
+                <YAxis 
+                  type="category" 
+                  dataKey="categoria" 
+                  tick={{ fontSize: 12 }} 
+                  width={120} 
+                />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="fortalezas" name="Fortalezas" fill={COLORS_BAR.fortalezas} />
+                <Bar dataKey="fragilidades" name="Fragilidades" fill={COLORS_BAR.fragilidades} />
+              </BarChart>
+            </ResponsiveContainer>
+          </ChartContainer>
         </div>
         
         <table className="print-table mb-4">
