@@ -1,3 +1,4 @@
+
 /* Estilos de impressão */
 @media print {
   /* Reset básico para impressão */
@@ -19,6 +20,50 @@
   header, footer, nav, button, .display-screen-only, [role="alert"], 
   .notification, .export-message, .export-notification, .comparativo-notificacao {
     display: none !important;
+  }
+  
+  /* Esconder TODOS os tipos de notificações e toasts */
+  .toaster,
+  [role="status"],
+  .sonner-toast,
+  .sonner-toast-container,
+  .sonner-toaster,
+  .toaster-group,
+  .toast,
+  .toast-container,
+  .toastify,
+  .react-hot-toast,
+  .Toastify,
+  .Toastify__toast-container,
+  .Toastify__toast,
+  .toast-notification,
+  div[data-sonner-toaster],
+  div[data-radix-toast-root],
+  div[data-sonner-toast],
+  div[data-toast-root],
+  div[data-toast],
+  [data-toastify],
+  [data-radix-toast-viewport],
+  [data-sonner-toast-group],
+  .loading-notification,
+  .export-pending,
+  .toast-progress {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    position: absolute !important;
+    left: -9999px !important;
+    top: -9999px !important;
+    pointer-events: none !important;
+    height: 0 !important;
+    width: 0 !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    max-height: 0 !important;
+    max-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
   }
   
   /* Garantir que todo o conteúdo seja visível */
@@ -346,3 +391,4 @@
     overflow: visible !important;
   }
 }
+
