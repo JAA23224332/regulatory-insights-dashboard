@@ -11,6 +11,28 @@ const COLORS_BAR = {
   fragilidades: '#E01010'  // Vermelho mais intenso
 };
 
+// Componente personalizado para o tick do eixo X com ângulo rotacionado
+const CustomXAxisTick = (props: any) => {
+  const { x, y, payload } = props;
+  
+  return (
+    <g transform={`translate(${x},${y})`}>
+      <text 
+        x={0} 
+        y={0} 
+        dy={16} 
+        textAnchor="end" 
+        fill="#666"
+        fontSize={16}
+        fontWeight="bold"
+        transform="rotate(-45)"
+      >
+        {payload.value}
+      </text>
+    </g>
+  );
+};
+
 const Export = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -51,7 +73,7 @@ const Export = () => {
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis 
                   dataKey="categoria" 
-                  tick={{ fontSize: 16, fontWeight: 'bold', angle: -45, textAnchor: 'end' }}
+                  tick={<CustomXAxisTick />}
                   height={120}
                   interval={0}
                 />
