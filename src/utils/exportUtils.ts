@@ -163,167 +163,128 @@ export const exportToPowerPoint = () => {
   saveAs(blob, 'Analise_Regulacao_SUS.xlsx');
 };
 
-// Rewritten function for PDF export with better spacing and no notifications
+// Função simplificada para exportação de PDF que usa a funcionalidade nativa de impressão
 export const exportToPDF = () => {
-  // Add print-mode class to the body to activate specific print styles
+  // Adiciona uma classe ao body para ativar estilos específicos para impressão
   document.body.classList.add('printing-pdf');
   
-  // Adjust spacing for print to prevent overlapping
-  const adjustSpacingForPrint = () => {
-    // Adjust card spacings
-    const cards = document.querySelectorAll('.card');
-    cards.forEach((card) => {
-      const cardElement = card as HTMLElement;
-      cardElement.style.marginBottom = '30px';
-      cardElement.style.pageBreakInside = 'avoid';
-      cardElement.style.breakInside = 'avoid';
-    });
-    
-    // Adjust table spacing
-    const tables = document.querySelectorAll('.print-table');
-    tables.forEach((table) => {
-      const tableElement = table as HTMLElement;
-      tableElement.style.fontSize = '10pt';
-      tableElement.style.width = '100%';
-      tableElement.style.tableLayout = 'fixed';
-      tableElement.style.marginBottom = '15px';
-    });
-    
-    // ENHANCED FIX for statistics text overlap issue
-    const statsItems = document.querySelectorAll('.principais-constatacoes li');
-    statsItems.forEach((item) => {
-      const itemElement = item as HTMLElement;
-      itemElement.style.marginBottom = '25px';  // Increased spacing between items
-      itemElement.style.lineHeight = '1.5';
-      itemElement.style.pageBreakInside = 'avoid';
-      itemElement.style.breakInside = 'avoid';
-      itemElement.style.display = 'flex';
-      itemElement.style.alignItems = 'flex-start';
-      itemElement.style.maxWidth = '100%';
+  // Adiciona folha de estilo temporária específica para impressão
+  const styleSheet = document.createElement('style');
+  styleSheet.id = 'print-specific-styles';
+  styleSheet.innerHTML = `
+    @media print {
+      /* Estilos gerais para impressão */
+      body { font-size: 11pt; line-height: 1.3; }
       
-      // Separate the bullet from the text to prevent overlap
-      const bulletSpan = itemElement.querySelector('span:first-child');
-      const textSpan = itemElement.querySelector('span:last-child');
-      
-      if (bulletSpan) {
-        (bulletSpan as HTMLElement).style.marginRight = '12px';  // Increased spacing
-        (bulletSpan as HTMLElement).style.flexShrink = '0';
-        (bulletSpan as HTMLElement).style.marginTop = '2px';
+      /* Evita quebras de página dentro de cards */
+      .card { 
+        page-break-inside: avoid; 
+        break-inside: avoid; 
+        margin-bottom: 20px;
       }
       
-      if (textSpan) {
-        (textSpan as HTMLElement).style.fontSize = '11pt';  // Slightly larger font
-        (textSpan as HTMLElement).style.lineHeight = '1.6';  // Better line height
-        (textSpan as HTMLElement).style.display = 'block';
-        (textSpan as HTMLElement).style.width = 'calc(100% - 25px)';  // More space for text
-        (textSpan as HTMLElement).style.wordWrap = 'break-word';
-        (textSpan as HTMLElement).style.whiteSpace = 'normal';
-        (textSpan as HTMLElement).style.color = '#000';
-        (textSpan as HTMLElement).style.fontWeight = 'normal';
-        (textSpan as HTMLElement).style.overflow = 'visible';
-        
-        // Make sure strong tags are visible
-        const strongElements = textSpan.querySelectorAll('strong');
-        strongElements.forEach((strong) => {
-          (strong as HTMLElement).style.fontWeight = 'bold';
-          (strong as HTMLElement).style.fontSize = '11pt';
-          (strong as HTMLElement).style.color = '#000';
-        });
-      }
-    });
-    
-    // Ensure recommendation section is visible
-    const recomendacoesSection = document.getElementById('recomendacoes-section');
-    if (recomendacoesSection) {
-      recomendacoesSection.style.display = 'block';
-      recomendacoesSection.style.visibility = 'visible';
-      recomendacoesSection.style.opacity = '1';
-      recomendacoesSection.style.pageBreakBefore = 'always';
-      recomendacoesSection.style.breakBefore = 'page';
+      /* Corrige o tamanho de fonte de todos os textos */
+      p, li, td, th { font-size: 10pt !important; }
       
-      // Force all children to be visible
-      const children = recomendacoesSection.querySelectorAll('*');
-      children.forEach(child => {
-        const elem = child as HTMLElement;
-        elem.style.display = child.tagName.toLowerCase() === 'strong' ? 'inline' : 'block';
-        elem.style.visibility = 'visible';
-        elem.style.opacity = '1';
-      });
+      /* Ajusta os itens da lista principal de estatísticas */
+      .principais-constatacoes li { 
+        display: flex !important;
+        align-items: flex-start !important;
+        margin-bottom: 15px !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+      
+      .principais-constatacoes li span:first-child { 
+        margin-right: 10px !important;
+        flex-shrink: 0 !important;
+      }
+      
+      .principais-constatacoes li span:last-child { 
+        font-size: 10pt !important;
+        line-height: 1.4 !important;
+        display: block !important;
+        width: 100% !important;
+        word-wrap: break-word !important;
+        white-space: normal !important;
+      }
+      
+      /* Garante espaçamento adequado entre as seções */
+      .card-section-3, .card-section-4, .card-section-5, 
+      .card-section-6, .card-section-7, .card-section-8 {
+        page-break-before: always;
+        break-before: page;
+      }
+      
+      /* Garante que as tabelas fiquem legíveis */
+      table.print-table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+        margin-bottom: 15px !important;
+        font-size: 9pt !important;
+      }
+      
+      table.print-table th, table.print-table td {
+        border: 1px solid #ddd !important;
+        padding: 4px !important;
+        text-align: left !important;
+        font-size: 9pt !important;
+      }
+      
+      /* Garante visibilidade do texto em negrito */
+      strong {
+        font-weight: bold !important;
+        color: #000 !important;
+      }
+      
+      /* Oculta elementos que não devem ser impressos */
+      .display-screen-only {
+        display: none !important;
+      }
+      
+      /* Mostra elementos específicos para impressão */
+      .display-print-only {
+        display: block !important;
+      }
+      
+      /* Garante que a seção de recomendações seja impressa */
+      #recomendacoes-section {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+      }
+      
+      /* Ajusta título e subtítulos para impressão */
+      .print-title, .print-subtitle {
+        text-align: center !important;
+        margin-bottom: 10px !important;
+      }
+      
+      .print-title {
+        font-size: 16pt !important;
+        font-weight: bold !important;
+      }
+      
+      .print-subtitle {
+        font-size: 12pt !important;
+      }
+    }
+  `;
+  document.head.appendChild(styleSheet);
+  
+  // Define função para limpar configurações de impressão
+  const cleanup = () => {
+    document.body.classList.remove('printing-pdf');
+    if (document.getElementById('print-specific-styles')) {
+      document.head.removeChild(document.getElementById('print-specific-styles'));
     }
   };
   
-  // Add specific print stylesheet for better control
-  const addPrintStyles = () => {
-    const styleSheet = document.createElement('style');
-    styleSheet.id = 'print-specific-styles';
-    styleSheet.innerHTML = `
-      @media print {
-        body { font-size: 11pt; line-height: 1.3; }
-        .card { margin-bottom: 25px; page-break-inside: avoid; break-inside: avoid; }
-        
-        /* Specifically fix stats text overlap */
-        .principais-constatacoes li { 
-          display: flex !important;
-          align-items: flex-start !important;
-          padding-left: 0 !important; 
-          text-indent: 0 !important; 
-          margin-bottom: 25px !important; 
-          line-height: 1.6 !important;
-          page-break-inside: avoid !important;
-          break-inside: avoid !important;
-          max-width: 100% !important;
-        }
-        
-        .principais-constatacoes li span:first-child { 
-          margin-right: 12px !important;
-          flex-shrink: 0 !important;
-          margin-top: 2px !important;
-        }
-        
-        .principais-constatacoes li span:last-child { 
-          font-size: 11pt !important; 
-          line-height: 1.6 !important; 
-          display: block !important;
-          width: calc(100% - 25px) !important;
-          word-wrap: break-word !important;
-          white-space: normal !important;
-          color: #000 !important;
-          font-weight: normal !important;
-          overflow: visible !important;
-        }
-        
-        .principais-constatacoes li span:last-child strong {
-          font-weight: bold !important;
-          font-size: 11pt !important;
-          color: #000 !important;
-        }
-        
-        /* Ensure proper page breaks */
-        .card-section-3, .card-section-4, .card-section-5, .card-section-6, .card-section-7, .card-section-8 {
-          page-break-before: always;
-          break-before: page;
-        }
-      }
-    `;
-    document.head.appendChild(styleSheet);
-    
-    return () => {
-      document.head.removeChild(styleSheet);
-    };
-  };
-  
-  // Execute all adjustments before printing
-  adjustSpacingForPrint();
-  const removeStyles = addPrintStyles();
-  
-  // Delay printing to ensure DOM updates have been applied
+  // Delay para garantir que o DOM seja atualizado antes da impressão
   setTimeout(() => {
     window.print();
     
-    // Clean up after printing
-    setTimeout(() => {
-      document.body.classList.remove('printing-pdf');
-      removeStyles();
-    }, 1000);
-  }, 800);
+    // Remove estilos temporários após impressão
+    setTimeout(cleanup, 1000);
+  }, 300);
 };
