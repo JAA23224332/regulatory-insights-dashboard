@@ -405,18 +405,36 @@ const Export = () => {
       <div className="card card-section-8">
         <h2 className="text-xl font-semibold mb-4">Recomendações para Melhoria da Regulação no SUS</h2>
         
-        <ul className="space-y-3">
-          <li>• <strong>Sistemas de informação e tecnologia</strong>: Investir em tecnologias mais integradas e interoperáveis, modernizando sistemas existentes como o SISREG. Expandir o uso de telemedicina e telessaúde para ampliar o acesso nas regiões remotas.</li>
+        <ul className="space-y-4">
+          <li>
+            <strong>Sistemas de informação e tecnologia:</strong> 
+            <p>Investir em tecnologias mais integradas e interoperáveis, modernizando sistemas existentes como o SISREG. Expandir o uso de telemedicina e telessaúde para ampliar o acesso nas regiões remotas.</p>
+          </li>
           
-          <li>• <strong>Protocolos e processos</strong>: Padronizar nacionalmente protocolos de regulação e classificação de risco, construindo diretrizes que possam ser adaptadas às realidades locais.</li>
+          <li>
+            <strong>Protocolos e processos:</strong> 
+            <p>Padronizar nacionalmente protocolos de regulação e classificação de risco, construindo diretrizes que possam ser adaptadas às realidades locais.</p>
+          </li>
           
-          <li>• <strong>Recursos humanos</strong>: Desenvolver programas de capacitação continuada e estabelecer carreiras específicas para profissionais de regulação, principalmente médicos reguladores.</li>
+          <li>
+            <strong>Recursos humanos:</strong> 
+            <p>Desenvolver programas de capacitação continuada e estabelecer carreiras específicas para profissionais de regulação, principalmente médicos reguladores.</p>
+          </li>
           
-          <li>• <strong>Integração entre níveis de atenção</strong>: Fortalecer a comunicação entre a atenção primária e especializada, usando sistemas como referência e contrarreferência eletrônicas.</li>
+          <li>
+            <strong>Integração entre níveis de atenção:</strong> 
+            <p>Fortalecer a comunicação entre a atenção primária e especializada, usando sistemas como referência e contrarreferência eletrônicas.</p>
+          </li>
           
-          <li>• <strong>Regionalização</strong>: Fortalecer os processos de regionalização, garantindo que os municípios-polo cumpram seu papel assistencial conforme planejado nos PDRs.</li>
+          <li>
+            <strong>Regionalização:</strong> 
+            <p>Fortalecer os processos de regionalização, garantindo que os municípios-polo cumpram seu papel assistencial conforme planejado nos PDRs.</p>
+          </li>
           
-          <li>• <strong>Política integrada</strong>: Desenvolver uma política nacional de regulação integrada, com diretrizes claras e incentivos para implementação em todos os níveis.</li>
+          <li>
+            <strong>Política integrada:</strong> 
+            <p>Desenvolver uma política nacional de regulação integrada, com diretrizes claras e incentivos para implementação em todos os níveis.</p>
+          </li>
         </ul>
       </div>
       
