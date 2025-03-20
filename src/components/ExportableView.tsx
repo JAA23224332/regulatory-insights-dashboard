@@ -15,11 +15,9 @@ import {
   termosCompartilhados 
 } from '@/data/regulacaoData';
 
-// Cores para os gráficos com melhor contraste para impressão
 const COLORS_FORTALEZAS = ['#0062cc', '#00994c', '#57bc6c', '#81C784', '#A5D6A7', '#4CBB17', '#3F704D', '#138808'];
 const COLORS_FRAGILIDADES = ['#cc4125', '#d32f2f', '#e35353', '#EF5350', '#E57373', '#DD2C00', '#B71C1C', '#FF8A65'];
 
-// Estatísticas gerais
 const estatisticasGerais = {
   totalEstados: 12,
   totalFortalezas: 45,
@@ -29,13 +27,11 @@ const estatisticasGerais = {
   temasEquilibrados: 10, // %
 };
 
-// Dados para o gráfico de distribuição
 const dadosDistribuicao = [
   { name: 'Fortalezas', value: estatisticasGerais.totalFortalezas },
   { name: 'Fragilidades', value: estatisticasGerais.totalFragilidades },
 ];
 
-// Preparar dados para o gráfico de pizza com porcentagens
 const prepareDadosPieFortalezas = () => {
   const total = dadosReais.reduce((acc, item) => acc + item.fortalezas, 0);
   return dadosReais
@@ -63,7 +59,6 @@ const prepareDadosPieFragilidades = () => {
 const dadosPieFortalezas = prepareDadosPieFortalezas();
 const dadosPieFragilidades = prepareDadosPieFragilidades();
 
-// A simple custom label that shows just the name and percentage
 const SimpleCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index, name, percentage }) => {
   const RADIAN = Math.PI / 180;
   const radius = outerRadius * 1.2;
@@ -89,7 +84,6 @@ const ExportableView = () => {
   const documentRef = useRef(null);
   
   useEffect(() => {
-    // Apply style fixes when component mounts
     const style = document.createElement('style');
     style.innerHTML = `
       @media print {
@@ -142,7 +136,6 @@ const ExportableView = () => {
     };
   }, []);
   
-  // Voltar para a página principal
   const voltarPrincipal = () => {
     navigate('/');
   };
@@ -150,7 +143,6 @@ const ExportableView = () => {
   return (
     <div className="print:bg-white min-h-screen bg-gradient-to-br from-white to-gray-50 py-8 exportable-document">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 print:p-0 exportable-page">
-        {/* Cabeçalho não imprimível com botões de ação */}
         <div className="print:hidden flex justify-between items-center mb-8 sticky top-0 z-10 bg-white py-4 border-b">
           <Button variant="outline" onClick={voltarPrincipal} className="flex items-center gap-2">
             <ArrowLeft className="h-4 w-4" />
@@ -159,9 +151,7 @@ const ExportableView = () => {
           <ExportButtons />
         </div>
 
-        {/* Conteúdo do documento para impressão */}
         <div ref={documentRef} className="print:m-0">
-          {/* Cabeçalho do documento */}
           <div className="text-center mb-12">
             <h1 className="text-4xl font-light tracking-tight text-gray-900 sm:text-5xl md:text-6xl mb-4 print:text-black">
               Análise de Fortalezas e Fragilidades
@@ -171,7 +161,6 @@ const ExportableView = () => {
             </p>
           </div>
 
-          {/* Seção 1: Visão Geral */}
           <Card className="mb-10 shadow-md print:shadow-none print:border-none">
             <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 print:bg-white border-b">
               <CardTitle className="text-2xl print:text-black">1. Visão Geral da Regulação do SUS</CardTitle>
@@ -198,7 +187,6 @@ const ExportableView = () => {
                 </Card>
               </div>
               
-              {/* Gráfico de distribuição */}
               <div className="mb-6 h-[250px] print:h-[300px]">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
@@ -242,13 +230,11 @@ const ExportableView = () => {
             </CardContent>
           </Card>
 
-          {/* Seção 2: Comparativo por Categoria - FIXED FOR PRINTING */}
           <Card className="mb-10 shadow-md print:shadow-none print:border-none card-section-2">
             <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 print:bg-white border-b">
               <CardTitle className="text-2xl print:text-black">2. Comparativo por Categoria</CardTitle>
             </CardHeader>
             <CardContent className="p-6 print:p-4">
-              {/* Chart for screen view */}
               <div className="h-[500px] print:h-[600px]">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart
@@ -286,7 +272,6 @@ const ExportableView = () => {
                 </ResponsiveContainer>
               </div>
               
-              {/* New print-only table version for better rendering */}
               <div className="display-print-only mt-6">
                 <table className="print-table">
                   <thead>
@@ -356,13 +341,11 @@ const ExportableView = () => {
             </CardContent>
           </Card>
 
-          {/* Seção 3: Fortalezas - REFORMULADA COMPLETAMENTE */}
           <Card className="mb-10 shadow-md print:shadow-none print:border-none card-section-3">
             <CardHeader className="bg-gradient-to-r from-green-50 to-green-100 print:bg-white border-b">
               <CardTitle className="text-2xl print:text-black">3. Análise Detalhada das Fortalezas</CardTitle>
             </CardHeader>
             <CardContent className="p-6 print:p-4">
-              {/* NOVA ABORDAGEM: Tabela simples para impressão */}
               <div className="display-print-only print-section-34">
                 <h3 className="font-medium text-xl mb-4 text-green-700 print:text-black">Distribuição por Categoria:</h3>
                 <table className="print-table">
@@ -388,10 +371,8 @@ const ExportableView = () => {
                 </table>
               </div>
               
-              {/* NOVA ABORDAGEM: Exibição simplificada para tela */}
               <div className="display-screen-only print:hidden">
                 <div className="flex flex-col md:flex-row gap-8">
-                  {/* Lado esquerdo: Gráfico de barras horizontais (mais legível) */}
                   <div className="w-full md:w-1/2">
                     <h3 className="font-medium text-xl mb-4 text-green-700">Distribuição das Fortalezas</h3>
                     <div className="h-[500px]">
@@ -431,7 +412,6 @@ const ExportableView = () => {
                     </div>
                   </div>
                   
-                  {/* Lado direito: Informações textuais */}
                   <div className="w-full md:w-1/2">
                     <h3 className="font-medium text-xl mb-4 text-green-700">Principais fortalezas:</h3>
                     <ul className="space-y-4">
@@ -458,13 +438,11 @@ const ExportableView = () => {
             </CardContent>
           </Card>
 
-          {/* Seção 4: Fragilidades - REFORMULADA COMPLETAMENTE */}
           <Card className="mb-10 shadow-md print:shadow-none print:border-none card-section-4">
             <CardHeader className="bg-gradient-to-r from-red-50 to-red-100 print:bg-white border-b">
               <CardTitle className="text-2xl print:text-black">4. Análise Detalhada das Fragilidades</CardTitle>
             </CardHeader>
             <CardContent className="p-6 print:p-4">
-              {/* NOVA ABORDAGEM: Tabela simples para impressão */}
               <div className="display-print-only print-section-34">
                 <h3 className="font-medium text-xl mb-4 text-red-700 print:text-black">Distribuição por Categoria:</h3>
                 <table className="print-table">
@@ -490,10 +468,8 @@ const ExportableView = () => {
                 </table>
               </div>
               
-              {/* NOVA ABORDAGEM: Exibição simplificada para tela */}
               <div className="display-screen-only print:hidden">
                 <div className="flex flex-col md:flex-row gap-8">
-                  {/* Lado esquerdo: Gráfico de barras horizontais (mais legível) */}
                   <div className="w-full md:w-1/2">
                     <h3 className="font-medium text-xl mb-4 text-red-700">Distribuição das Fragilidades</h3>
                     <div className="h-[500px]">
@@ -533,7 +509,6 @@ const ExportableView = () => {
                     </div>
                   </div>
                   
-                  {/* Lado direito: Informações textuais */}
                   <div className="w-full md:w-1/2">
                     <h3 className="font-medium text-xl mb-4 text-red-700">Principais fragilidades:</h3>
                     <ul className="space-y-4">
@@ -564,7 +539,6 @@ const ExportableView = () => {
             </CardContent>
           </Card>
 
-          {/* Seção 5: Intensidade dos Temas - IMPROVED */}
           <Card className="mb-10 shadow-md print:shadow-none print:border-none card-section-5">
             <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 print:bg-white border-b">
               <CardTitle className="text-2xl print:text-black">5. Intensidade dos Temas por Estado</CardTitle>
@@ -572,7 +546,6 @@ const ExportableView = () => {
             <CardContent className="p-6 print:p-4">
               <p className="mb-4 text-gray-600 print:text-black">Média de intensidade (escala 0-3) para os principais temas:</p>
               
-              {/* Chart for screen view */}
               <div className="display-screen-only h-[450px] print:hidden">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart
@@ -639,7 +612,6 @@ const ExportableView = () => {
                 </ResponsiveContainer>
               </div>
               
-              {/* Table for print view */}
               <div className="display-print-only print-section-34">
                 <table className="print-table">
                   <thead>
@@ -719,7 +691,6 @@ const ExportableView = () => {
             </CardContent>
           </Card>
           
-          {/* Nova Seção 6: Termos mais frequentes em Fortalezas */}
           <Card className="mb-10 shadow-md print:shadow-none print:border-none card-section-6">
             <CardHeader className="bg-gradient-to-r from-green-50 to-green-100 print:bg-white border-b">
               <CardTitle className="text-2xl print:text-black">6. Termos mais frequentes em Fortalezas</CardTitle>
@@ -727,7 +698,6 @@ const ExportableView = () => {
             <CardContent className="p-6 print:p-4">
               <p className="mb-4 text-gray-600 print:text-black">Principais termos mencionados nas fortalezas por frequência:</p>
               
-              {/* Chart for screen view */}
               <div className="display-screen-only h-[400px] print:hidden">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart
@@ -760,7 +730,6 @@ const ExportableView = () => {
                 </ResponsiveContainer>
               </div>
               
-              {/* Table for print view */}
               <div className="display-print-only">
                 <table className="print-table">
                   <thead>
@@ -814,7 +783,6 @@ const ExportableView = () => {
             </CardContent>
           </Card>
           
-          {/* Nova Seção 7: Termos mais frequentes em Fragilidades */}
           <Card className="mb-10 shadow-md print:shadow-none print:border-none card-section-7">
             <CardHeader className="bg-gradient-to-r from-red-50 to-red-100 print:bg-white border-b">
               <CardTitle className="text-2xl print:text-black">7. Termos mais frequentes em Fragilidades</CardTitle>
@@ -822,7 +790,6 @@ const ExportableView = () => {
             <CardContent className="p-6 print:p-4">
               <p className="mb-4 text-gray-600 print:text-black">Principais termos mencionados nas fragilidades por frequência:</p>
               
-              {/* Chart for screen view */}
               <div className="display-screen-only h-[400px] print:hidden">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart
@@ -855,7 +822,6 @@ const ExportableView = () => {
                 </ResponsiveContainer>
               </div>
               
-              {/* Table for print view */}
               <div className="display-print-only">
                 <table className="print-table">
                   <thead>
@@ -909,7 +875,6 @@ const ExportableView = () => {
             </CardContent>
           </Card>
           
-          {/* Nova Seção 8: Termos compartilhados entre Fortalezas e Fragilidades */}
           <Card className="mb-10 shadow-md print:shadow-none print:border-none card-section-8">
             <CardHeader className="bg-gradient-to-r from-purple-50 to-indigo-50 print:bg-white border-b">
               <CardTitle className="text-2xl print:text-black">8. Termos compartilhados entre Fortalezas e Fragilidades</CardTitle>
@@ -917,7 +882,6 @@ const ExportableView = () => {
             <CardContent className="p-6 print:p-4">
               <p className="mb-4 text-gray-600 print:text-black">Termos mencionados tanto nas fortalezas quanto nas fragilidades:</p>
               
-              {/* Chart for screen view */}
               <div className="display-screen-only h-[400px] print:hidden">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart
@@ -960,7 +924,6 @@ const ExportableView = () => {
                 </ResponsiveContainer>
               </div>
               
-              {/* Table for print view */}
               <div className="display-print-only">
                 <table className="print-table">
                   <thead>
@@ -1036,7 +999,65 @@ const ExportableView = () => {
             </CardContent>
           </Card>
           
-          {/* Rodapé do documento */}
+          <Card className="mb-10 shadow-md print:shadow-none print:border-none card-section-8">
+            <CardHeader className="bg-gradient-to-r from-teal-50 to-emerald-50 print:bg-white border-b">
+              <CardTitle className="text-2xl print:text-black">8. Recomendações para Melhoria da Regulação no SUS</CardTitle>
+            </CardHeader>
+            <CardContent className="p-6 print:p-4">
+              <p className="mb-4 text-gray-600 print:text-black">Com base na análise das fortalezas e fragilidades, recomenda-se:</p>
+              
+              <ul className="space-y-4">
+                <li className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 print:shadow-none print:border-black print:border-t">
+                  <div className="font-medium text-teal-700 mb-1 print:text-black print:font-bold">Sistemas de informação e tecnologia</div>
+                  <p className="text-gray-700 print:text-black">
+                    Investir em tecnologias mais integradas e interoperáveis, modernizando sistemas existentes como o SISREG. 
+                    Expandir o uso de telemedicina e telessaúde para ampliar o acesso nas regiões remotas.
+                  </p>
+                </li>
+                
+                <li className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 print:shadow-none print:border-black print:border-t">
+                  <div className="font-medium text-teal-700 mb-1 print:text-black print:font-bold">Protocolos e processos</div>
+                  <p className="text-gray-700 print:text-black">
+                    Padronizar nacionalmente protocolos de regulação e classificação de risco, 
+                    construindo diretrizes que possam ser adaptadas às realidades locais.
+                  </p>
+                </li>
+                
+                <li className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 print:shadow-none print:border-black print:border-t">
+                  <div className="font-medium text-teal-700 mb-1 print:text-black print:font-bold">Recursos humanos</div>
+                  <p className="text-gray-700 print:text-black">
+                    Desenvolver programas de capacitação continuada e estabelecer carreiras específicas 
+                    para profissionais de regulação, principalmente médicos reguladores.
+                  </p>
+                </li>
+                
+                <li className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 print:shadow-none print:border-black print:border-t">
+                  <div className="font-medium text-teal-700 mb-1 print:text-black print:font-bold">Integração entre níveis de atenção</div>
+                  <p className="text-gray-700 print:text-black">
+                    Fortalecer a comunicação entre a atenção primária e especializada, 
+                    usando sistemas como referência e contrarreferência eletrônicas.
+                  </p>
+                </li>
+                
+                <li className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 print:shadow-none print:border-black print:border-t">
+                  <div className="font-medium text-teal-700 mb-1 print:text-black print:font-bold">Regionalização</div>
+                  <p className="text-gray-700 print:text-black">
+                    Fortalecer os processos de regionalização, garantindo que os municípios-polo 
+                    cumpram seu papel assistencial conforme planejado nos PDRs.
+                  </p>
+                </li>
+                
+                <li className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 print:shadow-none print:border-black print:border-t">
+                  <div className="font-medium text-teal-700 mb-1 print:text-black print:font-bold">Política integrada</div>
+                  <p className="text-gray-700 print:text-black">
+                    Desenvolver uma política nacional de regulação integrada, com diretrizes claras 
+                    e incentivos para implementação em todos os níveis.
+                  </p>
+                </li>
+              </ul>
+            </CardContent>
+          </Card>
+          
           <div className="text-center mb-8 mt-12 text-sm text-gray-500 print:text-black">
             <p>Relatório gerado em {new Date().toLocaleDateString()}</p>
             <p>Análise de Fortalezas e Fragilidades</p>

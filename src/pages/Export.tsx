@@ -4,7 +4,6 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { exportToPDF } from '@/utils/exportUtils';
 import { ChartContainer } from '@/components/ui/chart';
 
-// Cores para os gráficos
 const COLORS_FORTALEZAS = ['#4CAF50']; // Verde
 const COLORS_FRAGILIDADES = ['#F44336']; // Vermelho
 const COLORS_PIE = ['#4CAF50', '#F44336']; // Verde e Vermelho
@@ -12,7 +11,6 @@ const COLORS_PIE = ['#4CAF50', '#F44336']; // Verde e Vermelho
 const Export = () => {
   const recomendacoesRef = useRef<HTMLDivElement>(null);
   
-  // Garantir que a seção de recomendações esteja visível após a montagem do componente
   useEffect(() => {
     if (recomendacoesRef.current) {
       const style = recomendacoesRef.current.style;
@@ -29,7 +27,6 @@ const Export = () => {
       style.zIndex = '9999';
       style.position = 'relative';
 
-      // Força visibilidade para todos os elementos filhos
       const children = recomendacoesRef.current.querySelectorAll('*');
       children.forEach(child => {
         const childElement = child as HTMLElement;
@@ -40,10 +37,8 @@ const Export = () => {
     }
   }, []);
 
-  // Atualizar o DOM para garantir que todos os elementos sejam renderizados corretamente
   useEffect(() => {
     const forceRender = () => {
-      // Força a renderização de todos os elementos importantes
       const allSections = document.querySelectorAll('.card');
       allSections.forEach(section => {
         const sectionElem = section as HTMLElement;
@@ -52,7 +47,6 @@ const Export = () => {
         sectionElem.style.opacity = '1';
       });
 
-      // Força especificamente a seção de recomendações
       if (recomendacoesRef.current) {
         recomendacoesRef.current.style.display = 'block';
         recomendacoesRef.current.style.visibility = 'visible';
@@ -60,26 +54,20 @@ const Export = () => {
       }
     };
 
-    // Executar a primeira vez
     forceRender();
 
-    // Executar novamente após um pequeno atraso
     const timer = setTimeout(forceRender, 500);
     return () => clearTimeout(timer);
   }, []);
 
-  // Trigger print dialog com atraso para garantir que tudo seja renderizado
   useEffect(() => {
-    // Tempo aumentado para garantir renderização completa antes da impressão
     const timer = setTimeout(() => {
-      // Força novamente a visibilidade antes de imprimir
       if (recomendacoesRef.current) {
         recomendacoesRef.current.style.display = 'block';
         recomendacoesRef.current.style.visibility = 'visible';
         recomendacoesRef.current.style.opacity = '1';
       }
       
-      // Força atualização do DOM antes de imprimir
       window.requestAnimationFrame(() => {
         window.requestAnimationFrame(() => {
           exportToPDF();
@@ -90,7 +78,6 @@ const Export = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Renderiza o componente de recomendações de forma independente
   const renderRecomendacoes = () => {
     return (
       <div 
@@ -260,7 +247,6 @@ const Export = () => {
 
   return (
     <div className="exportable-document print-layout pb-20">
-      {/* Cabeçalho para impressão */}
       <div className="print-title">
         Análise de <span>Fortalezas e Fragilidades</span> na Regulação do SUS
       </div>
@@ -268,7 +254,6 @@ const Export = () => {
         Baseado em respostas de 12 Secretarias Estaduais de Saúde | 45 fortalezas e 63 fragilidades identificadas
       </div>
       
-      {/* Seção 1: Visão Geral */}
       <div className="card card-section-1">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-4">
           <div className="bg-blue-50 p-3 rounded-lg">
@@ -285,7 +270,6 @@ const Export = () => {
           </div>
         </div>
         
-        {/* Gráfico de pizza com tamanho maior e legenda na lateral */}
         <div className="chart-container mb-6">
           <div className="flex justify-center items-center">
             <ChartContainer 
@@ -329,7 +313,6 @@ const Export = () => {
           </div>
         </div>
         
-        {/* Área de principais constatações com formatação melhorada para evitar sobreposição */}
         <div className="principais-constatacoes border-t pt-4 mt-4">
           <h3 className="font-semibold text-lg mb-3">Principais constatações:</h3>
           <ul className="space-y-6">
@@ -355,13 +338,11 @@ const Export = () => {
         </div>
       </div>
       
-      {/* Seção 2: Comparativo */}
       <div className="card card-section-2">
         <div className="comparativo-titulo">
           2. Comparativo por Categoria
         </div>
         
-        {/* Tabela otimizada para impressão */}
         <table className="print-table mb-4">
           <thead>
             <tr>
@@ -383,7 +364,6 @@ const Export = () => {
           </tbody>
         </table>
         
-        {/* Gráfico otimizado para tela, não para impressão */}
         <div className="chart-container h-[500px] display-screen-only">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
@@ -419,7 +399,6 @@ const Export = () => {
           </ResponsiveContainer>
         </div>
         
-        {/* Visualização simplificada para impressão */}
         <div className="display-print-only mb-3">
           <table className="print-table">
             <thead>
@@ -470,7 +449,6 @@ const Export = () => {
         </div>
       </div>
       
-      {/* Seção 3: Fortalezas */}
       <div className="card card-section-3">
         <h2 className="text-xl font-semibold mb-4">Fortalezas por Categoria</h2>
         
@@ -508,7 +486,6 @@ const Export = () => {
         </ul>
       </div>
       
-      {/* Seção 4: Fragilidades */}
       <div className="card card-section-4">
         <h2 className="text-xl font-semibold mb-4">Fragilidades por Categoria</h2>
         
@@ -547,7 +524,6 @@ const Export = () => {
         </ul>
       </div>
       
-      {/* Seção 5: Intensidade das categorias */}
       <div className="card card-section-5">
         <h2 className="text-xl font-semibold mb-4">Intensidade por Categoria</h2>
         
@@ -581,7 +557,6 @@ const Export = () => {
         </p>
       </div>
       
-      {/* Seção 6: Termos frequentes */}
       <div className="card card-section-6">
         <h2 className="text-xl font-semibold mb-4">Termos mais Frequentes</h2>
         
@@ -628,7 +603,6 @@ const Export = () => {
         </div>
       </div>
       
-      {/* Seção 7: Termos compartilhados */}
       <div className="card card-section-7">
         <h2 className="text-xl font-semibold mb-4">Termos comuns entre Fortalezas e Fragilidades</h2>
         
@@ -656,16 +630,13 @@ const Export = () => {
         </table>
       </div>
       
-      {/* Seção 8: Recomendações - Renderizada como componente separado */}
       {renderRecomendacoes()}
       
-      {/* Rodapé com informações sobre o documento */}
       <div className="mt-8 text-sm text-center text-gray-500">
         <p>Documento gerado com base na análise de respostas de 12 Secretarias Estaduais de Saúde.</p>
         <p>Data da geração: {new Date().toLocaleDateString()}</p>
       </div>
       
-      {/* Elemento oculto que serve como duplicata da seção de recomendações, forçando sua impressão */}
       <div className="hidden-for-pdf-only" style={{ position: 'absolute', bottom: 0, left: 0, opacity: 0, pointerEvents: 'none' }}>
         {renderRecomendacoes()}
       </div>
