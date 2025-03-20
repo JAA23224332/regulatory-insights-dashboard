@@ -1,3 +1,4 @@
+
 /* Estilos de impressão */
 @media print {
   /* Reset básico para impressão */
@@ -419,6 +420,69 @@
   *[src*="lovable.dev"],
   *[src*="projects"] {
     visibility: hidden !important;
+    display: none !important;
+  }
+  
+  /* NOVA REGRA: Esconder específicamente 'regulatory-insights-dashboard' */
+  *:contains("regulatory-insights-dashboard"),
+  [title*="regulatory-insights-dashboard"],
+  [alt*="regulatory-insights-dashboard"],
+  [data-content*="regulatory-insights-dashboard"],
+  .project-header, 
+  .project-title,
+  .report-header:first-child,
+  #page-header,
+  .page-header {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    width: 0 !important;
+    overflow: hidden !important;
+    position: absolute !important;
+    left: -9999px !important;
+    opacity: 0 !important;
+  }
+  
+  /* Remover cabeçalhos de página do navegador ao imprimir */
+  @page {
+    margin-top: 0;
+    margin-header: 0;
+    margin-footer: 0;
+    marks: none;
+  }
+  
+  /* Forçar que nenhum cabeçalho ou rodapé seja adicionado pelo navegador */
+  @page :first {
+    margin-top: 0;
+    margin-header: 0;
+  }
+  
+  /* Remover qualquer texto que possa ser o URL ou título do projeto */
+  body::before {
+    content: none !important;
+  }
+}
+
+/* Adicionar regras específicas para elementos que podem ter sido injetados pelo navegador */
+@media print {
+  /* Esconder qualquer texto que contenha 'regulatory-insights' */
+  body *:not(script):not(style):not(link) {
+    content-visibility: auto;
+  }
+  
+  body *:not(script):not(style):not(link)::before,
+  body *:not(script):not(style):not(link)::after {
+    content: normal !important;
+  }
+  
+  /* Isso força que qualquer conteúdo injetado no início da página seja removido */
+  html::before,
+  body::before,
+  #root::before,
+  .exportable-document::before,
+  .print-layout::before,
+  div::before {
+    content: none !important;
     display: none !important;
   }
 }
