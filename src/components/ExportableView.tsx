@@ -877,7 +877,7 @@ const ExportableView = () => {
           
           <Card className="mb-10 shadow-md print:shadow-none print:border-none card-section-8">
             <CardHeader className="bg-gradient-to-r from-purple-50 to-indigo-50 print:bg-white border-b">
-              <CardTitle className="text-2xl print:text-black">8. Termos compartilhados entre Fortalezas e Fragilidades</Title>
+              <CardTitle className="text-2xl print:text-black">8. Termos compartilhados entre Fortalezas e Fragilidades</CardTitle>
             </CardHeader>
             <CardContent className="p-6 print:p-4">
               <p className="mb-4 text-gray-600 print:text-black">Termos mencionados tanto nas fortalezas quanto nas fragilidades:</p>
@@ -999,9 +999,9 @@ const ExportableView = () => {
             </CardContent>
           </Card>
           
-          <Card className="mb-10 shadow-md print:shadow-none print:border-none card-section-8">
+          <Card className="mb-10 shadow-md print:shadow-none print:border-none card-section-9">
             <CardHeader className="bg-gradient-to-r from-teal-50 to-emerald-50 print:bg-white border-b">
-              <CardTitle className="text-2xl print:text-black">8. Sugestões para Melhoria da Regulação no SUS</CardTitle>
+              <CardTitle className="text-2xl print:text-black">9. Sugestões para Melhoria da Regulação no SUS</CardTitle>
             </CardHeader>
             <CardContent className="p-6 print:p-4">
               <p className="mb-4 text-gray-600 print:text-black">Com base na análise das fortalezas e fragilidades:</p>
