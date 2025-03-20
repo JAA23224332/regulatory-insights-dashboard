@@ -163,17 +163,19 @@ export const exportToPDF = () => {
       const forceAllSvgVisible = () => {
         const allSvgs = document.querySelectorAll('svg');
         allSvgs.forEach(svg => {
-          svg.style.display = 'block';
-          svg.style.visibility = 'visible';
-          svg.style.opacity = '1';
-          
-          // Também forçar a exibição de todos os elementos dentro do SVG
-          const allSvgElements = svg.querySelectorAll('*');
-          allSvgElements.forEach(el => {
-            el.style.visibility = 'visible';
-            el.style.display = 'block';
-            el.style.opacity = '1';
-          });
+          // Aplicar apenas se for SVGElement
+          if (svg instanceof SVGElement) {
+            // Usar setAttribute para SVGElements como boa prática
+            svg.setAttribute('style', 'display: block; visibility: visible; opacity: 1;');
+            
+            // Também forçar a exibição de todos os elementos dentro do SVG
+            const allSvgElements = svg.querySelectorAll('*');
+            allSvgElements.forEach(el => {
+              if (el instanceof SVGElement) {
+                el.setAttribute('style', 'visibility: visible; display: block; opacity: 1;');
+              }
+            });
+          }
         });
       };
       
@@ -183,13 +185,13 @@ export const exportToPDF = () => {
       // Seleciona todos os gráficos de barras
       const barCharts = document.querySelectorAll('.recharts-wrapper, .recharts-surface, .recharts-bar, .recharts-cartesian-grid');
       barCharts.forEach(chart => {
-        if (chart instanceof SVGElement || chart instanceof HTMLElement) {
-          chart.style.visibility = 'visible !important';
-          chart.style.display = 'block !important';
-          chart.style.opacity = '1 !important';
+        if (chart instanceof HTMLElement) {
+          chart.style.visibility = 'visible';
+          chart.style.display = 'block';
+          chart.style.opacity = '1';
           chart.setAttribute('data-force-visible', 'true');
           
-          // Forçar um repaint do elemento
+          // Forçar um repaint do elemento (apenas para HTMLElement)
           const display = chart.style.display;
           chart.style.display = 'none';
           setTimeout(() => { chart.style.display = display; }, 10);
@@ -197,10 +199,24 @@ export const exportToPDF = () => {
           // Garantir que os elementos internos também estejam visíveis
           const children = chart.querySelectorAll('*');
           children.forEach(child => {
-            if (child instanceof SVGElement || child instanceof HTMLElement) {
-              child.style.visibility = 'visible !important';
-              child.style.display = 'block !important';
-              child.style.opacity = '1 !important';
+            if (child instanceof HTMLElement) {
+              child.style.visibility = 'visible';
+              child.style.display = 'block';
+              child.style.opacity = '1';
+            } else if (child instanceof SVGElement) {
+              child.setAttribute('style', 'visibility: visible; display: block; opacity: 1;');
+            }
+          });
+        } else if (chart instanceof SVGElement) {
+          // Usar setAttribute para SVGElements como boa prática
+          chart.setAttribute('style', 'visibility: visible; display: block; opacity: 1;');
+          chart.setAttribute('data-force-visible', 'true');
+          
+          // Garantir que os elementos internos também estejam visíveis
+          const children = chart.querySelectorAll('*');
+          children.forEach(child => {
+            if (child instanceof SVGElement) {
+              child.setAttribute('style', 'visibility: visible; display: block; opacity: 1;');
             }
           });
         }
@@ -210,8 +226,7 @@ export const exportToPDF = () => {
       const chartTexts = document.querySelectorAll('.recharts-text, .recharts-cartesian-axis-tick-value, .recharts-label');
       chartTexts.forEach(text => {
         if (text instanceof SVGElement) {
-          text.style.visibility = 'visible !important';
-          text.style.opacity = '1 !important';
+          text.setAttribute('style', 'visibility: visible; opacity: 1;');
           text.setAttribute('fill', '#000');
           text.setAttribute('font-size', '10px');
           text.setAttribute('font-weight', 'normal');
@@ -271,7 +286,7 @@ export const exportToPDF = () => {
         criticalSelectors.forEach(selector => {
           const elements = document.querySelectorAll(selector);
           elements.forEach(el => {
-            if (el instanceof HTMLElement || el instanceof SVGElement) {
+            if (el instanceof HTMLElement) {
               el.style.cssText = `
                 display: block !important;
                 visibility: visible !important;
@@ -283,8 +298,13 @@ export const exportToPDF = () => {
               // Adicionar atributo personalizado para debug
               el.setAttribute('data-export-visible', 'true');
               
-              // Force a reflow/repaint of the element
+              // Force a reflow/repaint of the element (apenas para HTMLElement)
+              // eslint-disable-next-line no-void
               void el.offsetHeight;
+            } else if (el instanceof SVGElement) {
+              // Para SVGElement usamos setAttribute
+              el.setAttribute('style', 'display: block; visibility: visible; opacity: 1; position: relative; z-index: 999;');
+              el.setAttribute('data-export-visible', 'true');
             }
           });
         });
@@ -295,7 +315,7 @@ export const exportToPDF = () => {
       
       // Forçar renderização completa das recomendações
       const recomendacoesSection = document.getElementById('recomendacoes-section');
-      if (recomendacoesSection) {
+      if (recomendacoesSection && recomendacoesSection instanceof HTMLElement) {
         recomendacoesSection.style.cssText = `
           display: block !important;
           visibility: visible !important;
@@ -325,7 +345,7 @@ export const exportToPDF = () => {
       // Garantir que todos os gráficos estejam visíveis
       const charts = document.querySelectorAll('.chart-container, .recharts-wrapper, .recharts-surface');
       charts.forEach(chart => {
-        if (chart instanceof HTMLElement || chart instanceof SVGElement) {
+        if (chart instanceof HTMLElement) {
           chart.style.cssText = `
             display: block !important;
             visibility: visible !important;
@@ -339,8 +359,16 @@ export const exportToPDF = () => {
             z-index: 999 !important;
           `;
           
-          // Force a reflow
+          // Force a reflow (apenas para HTMLElement)
+          // eslint-disable-next-line no-void
           void chart.offsetHeight;
+        } else if (chart instanceof SVGElement) {
+          // Para SVGElements usamos setAttribute
+          chart.setAttribute('style', 'display: block; visibility: visible; opacity: 1; height: auto; min-height: 300px; position: relative; z-index: 999;');
+          
+          // Forçar renderização
+          const temp = chart.getAttribute('data-temp') || '0';
+          chart.setAttribute('data-temp', String(parseInt(temp) + 1));
         }
       });
       
@@ -351,9 +379,9 @@ export const exportToPDF = () => {
       const customLegends = document.querySelectorAll('.custom-print-pie-legend');
       customLegends.forEach(legend => {
         if (legend instanceof HTMLElement) {
-          legend.style.display = 'block !important';
-          legend.style.visibility = 'visible !important';
-          legend.style.opacity = '1 !important';
+          legend.style.display = 'block';
+          legend.style.visibility = 'visible';
+          legend.style.opacity = '1';
         }
       });
       
@@ -363,8 +391,8 @@ export const exportToPDF = () => {
         const elements = document.querySelectorAll(selector);
         elements.forEach(element => {
           if (element instanceof HTMLElement) {
-            element.style.height = 'auto !important';
-            element.style.maxHeight = '250px !important';
+            element.style.height = 'auto';
+            element.style.maxHeight = '250px';
           }
         });
       });
@@ -373,9 +401,9 @@ export const exportToPDF = () => {
       const sectionTitles = document.querySelectorAll('.card-section-2, .card-section-3, .card-section-4, .card-section-5, .card-section-6, .card-section-7, .card-section-8, .card-section-9');
       sectionTitles.forEach(section => {
         if (section instanceof HTMLElement) {
-          section.style.pageBreakBefore = 'always !important';
-          section.style.breakBefore = 'page !important';
-          section.style.paddingTop = '10px !important';
+          section.style.pageBreakBefore = 'always';
+          section.style.breakBefore = 'page';
+          section.style.paddingTop = '10px';
         }
       });
       
@@ -406,12 +434,14 @@ export const exportToPDF = () => {
           
           // Verificação final de visibilidade para todos os elementos críticos
           document.querySelectorAll('.card, svg, .chart-container').forEach(el => {
-            if (el instanceof HTMLElement || el instanceof SVGElement) {
+            if (el instanceof HTMLElement) {
               el.style.cssText += `
                 display: block !important;
                 visibility: visible !important;
                 opacity: 1 !important;
               `;
+            } else if (el instanceof SVGElement) {
+              el.setAttribute('style', 'display: block; visibility: visible; opacity: 1;');
             }
           });
           
@@ -420,7 +450,7 @@ export const exportToPDF = () => {
             
             // Última verificação do estado das recomendações
             const recomendacoes = document.getElementById('recomendacoes-section');
-            if (recomendacoes) {
+            if (recomendacoes && recomendacoes instanceof HTMLElement) {
               console.log("Status das recomendações:", {
                 display: recomendacoes.style.display,
                 visibility: recomendacoes.style.visibility,
