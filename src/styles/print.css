@@ -1,3 +1,4 @@
+
 /* Estilos de impressão */
 @media print {
   /* Reset básico para impressão */
@@ -812,10 +813,8 @@
   .display-print-only table.print-table td:last-child {
     width: 25% !important;
   }
-}
-
-/* Additional pie chart styling for print */
-@media print {
+  
+  /* Adicional: estilos específicos do gráfico de pizza para impressão */
   .pie-label {
     font-size: 12pt !important;
     font-weight: bold !important;
@@ -850,7 +849,7 @@
     margin-right: 3px;
   }
   
-  /* Bar chart print fixes */
+  /* Correções para tabelas de gráfico de barras na impressão */
   .display-print-only table.print-table {
     width: 100%;
     page-break-inside: avoid;
@@ -863,3 +862,9 @@
     text-align: left;
     font-size: 12pt !important;
   }
+  
+  .display-print-only table.print-table th:first-child,
+  .display-print-only table.print-table td:first-child {
+    width: 40%;
+  }
+}
