@@ -218,70 +218,125 @@
     font-weight: bold !important;
   }
   
-  /* NOVOS AJUSTES PARA GRÁFICOS DE BARRAS */
-  /* Melhorar a visualização dos gráficos de barras na impressão */
+  /* CORREÇÃO PARA BARRAS HORIZONTAIS */
+  /* Corrigir o problema das barras sobrepostas e distorcidas */
+  .recharts-bar {
+    overflow: visible !important;
+    transform: none !important;
+  }
+  
   .recharts-bar-rectangles {
-    display: block !important;
-    height: auto !important;
-    visibility: visible !important;
+    transform: none !important;
   }
   
   .recharts-bar-rectangle {
-    visibility: visible !important;
-    shape-rendering: crispEdges !important;
+    overflow: visible !important;
   }
   
-  /* Forçar cores corretas nas barras */
+  /* Garantir que as barras tenham suas cores corretas na impressão */
+  .recharts-rectangle[fill="#4CAF50"],
+  .recharts-rectangle[fill="green"],
   .recharts-rectangle[fill="#10B981"] {
-    fill: #10B981 !important;
-    color: #10B981 !important;
-    stroke: none !important;
+    fill: #4CAF50 !important; 
+    color: #4CAF50 !important;
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
   }
   
+  .recharts-rectangle[fill="#F44336"],
+  .recharts-rectangle[fill="red"],
   .recharts-rectangle[fill="#EF4444"] {
-    fill: #EF4444 !important; 
-    color: #EF4444 !important;
-    stroke: none !important;
+    fill: #F44336 !important; 
+    color: #F44336 !important;
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+  
+  /* Evitar sobreposição das barras */
+  .recharts-layer[name="Fortalezas"] {
+    position: relative !important;
+    z-index: 2 !important;
+  }
+  
+  .recharts-layer[name="Fragilidades"] {
+    position: relative !important;
+    z-index: 1 !important;
   }
   
   /* Garantir que o container do gráfico tenha espaço adequado */
   .chart-container {
     width: 100% !important;
     height: auto !important;
-    min-height: 300px !important;
-    margin: 10px 0 !important;
+    min-height: 350px !important;
+    max-height: 500px !important;
+    margin: 10px 0 20px 0 !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
+    position: relative !important;
+    transform-origin: center center !important;
+    transform: scale(0.95) !important;
   }
   
   /* Ajustar o tamanho do SVG do gráfico */
   .recharts-wrapper svg {
     width: 100% !important;
     height: auto !important;
-    min-height: 250px !important;
     overflow: visible !important;
   }
   
-  /* Ajustes para o posicionamento das barras */
-  .recharts-layer.recharts-bar-graphical {
-    transform: translateX(-10px) !important;
+  /* Corrigir o posicionamento dos eixos */
+  .recharts-cartesian-grid {
+    transform: none !important;
   }
   
-  /* Assegurar visibilidade do texto nos eixos */
+  .recharts-xAxis,
+  .recharts-yAxis {
+    transform: none !important;
+    overflow: visible !important;
+  }
+  
+  /* Assegurar que os textos dos eixos sejam visíveis e formatados corretamente */
   .recharts-cartesian-axis-tick-value {
     font-size: 8pt !important;
     fill: black !important;
     font-weight: normal !important;
+    overflow: visible !important;
   }
   
-  /* Estilos para legendas dos gráficos de barras */
-  .fortalezas-label, .fragilidades-label {
-    display: inline-block !important;
-    margin-right: 15px !important;
+  /* Para gráficos com layout vertical (barras horizontais) */
+  .recharts-barChart[layout="vertical"] {
+    height: auto !important;
+    min-height: 400px !important;
+    overflow: visible !important;
+  }
+  
+  /* Aumentar a largura do eixo Y para acomodar textos longos */
+  .recharts-cartesian-axis.recharts-yAxis {
+    width: auto !important;
+    overflow: visible !important;
+  }
+  
+  /* Melhorar a visualização alternativa para impressão usando tabelas */
+  .display-print-only {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
+  /* Legenda específica para impressão no gráfico de barras */
+  .print-chart-legend {
+    display: block !important;
+    margin-top: 10px !important;
+    text-align: center !important;
     font-size: 8pt !important;
   }
   
-  .fortalezas-color, .fragilidades-color {
+  .print-legend-item {
+    display: inline-block !important;
+    margin-right: 15px !important;
+  }
+  
+  .print-legend-color {
     display: inline-block !important;
     width: 12px !important;
     height: 12px !important;
@@ -290,11 +345,18 @@
   }
   
   .fortalezas-color {
-    background-color: #10B981 !important;
+    background-color: #4CAF50 !important;
   }
   
   .fragilidades-color {
-    background-color: #EF4444 !important;
+    background-color: #F44336 !important;
+  }
+  
+  /* Estilos para a legenda de impressão visível */
+  .print:block {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
   }
   
   /* Gráficos de barra */
@@ -302,7 +364,8 @@
   .card-section-3 .recharts-wrapper,
   .card-section-4 .recharts-wrapper {
     height: auto !important;
-    max-height: 350px !important;
+    min-height: 350px !important;
+    max-height: 500px !important;
   }
   
   /* Tabelas */

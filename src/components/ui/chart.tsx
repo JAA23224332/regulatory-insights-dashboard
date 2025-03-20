@@ -1,3 +1,4 @@
+
 import * as React from "react"
 import * as RechartsPrimitive from "recharts"
 
@@ -61,13 +62,13 @@ const ChartContainer = React.forwardRef<
           {children}
         </RechartsPrimitive.ResponsiveContainer>
         
-        {/* Adicionando uma legenda explícita para impressão que será apenas visível na impressão */}
-        <div className="hidden print:block print:mt-4">
-          <div className="fortalezas-label">
-            <span className="fortalezas-color"></span> Fortalezas
+        {/* Legenda explícita para impressão que será apenas visível na impressão */}
+        <div className="hidden print:block print:mt-4 print-chart-legend">
+          <div className="print-legend-item">
+            <span className="print-legend-color fortalezas-color"></span> Fortalezas
           </div>
-          <div className="fragilidades-label">
-            <span className="fragilidades-color"></span> Fragilidades
+          <div className="print-legend-item">
+            <span className="print-legend-color fragilidades-color"></span> Fragilidades
           </div>
         </div>
       </div>

@@ -387,13 +387,13 @@ const Export = () => {
                 dataKey="fortalezas" 
                 name="Fortalezas" 
                 fill="#4CAF50" 
-                barSize={20} 
+                barSize={20}
               />
               <Bar 
                 dataKey="fragilidades" 
                 name="Fragilidades" 
                 fill="#F44336" 
-                barSize={20} 
+                barSize={20}
               />
             </BarChart>
           </ResponsiveContainer>
