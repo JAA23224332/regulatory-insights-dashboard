@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Printer, FileDown } from "lucide-react";
@@ -26,7 +27,14 @@ const ExportButtons = ({ className = '' }: ExportButtonsProps) => {
   
   return (
     <div className={`flex gap-2 ${className}`}>
-      {/* All export buttons have been removed */}
+      <Button 
+        variant="outline" 
+        onClick={handlePrintPDF} 
+        className="flex items-center gap-2 bg-white hover:bg-gray-100"
+      >
+        <Printer className="h-4 w-4" />
+        Imprimir PDF
+      </Button>
     </div>
   );
 };

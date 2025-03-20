@@ -1,3 +1,4 @@
+
 // Dados reais baseados nas informações fornecidas
 export const dadosReais = [
   { categoria: 'Sistemas e tecnologia', fortalezas: 13, fragilidades: 12, total: 25 },
@@ -77,11 +78,3 @@ export const dadosDistribuicaoPie = [
   { name: 'Fortalezas', value: 45, percentage: 42 },
   { name: 'Fragilidades', value: 63, percentage: 58 },
 ];
-
-// Dados para o gráfico de comparativo por categoria (seção 2)
-export const dadosComparativoCategoria = dadosReais.map(item => ({
-  categoria: item.categoria,
-  fortalezas: item.fortalezas,
-  fragilidades: item.fragilidades,
-  total: item.total
-}));

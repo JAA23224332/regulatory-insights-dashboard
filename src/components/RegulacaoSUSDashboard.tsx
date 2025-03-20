@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { motion } from 'framer-motion';
 import { 
   dadosReais, 
@@ -259,13 +259,29 @@ const RegulacaoSUSDashboard = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div className="h-[400px] flex items-center justify-center">
                       <ResponsiveContainer width="100%" height="100%">
-                        <AreaChart
-                          data={dadosPieFortalezas}
-                          margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-                        >
-                          <CartesianGrid strokeDasharray="3 3" />
-                          <XAxis dataKey="name" />
-                          <YAxis />
+                        <PieChart>
+                          <Pie
+                            data={dadosPieFortalezas}
+                            cx="50%"
+                            cy="50%"
+                            labelLine={true}
+                            label={({name, percent}) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                            outerRadius={130}
+                            innerRadius={60}
+                            fill="#8884d8"
+                            dataKey="value"
+                            animationDuration={1000}
+                            animationBegin={200}
+                          >
+                            {dadosPieFortalezas.map((entry, index) => (
+                              <Cell 
+                                key={`cell-${index}`} 
+                                fill={COLORS_FORTALEZAS[index % COLORS_FORTALEZAS.length]} 
+                                strokeWidth={1}
+                                stroke="#fff"
+                              />
+                            ))}
+                          </Pie>
                           <Tooltip 
                             contentStyle={{
                               borderRadius: '8px',
@@ -274,16 +290,7 @@ const RegulacaoSUSDashboard = () => {
                               padding: '12px'
                             }}
                           />
-                          <Legend />
-                          <Area 
-                            type="monotone" 
-                            dataKey="value" 
-                            name="Quantidade" 
-                            fill="#4CAF50" 
-                            stroke="#4CAF50"
-                            fillOpacity={0.6} 
-                          />
-                        </AreaChart>
+                        </PieChart>
                       </ResponsiveContainer>
                     </div>
                     <div className="flex flex-col justify-center">
