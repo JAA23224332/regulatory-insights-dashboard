@@ -712,40 +712,40 @@
   }
   
   /* AUMENTAR TAMANHO DOS GRÁFICOS DE BARRA PARA IMPRESSÃO */
-  .h-\[500px\], .h-\[450px\], .h-\[400px\] {
+  .h-\[500px\], .h-\[450px\], .h-\[400px\], .h-\[600px\], .h-\[700px\] {
     height: auto !important;
-    max-height: 500px !important;
+    max-height: 700px !important;
   }
 
   /* Aumento especial para o comparativo por categoria (seção 2) */
   .card-section-2 .recharts-wrapper,
   .card-section-2 .recharts-responsive-container {
     height: auto !important;
-    min-height: 550px !important;
-    max-height: 600px !important;
+    min-height: 700px !important;
+    max-height: 800px !important;
     margin-bottom: 30px !important;
   }
   
   /* Ajuste nos eixos Y para o gráfico comparativo por categoria */
   .card-section-2 .recharts-cartesian-axis.recharts-yAxis .recharts-cartesian-axis-tick {
-    font-size: 14pt !important;
+    font-size: 16pt !important;
     font-weight: bold !important;
   }
   
   /* Aumentar espaço para o texto das categorias */
   .card-section-2 .recharts-cartesian-axis.recharts-yAxis {
-    width: 220px !important;
+    width: 250px !important;
   }
 
   /* Melhorar visualização das barras no comparativo */
   .card-section-2 .recharts-bar-rectangle {
-    height: 35px !important;
+    height: 40px !important;
   }
 
   /* Ajustar margens para o gráfico comparativo */
   .card-section-2 .recharts-wrapper {
-    margin-left: -35px !important;
-    width: calc(100% + 35px) !important;
+    margin-left: -20px !important;
+    width: calc(100% + 20px) !important;
     transform: scale(1) !important;
     transform-origin: center !important;
   }
@@ -762,30 +762,30 @@
   
   /* Melhorar legibilidade do texto nos gráficos */
   .recharts-text {
-    font-size: 12pt !important;
+    font-size: 14pt !important;
     fill: #000 !important;
   }
   
   /* Garantir que as labels dos eixos sejam visíveis */
   .recharts-cartesian-axis-tick-value {
-    font-size: 12pt !important;
+    font-size: 14pt !important;
     fill: #000 !important;
   }
   
   /* Especificar para as labels do eixo X no gráfico de comparativo */
   .card-section-2 .recharts-cartesian-axis.recharts-xAxis .recharts-cartesian-axis-tick-value {
-    font-size: 14pt !important;
+    font-size: 16pt !important;
     font-weight: bold !important;
   }
   
   /* Melhorar a legenda do gráfico comparativo */
   .card-section-2 .recharts-legend-wrapper {
-    padding-top: 15px !important;
-    margin-bottom: 10px !important;
+    padding-top: 20px !important;
+    margin-bottom: 15px !important;
   }
   
   .card-section-2 .recharts-legend-item-text {
-    font-size: 14pt !important;
+    font-size: 16pt !important;
     font-weight: bold !important;
   }
   
@@ -812,8 +812,10 @@
   .display-print-only table.print-table td:last-child {
     width: 25% !important;
   }
-  
-  /* Adicional: estilos específicos do gráfico de pizza para impressão */
+}
+
+/* Additional pie chart styling for print */
+@media print {
   .pie-label {
     font-size: 12pt !important;
     font-weight: bold !important;
@@ -867,4 +869,3 @@
     width: 40%;
   }
 }
-

@@ -360,9 +360,9 @@ const Export = () => {
           2. Comparativo por Categoria
         </div>
         
-        <div className="chart-container mb-6" style={{ height: '600px' }}>
+        <div className="chart-container mb-6" style={{ height: '700px' }}>
           <ChartContainer 
-            className="h-[600px] w-full" 
+            className="h-[700px] w-full" 
             config={{
               fortalezas: { color: "#4CAF50" },
               fragilidades: { color: "#F44336" }
@@ -372,24 +372,27 @@ const Export = () => {
               <BarChart
                 data={dadosComparativoCategoria}
                 layout="vertical"
-                margin={{ top: 20, right: 30, left: 180, bottom: 30 }}
+                margin={{ top: 20, right: 30, left: 200, bottom: 30 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis type="number" />
+                <XAxis 
+                  type="number" 
+                  tick={{ fontSize: 16 }}
+                />
                 <YAxis 
                   type="category" 
                   dataKey="categoria" 
-                  tick={{ fontSize: 14 }} 
-                  width={180} 
+                  tick={{ fontSize: 16 }} 
+                  width={200} 
                 />
                 <Tooltip />
                 <Legend 
                   verticalAlign="bottom"
                   align="center"
-                  wrapperStyle={{ paddingTop: '20px' }}
+                  wrapperStyle={{ paddingTop: '20px', fontSize: '16px' }}
                 />
-                <Bar dataKey="fortalezas" name="Fortalezas" fill={COLORS_BAR.fortalezas} barSize={30} />
-                <Bar dataKey="fragilidades" name="Fragilidades" fill={COLORS_BAR.fragilidades} barSize={30} />
+                <Bar dataKey="fortalezas" name="Fortalezas" fill={COLORS_BAR.fortalezas} barSize={40} />
+                <Bar dataKey="fragilidades" name="Fragilidades" fill={COLORS_BAR.fragilidades} barSize={40} />
               </BarChart>
             </ResponsiveContainer>
           </ChartContainer>
@@ -623,4 +626,3 @@ const Export = () => {
 };
 
 export default Export;
-
