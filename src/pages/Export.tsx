@@ -1,9 +1,9 @@
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { dadosReais, dadosComparativoCategoria } from '@/data/regulacaoData';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { exportToPDF } from '@/utils/exportUtils';
 import { ChartContainer } from '@/components/ui/chart';
+import ExportButtons from '@/components/ExportButtons';
 
 // Cores mais contrastantes para o gráfico
 const COLORS_BAR = {
@@ -34,23 +34,16 @@ const CustomXAxisTick = (props: any) => {
 };
 
 const Export = () => {
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      window.requestAnimationFrame(() => {
-        window.requestAnimationFrame(() => {
-          exportToPDF();
-        });
-      });
-    }, 2500);
-    
-    return () => clearTimeout(timer);
-  }, []);
-
   // Ordenar dados para melhor visualização
   const dadosOrdenados = [...dadosComparativoCategoria].sort((a, b) => b.total - a.total);
 
   return (
     <div className="exportable-document print-layout pb-20">
+      {/* Botões de exportação */}
+      <div className="mb-6 flex justify-end">
+        <ExportButtons />
+      </div>
+      
       {/* Seção do gráfico de comparativo por categoria */}
       <div className="card card-section-2">
         <div className="comparativo-titulo">
