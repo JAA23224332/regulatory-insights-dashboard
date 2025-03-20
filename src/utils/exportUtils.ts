@@ -1,4 +1,3 @@
-
 import { saveAs } from 'file-saver';
 import * as XLSX from 'xlsx';
 import { 
@@ -163,12 +162,10 @@ export const exportToPowerPoint = () => {
   saveAs(blob, 'Analise_Regulacao_SUS.xlsx');
 };
 
-// Função completamente reescrita para garantir que as recomendações sejam exibidas
+// Completely rewritten function to export to PDF without notifications
 export const exportToPDF = () => {
   // Função para forçar a visibilidade de todas as seções de recomendações
   const forceRecomendacoesVisibility = () => {
-    console.log("Forçando visibilidade das recomendações...");
-    
     // 1. Captura todos os possíveis elementos de recomendações
     const recomendacoesSectionId = document.getElementById('recomendacoes-section');
     const allRecomendacoesSections = document.querySelectorAll('.recomendacoes-section, .card-section-8');
@@ -216,11 +213,9 @@ export const exportToPDF = () => {
         });
       });
       
-      console.log("Visibilidade forçada para seção de recomendações concluída");
       return true;
     }
     
-    console.warn("Seção de recomendações não encontrada no DOM!");
     return false;
   };
   
@@ -244,7 +239,7 @@ export const exportToPDF = () => {
     // 9. Usa requestAnimationFrame para garantir que o DOM esteja atualizado
     window.requestAnimationFrame(() => {
       window.requestAnimationFrame(() => {
-        console.log("Abrindo diálogo de impressão");
+        // Abre diálogo de impressão sem notificações
         window.print();
         
         // 10. Limpa após a impressão

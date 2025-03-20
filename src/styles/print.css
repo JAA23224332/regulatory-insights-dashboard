@@ -2,7 +2,7 @@
 @media print {
   /* Reset básico para impressão */
   body, html {
-    font-size: 11pt !important;
+    font-size: 10pt !important; /* Reduced from 11pt */
     background-color: white !important;
     color: black !important;
     margin: 0 !important;
@@ -17,7 +17,7 @@
   
   /* Esconder elementos desnecessários */
   header, footer, nav, button, .display-screen-only, [role="alert"], 
-  .notification, .export-message, .export-notification {
+  .notification, .export-message, .export-notification, .comparativo-notificacao {
     display: none !important;
   }
   
@@ -34,18 +34,18 @@
   
   /* Estilos para títulos */
   .print-title {
-    font-size: 24pt !important;
+    font-size: 20pt !important; /* Reduced from 24pt */
     font-weight: 700 !important;
     text-align: center !important;
-    margin-bottom: 10px !important;
+    margin-bottom: 8px !important;
     page-break-after: avoid !important;
     color: #000 !important;
   }
   
   .print-subtitle {
-    font-size: 10pt !important;
+    font-size: 9pt !important; /* Reduced from 10pt */
     text-align: center !important;
-    margin-bottom: 30px !important;
+    margin-bottom: 20px !important;
     color: #555 !important;
     page-break-after: avoid !important;
   }
@@ -61,12 +61,12 @@
     color: #333 !important;
   }
   
-  /* Estilos para cards/seções */
+  /* Estilos para cards/seções - Reduced padding */
   .card {
     page-break-inside: avoid !important;
     break-inside: avoid !important;
-    margin-bottom: 30px !important;
-    padding: 15px !important;
+    margin-bottom: 20px !important;
+    padding: 10px !important;
     border: none !important;
     background-color: white !important;
     box-shadow: none !important;
@@ -75,15 +75,17 @@
   /* Cores específicas para os cards de visão geral - ATUALIZADOS */
   .card-section-1 .grid {
     display: flex !important;
-    flex-direction: column !important;
+    flex-direction: row !important; /* Changed to row */
+    flex-wrap: wrap !important;
+    justify-content: space-between !important;
     width: 100% !important;
   }
   
   .card-section-1 .rounded-lg {
-    width: 100% !important;
+    width: 30% !important; /* Each card takes 30% width */
     text-align: center !important;
     margin-bottom: 15px !important;
-    padding: 20px 10px !important;
+    padding: 15px 5px !important; /* Reduced padding */
     border-radius: 0 !important;
   }
   
@@ -105,17 +107,17 @@
     color: #000 !important;
   }
   
-  /* Estilos de texto nos cards estatísticos */
+  /* Estilos de texto nos cards estatísticos - Reduced size */
   .card-section-1 .text-lg {
-    font-size: 28pt !important;
+    font-size: 22pt !important; /* Reduced from 28pt */
     font-weight: bold !important;
-    margin-bottom: 5px !important;
+    margin-bottom: 3px !important;
     text-align: center !important;
     display: block !important;
   }
   
   .card-section-1 .text-sm {
-    font-size: 12pt !important;
+    font-size: 10pt !important; /* Reduced from 12pt */
     text-align: center !important;
     display: block !important;
   }
@@ -125,35 +127,36 @@
     color: #000 !important;
   }
   
-  /* Gráfico de pizza */
+  /* Gráfico de pizza - Reduced height */
   .recharts-wrapper {
     margin: 0 auto !important;
     width: 100% !important;
     height: auto !important;
+    max-height: 200px !important; /* Added max-height */
     display: block !important;
     text-align: center !important;
   }
   
-  /* Textos no gráfico de pizza */
+  /* Textos no gráfico de pizza - Reduced size */
   .pie-chart-label {
-    font-size: 10pt !important;
+    font-size: 8pt !important; /* Reduced from 10pt */
     font-weight: bold !important;
   }
   
   .fortalezas-percent {
     color: #4CAF50 !important;
-    font-size: 11pt !important;
+    font-size: 9pt !important; /* Reduced from 11pt */
     text-align: center !important;
-    margin-top: 5px !important;
-    margin-bottom: 10px !important;
+    margin-top: 3px !important;
+    margin-bottom: 6px !important;
   }
   
   .fragilidades-percent {
     color: #F44336 !important;
-    font-size: 11pt !important;
+    font-size: 9pt !important; /* Reduced from 11pt */
     text-align: center !important;
-    margin-top: 5px !important;
-    margin-bottom: 10px !important;
+    margin-top: 3px !important;
+    margin-bottom: 6px !important;
   }
   
   /* Cabeçalhos de seção com estilo semelhante ao da imagem */
@@ -209,16 +212,16 @@
   /* Estilos para lista de constatações principais */
   .principais-constatacoes {
     background-color: #f9f9f9 !important;
-    padding: 15px !important;
-    margin-top: 20px !important;
+    padding: 10px !important; /* Reduced from 15px */
+    margin-top: 15px !important; /* Reduced from 20px */
     border-top: 1px solid #eee !important;
     border-bottom: 1px solid #eee !important;
   }
   
   .principais-constatacoes h3 {
-    font-size: 14pt !important;
+    font-size: 12pt !important; /* Reduced from 14pt */
     font-weight: bold !important;
-    margin-bottom: 15px !important;
+    margin-bottom: 10px !important; /* Reduced from 15px */
   }
   
   .principais-constatacoes ul {
@@ -227,8 +230,8 @@
   }
   
   .principais-constatacoes li {
-    margin-bottom: 10px !important;
-    padding-left: 18px !important;
+    margin-bottom: 6px !important; /* Reduced from 10px */
+    padding-left: 15px !important; /* Reduced from 18px */
     position: relative !important;
   }
   
@@ -274,14 +277,15 @@
   .print-table {
     width: 100% !important;
     border-collapse: collapse !important;
-    margin: 15px 0 !important;
+    margin: 10px 0 !important; /* Reduced from 15px */
   }
   
   .print-table th, 
   .print-table td {
     border: 1px solid #ddd !important;
-    padding: 8px 12px !important;
+    padding: 5px 8px !important; /* Reduced from 8px 12px */
     text-align: left !important;
+    font-size: 9pt !important; /* Added font size reduction */
   }
   
   .print-table th {
@@ -319,10 +323,10 @@
     padding: 5px !important;
   }
 
-  /* Cores para o gráfico de pizza */
+  /* Cores para o gráfico de pizza - Reduced size */
   .pie-chart-container {
-    width: 300px !important;
-    height: 300px !important;
+    width: 250px !important; /* Reduced from 300px */
+    height: 250px !important; /* Reduced from 300px */
     margin: 0 auto !important;
     page-break-inside: avoid !important;
     position: relative !important;
@@ -343,7 +347,7 @@
   /* Configuração de página atualizada para garantir espaço para todas as seções */
   @page {
     size: A4 portrait;
-    margin: 1.5cm 1.5cm;
+    margin: 1.2cm 1.2cm; /* Reduced from 1.5cm */
   }
   
   /* SUPER REFORÇO PARA SEÇÃO DE RECOMENDAÇÕES */
@@ -361,9 +365,9 @@
     page-break-inside: avoid !important;
     break-inside: avoid !important;
     -webkit-break-inside: avoid !important;
-    margin-top: 30px !important;
-    margin-bottom: 30px !important;
-    padding: 20px !important;
+    margin-top: 20px !important; /* Reduced from 30px */
+    margin-bottom: 20px !important; /* Reduced from 30px */
+    padding: 15px !important; /* Reduced from 20px */
     overflow: visible !important;
     max-height: none !important;
     height: auto !important;
@@ -379,11 +383,11 @@
   .recomendacoes-title,
   .recomendacoes-section h2,
   .card-section-8 h2 {
-    font-size: 18pt !important;
+    font-size: 16pt !important; /* Reduced from 18pt */
     font-weight: 700 !important;
-    margin-bottom: 25px !important;
+    margin-bottom: 20px !important; /* Reduced from 25px */
     border-bottom: 2px solid #000 !important;
-    padding-bottom: 10px !important;
+    padding-bottom: 8px !important; /* Reduced from 10px */
     color: #000 !important;
     display: block !important;
     visibility: visible !important;
@@ -394,8 +398,8 @@
   .recomendacoes-section ul,
   .card-section-8 ul {
     list-style-type: disc !important;
-    padding-left: 20px !important;
-    margin: 20px 0 !important;
+    padding-left: 15px !important; /* Reduced from 20px */
+    margin: 15px 0 !important; /* Reduced from 20px */
     display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
@@ -404,9 +408,9 @@
   .recomendacao-item,
   .recomendacoes-section li,
   .card-section-8 li {
-    margin-bottom: 20px !important;
+    margin-bottom: 15px !important; /* Reduced from 20px */
     position: relative !important;
-    padding-left: 5px !important;
+    padding-left: 3px !important; /* Reduced from 5px */
     display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
@@ -423,17 +427,17 @@
     display: inline !important;
     visibility: visible !important;
     opacity: 1 !important;
-    font-size: 12pt !important;
+    font-size: 10pt !important; /* Reduced from 12pt */
   }
   
   .recomendacao-item p,
   .recomendacoes-section li p,
   .card-section-8 li p {
-    margin-top: 5px !important;
+    margin-top: 3px !important; /* Reduced from 5px */
     display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
-    font-size: 11pt !important;
+    font-size: 9pt !important; /* Reduced from 11pt */
   }
   
   /* Garantia total para todos os elementos da seção */

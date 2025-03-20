@@ -1,8 +1,6 @@
-
 import React, { useEffect, useRef } from 'react';
 import { dadosReais, dadosIntensidade, termosFrequentesFortalezas, termosFrequentesFragilidades, termosCompartilhados, dadosDistribuicaoPie, estatisticasGerais } from '@/data/regulacaoData';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
-import { useToast } from "@/components/ui/use-toast";
 import { exportToPDF } from '@/utils/exportUtils';
 
 // Cores para os gráficos
@@ -11,7 +9,6 @@ const COLORS_FRAGILIDADES = ['#F44336']; // Vermelho
 const COLORS_PIE = ['#4CAF50', '#F44336']; // Verde e Vermelho
 
 const Export = () => {
-  const { toast } = useToast();
   const recomendacoesRef = useRef<HTMLDivElement>(null);
   
   // Garantir que a seção de recomendações esteja visível após a montagem do componente
@@ -72,11 +69,6 @@ const Export = () => {
 
   // Trigger print dialog com atraso para garantir que tudo seja renderizado
   useEffect(() => {
-    toast({
-      title: "Preparando documento para impressão",
-      description: "O diálogo de impressão abrirá automaticamente em alguns segundos",
-    });
-    
     // Tempo aumentado para garantir renderização completa antes da impressão
     const timer = setTimeout(() => {
       // Força novamente a visibilidade antes de imprimir
@@ -95,7 +87,7 @@ const Export = () => {
     }, 2500);
     
     return () => clearTimeout(timer);
-  }, [toast]);
+  }, []);
 
   // Renderiza o componente de recomendações de forma independente
   const renderRecomendacoes = () => {
@@ -266,7 +258,7 @@ const Export = () => {
   };
 
   return (
-    <div className="exportable-document print-layout">
+    <div className="exportable-document print-layout pb-20">
       {/* Cabeçalho para impressão */}
       <div className="print-title">
         Análise de <span>Fortalezas e Fragilidades</span> na Regulação do SUS
@@ -277,7 +269,7 @@ const Export = () => {
       
       {/* Seção 1: Visão Geral */}
       <div className="card card-section-1">
-        <div className="grid grid-cols-1 gap-2 mb-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-4">
           <div className="bg-blue-50 p-3 rounded-lg">
             <p className="text-lg font-semibold text-blue-600">12</p>
             <p className="text-sm">Estados participantes</p>
@@ -294,7 +286,7 @@ const Export = () => {
         
         {/* Gráfico de pizza para a distribuição de fortalezas e fragilidades */}
         <div className="pie-chart-container mb-6">
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={250}>
             <PieChart>
               <Pie
                 data={dadosDistribuicaoPie}
@@ -348,11 +340,6 @@ const Export = () => {
         <div className="comparativo-titulo">
           2. Comparativo por Categoria
         </div>
-        <div className="comparativo-notificacao">
-          Exportação de PDF iniciada
-          <br />
-          Use a opção "Salvar como PDF" na janela de impressão para exportar o documento completo
-        </div>
         
         {/* Tabela otimizada para impressão */}
         <table className="print-table mb-4">
@@ -377,7 +364,7 @@ const Export = () => {
         </table>
         
         {/* Gráfico otimizado para tela, não para impressão */}
-        <div className="chart-container h-[600px] display-screen-only">
+        <div className="chart-container h-[500px] display-screen-only">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
               data={dadosReais}
@@ -667,3 +654,4 @@ const Export = () => {
 };
 
 export default Export;
+

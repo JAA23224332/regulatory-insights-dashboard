@@ -2,7 +2,6 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Download, Printer, Presentation } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
 import { exportToPDF, exportToPowerPoint } from '@/utils/exportUtils';
 
 interface ExportButtonsProps {
@@ -10,21 +9,11 @@ interface ExportButtonsProps {
 }
 
 const ExportButtons = ({ className = '' }: ExportButtonsProps) => {
-  const { toast } = useToast();
-  
   const handlePrintPDF = () => {
-    toast({
-      title: "Exportação de PDF iniciada",
-      description: "Use a opção 'Salvar como PDF' na janela de impressão para exportar o documento completo",
-    });
     exportToPDF();
   };
   
   const handleExportPowerPoint = () => {
-    toast({
-      title: "Exportação para PowerPoint iniciada",
-      description: "O arquivo será baixado automaticamente em alguns segundos",
-    });
     exportToPowerPoint();
   };
   
