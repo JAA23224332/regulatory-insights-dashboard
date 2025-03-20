@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from "@/components/ui/button";
-import { Printer } from "lucide-react";
+import { Printer, FileDown } from "lucide-react";
 import { exportToPDF } from '@/utils/exportUtils';
 import { useToast } from "@/components/ui/use-toast";
 
@@ -22,7 +22,7 @@ const ExportButtons = ({ className = '' }: ExportButtonsProps) => {
     // Pequeno delay para dar tempo da toast notification aparecer antes da janela de impressão
     setTimeout(() => {
       exportToPDF();
-    }, 300);
+    }, 500);
   };
   
   return (
@@ -30,10 +30,10 @@ const ExportButtons = ({ className = '' }: ExportButtonsProps) => {
       <Button 
         variant="outline" 
         onClick={handlePrintPDF} 
-        className="flex items-center gap-2"
+        className="flex items-center gap-2 bg-white hover:bg-gray-100"
       >
         <Printer className="h-4 w-4" />
-        Imprimir
+        Imprimir PDF
       </Button>
     </div>
   );
