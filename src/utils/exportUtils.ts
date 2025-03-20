@@ -1,4 +1,3 @@
-
 // Função para exportação de PDF que usa a funcionalidade nativa de impressão
 export const exportToPDF = () => {
   try {
@@ -192,6 +191,44 @@ export const exportToPDF = () => {
           }
         });
       });
+      
+      // Garantir que cada título de seção comece em uma nova página
+      const sectionTitles = document.querySelectorAll('.card-section-2, .card-section-3, .card-section-4, .card-section-5, .card-section-6, .card-section-7, .card-section-8, .card-section-9');
+      sectionTitles.forEach(section => {
+        if (section instanceof HTMLElement) {
+          section.style.pageBreakBefore = 'always';
+          section.style.breakBefore = 'page';
+          section.style.paddingTop = '10px'; // Espaço no topo para evitar corte do título
+        }
+      });
+      
+      // Garantir que os títulos das seções fiquem no topo da página
+      const sectionHeaders = document.querySelectorAll('.section-title, h2.text-xl, .card h2, .comparativo-titulo');
+      sectionHeaders.forEach(header => {
+        if (header instanceof HTMLElement) {
+          header.style.pageBreakBefore = 'auto';
+          header.style.pageBreakAfter = 'avoid';
+          header.style.breakAfter = 'avoid';
+          header.style.marginTop = '10px';
+        }
+      });
+      
+      // Força o título principal a ficar no topo da primeira página
+      const mainTitle = document.querySelector('.print-title');
+      if (mainTitle instanceof HTMLElement) {
+        mainTitle.style.pageBreakAfter = 'avoid';
+        mainTitle.style.breakAfter = 'avoid';
+        mainTitle.style.marginTop = '10px';
+      }
+      
+      // Força o subtítulo a ficar junto com o título principal
+      const subtitle = document.querySelector('.print-subtitle');
+      if (subtitle instanceof HTMLElement) {
+        subtitle.style.pageBreakBefore = 'avoid';
+        subtitle.style.breakBefore = 'avoid';
+        subtitle.style.pageBreakAfter = 'avoid';
+        subtitle.style.breakAfter = 'avoid';
+      }
       
       // Preparar tabelas de termos frequentes para melhor visualização
       prepareTermosTables();

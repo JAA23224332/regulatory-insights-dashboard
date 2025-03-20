@@ -1,4 +1,3 @@
-
 /* Estilos de impressão */
 @media print {
   /* Reset básico para impressão */
@@ -76,14 +75,20 @@
     margin: 0 !important;
   }
   
-  /* Estilos para títulos */
+  /* Estilos para títulos - ATUALIZADO PARA GARANTIR POSICIONAMENTO CORRETO */
   .print-title {
     font-size: 18pt !important;
     font-weight: 700 !important;
     text-align: center !important;
+    margin-top: 15px !important;
     margin-bottom: 5px !important;
+    page-break-before: auto !important;
     page-break-after: avoid !important;
+    break-before: auto !important;
+    break-after: avoid !important;
     color: #000 !important;
+    position: relative !important;
+    z-index: 100 !important;
   }
   
   .print-subtitle {
@@ -91,11 +96,14 @@
     text-align: center !important;
     margin-bottom: 10px !important;
     color: #555 !important;
+    page-break-before: avoid !important;
     page-break-after: avoid !important;
+    break-before: avoid !important;
+    break-after: avoid !important;
   }
   
   /* Estilos para seções */
-  .section-title {
+  .section-title, .card h2, .comparativo-titulo, h2.text-xl {
     font-size: 14pt !important;
     font-weight: 600 !important;
     margin-top: 15px !important;
@@ -103,8 +111,30 @@
     border-bottom: 1px solid #ddd !important;
     padding-bottom: 3px !important;
     color: #333 !important;
+    page-break-before: auto !important;
+    page-break-after: avoid !important;
+    break-before: auto !important;
+    break-after: avoid !important;
+    position: relative !important;
+    z-index: 99 !important;
   }
   
+  /* Controle de quebra de página para cada seção principal - IMPORTANTE */
+  .card-section-2, .card-section-3, .card-section-4, .card-section-5, 
+  .card-section-6, .card-section-7, .card-section-8, .card-section-9 {
+    page-break-before: always !important;
+    break-before: page !important;
+    padding-top: 10px !important;
+    position: relative !important;
+    z-index: 1 !important;
+  }
+  
+  /* A primeira seção não deve ter quebra de página */
+  .card-section-1 {
+    page-break-after: always !important;
+    break-after: page !important;
+  }
+
   /* Estilos para cards/seções */
   .card {
     page-break-inside: avoid !important;
@@ -360,7 +390,7 @@
   /* Configuração de página */
   @page {
     size: A4 portrait;
-    margin: 0.8cm 0.8cm;
+    margin: 1cm 0.8cm;
   }
   
   /* Controle de quebra de página */
@@ -772,19 +802,16 @@
     width: 35% !important;
   }
   
-  /* Título e subtítulo da página */
+  /* Título e subtítulo da página - ATUALIZADO PARA GARANTIR QUEBRAS CORRETAS */
   .text-4xl, .text-5xl, .text-6xl {
     font-size: 16pt !important;
     line-height: 1.2 !important;
     margin-bottom: 5px !important;
+    page-break-before: auto !important;
+    page-break-after: avoid !important;
+    break-before: auto !important;
+    break-after: avoid !important;
   }
   
-  .mt-4 {
-    margin-top: 3px !important;
-  }
-  
-  /* Ajuste fino das barras de frequência */
-  .display-print-only table.print-table td .flex.items-center div {
-    height: 5px !important;
-  }
+  /* ... keep existing code (ajustes finos das barras de frequência) */
 }
