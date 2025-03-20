@@ -3,7 +3,7 @@
 @media print {
   /* Reset básico para impressão */
   body, html {
-    font-size: 10pt !important;
+    font-size: 9pt !important; /* Reduzindo o tamanho da fonte base */
     background-color: white !important;
     color: black !important;
     margin: 0 !important;
@@ -86,186 +86,150 @@
     margin: 0 !important;
   }
   
-  /* Estilos para títulos */
+  /* Layout principal para página A4 */
+  .exportable-document {
+    max-width: 21cm !important; /* Largura A4 */
+    margin: 0 auto !important;
+  }
+  
+  /* Estilos para títulos - AJUSTADOS PARA ECONOMIA DE ESPAÇO */
   .print-title {
-    font-size: 18pt !important;
+    font-size: 16pt !important; /* Reduzido */
     font-weight: 700 !important;
     text-align: center !important;
-    margin-bottom: 8px !important;
+    margin-bottom: 4px !important; /* Reduzido */
     page-break-after: avoid !important;
     color: #000 !important;
   }
   
   .print-subtitle {
-    font-size: 9pt !important;
+    font-size: 8pt !important; /* Reduzido */
     text-align: center !important;
-    margin-bottom: 15px !important;
+    margin-bottom: 10px !important; /* Reduzido */
     color: #555 !important;
     page-break-after: avoid !important;
   }
   
   /* Estilos para seções */
   .section-title {
-    font-size: 14pt !important;
+    font-size: 12pt !important; /* Reduzido */
     font-weight: 600 !important;
-    margin-top: 30px !important;
-    margin-bottom: 15px !important;
+    margin-top: 20px !important; /* Reduzido */
+    margin-bottom: 10px !important; /* Reduzido */
     border-bottom: 1px solid #ddd !important;
-    padding-bottom: 5px !important;
+    padding-bottom: 3px !important; /* Reduzido */
     color: #333 !important;
   }
   
-  /* Estilos para cards/seções */
+  /* Estilos para cards/seções - MAIS COMPACTOS */
   .card {
     page-break-inside: avoid !important;
     break-inside: avoid !important;
-    margin-bottom: 15px !important;
-    padding: 8px !important;
+    margin-bottom: 10px !important; /* Reduzido */
+    padding: 5px !important; /* Reduzido */
     border: none !important;
     background-color: white !important;
     box-shadow: none !important;
   }
   
-  /* Cards da seção de visão geral */
+  /* Título das seções */
+  .card h2 {
+    font-size: 12pt !important; /* Reduzido */
+    margin-bottom: 8px !important; /* Reduzido */
+  }
+  
+  /* Cards da seção de visão geral - MAIS COMPACTOS */
   .card-section-1 .grid {
     display: flex !important;
     flex-direction: row !important;
     flex-wrap: wrap !important;
     justify-content: space-between !important;
     width: 100% !important;
+    margin-bottom: 8px !important; /* Reduzido */
   }
   
   .card-section-1 .rounded-lg {
     width: 30% !important;
     text-align: center !important;
-    margin-bottom: 10px !important;
-    padding: 10px 5px !important;
+    margin-bottom: 6px !important; /* Reduzido */
+    padding: 6px 2px !important; /* Reduzido */
     border-radius: 0 !important;
   }
   
-  /* Cores dos cards */
-  .bg-blue-50 {
-    background-color: #f0f7ff !important;
-    color: #000 !important;
-  }
-  
-  .bg-green-50 {
-    background-color: #f0fff4 !important;
-    color: #000 !important;
-  }
-  
-  .bg-red-50 {
-    background-color: #fff5f5 !important;
-    color: #000 !important;
-  }
-  
-  /* Textos nos cards estatísticos */
+  /* Textos nos cards estatísticos - MAIS COMPACTOS */
   .card-section-1 .text-lg {
-    font-size: 16pt !important;
+    font-size: 14pt !important; /* Reduzido */
     font-weight: bold !important;
-    margin-bottom: 2px !important;
+    margin-bottom: 0 !important; /* Reduzido */
     text-align: center !important;
     display: block !important;
   }
   
   .card-section-1 .text-sm {
-    font-size: 8pt !important;
+    font-size: 7pt !important; /* Reduzido */
     text-align: center !important;
     display: block !important;
   }
   
-  /* Cores de texto */
-  .text-blue-600, .text-green-600, .text-red-600 {
-    color: #000 !important;
-  }
-  
-  /* Gráfico de pizza - CORREÇÃO PARA PROBLEMAS DE SOBREPOSIÇÃO */
-  .recharts-wrapper {
-    margin: 0 auto !important;
-    height: auto !important;
-    max-height: 300px !important;
-    display: block !important;
-    text-align: center !important;
+  /* MELHOR CONTROLE DE GRÁFICOS */
+  .chart-container {
+    height: 180px !important; /* Reduzido */
+    max-height: 180px !important; /* Reduzido */
+    margin-bottom: 10px !important; /* Reduzido */
     position: relative !important;
-    overflow: visible !important;
-  }
-  
-  /* Controle preciso do posicionamento do SVG e gráfico de pizza */
-  .recharts-wrapper svg {
-    display: block !important;
-    margin: 0 auto !important;
-    position: relative !important;
-    overflow: visible !important;
-    height: auto !important;
-  }
-  
-  /* Corrigir a sobreposição no gráfico de pizza */
-  .recharts-pie {
-    transform: scale(0.8) !important;
-    transform-origin: center !important;
-    transform-box: fill-box !important;
-  }
-  
-  /* Remover linhas de label para evitar sobreposição */
-  .recharts-pie-label-line {
-    display: none !important;
-  }
-  
-  /* Desabilitar labels de texto que podem sobrepor */
-  .recharts-pie-label-text {
-    display: none !important;
-  }
-  
-  /* Tamanho e posicionamento da legenda */
-  .recharts-legend-wrapper {
-    position: relative !important;
-    margin-top: 20px !important;
-    padding-top: 10px !important;
-    font-size: 8pt !important;
-    width: 100% !important;
-    display: block !important;
-    text-align: center !important;
-  }
-  
-  /* Legenda customizada para impressão que não sobrepõe */
-  .print-chart-legend {
-    display: block !important;
-    margin-top: 20px !important;
-    margin-bottom: 10px !important;
-    text-align: center !important;
-    font-size: 10pt !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
+    overflow: visible !important;
+    clear: both !important;
   }
   
-  .print-legend-item {
-    display: inline-block !important;
-    margin-right: 20px !important;
-    margin-bottom: 5px !important;
+  .recharts-wrapper {
+    height: auto !important;
+    margin: 0 auto !important;
+    transform: scale(0.85) !important; /* Reduzido */
+    transform-origin: center !important;
   }
   
-  .print-legend-color {
-    display: inline-block !important;
-    width: 12px !important;
-    height: 12px !important;
-    margin-right: 5px !important;
-    vertical-align: middle !important;
+  /* Gráfico de pizza - MENOR */
+  .recharts-pie {
+    transform: scale(0.7) !important; /* Reduzido ainda mais */
+    transform-origin: center !important;
   }
   
-  .fortalezas-color {
-    background-color: #4CAF50 !important;
+  /* Remover completamente labels do gráfico para evitar sobreposição */
+  .recharts-pie-label-line,
+  .recharts-pie-label-text {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
   }
   
-  .fragilidades-color {
-    background-color: #F44336 !important;
+  /* Legenda customizada para impressão - MAIS COMPACTA */
+  .custom-print-pie-legend {
+    display: block !important;
+    margin-top: 10px !important; /* Reduzido */
+    margin-bottom: 5px !important; /* Reduzido */
+    text-align: center !important;
+    font-size: 8pt !important; /* Reduzido */
   }
   
-  /* Tabelas */
+  .custom-print-pie-legend .flex {
+    justify-content: center !important;
+    gap: 20px !important;
+  }
+  
+  .custom-print-pie-legend .inline-block {
+    width: 8px !important; /* Reduzido */
+    height: 8px !important; /* Reduzido */
+    margin-right: 4px !important; /* Reduzido */
+  }
+  
+  /* Tabelas - MAIS COMPACTAS */
   .print-table {
     width: 100% !important;
     border-collapse: collapse !important;
-    margin: 8px 0 !important;
-    font-size: 8pt !important;
+    margin: 5px 0 !important; /* Reduzido */
+    font-size: 7pt !important; /* Reduzido */
     page-break-inside: avoid !important;
     break-inside: avoid !important;
   }
@@ -273,9 +237,10 @@
   .print-table th, 
   .print-table td {
     border: 1px solid #ddd !important;
-    padding: 4px 6px !important;
+    padding: 2px 4px !important; /* Reduzido */
     text-align: left !important;
-    font-size: 8pt !important;
+    font-size: 7pt !important; /* Reduzido */
+    line-height: 1.1 !important; /* Reduzido */
   }
   
   .print-table th {
@@ -283,19 +248,19 @@
     font-weight: bold !important;
   }
   
-  /* Constatações */
+  /* Constatações - MAIS COMPACTAS */
   .principais-constatacoes {
     background-color: #f9f9f9 !important;
-    padding: 8px !important;
-    margin-top: 10px !important;
+    padding: 5px !important; /* Reduzido */
+    margin-top: 6px !important; /* Reduzido */
     border-top: 1px solid #eee !important;
     border-bottom: 1px solid #eee !important;
   }
   
   .principais-constatacoes h3 {
-    font-size: 10pt !important;
+    font-size: 9pt !important; /* Reduzido */
     font-weight: bold !important;
-    margin-bottom: 6px !important;
+    margin-bottom: 4px !important; /* Reduzido */
   }
   
   .principais-constatacoes ul {
@@ -305,245 +270,206 @@
   }
   
   .principais-constatacoes li {
-    margin-bottom: 6px !important;
-    padding-left: 12px !important;
+    margin-bottom: 4px !important; /* Reduzido */
+    padding-left: 8px !important; /* Reduzido */
     position: relative !important;
-    line-height: 1.2 !important;
+    line-height: 1.1 !important; /* Reduzido */
     page-break-inside: avoid !important;
     break-inside: avoid !important;
-    font-size: 8pt !important;
+    font-size: 7pt !important; /* Reduzido */
   }
   
-  .principais-constatacoes li span {
-    display: inline-block !important;
-    font-size: 8pt !important;
-    line-height: 1.2 !important;
-    max-width: 95% !important;
-    word-wrap: break-word !important;
-    white-space: normal !important;
-    color: #000 !important;
-  }
-  
-  /* Bullets coloridos */
+  /* Bullets coloridos - MENORES */
   .bullet-green, .bullet-red, .bullet-blue,
   .principais-constatacoes li:before,
   .bg-gray-50 li .inline-block {
     display: inline-block !important;
-    width: 8px !important;
-    height: 8px !important;
+    width: 6px !important; /* Reduzido */
+    height: 6px !important; /* Reduzido */
     border-radius: 50% !important;
-    margin-right: 6px !important;
+    margin-right: 4px !important; /* Reduzido */
   }
   
-  .bullet-green, .constatacao-green:before, 
-  .bg-gray-50 li .bg-green-500 {
-    background-color: #4CAF50 !important;
-  }
-  
-  .bullet-red, .constatacao-red:before,
-  .bg-gray-50 li .bg-red-500 {
-    background-color: #F44336 !important;
-  }
-  
-  .bullet-blue, .constatacao-blue:before,
-  .bg-gray-50 li .bg-blue-500 {
-    background-color: #2196F3 !important;
-  }
-  
-  /* Insights e constatações */
+  /* Insights e constatações - MAIS COMPACTOS */
   .bg-gray-50 {
     background-color: #f9f9f9 !important;
     border: 1px solid #eee !important;
-    margin-top: 15px !important;
-    padding: 10px !important;
-    font-size: 8pt !important;
+    margin-top: 10px !important; /* Reduzido */
+    padding: 6px !important; /* Reduzido */
+    font-size: 7pt !important; /* Reduzido */
   }
   
   .bg-gray-50 h3 {
-    font-size: 10pt !important;
+    font-size: 9pt !important; /* Reduzido */
     font-weight: bold !important;
-    margin-bottom: 8px !important;
+    margin-bottom: 5px !important; /* Reduzido */
     color: #333 !important;
   }
   
   .bg-gray-50 ul {
     margin: 0 !important;
-    padding-left: 5px !important;
+    padding-left: 3px !important; /* Reduzido */
   }
   
   .bg-gray-50 li {
-    margin-bottom: 5px !important;
-    font-size: 8pt !important;
-    line-height: 1.2 !important;
+    margin-bottom: 3px !important; /* Reduzido */
+    font-size: 7pt !important; /* Reduzido */
+    line-height: 1.1 !important; /* Reduzido */
   }
   
-  /* Configuração de página */
+  /* Configuração de página - MAIS OTIMIZADA */
   @page {
     size: A4 portrait;
-    margin: 1cm 1cm;
+    margin: 0.7cm 0.7cm; /* Reduzido */
   }
   
-  /* Controle de quebra de página */
+  /* Melhor controle de quebra de página */
   .card-section-3, .card-section-5, .card-section-7 {
     page-break-before: always;
     break-before: page;
   }
   
-  /* Garantir que elementos específicos sejam impressos corretamente */
+  /* Ajustes específicos para seção de recomendações */
   #recomendacoes-section,
   .recomendacoes-section,
-  .card-section-8 {
+  .card-section-9 {
     display: block !important;
     visibility: visible !important;
     page-break-before: always !important;
     break-before: page !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
-    padding: 10px !important;
+    padding: 8px !important; /* Reduzido */
     border: 1px solid #ddd !important;
     background-color: #f9f9f9 !important;
   }
   
-  /* Forçar cores em gráficos */
-  .recharts-pie-sector {
-    stroke: none !important;
+  /* Título da seção de recomendações */
+  #recomendacoes-section h2,
+  .recomendacoes-section h2 {
+    font-size: 12pt !important; /* Reduzido */
+    margin-bottom: 10px !important; /* Reduzido */
+    border-bottom: 1px solid #ddd !important;
+    padding-bottom: 5px !important; /* Reduzido */
   }
   
-  /* Assegurar que todas as linhas de tabela sejam impressas */
+  /* Itens da seção de recomendações */
+  .recomendacao-item {
+    margin-bottom: 8px !important; /* Reduzido */
+    padding-bottom: 5px !important; /* Reduzido */
+  }
+  
+  .recomendacao-item strong {
+    display: block !important;
+    font-size: 8pt !important; /* Reduzido */
+    margin-bottom: 2px !important; /* Reduzido */
+  }
+  
+  .recomendacao-item p {
+    font-size: 7pt !important; /* Reduzido */
+    margin-top: 2px !important; /* Reduzido */
+    line-height: 1.1 !important; /* Reduzido */
+  }
+  
+  /* Ajustes para listas em todo o documento */
+  ul, ol {
+    padding-left: 8px !important; /* Reduzido */
+  }
+  
+  ul li, ol li {
+    margin-bottom: 3px !important; /* Reduzido */
+    font-size: 7pt !important; /* Reduzido */
+    line-height: 1.1 !important; /* Reduzido */
+  }
+  
+  /* Rodapé do documento */
+  .mt-8.text-sm.text-center.text-gray-500 {
+    margin-top: 15px !important; /* Reduzido */
+    font-size: 6pt !important; /* Reduzido */
+    color: #999 !important;
+  }
+  
+  /* Aplicar outros ajustes gerais para impressão */
+  .text-xl {
+    font-size: 12pt !important; /* Reduzido */
+  }
+  
+  .text-lg {
+    font-size: 10pt !important; /* Reduzido */
+  }
+  
+  .text-base {
+    font-size: 8pt !important; /* Reduzido */
+  }
+  
+  .text-sm {
+    font-size: 7pt !important; /* Reduzido */
+  }
+  
+  .text-xs {
+    font-size: 6pt !important; /* Reduzido */
+  }
+  
+  /* Reduzir margens e paddings gerais */
+  .mb-4 {
+    margin-bottom: 8px !important; /* Reduzido */
+  }
+  
+  .mb-6 {
+    margin-bottom: 12px !important; /* Reduzido */
+  }
+  
+  .my-4 {
+    margin-top: 8px !important; /* Reduzido */
+    margin-bottom: 8px !important; /* Reduzido */
+  }
+  
+  .p-3 {
+    padding: 6px !important; /* Reduzido */
+  }
+  
+  .p-4 {
+    padding: 8px !important; /* Reduzido */
+  }
+  
+  .py-2 {
+    padding-top: 4px !important; /* Reduzido */
+    padding-bottom: 4px !important; /* Reduzido */
+  }
+  
+  .px-4 {
+    padding-left: 8px !important; /* Reduzido */
+    padding-right: 8px !important; /* Reduzido */
+  }
+  
+  /* Ajuste fino para linhas de tabela e elementos críticos */
   tr, td, th {
     page-break-inside: avoid !important;
     break-inside: avoid !important;
   }
   
-  /* Último ajuste para garantir que tudo seja impresso */
+  /* Espaçamento entre elementos */
+  .space-y-2 > * + * {
+    margin-top: 4px !important; /* Reduzido */
+  }
+  
+  .space-y-4 > * + * {
+    margin-top: 8px !important; /* Reduzido */
+  }
+  
+  .space-y-6 > * + * {
+    margin-top: 12px !important; /* Reduzido */
+  }
+  
+  /* Garantir overflow visível */
   * {
     overflow: visible !important;
   }
-  
-  /* Remover URLs e elementos da barra de endereço */
-  a::after {
-    content: "" !important;
-    display: none !important;
-  }
-  
-  /* Esconder a URL no rodapé da página */
-  @page {
-    margin-bottom: 0;
-    orphans: 2;
-    widows: 2;
-  }
-  
-  /* Ocultar qualquer elemento que contenha o texto de URL */
-  *[href*="lovable.dev"],
-  *[href*="projects"],
-  *[src*="lovable.dev"],
-  *[src*="projects"] {
-    visibility: hidden !important;
-    display: none !important;
-  }
-  
-  /* Esconder específicamente nomes de projetos */
-  *:contains("regulatory-insights-dashboard"),
-  [title*="regulatory-insights-dashboard"],
-  [alt*="regulatory-insights-dashboard"],
-  [data-content*="regulatory-insights-dashboard"],
-  .project-header, 
-  .project-title,
-  .report-header:first-child,
-  #page-header,
-  .page-header {
-    display: none !important;
-    visibility: hidden !important;
-    height: 0 !important;
-    width: 0 !important;
-    overflow: hidden !important;
-    position: absolute !important;
-    left: -9999px !important;
-    opacity: 0 !important;
-  }
-  
-  /* Remover cabeçalhos de página do navegador ao imprimir */
-  @page {
-    margin-top: 0;
-    margin-header: 0;
-    margin-footer: 0;
-    marks: none;
-  }
-  
-  /* Forçar que nenhum cabeçalho ou rodapé seja adicionado pelo navegador */
-  @page :first {
-    margin-top: 0;
-    margin-header: 0;
-  }
-  
-  /* Remover qualquer texto que possa ser o URL ou título do projeto */
-  body::before {
-    content: none !important;
-  }
-  
-  /* Corrigir sobreposição e melhorar visualização */
-  /* Adicionar espaçamento e organização melhores */
-  .card {
-    margin-bottom: 30px !important;
-    clear: both !important;
-    float: none !important;
-    width: 100% !important;
-    position: static !important;
-  }
-  
-  /* Melhorar renderização do gráfico de pizza na impressão */
-  .pie-chart-container {
-    height: 250px !important;
-    position: relative !important;
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
-    margin-bottom: 30px !important;
-    clear: both !important;
-  }
-  
-  /* Eliminar problema de sobreposição na impressão usando controle explícito de Z-index */
-  .chart-container {
-    position: relative !important;
-    z-index: 1 !important;
-    height: auto !important;
-    max-height: 300px !important;
-    margin-bottom: 40px !important;
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
-    clear: both !important;
-  }
-  
-  /* Melhorar espaçamento entre seções */
-  .card-section-2, 
-  .card-section-3, 
-  .card-section-4, 
-  .card-section-5, 
-  .card-section-6, 
-  .card-section-7, 
-  .card-section-8, 
-  .card-section-9 {
-    margin-top: 30px !important;
-    padding-top: 10px !important;
-    border-top: 1px solid #ddd !important;
-    clear: both !important;
-  }
-  
-  /* Legenda personalizada visível para impressão */
-  .custom-print-pie-legend {
-    display: block !important;
-    width: 100% !important;
-    text-align: center !important;
-    margin-top: 30px !important;
-    margin-bottom: 15px !important;
-    font-size: 9pt !important;
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
-  }
 }
 
-/* Adicionar regras específicas para elementos que podem ter sido injetados pelo navegador */
+/* Regras específicas para elementos que podem ter sido injetados pelo navegador */
 @media print {
-  /* Esconder qualquer texto que contenha nomes de projetos */
+  /* Ajustes finais para garantir tamanho adequado */
   body *:not(script):not(style):not(link) {
     content-visibility: auto;
   }
@@ -553,81 +479,8 @@
     content: normal !important;
   }
   
-  /* Isso força que qualquer conteúdo injetado no início da página seja removido */
-  html::before,
-  body::before,
-  #root::before,
-  .exportable-document::before,
-  .print-layout::before,
-  div::before {
-    content: none !important;
-    display: none !important;
-  }
-}
-
-/* Additional pie chart styling for print */
-@media print {
-  .pie-label {
-    font-size: 12pt !important;
-    font-weight: bold !important;
-  }
-  
-  .recharts-legend-item {
-    margin-right: 20px !important;
-  }
-  
-  .recharts-legend-item-text {
-    color: black !important;
-    font-size: 12pt !important;
-  }
-  
-  .print-chart-legend {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .print-legend-item {
-    display: inline-flex;
-    align-items: center;
-    margin: 0 10px;
-  }
-  
-  .print-legend-color {
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    margin-right: 6px;
-  }
-  
-  .fortalezas-color {
-    background-color: #4CAF50;
-  }
-  
-  .fragilidades-color {
-    background-color: #F44336;
-  }
-  
-  /* Bar chart print fixes */
-  .display-print-only table.print-table {
-    width: 100%;
-    page-break-inside: avoid;
-  }
-  
-  .display-print-only table.print-table th,
-  .display-print-only table.print-table td {
-    padding: 5px;
-    text-align: left;
-  }
-  
-  .display-print-only table.print-table th:first-child,
-  .display-print-only table.print-table td:first-child {
-    width: 40%;
-  }
-  
-  .display-print-only table.print-table th:last-child,
-  .display-print-only table.print-table td:last-child {
-    width: 60%;
+  /* Prevenir escala automática pelo navegador que pode causar problemas */
+  html {
+    zoom: 100% !important;
   }
 }

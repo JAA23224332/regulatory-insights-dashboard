@@ -126,20 +126,24 @@ export const exportToPDF = () => {
     });
   };
   
-  // Preparar o documento para impressão
+  // Melhor preparação de elementos visuais para impressão
   const prepareForPrint = () => {
-    // Simplificar e limpar renderização de gráficos para impressão
-    const pieChartLabels = document.querySelectorAll('.recharts-pie-label-text');
-    pieChartLabels.forEach(label => {
-      if (label instanceof HTMLElement) {
-        label.style.display = 'none';
+    // Ajustar tamanho e posição dos gráficos de pizza para evitar sobreposição
+    const pieCharts = document.querySelectorAll('.recharts-pie');
+    pieCharts.forEach(chart => {
+      if (chart instanceof SVGElement) {
+        chart.style.transform = 'scale(0.7)';
+        chart.style.transformOrigin = 'center';
       }
     });
     
-    const pieChartLabelLines = document.querySelectorAll('.recharts-pie-label-line');
-    pieChartLabelLines.forEach(line => {
-      if (line instanceof HTMLElement) {
-        line.style.display = 'none';
+    // Esconder completamente labels do gráfico de pizza que podem sobrepor
+    const pieLabels = document.querySelectorAll('.recharts-pie-label-text, .recharts-pie-label-line');
+    pieLabels.forEach(label => {
+      if (label instanceof SVGElement) {
+        label.style.display = 'none';
+        label.style.visibility = 'hidden';
+        label.style.opacity = '0';
       }
     });
     
@@ -150,17 +154,64 @@ export const exportToPDF = () => {
         legend.style.display = 'block';
         legend.style.visibility = 'visible';
         legend.style.opacity = '1';
+        legend.style.marginTop = '20px';
+        legend.style.fontSize = '9pt';
+        legend.style.textAlign = 'center';
       }
     });
     
-    // Aplicar transformações para evitar sobreposições
-    const pieCharts = document.querySelectorAll('.recharts-pie');
-    pieCharts.forEach(chart => {
-      if (chart instanceof SVGElement) {
-        chart.style.transform = 'scale(0.8)';
-        chart.style.transformOrigin = 'center';
+    // Ajustar tamanho dos containers de gráficos
+    const chartContainers = document.querySelectorAll('.chart-container');
+    chartContainers.forEach(container => {
+      if (container instanceof HTMLElement) {
+        container.style.height = 'auto';
+        container.style.maxHeight = '220px';
+        container.style.overflow = 'visible';
+        container.style.marginBottom = '30px';
       }
     });
+    
+    // Ajustar espaçamento entre seções
+    const sections = document.querySelectorAll('.card-section-1, .card-section-2, .card-section-3, .card-section-4, .card-section-5, .card-section-6, .card-section-7, .card-section-8, .card-section-9');
+    sections.forEach((section, index) => {
+      if (section instanceof HTMLElement) {
+        section.style.pageBreakInside = 'avoid';
+        section.style.breakInside = 'avoid';
+        section.style.marginBottom = '30px';
+        section.style.paddingBottom = '15px';
+        
+        // Adicionar quebra de página para seções específicas
+        if (index > 0) {
+          section.style.pageBreakBefore = 'always';
+          section.style.breakBefore = 'page';
+          section.style.paddingTop = '15px';
+        }
+      }
+    });
+    
+    // Verificar e ajustar tabelas para garantir que caibam na página
+    const tables = document.querySelectorAll('.print-table');
+    tables.forEach(table => {
+      if (table instanceof HTMLElement) {
+        table.style.width = '100%';
+        table.style.fontSize = '8pt';
+        table.style.pageBreakInside = 'avoid';
+        table.style.breakInside = 'avoid';
+        table.style.marginBottom = '20px';
+      }
+    });
+    
+    // Garantir que recomendações finais sejam exibidas corretamente
+    const recomendacoes = document.getElementById('recomendacoes-section');
+    if (recomendacoes) {
+      recomendacoes.style.display = 'block';
+      recomendacoes.style.visibility = 'visible';
+      recomendacoes.style.opacity = '1';
+      recomendacoes.style.pageBreakBefore = 'always';
+      recomendacoes.style.breakBefore = 'page';
+      recomendacoes.style.pageBreakInside = 'avoid';
+      recomendacoes.style.breakInside = 'avoid';
+    }
   };
   
   // Tempo para a preparação da visualização
@@ -171,7 +222,7 @@ export const exportToPDF = () => {
     // Preparar gráficos e elementos visuais para impressão
     prepareForPrint();
     
-    // Esperar um momento para garantir que os elementos foram escondidos
+    // Esperar um momento para garantir que os elementos foram processados
     setTimeout(() => {
       // Inicia o processo de impressão do navegador
       window.print();
@@ -181,6 +232,6 @@ export const exportToPDF = () => {
         document.body.classList.remove('printing-pdf');
         restoreHiddenElements();
       }, 1000);
-    }, 100);
-  }, 300);
+    }, 200);
+  }, 500);
 };
