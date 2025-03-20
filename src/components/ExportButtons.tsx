@@ -15,7 +15,7 @@ const ExportButtons = ({ className = '' }: ExportButtonsProps) => {
   const handlePrintPDF = () => {
     toast({
       title: "Preparando para imprimir",
-      description: "O documento está sendo preparado. A janela de impressão abrirá em instantes.",
+      description: "O documento está sendo otimizado para impressão. A janela de impressão abrirá em instantes.",
       duration: 3000,
     });
     
