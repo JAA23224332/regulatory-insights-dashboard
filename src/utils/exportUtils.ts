@@ -1,4 +1,3 @@
-
 // Função para exportação de PDF que usa a funcionalidade nativa de impressão
 export const exportToPDF = () => {
   try {
@@ -480,3 +479,49 @@ export const exportToPDF = () => {
     }, 3000);
   }
 };
+
+// Função auxiliar para forçar a renderização de todos os gráficos
+const forceRenderAllCharts = () => {
+  console.log("Forçando renderização de todos os gráficos");
+  
+  // Selecionar todos os elementos de gráficos
+  const chartElements = document.querySelectorAll('.recharts-wrapper, .recharts-surface, svg, .chart-container, .pie-chart-container');
+  
+  chartElements.forEach(element => {
+    if (element instanceof HTMLElement) {
+      element.style.display = 'block';
+      element.style.visibility = 'visible';
+      element.style.opacity = '1';
+      
+      // Forçar um repaint do elemento
+      const display = element.style.display;
+      element.style.display = 'none';
+      setTimeout(() => { element.style.display = display; }, 10);
+    } else if (element instanceof SVGElement) {
+      element.setAttribute('style', 'display: block; visibility: visible; opacity: 1;');
+      
+      // Forçar atualização do SVG
+      const parent = element.parentNode;
+      if (parent) {
+        parent.appendChild(element.cloneNode(true));
+        parent.removeChild(element);
+      }
+    }
+  });
+  
+  // Forçar visibilidade de todos os elementos dentro dos gráficos
+  const chartParts = document.querySelectorAll('.recharts-bar, .recharts-pie, .recharts-cartesian-grid, .recharts-cartesian-axis, .recharts-layer, .recharts-legend-wrapper');
+  
+  chartParts.forEach(element => {
+    if (element instanceof HTMLElement) {
+      element.style.display = 'block';
+      element.style.visibility = 'visible';
+      element.style.opacity = '1';
+    } else if (element instanceof SVGElement) {
+      element.setAttribute('style', 'display: block; visibility: visible; opacity: 1;');
+    }
+  });
+};
+
+// Exportação da nova função
+export { forceRenderAllCharts };
