@@ -1,4 +1,3 @@
-
 /* Estilos de impressão */
 @media print {
   /* Reset básico para impressão */
@@ -882,18 +881,4 @@
   .recharts-legend-wrapper, .recharts-tooltip-wrapper {
     display: block !important;
     visibility: visible !important;
-    opacity: 1 !important;
-  }
-  
-  .recharts-cartesian-axis-tick-value, .recharts-text, .recharts-label {
-    fill: #000 !important;
-    font-size: 8pt !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-  }
-  
-  .recharts-bar-rectangle {
-    visibility: visible !important;
-    opacity: 1 !important;
-  }
-}
+    opacity:
