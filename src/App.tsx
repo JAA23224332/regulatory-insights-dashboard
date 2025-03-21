@@ -8,8 +8,6 @@ import { AnimatePresence } from "framer-motion";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import ExportableView from "./components/ExportableView";
-import ComprehensiveDashboard from "./components/ComprehensiveDashboard";
-import ExportablePage from "./pages/ExportablePage";
 
 const queryClient = new QueryClient();
 
@@ -23,8 +21,6 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/exportar" element={<ExportableView />} />
-            <Route path="/completo" element={<ComprehensiveDashboard />} />
-            <Route path="/exportar-pdf" element={<ExportablePage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
