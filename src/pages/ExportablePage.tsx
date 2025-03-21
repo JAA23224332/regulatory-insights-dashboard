@@ -1,9 +1,20 @@
 
 import React, { useEffect } from 'react';
-import { exportToPDF } from '@/utils/exportUtils';
 import { simplifiedExportToPDF } from '@/utils/simplifiedExport';
 import { toast } from "sonner";
 import ExportButtons from '@/components/ExportButtons';
+import { Button } from "@/components/ui/button";
+import { FileDown } from "lucide-react";
+import ExportHeader from '@/components/export/ExportHeader';
+import OverviewSection from '@/components/export/OverviewSection';
+import ComparativeSection from '@/components/export/ComparativeSection';
+import StrengthsSection from '@/components/export/StrengthsSection';
+import WeaknessesSection from '@/components/export/WeaknessesSection';
+import IntensitySection from '@/components/export/IntensitySection';
+import FrequentTermsSection from '@/components/export/FrequentTermsSection';
+import SharedTermsSection from '@/components/export/SharedTermsSection';
+import RecommendationsSection from '@/components/export/RecommendationsSection';
+import Footer from '@/components/export/Footer';
 
 const ExportablePage = () => {
   useEffect(() => {
@@ -12,27 +23,61 @@ const ExportablePage = () => {
       duration: 5000,
     });
     
-    // Delay para permitir que todos os componentes sejam renderizados
-    const timer = setTimeout(() => {
+    // Função para garantir que as seções sejam renderizadas corretamente
+    const forceRender = () => {
+      document.querySelectorAll('.card, .exportable-document, svg, .recharts-wrapper, .recharts-surface').forEach(el => {
+        if (el instanceof HTMLElement) {
+          el.style.display = 'block';
+          el.style.visibility = 'visible';
+          el.style.opacity = '1';
+        } else if (el instanceof SVGElement) {
+          el.setAttribute('style', 'display: block; visibility: visible; opacity: 1;');
+        }
+      });
+    };
+    
+    // Aplicar forceRender várias vezes para garantir que tudo seja mostrado
+    forceRender();
+    const timers = [
+      setTimeout(forceRender, 500),
+      setTimeout(forceRender, 1000),
+      setTimeout(forceRender, 2000)
+    ];
+    
+    // Delay para permitir que todos os componentes sejam renderizados antes de iniciar a exportação
+    const exportTimer = setTimeout(() => {
       try {
-        // Tentar usar o método de exportação principal
-        exportToPDF();
-      } catch (error) {
-        console.error("Erro no método principal de exportação:", error);
-        toast.error("Usando método alternativo de exportação", {
-          description: "O método principal falhou. Tentando abordagem simplificada...",
-          duration: 5000,
-        });
+        // Tentar exportação simplificada
+        simplifiedExportToPDF();
         
-        // Usar método simplificado como fallback
-        setTimeout(() => {
-          simplifiedExportToPDF();
-        }, 3000);
+        toast.success("Documento pronto para download", {
+          description: "Se a janela de impressão não abrir, clique no botão 'Exportar PDF' acima.",
+          duration: 8000,
+        });
+      } catch (error) {
+        console.error("Erro ao exportar PDF:", error);
+        toast.error("Erro ao exportar o documento", {
+          description: "Tente clicar no botão 'Exportar PDF' manualmente.",
+          duration: 8000,
+        });
       }
     }, 5000);
     
-    return () => clearTimeout(timer);
+    return () => {
+      timers.forEach(timer => clearTimeout(timer));
+      clearTimeout(exportTimer);
+    };
   }, []);
+
+  const handleManualExport = () => {
+    toast.info("Iniciando exportação manual...", {
+      duration: 3000,
+    });
+    
+    setTimeout(() => {
+      simplifiedExportToPDF();
+    }, 1000);
+  };
 
   return (
     <div className="min-h-screen">
@@ -41,7 +86,16 @@ const ExportablePage = () => {
           <h1 className="text-3xl font-semibold text-gray-800">
             Exportação de Documento
           </h1>
-          <ExportButtons />
+          <div className="flex gap-2">
+            <Button 
+              variant="outline" 
+              onClick={handleManualExport} 
+              className="flex items-center gap-2 bg-white hover:bg-gray-100"
+            >
+              <FileDown className="h-4 w-4" />
+              Exportar PDF
+            </Button>
+          </div>
         </div>
         
         <div className="bg-gray-50 p-6 rounded-lg shadow-sm mb-6">
@@ -59,6 +113,20 @@ const ExportablePage = () => {
           <p className="animate-pulse text-blue-600">
             Preparando visualizações para exportação...
           </p>
+        </div>
+        
+        {/* Conteúdo para exportação - escondido na visualização mas usado para a impressão */}
+        <div className="exportable-document print-layout pb-20 hidden">
+          <ExportHeader />
+          <OverviewSection />
+          <ComparativeSection />
+          <StrengthsSection />
+          <WeaknessesSection />
+          <IntensitySection />
+          <FrequentTermsSection />
+          <SharedTermsSection />
+          <RecommendationsSection />
+          <Footer />
         </div>
       </div>
     </div>
