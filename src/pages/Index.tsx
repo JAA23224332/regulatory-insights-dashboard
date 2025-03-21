@@ -3,7 +3,7 @@ import React from 'react';
 import RegulacaoSUSDashboard from '@/components/RegulacaoSUSDashboard';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { FileText } from 'lucide-react';
+import { FileText, LayoutDashboard } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Index = () => {
@@ -29,8 +29,14 @@ const Index = () => {
           </p>
         </motion.div>
         
-        {/* Botão de exportação */}
-        <div className="flex justify-end mb-6">
+        {/* Botões de navegação */}
+        <div className="flex justify-end mb-6 gap-3">
+          <Link to="/completo">
+            <Button className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white">
+              <LayoutDashboard className="h-4 w-4" />
+              Painel Completo
+            </Button>
+          </Link>
           <Link to="/exportar">
             <Button className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white">
               <FileText className="h-4 w-4" />
