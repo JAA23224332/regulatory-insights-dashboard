@@ -359,14 +359,13 @@ export const exportToPDF = () => {
             z-index: 999 !important;
           `;
           
-          // Force a reflow (apenas para HTMLElement)
-          // eslint-disable-next-line no-void
+          // Forçar um repaint (apenas para HTMLElement)
           void chart.offsetHeight;
         } else if (chart instanceof SVGElement) {
           // Para SVGElements usamos setAttribute
           chart.setAttribute('style', 'display: block; visibility: visible; opacity: 1; height: auto; min-height: 300px; position: relative; z-index: 999;');
           
-          // Forçar renderização
+          // Forçar renderização para SVG de maneira diferente que HTMLElement
           const temp = chart.getAttribute('data-temp') || '0';
           chart.setAttribute('data-temp', String(parseInt(temp) + 1));
         }

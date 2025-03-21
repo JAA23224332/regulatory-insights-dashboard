@@ -15,8 +15,8 @@ const ExportButtons = ({ className = '' }: ExportButtonsProps) => {
   const handlePrintPDF = () => {
     toast({
       title: "Preparando visualizações para exportação",
-      description: "Aguarde enquanto preparamos todas as visualizações e gráficos para o PDF. Este processo pode levar até 15 segundos.",
-      duration: 15000,
+      description: "Aguarde enquanto preparamos todas as visualizações e gráficos para o PDF. Este processo pode levar até 30 segundos.",
+      duration: 30000,
     });
     
     // Delay maior para garantir que todas as visualizações sejam renderizadas corretamente
@@ -35,8 +35,8 @@ const ExportButtons = ({ className = '' }: ExportButtonsProps) => {
       // Iniciar a exportação com um atraso adicional para permitir a renderização
       setTimeout(() => {
         exportToPDF();
-      }, 5000);
-    }, 4000);
+      }, 8000);
+    }, 8000);
   };
   
   return (
