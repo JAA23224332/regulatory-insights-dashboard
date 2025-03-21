@@ -708,7 +708,7 @@
   
   /* Reduzir espaçamento vertical geral */
   .space-y-2 > * + *,
-  .space-y-3 > * + *,
+  .space-y-3 > * + *,\
   .space-y-4 > * + * {
     margin-top: 5px !important;
   }
@@ -759,6 +759,23 @@
   .print-table td {
     padding-top: 2px !important;
     padding-bottom: 2px !important;
+  }
+
+  /* Forçar contraste alto para melhor leitura em impressão */
+  .recharts-bar-rectangle {
+    fill: currentColor !important;
+    stroke: none !important;
+  }
+  
+  /* Garantir que os textos dos gráficos sejam legíveis */
+  .recharts-text {
+    font-size: 8pt !important;
+    fill: #000 !important;
+  }
+  
+  /* Melhorar visibilidade dos elementos dos gráficos de barra */
+  .recharts-bar-background {
+    fill: #f5f5f5 !important;
   }
 }
 
@@ -864,20 +881,4 @@
   .recharts-legend-wrapper, .recharts-tooltip-wrapper {
     display: block !important;
     visibility: visible !important;
-    opacity: 1 !important;
-  }
-  
-  .recharts-cartesian-axis-tick-value, .recharts-text, .recharts-label {
-    fill: #000 !important;
-    font-size: 8pt !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-  }
-  
-  .recharts-bar-rectangle {
-    visibility: visible !important;
-    opacity: 1 !important;
-  }
-  
-  /* Forçar contraste alto para melhor leitura em impressão */
-  .recharts-bar-rectangle
+    opacity
