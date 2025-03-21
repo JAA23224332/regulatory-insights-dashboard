@@ -1,3 +1,4 @@
+
 /* Estilos de impressão */
 @media print {
   /* Reset básico para impressão */
@@ -881,4 +882,6 @@
   .recharts-legend-wrapper, .recharts-tooltip-wrapper {
     display: block !important;
     visibility: visible !important;
-    opacity:
+    opacity: 1 !important;
+  }
+}
