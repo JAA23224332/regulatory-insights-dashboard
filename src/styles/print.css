@@ -708,7 +708,7 @@
   
   /* Reduzir espaçamento vertical geral */
   .space-y-2 > * + *,
-  .space-y-3 > * + *,\
+  .space-y-3 > * + *,
   .space-y-4 > * + * {
     margin-top: 5px !important;
   }
@@ -881,4 +881,4 @@
   .recharts-legend-wrapper, .recharts-tooltip-wrapper {
     display: block !important;
     visibility: visible !important;
-    opacity
+    opacity:
