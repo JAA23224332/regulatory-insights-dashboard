@@ -1,17 +1,13 @@
 import React, { useEffect, useRef } from 'react';
 import { dadosReais, dadosIntensidade, termosFrequentesFortalezas, termosFrequentesFragilidades, termosCompartilhados, dadosDistribuicaoPie, estatisticasGerais } from '@/data/regulacaoData';
 import { PieChart, Pie, Cell, Legend } from 'recharts';
-import { exportToPDF, forceRenderAllCharts } from '@/utils/exportUtils';
+import { exportToPDF } from '@/utils/exportUtils';
 import { ChartContainer } from '@/components/ui/chart';
-import { Button } from '@/components/ui/button';
-import { Download, FileDown } from 'lucide-react';
-import { useToast } from '@/components/ui/use-toast';
 
 const COLORS_PIE = ['#4CAF50', '#F44336']; // Verde e Vermelho
 
 const Export = () => {
   const recomendacoesRef = useRef<HTMLDivElement>(null);
-  const { toast } = useToast();
   
   useEffect(() => {
     if (recomendacoesRef.current) {
@@ -54,8 +50,6 @@ const Export = () => {
         recomendacoesRef.current.style.visibility = 'visible';
         recomendacoesRef.current.style.opacity = '1';
       }
-      
-      forceRenderAllCharts();
     };
 
     forceRender();
@@ -64,21 +58,23 @@ const Export = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  const handleManualExport = () => {
-    toast({
-      title: "Preparando exportação manual",
-      description: "Aguarde enquanto preparamos todas as visualizações para exportação...",
-      duration: 10000,
-    });
-    
-    setTimeout(() => {
-      forceRenderAllCharts();
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (recomendacoesRef.current) {
+        recomendacoesRef.current.style.display = 'block';
+        recomendacoesRef.current.style.visibility = 'visible';
+        recomendacoesRef.current.style.opacity = '1';
+      }
       
-      setTimeout(() => {
-        exportToPDF();
-      }, 5000);
-    }, 2000);
-  };
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => {
+          exportToPDF();
+        });
+      });
+    }, 2500);
+    
+    return () => clearTimeout(timer);
+  }, []);
 
   const renderRecomendacoes = () => {
     return (
@@ -253,25 +249,6 @@ const Export = () => {
 
   return (
     <div className="exportable-document print-layout pb-20">
-      <div className="flex justify-end mb-6 print:hidden">
-        <Button 
-          variant="outline" 
-          onClick={handleManualExport} 
-          className="flex items-center gap-2 bg-white hover:bg-gray-100 mr-2"
-        >
-          <FileDown className="h-4 w-4" />
-          Exportar PDF
-        </Button>
-        <Button 
-          variant="default" 
-          onClick={handleManualExport} 
-          className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white"
-        >
-          <Download className="h-4 w-4" />
-          Baixar Visualizações
-        </Button>
-      </div>
-      
       <div className="print-title">
         Análise de <span>Fortalezas e Fragilidades</span> na Regulação do SUS
       </div>

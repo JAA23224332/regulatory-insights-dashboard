@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from "@/components/ui/button";
-import { FileDown, Save, Download } from "lucide-react";
+import { FileDown } from "lucide-react";
 import { exportToPDF } from '@/utils/exportUtils';
 import { useToast } from "@/components/ui/use-toast";
 
@@ -48,15 +48,6 @@ const ExportButtons = ({ className = '' }: ExportButtonsProps) => {
       >
         <FileDown className="h-4 w-4" />
         Exportar PDF
-      </Button>
-      
-      <Button 
-        variant="default" 
-        onClick={handlePrintPDF} 
-        className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white"
-      >
-        <Download className="h-4 w-4" />
-        Baixar Visualizações
       </Button>
     </div>
   );
